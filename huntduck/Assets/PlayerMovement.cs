@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 3f;
 
     public Transform groundCheck;
-    public float groundDistnace = 0.4f;
+    public float groundDistance = 0.4f;
     // control what objects this sphere (groundCheck) should look for
     public LayerMask groundmask;
 
@@ -21,10 +21,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // creates tiny sphere with radius specified - if touches ground, will change isGrounded to true
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistnace, groundmask);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundmask);
 
         // if you hit ground, reset velocity (-2f just a little more effective than 0f)
-        if (isGrounded && velocity.y < 0) {
+        if (isGrounded && velocity.y < 0) 
+        {
             velocity.y = -2f;
         }
 
@@ -40,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
 
         // add jummp
-        if (Input.GetButtonDown("Jump") && isGrounded) {
+        if (Input.GetButtonDown("Jump") && isGrounded) 
+        {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 

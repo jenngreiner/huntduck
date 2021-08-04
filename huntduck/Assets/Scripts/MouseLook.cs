@@ -27,7 +27,9 @@ public class MouseLook : MonoBehaviour
         // clamp the rotation so your face doesn't swing off your head backwards
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
+        // look up
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        // look side to side
         playerBody.Rotate(Vector3.up * mouseX);
     }
 }
