@@ -3,7 +3,6 @@
 
 public class PlayerSetup : MonoBehaviour
 {
-    [SerializeField]
     Behaviour[] componentsToDisable;
 
     [SerializeField]
