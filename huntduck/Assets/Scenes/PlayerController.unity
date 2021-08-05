@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502703, g: 0.3713936, b: 0.49601287, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 244602940}
   - component: {fileID: 244602939}
   - component: {fileID: 244602941}
+  - component: {fileID: 244602942}
   m_Layer: 2
   m_Name: Luigi
   m_TagString: Player
@@ -294,6 +295,19 @@ MonoBehaviour:
   groundmask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &244602942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244602938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e349a31f2bc4a45882f7951605b8be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1001 &296138508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1091,6 +1105,7 @@ GameObject:
   - component: {fileID: 1398513902}
   - component: {fileID: 1398513901}
   - component: {fileID: 1398513900}
+  - component: {fileID: 1398513903}
   m_Layer: 0
   m_Name: DarkWing
   m_TagString: Duck
@@ -1179,6 +1194,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398513898}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1398513903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398513898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e349a31f2bc4a45882f7951605b8be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &1458322688
 GameObject:
   m_ObjectHideFlags: 0
