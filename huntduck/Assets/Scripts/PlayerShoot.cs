@@ -20,6 +20,10 @@ public class PlayerShoot : MonoBehaviour
 
     public GameObject me;
 
+    public GameObject duck;
+
+    public Duck duckScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +56,7 @@ public class PlayerShoot : MonoBehaviour
             switch (_hit.collider.tag)
             {
                 case DUCK_TAG:
-                    shotADuck(_hit.collider.name, weapon.damage);
+                    shotADuck(_hit.collider.gameObject, weapon.damage);
                     break;
                 //case "Shootable":
                 //    Debug.Log("Shot something shootable!");
@@ -65,11 +69,21 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    void shotADuck(string duckName, int damage)
+    void shotADuck(GameObject duckObj, int damage)
     {
         // We hit something shootable
-        Debug.Log("We hit " + duckName);
-        Player _duck = GameManager.GetPlayer(duckName);
-        _duck.TakeDamage(damage);
+        Debug.Log("We hit " + duckObj.name);
+        GameObject duck = duckObj;
+        Duck duckScript = (Duck)duck.GetComponent(typeof(Duck));
+        duckScript.TakeDamage(damage);
     }
+
+    //void shotADuck(string duckName, GameObject duckObj, int damage)
+    //{
+    //    // We hit something shootable
+    //    Debug.Log("We hit " + duckName);
+    //    GameObject _duck = duckObj;
+    //    //Duck.TakeDamage(damage);
+    //}
 }
+

@@ -231,7 +231,6 @@ GameObject:
   - component: {fileID: 244602940}
   - component: {fileID: 244602939}
   - component: {fileID: 244602941}
-  - component: {fileID: 244602942}
   m_Layer: 2
   m_Name: Luigi
   m_TagString: Player
@@ -295,19 +294,6 @@ MonoBehaviour:
   groundmask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &244602942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244602938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e349a31f2bc4a45882f7951605b8be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
 --- !u!1001 &296138508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1203,7 +1189,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1398513898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e349a31f2bc4a45882f7951605b8be, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b375fd4de2d4c4c9118f331b86df8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100

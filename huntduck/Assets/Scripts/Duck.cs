@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Duck : MonoBehaviour
 {
     [SerializeField]
     private int maxHealth = 100;
