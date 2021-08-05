@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Duck : MonoBehaviour
 {
+
+    private bool _isDead = false;
+    public bool isDead { get; protected set; }
+
     [SerializeField]
     private int maxHealth = 100;
 
@@ -16,9 +20,25 @@ public class Duck : MonoBehaviour
 
     public void TakeDamage(int _amount)
     {
+        if (isDead)
+        {
+            return;
+        }
+
         currentHealth -= _amount;
 
         Debug.Log(transform.name + " now has " + currentHealth + " health.");
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        Debug.Log(transform.name + " is DEAD!");
     }
 
     public void SetDefaults()
