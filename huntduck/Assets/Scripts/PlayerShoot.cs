@@ -20,10 +20,6 @@ public class PlayerShoot : MonoBehaviour
 
     public GameObject me;
 
-    public GameObject duck;
-
-    public Duck duckScript;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -73,9 +69,9 @@ public class PlayerShoot : MonoBehaviour
     {
         // We hit something shootable
         Debug.Log("We hit " + duckObj.name);
-        GameObject duck = duckObj;
-        Duck duckScript = (Duck)duck.GetComponent(typeof(Duck));
-        duckScript.TakeDamage(damage);
+        //Duck duck = duckObj.GetComponent<Duck>();
+        //duck.TakeDamage(damage);
+        duckObj.SendMessage("TakeDamage", damage);
     }
 
     //void shotADuck(string duckName, GameObject duckObj, int damage)
