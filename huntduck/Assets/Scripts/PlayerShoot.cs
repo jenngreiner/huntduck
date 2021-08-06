@@ -52,7 +52,7 @@ public class PlayerShoot : MonoBehaviour
             switch (_hit.collider.tag)
             {
                 case DUCK_TAG:
-                    shotADuck(_hit.collider.name);
+                    shotADuck(_hit.collider.gameObject, weapon.damage);
                     break;
                 //case "Shootable":
                 //    Debug.Log("Shot something shootable!");
@@ -65,9 +65,21 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    void shotADuck(string duckName)
+    void shotADuck(GameObject duckObj, int damage)
     {
         // We hit something shootable
-        Debug.Log("We hit " + duckName);
+        Debug.Log("We hit " + duckObj.name);
+        //Duck duck = duckObj.GetComponent<Duck>();
+        //duck.TakeDamage(damage);
+        duckObj.SendMessage("TakeDamage", damage);
     }
+
+    //void shotADuck(string duckName, GameObject duckObj, int damage)
+    //{
+    //    // We hit something shootable
+    //    Debug.Log("We hit " + duckName);
+    //    GameObject _duck = duckObj;
+    //    //Duck.TakeDamage(damage);
+    //}
 }
+
