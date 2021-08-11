@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Shootable
   - Duck
   layers:
   - Default
@@ -13,11 +12,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
+  - 
+  - 
+  - Restricted
   - Player
-  - 
-  - 
-  - 
+  - Grabbable
   - 
   - 
   - 
