@@ -41,6 +41,9 @@ namespace BNG {
 
         Dictionary<Grabbable, PosRot> _initalGrabbables;
 
+        // amount of time to wait before launching
+        public float launchDelayTime = 3f;
+
         // Strictly used in demo scene
         Rigidbody cubeRigid;
         Rigidbody cubeRigid1;
@@ -49,7 +52,7 @@ namespace BNG {
 
         // Start is called before the first frame update
         void Start() {
-
+            
             launchedObjects = new List<GameObject>();
 
             VRUtils.Instance.Log("Output text here by using VRUtils.Log(\"Message Here\");");
@@ -146,6 +149,21 @@ namespace BNG {
 
                 grabber.GrabGrabbable(g);
             }
+        }
+
+        // adding this to make the shot pause X seconds
+        public void DelayedLaunch()
+        {
+            StartCoroutine(Wait(launchDelayTime));
+            Debug.Log("fired DelayedLaunch");
+        }
+
+        IEnumerator Wait(float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            Debug.Log("fired WaitForSeconds");
+            ShootLauncher();
+            Debug.Log("fired ShootLauncher");
         }
 
         public void ShootLauncher() {
