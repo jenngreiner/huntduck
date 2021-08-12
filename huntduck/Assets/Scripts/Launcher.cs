@@ -14,6 +14,14 @@ namespace Com.HuntDuck
         [SerializeField]
         private byte maxPlayersPerRoom = 4;
 
+
+        [Tooltip("The Ui panel to let the user enter name, connect, and play")]
+        [SerializeField]
+        private GameObject controlPanel;
+        [Tooltip("The UI Label to inform the user that the connection is in progress")]
+        [SerializeField]
+        private GameObject progressLabel;
+
         #endregion
 
         #region Private Fields
@@ -46,7 +54,8 @@ namespace Com.HuntDuck
         ///
         void Start()
         {
-            //Connect();
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
         }
 
 
@@ -63,6 +72,8 @@ namespace Com.HuntDuck
 
         public void Connect()
         {
+            progressLabel.SetActive(true);
+            controlPanel.SetActive(false);
             // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
             if (PhotonNetwork.IsConnected)
             {
@@ -92,6 +103,8 @@ namespace Com.HuntDuck
 
         public override void OnDisconnected(DisconnectCause cause)
         {
+            progressLabel.SetActive(false);
+            progressLabel.SetActive(true);
             Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
         }
 
