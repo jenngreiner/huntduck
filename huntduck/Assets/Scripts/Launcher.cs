@@ -119,6 +119,12 @@ namespace Com.HuntDuck
         public override void OnJoinedRoom()
         {
             Debug.Log("PUN Basics Tutorial / Launcher: OnJoinedRoom() was called by PUN. Now this client was in a room.");
+
+            // only load if first player, else use 'PhotonNetwork.AutomaticallySyncScene
+            Debug.Log("We load the 'Room for 1'");
+
+            // Load the Room Level
+            PhotonNetwork.LoadLevel("Room for 1");
         }
         #endregion
 
