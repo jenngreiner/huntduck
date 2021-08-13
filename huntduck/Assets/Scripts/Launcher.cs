@@ -26,20 +26,19 @@ namespace Com.HuntDuck
 
         #region Private Fields
 
-
-        /// <summary>
         /// This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
-        /// </summary>
         string gameVersion = "1";
+
+        /// Keep track of the current process. Connectino is asynh and based on several callbacks from Photon. Need to keep track of this to properly adjust the behavior when we receive call back by Photon.
+        /// Typically this is used for the OnConnectedToMaster() callback.
+        bool isConnecting;
 
         #endregion
 
         #region Monobehaviour CallBacks
 
-        /// <summary>
+
         /// Monobehavior method called on GameObject by Unity during initialization phase.
-        /// </summary>
-        ///
         private void Awake()
         {
             /// #Critical
@@ -48,10 +47,8 @@ namespace Com.HuntDuck
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 
-        /// <summary>
+
         /// Monobehavior method called on GameObject by Unity during initialization phase.
-        /// </summary>
-        ///
         void Start()
         {
             progressLabel.SetActive(false);
@@ -64,11 +61,9 @@ namespace Com.HuntDuck
 
         #region Public Methods
 
-        ///<summary>
         ///Start the connection process.
         /// - If already connected, we attempt joining a random room
         /// - If not yet connected, Connect this application instance to Photon Cloud Network
-        /// </summary>
 
         public void Connect()
         {
@@ -83,7 +78,7 @@ namespace Com.HuntDuck
             else
             {
                 // #Critical, we must first and foremost connect to Photon Online Server.
-                PhotonNetwork.ConnectUsingSettings();
+                isConnecting = PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.GameVersion = gameVersion;
             }
         }
@@ -95,22 +90,29 @@ namespace Com.HuntDuck
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("PUN Basics Tutorials/Launcher: OnConnectedToMaster() was called by PUN");
+            if (isConnecting)
+            {
+                Debug.Log("Assets/Launcher: OnConnectedToMaster() was called by PUN");
 
-            // #Critical: The first we try to do is to join a potential existingroom. If there is, good, else we'll be caled back with OnJoinRandomFailed()
-            PhotonNetwork.JoinRandomRoom();
+                // #Critical: The first we try to do is to join a potential existingroom. If there is, good, else we'll be caled back with OnJoinRandomFailed()
+                PhotonNetwork.JoinRandomRoom();
+                isConnecting = false;
+            }
         }
+
 
         public override void OnDisconnected(DisconnectCause cause)
         {
             progressLabel.SetActive(false);
-            progressLabel.SetActive(true);
-            Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
+            controlPanel.SetActive(true);
+            isConnecting = false;
+
+            Debug.LogWarningFormat("Assets/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+            Debug.Log("Assets/Launcher: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
 
             PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
@@ -118,7 +120,7 @@ namespace Com.HuntDuck
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("PUN Basics Tutorial / Launcher: OnJoinedRoom() was called by PUN. Now this client was in a room.");
+            Debug.Log("Assets/ Launcher: OnJoinedRoom() was called by PUN. Now this client was in a room.");
 
             // only load if first player, else use 'PhotonNetwork.AutomaticallySyncScene
             Debug.Log("We load the 'Room for 1'");

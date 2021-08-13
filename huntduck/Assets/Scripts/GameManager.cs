@@ -37,7 +37,7 @@ namespace Com.HuntDuck
             }
         }
 
-        // Called when the local player left the room. We need to laod the launcher scene.
+        // Called when the local player left the room. We need to load the launcher scene.
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(0);
