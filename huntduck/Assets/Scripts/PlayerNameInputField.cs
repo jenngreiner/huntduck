@@ -12,7 +12,6 @@ namespace Com.HuntDuck
     /// <summary>
     /// Player name input field. Let the user input their name, will appear above the player in the game.
     /// </summary>
-    ///
     [RequireComponent(typeof(InputField))]
     public class PlayerNameInputField : MonoBehaviour
     {
@@ -48,7 +47,6 @@ namespace Com.HuntDuck
 
         #endregion
 
-
         #region Public Methods
 
         /// <summary>
@@ -61,14 +59,13 @@ namespace Com.HuntDuck
             // #Important
             if (string.IsNullOrEmpty(value))
             {
-                Debug.LogError("Player Nae is null or empty");
+                Debug.LogError("Player Name is null or empty");
                 return;
             }
             PhotonNetwork.NickName = value;
 
 
-            PlayerPrefs.SetString(playerNamePrefKey
-                , value);
+            PlayerPrefs.SetString(playerNamePrefKey, value);
         }
 
         #endregion
