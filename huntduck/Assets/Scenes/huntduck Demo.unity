@@ -108809,7 +108809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b9f0ff530dce347b71aeb31012f93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileObject: {fileID: 2139925872997546607, guid: e0c8d07ed255af14bb7136c58562d7a7,
+  ProjectileObject: {fileID: 5614379649466227155, guid: ea46c9b3ee257834c990645437e927fc,
     type: 3}
   ProjectileForce: 25
   LaunchSound: {fileID: 8300000, guid: 5559fa48e8496bb47919beac0409e859, type: 3}
