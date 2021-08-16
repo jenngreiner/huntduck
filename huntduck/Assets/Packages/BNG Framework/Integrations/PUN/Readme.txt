@@ -7,6 +7,8 @@ Check out the online documentation here : https://wiki.beardedninjagames.com/en/
 2. Make sure to create and enter your AppID in the PhotonServer Settings. (Window -> Photon Unity Networking -> Highlight Server Settings).
   - If you don't already have an app id, you can click on the button next to "App Id Realtime" to create a new one. It is free for up to 20 concurrent users.
 
+*AppID* a3138eb6-354a-4833-a123-a580b980c9ca
+
 3. Extract the PUN.unityPackage file in this directory.
 
 4. Run the included demo scene and connect additional clients.

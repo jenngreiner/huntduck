@@ -1,29 +1,71 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-//public class GameManager : MonoBehaviour
-//{
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-//    private const string PLAYER_ID_PREFIX = "Player ";
+using Photon.Pun;
+using Photon.Realtime;
 
-//    private static Dictionary<string, Duck> players = new Dictionary<string, Duck>();
+namespace Com.HuntDuck
+{
+    public class GameManager : MonoBehaviourPunCallbacks
+    {
+        #region Photon Callbacks
 
-//    public void RegisterPlayer(string _ID, Duck _player)
-//    {
-//        string _playerID = PLAYER_ID_PREFIX + _ID;
-//        players.Add(_playerID, _player);
-//        _player.transform.name = _playerID;
-//    }
+        public override void OnPlayerEnteredRoom(Player other)
+        {
+            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you are the player connecting
 
-//    public static void UnRegisterPlayer(string _playerID)
-//    {
-//        players.Remove(_playerID);
-//    }
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
 
-//    public static Duck GetPlayer(string _playerID)
-//    {
-//        return players[_playerID];
-//    }
+                LoadArena();
+            }
+        }
 
-//}
+        public override void OnPlayerLeftRoom(Player other)
+        {
+            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+
+                LoadArena();
+            }
+        }
+
+        // Called when the local player left the room. We need to load the launcher scene.
+        public override void OnLeftRoom()
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void LeaveRoom()
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        void LoadArena()
+        {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Debug.LogError("PhotonNetwork: Trying to Load a level but we are not the master Client");
+            }
+            Debug.LogFormat("PhotonNetwork: Loading Level: {0}", PhotonNetwork.CurrentRoom.PlayerCount);
+            PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);
+        }
+
+        #endregion
+    }
+}
