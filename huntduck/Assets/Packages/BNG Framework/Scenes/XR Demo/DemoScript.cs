@@ -76,6 +76,11 @@ namespace BNG {
 
             // Spin Cubes around
             rotateGravityCubes();
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                DelayedLaunch();
+            }
         }
 
         public void UpdateSliderText(float sliderValue) {
