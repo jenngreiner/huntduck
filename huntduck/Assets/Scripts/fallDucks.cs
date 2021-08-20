@@ -9,18 +9,24 @@ public class fallDucks : MonoBehaviour
     public GameObject fallDuckLeft;
     public GameObject fallDuckRight;
     public GameObject shotDuck;
+    public GameObject duckPoints;
 
     private Rigidbody parentDuckRB;
+    private Rigidbody fallingDuckRB;
 
     // change this to dameageable destroydelay next
     public float setupDelay = 1f;
     public float flipSpeed = 0.1f;
 
+    private void Start()
+    {
+        fallingDuckRB = this.gameObject.GetComponent<Rigidbody>();
+        parentDuckRB = this.gameObject.GetComponentInParent<Rigidbody>();
+    }
+
     private void OnEnable()
     {
         Debug.Log(this.gameObject.name + " is alive!");
-
-        parentDuckRB = this.gameObject.GetComponentInParent<Rigidbody>();
         StartCoroutine(SetupDucks(setupDelay));
     }
 
@@ -28,19 +34,23 @@ public class fallDucks : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         shotDuck.SetActive(false);
+        duckPoints.SetActive(true);
         fallDuckLeft.SetActive(true);
         fallDuckRight.SetActive(false);
 
-        // reset parent gameobject to no rotation, so falling ducks point down
+        // reset parent and points canvas to no rotation, so falling ducks point down
         parentDuckRB.transform.rotation = Quaternion.identity;
+        duckPoints.transform.rotation = Quaternion.identity;
+
+        fallingDuckRB.useGravity = true;
+        Debug.Log("Applying gravity to fallduck");
 
         // flip ducks
         Debug.Log("Would you please flip those ducks???");
         StartCoroutine(RotateDucks(flipSpeed));
 
         // allow gravity to work on parent ShootableDuck by turning off Is Kinematic
-        parentDuckRB.isKinematic = false;
-        Debug.Log("Applying gravity to fallduck parent");
+        //parentDuckRB.isKinematic = false;
     }
 
     private IEnumerator RotateDucks(float waitTime)
