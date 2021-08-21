@@ -1,44 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// this is a single player score implementation
 public class ScoreUI : MonoBehaviour
 {
-    // single player implementation
-    private PlayerScore playerScoreScript;
     private const string PLAYER_TAG = "Player";
+    private PlayerScore playerScoreScript;
 
     public Text scoreText;
+    private int scoreLength = 6;
+    private string arcadeScore;
 
     void Start()
     {
-        // report player name and score on startup
+        // find player in the scene, grab its PlayerScore script
         playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
-        Debug.Log(this.GetType().Name + " says that Player's name is " + playerScoreScript.transform.name + " with a score of " + playerScoreScript.playerScore);
 
         // reset score when game starts
-        scoreText.text = playerScoreScript.playerScore.ToString();
-        Debug.Log("Score UI is now reset");
+        CreateArcadeScore();
+        scoreText.text = arcadeScore;
+        Debug.Log("Score UI is now reset to " + arcadeScore);
+
+        //scoreText.text = playerScoreScript.playerScore.ToString();
+        //Debug.Log("Score UI is now reset to " + playerScoreScript.playerScore);
     }
 
     // subscribe events
     private void OnEnable()
     {
-        // update points text when the player's score changes
-        PlayerScore.onScoreUpdate += UpdatePoints;
+        // update score ui when the player's score changes
+        PlayerScore.onScoreUpdate += UpdateScoreUI;
     }
 
     // unsubscribe events
     private void OnDisable()
     {
-        PlayerScore.onScoreUpdate -= UpdatePoints;
+        PlayerScore.onScoreUpdate -= UpdateScoreUI;
     }
 
-    void UpdatePoints()
+    void UpdateScoreUI()
     {
-        scoreText.text = playerScoreScript.playerScore.ToString();
+        // implementation with leading zeros to give arcade feel
+        CreateArcadeScore();
+        scoreText.text = arcadeScore;
+
+        // implementation without leading zeros
+        // scoreText.text = playerScoreScript.playerScore.ToString();
     }
 
-  
+    void CreateArcadeScore()
+    {
+        string _scoreAsString = playerScoreScript.playerScore.ToString();
+        int numZeros = scoreLength - _scoreAsString.Length;
+
+        arcadeScore = "";
+        for (int i = 0; i < numZeros; i++)
+        {
+            arcadeScore += "0";
+        }
+        arcadeScore += _scoreAsString;
+    }
 }

@@ -304,7 +304,7 @@ namespace BNG {
                     VRUtils.Instance.PlaySpatialClipAt(SoundOnSnap, transform.position, 0.75f);
                 }
 
-                Debug.Log("For SNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);
+                //Debug.Log("For SNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);
             }
 
             LastSnapTime = Time.time;
@@ -440,7 +440,7 @@ namespace BNG {
                         VRUtils.Instance.PlaySpatialClipAt(SoundOnUnsnap, transform.position, 0.75f);
                     }
 
-                    Debug.Log("For UNSNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);
+                    //Debug.Log("For UNSNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);
                 }
 
                 // Call event

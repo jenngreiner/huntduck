@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BNG.Damageable))]
 public class Duck : MonoBehaviour
@@ -10,12 +8,18 @@ public class Duck : MonoBehaviour
     private bool _isDead = false;
     public bool isDead { get; protected set; }
 
-    // override in inspector
-    [SerializeField]
-    private int duckPoints = 1;
+    // override in inspector, otherwise set to 500
+    public int duckPoints = 500;
+    public Text duckPointsText;
 
-    private PlayerScore playerScoreScript;
     private const string PLAYER_TAG = "Player";
+    private PlayerScore playerScoreScript;
+
+    void Awake()
+    {
+        // set the kill points display equal to points duck is worth
+        duckPointsText.text = duckPoints.ToString();
+    }
 
     void Start()
     {
@@ -30,7 +34,7 @@ public class Duck : MonoBehaviour
 
         // since this duck was killed, add points to the score
         Debug.Log("Duck just died, sending player " + duckPoints + " duckpoints");
-        playerScoreScript.SendMessage("PlayerScores", duckPoints);
+        playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
 
         // for multiplayer we will need to refactor to know who killed the duck
     }

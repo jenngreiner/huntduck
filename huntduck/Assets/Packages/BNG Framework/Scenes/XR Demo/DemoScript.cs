@@ -77,6 +77,7 @@ namespace BNG {
             // Spin Cubes around
             rotateGravityCubes();
 
+            // launch ducks with L key
             if (Input.GetKeyDown(KeyCode.L))
             {
                 DelayedLaunch();

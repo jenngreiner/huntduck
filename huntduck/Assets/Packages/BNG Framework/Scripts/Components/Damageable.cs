@@ -94,6 +94,7 @@ namespace BNG {
 
         void Update()
         {
+           // kill key
            if (Input.GetKeyDown(KeyCode.K))
             {
                 this.DealDamage(99999);
