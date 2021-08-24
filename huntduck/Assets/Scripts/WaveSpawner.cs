@@ -9,7 +9,7 @@ public class WaveSpawner : MonoBehaviour
     [System.Serializable]
     public class Wave
     {
-        public string name;
+        public string roundNumber;
         //public Transform duck;
         public int count;
         public float rate;
@@ -19,6 +19,8 @@ public class WaveSpawner : MonoBehaviour
     private int nextWave = 0;
 
     public GameObject[] spawnPoints;
+    public RoundUIManager _roundUIManager;
+    public GameObject _gameOverUI;
 
     public float timeBetweenWaves = 5f;
     private float waveCountDown;
@@ -29,10 +31,10 @@ public class WaveSpawner : MonoBehaviour
 
     void Start()
     {
-        //if (spawnPoints.Length == 0)
-        //{
-        //    Debug.LogError("No spawnpoints referenced");
-        //}
+        if (spawnPoints.Length == 0)
+        {
+            Debug.LogError("No spawnpoints referenced");
+        }
 
         waveCountDown = timeBetweenWaves;
     }
@@ -78,17 +80,16 @@ public class WaveSpawner : MonoBehaviour
         waveCountDown = timeBetweenWaves;
 
         // game is over
-        if (nextWave+1 > waves.Length - 1)
+        if ((nextWave+1) > (waves.Length - 1))
         {
-            // being the game again
-            // ***** INSTEAD, LET'S SHOW GAME OVER AND SCORE*****
-            // ***** OR WE COULD OPEN UP THE NEXT ISLAND FOR DUCK ISLAND*****
-            nextWave = 0;
-            Debug.Log("ALL WAVES COMPLETE. Looping..");
+            Debug.Log("Game is over");
+            _gameOverUI.SetActive(true);
+            this.enabled = false;
         }
         else
         {
             nextWave++;
+            Debug.Log("Wave  is ending. Next wave is " + (nextWave+1));
         }
     }
 
@@ -105,6 +106,7 @@ public class WaveSpawner : MonoBehaviour
             // search for remaining ducks
             if (GameObject.FindGameObjectsWithTag("Duck").Length == 0)
             {
+                Debug.Log("No ducks found");
                 return false;
             }
         }
@@ -114,10 +116,17 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave(Wave _wave)
     {
-        Debug.Log("Spawning Wave " + _wave.name);
+        Debug.Log("Spawning Wave " + _wave.roundNumber);
 
         // set state to spawning to lock in a signle use of IEnumerator
         state = SpawnState.SPAWNING;
+
+        _roundUIManager.roundNumber.text = _wave.roundNumber;
+        _roundUIManager.gameObject.SetActive(true);
+        //_roundUIManager.roundStartSound.Play();
+
+        yield return new WaitForSeconds(1.5f);
+        _roundUIManager.gameObject.SetActive(false);
 
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _wave.count; i++)
@@ -128,6 +137,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         state = SpawnState.WAITING;
+        Debug.Log("Back in waiting state");
         yield break;
     }
 
@@ -138,7 +148,5 @@ public class WaveSpawner : MonoBehaviour
 
         GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         activeSpawnPoint.GetComponent<DuckSpawner>().DuckLaunch();
-
-        
     }
 }
