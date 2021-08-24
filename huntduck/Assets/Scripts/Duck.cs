@@ -29,7 +29,9 @@ public class Duck : MonoBehaviour
 
     public void Die()
     {
-        DecrementDuck();
+        // reliese on ROUNDS
+        //DecrementDuck();
+
         isDead = true;
         Debug.Log(transform.name + " is DEAD!");
 
@@ -40,24 +42,26 @@ public class Duck : MonoBehaviour
         // for multiplayer we will need to refactor to know who killed the duck
     }
 
-    public void FlyAway()
-    {
-        if (!isDead && Rounds.Duration <= 0)
-        {
-            //duck flies off screen
-            DecrementDuck();
-        }
-    }
+    // reliese on DUCK_DURATION && ROUNDS
+    //public void FlyAway()
+    //{
+    //    if (!isDead && Rounds.Duration <= 0)
+    //    {
+    //        //duck flies off screen
+    //        DecrementDuck();
+    //    }
+    //}
 
-    public void DecrementDucks()
-    {
-        Rounds.ducksLeft--;
+    // reliese on ROUNDS
+    //public void DecrementDucks()
+    //{
+    //    Rounds.ducksLeft--;
 
-        if (Rounds.ducksLeft <= 0)
-        {
-            // end round
-        };
-    }
+    //    if (Rounds.ducksLeft <= 0)
+    //    {
+    //        // end round
+    //    };
+    //}
 
     // OLD SCRIPT BELOW
 
