@@ -10,7 +10,6 @@ public class WaveSpawner : MonoBehaviour
     public class Wave
     {
         public string roundNumber;
-        //public Transform duck;
         public int count;
         public float rate;
     }
@@ -18,14 +17,13 @@ public class WaveSpawner : MonoBehaviour
     public Wave[] waves;
     private int nextWave = 0;
 
+    public float timeBetweenWaves = 5f;
+    private float waveCountDown;
+    private float searchCountDown = 1f;
+
     public GameObject[] spawnPoints;
     public RoundUIManager _roundUIManager;
     public GameObject _gameOverUI;
-
-    public float timeBetweenWaves = 5f;
-    private float waveCountDown;
-
-    private float searchCountDown = 1f;
 
     private SpawnState state = SpawnState.COUNTING;
 
@@ -118,7 +116,7 @@ public class WaveSpawner : MonoBehaviour
     {
         Debug.Log("Spawning Wave " + _wave.roundNumber);
 
-        // set state to spawning to lock in a signle use of IEnumerator
+        // set state to spawning to make sure only one SpawnWave at a time
         state = SpawnState.SPAWNING;
 
         _roundUIManager.roundNumber.text = _wave.roundNumber;
@@ -131,7 +129,6 @@ public class WaveSpawner : MonoBehaviour
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _wave.count; i++)
         {
-            //SpawnDuck(_wave.duck);
             SpawnDuck();
             yield return new WaitForSeconds(1/_wave.rate);
         }
