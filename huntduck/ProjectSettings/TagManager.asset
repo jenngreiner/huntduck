@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Duck
+  - DuckLauncher
   layers:
   - Default
   - TransparentFX

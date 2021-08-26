@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +15,7 @@ namespace BNG {
 
         public float Health = 100;
         private float _startingHealth;
+        private const string DUCK_TAG = "Duck";
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -90,6 +92,15 @@ namespace BNG {
             }
         }
 
+        void Update()
+        {
+           // kill key
+           if (Input.GetKeyDown(KeyCode.K))
+            {
+                this.DealDamage(99999);
+            } 
+        }
+
         public virtual void DealDamage(float damageAmount) {
             DealDamage(damageAmount, transform.position);
         }
@@ -125,6 +136,11 @@ namespace BNG {
         public virtual void DestroyThis() {
             Health = 0;
             destroyed = true;
+
+            if (gameObject.tag == DUCK_TAG)
+            {
+                gameObject.GetComponent<Duck>().Die();
+            }
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {

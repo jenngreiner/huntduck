@@ -1,48 +1,107 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(BNG.Damageable))]
 public class Duck : MonoBehaviour
 {
 
     private bool _isDead = false;
     public bool isDead { get; protected set; }
 
-    [SerializeField]
-    private int maxHealth = 100;
+    // override in inspector, otherwise set to 500
+    public int duckPoints = 500;
+    public Text duckPointsText;
 
-    private int currentHealth;
+    private const string PLAYER_TAG = "Player";
+    private PlayerScore playerScoreScript;
 
     void Awake()
     {
-        SetDefaults();
+        // set the kill points display equal to points duck is worth
+        duckPointsText.text = duckPoints.ToString();
     }
 
-    public void TakeDamage(int _amount)
+    void Start()
     {
-        if (isDead)
-        {
-            return;
-        }
-
-        currentHealth -= _amount;
-
-        Debug.Log(transform.name + " now has " + currentHealth + " health.");
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
     }
 
-    private void Die()
+
+    public void Die()
     {
+        // reliese on ROUNDS
+        //DecrementDuck();
+
         isDead = true;
         Debug.Log(transform.name + " is DEAD!");
+
+        // since this duck was killed, add points to the score
+        Debug.Log("Duck just died, sending player " + duckPoints + " duckpoints");
+        playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
+
+        // for multiplayer we will need to refactor to know who killed the duck
     }
 
-    public void SetDefaults()
-    {
-        currentHealth = maxHealth;
-    }
+    // reliese on DUCK_DURATION && ROUNDS
+    //public void FlyAway()
+    //{
+    //    if (!isDead && Rounds.Duration <= 0)
+    //    {
+    //        //duck flies off screen
+    //        DecrementDuck();
+    //    }
+    //}
+
+    // reliese on ROUNDS
+    //public void DecrementDucks()
+    //{
+    //    Rounds.ducksLeft--;
+
+    //    if (Rounds.ducksLeft <= 0)
+    //    {
+    //        // end round
+    //    };
+    //}
+
+    // OLD SCRIPT BELOW
+
+    //[SerializeField]
+    //private int maxHealth = 100;
+    //private int currentHealth;
+
+
+
+    //void Awake()
+    //{
+    //    ////SetDefaults();
+    //}
+
+    //public void TakeDamage(int _amount)
+    //{
+    //    if (isDead)
+    //    {
+    //        return;
+    //    }
+
+    //    currentHealth -= _amount;
+
+    //    Debug.Log(transform.name + " now has " + currentHealth + " health.");
+
+    //    if (currentHealth <= 0)
+    //    {
+    //        Die();
+    //    }
+    //}
+
+    //public void Die()
+    //{
+    //    isDead = true;
+    //    Debug.Log(transform.name + " is DEAD!");
+
+    //}
+
+    //public void SetDefaults()
+    //{
+    //    currentHealth = maxHealth;
+    //}
 }
