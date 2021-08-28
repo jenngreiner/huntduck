@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MP_huntduck.unity
     guid: 1b61c755f0e94447ab47e3c45f0a8996
+  - enabled: 0
+    path: Assets/BNG Framework/Integrations/PUN/MPDemo.unity
+    guid: 1ef291d4030a6484f8bc6edeae91dda9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 77ef9e5d8ab73184cb8debcf4313cf25,
       type: 2}

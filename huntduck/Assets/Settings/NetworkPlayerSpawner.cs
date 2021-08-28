@@ -3,17 +3,24 @@ using Photon.Pun;
 
 public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 {
-    private GameObject spawnedPlayerPrefab;
+    public string RemotePlayerName;
+    private GameObject spawnedPlayer;
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        spawnedPlayerPrefab = PhotonNetwork.Instantiate("Network Player", transform.position, transform.rotation);
+        spawnedPlayer = PhotonNetwork.Instantiate(RemotePlayerName, transform.position, transform.rotation);
+        BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
+        if (np)
+        {
+            np.transform.name = "MyRemotePlayer";
+            np.AssignPlayerObjects();
+        }
     }
 
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
-        PhotonNetwork.Destroy(spawnedPlayerPrefab);
+        PhotonNetwork.Destroy(spawnedPlayer);
     }
 }
