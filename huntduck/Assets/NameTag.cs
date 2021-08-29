@@ -8,7 +8,9 @@ public class NameTag : MonoBehaviour
 
     void Start()
     {
+        // FIGURE OUT A WAY TO MAKE NICKNAME SPECIFIC TO THE OWNER / PLAYER
         nameTag.text = PhotonNetwork.NickName;
-        Debug.Log(transform.parent.name + "'s nameTag is " + nameTag.text);
+        Debug.Log(transform.parent.parent.name + "'s nameTag is " + nameTag.text);
+        PlayerPrefs.SetString("PlayerName", PhotonNetwork.NickName);
     }
 }
