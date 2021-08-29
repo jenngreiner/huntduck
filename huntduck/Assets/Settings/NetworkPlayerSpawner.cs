@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,9 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         {
             np.transform.name = "MyRemotePlayer";
             np.AssignPlayerObjects();
+            Debug.Log("This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
+            Debug.Log("This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
+            Debug.Log("'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
         }
     }
 
