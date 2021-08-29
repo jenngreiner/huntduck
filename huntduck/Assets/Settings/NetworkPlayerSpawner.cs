@@ -16,9 +16,13 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         {
             np.transform.name = "MyRemotePlayer";
             np.AssignPlayerObjects();
+            PhotonNetwork.NickName = ("Player " + PhotonNetwork.LocalPlayer.ActorNumber);
             Debug.Log("This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
             Debug.Log("This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
             Debug.Log("'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
+            // consider seeding scoreboard here
+            // player is added to PhotonNetwork.PlayerList
+            // can use .Length() to run a for loop and update scoreboard using nickname + score value pair
         }
     }
 

@@ -39,7 +39,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("A new player joined the room");
+        //newPlayer.NickName = ("Player " + newPlayer.ActorNumber);
+        Debug.Log("A new player name " + newPlayer.NickName + "joined the room");
         base.OnPlayerEnteredRoom(newPlayer);
     }
 }
