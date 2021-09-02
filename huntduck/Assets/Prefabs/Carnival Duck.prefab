@@ -849,7 +849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 707528423909593803}
-  - component: {fileID: 707528423909593804}
+  - component: {fileID: 543252896384474880}
   m_Layer: 0
   m_Name: Carnival Duck
   m_TagString: Untagged
@@ -864,7 +864,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707528423909593805}
-  m_LocalRotation: {x: -0.04159056, y: 0.70410985, z: 0.04138172, w: 0.70766324}
+  m_LocalRotation: {x: -0.041590404, y: 0.7041124, z: 0.041381873, w: 0.7076606}
   m_LocalPosition: {x: -0.151, y: -0.7, z: 3.89}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.50000006}
   m_Children:
@@ -873,7 +873,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -6.727, y: 89.712, z: 0}
---- !u!114 &707528423909593804
+--- !u!114 &543252896384474880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -882,7 +882,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 707528423909593805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e011be276cc324f5fa4f8ef0ae1c773f, type: 3}
+  m_Script: {fileID: 11500000, guid: 95916312f562648db9656c68b2a0c48e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anglesToRotate: {x: 85, y: 0, z: 0}
@@ -1361,7 +1361,8 @@ MonoBehaviour:
   Health: 10
   SpawnOnDeath: {fileID: 0}
   ActivateGameObjectsOnDeath: []
-  DeactivateGameObjectsOnDeath: []
+  DeactivateGameObjectsOnDeath:
+  - {fileID: 0}
   DeactivateCollidersOnDeath:
   - {fileID: 0}
   DestroyOnDeath: 1
