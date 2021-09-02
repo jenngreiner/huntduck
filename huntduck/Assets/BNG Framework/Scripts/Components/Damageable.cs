@@ -98,6 +98,7 @@ namespace BNG {
            if (Input.GetKeyDown(KeyCode.K))
             {
                 this.DealDamage(99999);
+                Debug.Log("FEEL MY WRATH, K");
             } 
         }
 
@@ -141,6 +142,13 @@ namespace BNG {
             {
                 gameObject.GetComponent<Duck>().Die();
             }
+
+            if (!(gameObject.tag == DUCK_TAG))
+            {
+                Debug.Log("You best put a duck tag on " + transform.name + " if its a duck!");
+                Debug.Log(transform.name + "'s parent is " + transform.parent.name);
+            }
+
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {

@@ -50,6 +50,7 @@ public class WaveSpawner : MonoBehaviour
             else
             {
                 // ducks still left, so rounds not over
+                Debug.Log("We still got ducks left!");
                 return;
             }
         }
