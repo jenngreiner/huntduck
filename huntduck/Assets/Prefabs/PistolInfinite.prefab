@@ -2547,12 +2547,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6676062161056569200}
   - component: {fileID: 6676062161056569208}
-  - component: {fileID: 6676062161056569214}
-  - component: {fileID: 6676062161056569213}
   - component: {fileID: 6676062161056569212}
-  - component: {fileID: 3485574837876790392}
-  - component: {fileID: 6676062161056569202}
-  - component: {fileID: 6676062161056569201}
+  - component: {fileID: 6676062161056569214}
   - component: {fileID: 6676062161056569215}
   - component: {fileID: 7119452039797267535}
   - component: {fileID: 1324456300731877173}
@@ -2560,6 +2556,10 @@ GameObject:
   - component: {fileID: 1097852432258890146}
   - component: {fileID: 1097852432258890145}
   - component: {fileID: 1097852432258890144}
+  - component: {fileID: 3485574837876790392}
+  - component: {fileID: 6676062161056569213}
+  - component: {fileID: 6676062161056569202}
+  - component: {fileID: 6676062161056569201}
   - component: {fileID: 1097852432373129882}
   m_Layer: 10
   m_Name: PistolInfinite
@@ -2604,93 +2604,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6676062161056569207}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &6676062161056569214
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676062161056569207}
-  serializedVersion: 2
-  m_Mass: 10
-  m_Drag: 0.1
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6676062161056569213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676062161056569207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cdea428d48e2bb488d33d5f75c39bb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BeingHeld: 0
-  GrabButton: 2
-  Grabtype: 2
-  GrabPhysics: 4
-  GrabMechanic: 0
-  GrabSpeed: 20
-  RemoteGrabbable: 1
-  RemoteGrabMechanic: 0
-  RemoteGrabDistance: 2.5
-  ThrowForceMultiplier: 2.5
-  ThrowForceMultiplierAngular: 1.5
-  BreakDistance: 1
-  HideHandGraphics: 0
-  ParentToHands: 1
-  ParentHandModel: 1
-  SnapHandModel: 1
-  CanBeDropped: 1
-  CanBeSnappedToSnapZone: 1
-  ForceDisableKinematicOnDrop: 0
-  InstantMovement: 0
-  MakeChildCollidersGrabbable: 0
-  handPoseType: 0
-  SelectedHandPose: {fileID: 0}
-  CustomHandPose: 50
-  SecondaryGrabBehavior: 0
-  TwoHandedPosition: 0
-  TwoHandedPostionLerpAmount: 0.5
-  TwoHandedRotation: 1
-  TwoHandedRotationLerpAmount: 0.5
-  TwoHandedDropBehavior: 0
-  TwoHandedLookVector: 0
-  SecondHandLookSpeed: 40
-  SecondaryGrabbable: {fileID: 0}
-  OtherGrabbableMustBeGrabbed: {fileID: 0}
-  CollisionSpring: 3000
-  CollisionSlerp: 300
-  CollisionLinearMotionX: 2
-  CollisionLinearMotionY: 2
-  CollisionLinearMotionZ: 2
-  CollisionAngularMotionX: 2
-  CollisionAngularMotionY: 2
-  CollisionAngularMotionZ: 2
-  ApplyCorrectiveForce: 1
-  MoveVelocityForce: 2000
-  MoveAngularVelocityForce: 90
-  LastGrabTime: 0
-  LastDropTime: 0
-  AddControllerVelocityOnDrop: 1
-  collisions: []
-  ActiveGrabPoint: {fileID: 0}
-  SecondaryLookOffset: {x: 0, y: 0, z: 0}
-  SecondaryLookAtTransform: {fileID: 0}
-  LocalOffsetTransform: {fileID: 0}
-  GrabPoints:
-  - {fileID: 8064817273853738319}
-  - {fileID: 5328321932869275106}
-  UseCustomInspector: 1
-  lastFlickTime: 0
-  FlickForce: 1
 --- !u!82 &6676062161056569212
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2787,114 +2700,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3485574837876790392
-MonoBehaviour:
+--- !u!54 &6676062161056569214
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6676062161056569207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae1334e1a843914ea215ac160781472, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxRange: 25
-  Damage: 25
-  FiringMethod: 0
-  ReloadMethod: 0
-  FiringRate: 0.05
-  BulletImpactForce: 1000
-  InternalAmmo: 0
-  MaxInternalAmmo: 10
-  AutoChamberRounds: 1
-  MustChamberRounds: 0
-  AlwaysFireProjectile: 0
-  FireProjectileInSlowMo: 1
-  SlowMoRateOfFire: 0.3
-  ShotForce: 20
-  BulletCasingForce: 3
-  RecoilForce: {x: 0, y: 0.1, z: -0.65}
-  RecoilDuration: 0.25
-  ValidLayers:
-    serializedVersion: 2
-    m_Bits: 1281
-  TriggerTransform: {fileID: 8601947652134121899}
-  SlideTransform: {fileID: 6676062162756001175}
-  MuzzlePointTransform: {fileID: 6676062162562329576}
-  EjectPointTransform: {fileID: 6676062162744821214}
-  ChamberedBullet: {fileID: 3173372244640929405}
-  MuzzleFlashObject: {fileID: 5872835022701741384}
-  BulletCasingPrefab: {fileID: 4293907302815737054, guid: f8313a7c0e07bba40ac0f3634a590caf,
-    type: 3}
-  ProjectilePrefab: {fileID: 1449094533667961452, guid: 4af46545725f628459794cfc7c0f7d54,
-    type: 3}
-  HitFXPrefab: {fileID: 3454612190511497970, guid: fa39ce2ce96bec94b82f2c8124ce3930,
-    type: 3}
-  GunShotSound: {fileID: 8300000, guid: 727ff3abbdb797f45b714a1795efc4e2, type: 3}
-  GunShotVolume: 0.75
-  EmptySound: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
-  EmptySoundVolume: 1
-  SlideDistance: -0.028
-  ForceSlideBackOnLastShot: 1
-  slideSpeed: 1
-  EjectInput: 04000000
-  ReleaseSlideInput: 02000000
-  ReloadInput: 04000000
-  BulletInChamber: 0
-  EmptyBulletInChamber: 0
-  onShootEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onAttachedAmmoEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onDetachedAmmoEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onWeaponChargedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onDealtDamageEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onRaycastHitEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &6676062161056569202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676062161056569207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b90ed01ac5d94e9468b242b4c38496a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HapticsOnValidPickup: 1
-  HapticsOnValidRemotePickup: 1
-  HapticsOnCollision: 0
-  HapticsOnGrab: 1
-  VibrateFrequency: 0.3
-  VibrateAmplitude: 0.1
-  VibrateDuration: 0.1
---- !u!114 &6676062161056569201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676062161056569207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b5b1b54556836a49948cf0f09394c28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RingOnValidPickup: 1
-  RingOnValidRemotePickup: 1
-  RingHelperScale: 0.2
+  serializedVersion: 2
+  m_Mass: 10
+  m_Drag: 0.1
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &6676062161056569215
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2992,6 +2813,185 @@ MonoBehaviour:
   LastDamageForce: 0
   TakeCollisionDamage: 0
   CollisionDamage: 5
+--- !u!114 &3485574837876790392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676062161056569207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae1334e1a843914ea215ac160781472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxRange: 25
+  Damage: 25
+  FiringMethod: 0
+  ReloadMethod: 0
+  FiringRate: 0.05
+  BulletImpactForce: 1000
+  InternalAmmo: 0
+  MaxInternalAmmo: 10
+  AutoChamberRounds: 1
+  MustChamberRounds: 0
+  AlwaysFireProjectile: 0
+  FireProjectileInSlowMo: 1
+  SlowMoRateOfFire: 0.3
+  ShotForce: 20
+  BulletCasingForce: 3
+  RecoilForce: {x: 0, y: 0.1, z: -0.65}
+  RecoilDuration: 0.25
+  ValidLayers:
+    serializedVersion: 2
+    m_Bits: 1281
+  TriggerTransform: {fileID: 8601947652134121899}
+  SlideTransform: {fileID: 6676062162756001175}
+  MuzzlePointTransform: {fileID: 6676062162562329576}
+  EjectPointTransform: {fileID: 6676062162744821214}
+  ChamberedBullet: {fileID: 3173372244640929405}
+  MuzzleFlashObject: {fileID: 5872835022701741384}
+  BulletCasingPrefab: {fileID: 4293907302815737054, guid: f8313a7c0e07bba40ac0f3634a590caf,
+    type: 3}
+  ProjectilePrefab: {fileID: 1449094533667961452, guid: 4af46545725f628459794cfc7c0f7d54,
+    type: 3}
+  HitFXPrefab: {fileID: 3454612190511497970, guid: fa39ce2ce96bec94b82f2c8124ce3930,
+    type: 3}
+  GunShotSound: {fileID: 8300000, guid: 727ff3abbdb797f45b714a1795efc4e2, type: 3}
+  GunShotVolume: 0.75
+  EmptySound: {fileID: 8300000, guid: 3ceadf14726b0864fb39bb646c0f9ba0, type: 3}
+  EmptySoundVolume: 1
+  SlideDistance: -0.028
+  ForceSlideBackOnLastShot: 1
+  slideSpeed: 1
+  EjectInput: 04000000
+  ReleaseSlideInput: 02000000
+  ReloadInput: 04000000
+  BulletInChamber: 0
+  EmptyBulletInChamber: 0
+  onShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttachedAmmoEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onDetachedAmmoEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onWeaponChargedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onDealtDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onRaycastHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6676062161056569213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676062161056569207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdea428d48e2bb488d33d5f75c39bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeingHeld: 0
+  GrabButton: 2
+  Grabtype: 2
+  GrabPhysics: 4
+  GrabMechanic: 0
+  GrabSpeed: 20
+  RemoteGrabbable: 1
+  RemoteGrabMechanic: 0
+  RemoteGrabDistance: 2.5
+  ThrowForceMultiplier: 2.5
+  ThrowForceMultiplierAngular: 1.5
+  BreakDistance: 1
+  HideHandGraphics: 0
+  ParentToHands: 1
+  ParentHandModel: 1
+  SnapHandModel: 1
+  CanBeDropped: 1
+  CanBeSnappedToSnapZone: 1
+  ForceDisableKinematicOnDrop: 0
+  InstantMovement: 0
+  MakeChildCollidersGrabbable: 0
+  handPoseType: 0
+  SelectedHandPose: {fileID: 0}
+  CustomHandPose: 50
+  SecondaryGrabBehavior: 0
+  TwoHandedPosition: 0
+  TwoHandedPostionLerpAmount: 0.5
+  TwoHandedRotation: 1
+  TwoHandedRotationLerpAmount: 0.5
+  TwoHandedDropBehavior: 0
+  TwoHandedLookVector: 0
+  SecondHandLookSpeed: 40
+  SecondaryGrabbable: {fileID: 0}
+  OtherGrabbableMustBeGrabbed: {fileID: 0}
+  CollisionSpring: 3000
+  CollisionSlerp: 300
+  CollisionLinearMotionX: 2
+  CollisionLinearMotionY: 2
+  CollisionLinearMotionZ: 2
+  CollisionAngularMotionX: 2
+  CollisionAngularMotionY: 2
+  CollisionAngularMotionZ: 2
+  ApplyCorrectiveForce: 1
+  MoveVelocityForce: 2000
+  MoveAngularVelocityForce: 90
+  LastGrabTime: 0
+  LastDropTime: 0
+  AddControllerVelocityOnDrop: 1
+  collisions: []
+  ActiveGrabPoint: {fileID: 0}
+  SecondaryLookOffset: {x: 0, y: 0, z: 0}
+  SecondaryLookAtTransform: {fileID: 0}
+  LocalOffsetTransform: {fileID: 0}
+  GrabPoints:
+  - {fileID: 8064817273853738319}
+  - {fileID: 5328321932869275106}
+  UseCustomInspector: 1
+  lastFlickTime: 0
+  FlickForce: 1
+--- !u!114 &6676062161056569202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676062161056569207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90ed01ac5d94e9468b242b4c38496a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HapticsOnValidPickup: 1
+  HapticsOnValidRemotePickup: 1
+  HapticsOnCollision: 0
+  HapticsOnGrab: 1
+  VibrateFrequency: 0.3
+  VibrateAmplitude: 0.1
+  VibrateDuration: 0.1
+--- !u!114 &6676062161056569201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676062161056569207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5b1b54556836a49948cf0f09394c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RingOnValidPickup: 1
+  RingOnValidRemotePickup: 1
+  RingHelperScale: 0.2
 --- !u!114 &1097852432373129882
 MonoBehaviour:
   m_ObjectHideFlags: 0
