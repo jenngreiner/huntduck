@@ -6,7 +6,7 @@ public class WalletUI : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private PlayerScore playerScoreScript;
 
-    public Text scoreText;
+    public Text dollarsText;
     private string walletScore;
 
     void Start()
@@ -16,7 +16,7 @@ public class WalletUI : MonoBehaviour
 
         // reset score when game starts
         UpdateScoreUI();
-        scoreText.text = walletScore;
+        dollarsText.text = walletScore;
         Debug.Log("Wallet dollars is now reset to " + walletScore);
     }
 
@@ -36,7 +36,7 @@ public class WalletUI : MonoBehaviour
     void UpdateScoreUI()
     {
         CreateWalletScore();
-        scoreText.text = walletScore;
+        dollarsText.text = walletScore;
     }
 
     void CreateWalletScore()

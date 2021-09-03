@@ -1,13 +1,23 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class WeaponPickedUp : MonoBehaviour
-{
+// relies on Weapon being held by SnapZone
+public class WeaponPickedUp : MonoBehaviour {
     public delegate void WeaponPickedUpD();
     public static event WeaponPickedUpD onWeaponPickedUp;
 
-    
-    void On()
+    // subscribe to events
+    void OnEnable()
     {
-        if (BNG.SnapZone.)
+        //BNG.SnapZone.On
+        //onWeaponPickedUp
+    }
+
+    // unsubscribe to events
+    void OnDisable()
+    {
+        
     }
 }
