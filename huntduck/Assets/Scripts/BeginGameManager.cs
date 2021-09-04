@@ -25,6 +25,6 @@ public class BeginGameManager : MonoBehaviour
     {
         beginGameText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        beginGameText.text = "Select your gun to begin";
+        beginGameText.text = "Select your weapon to begin";
     }
 }
