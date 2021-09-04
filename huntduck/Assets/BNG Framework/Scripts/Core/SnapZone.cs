@@ -438,6 +438,12 @@ namespace BNG {
                     if (Time.timeSinceLevelLoad > 0.1f)
                     {
                         VRUtils.Instance.PlaySpatialClipAt(SoundOnUnsnap, transform.position, 0.75f);
+
+                        Debug.Log("weapon grabbed");
+
+                        // hide weapons
+                        HideWeapons.hideWeaponWall();
+                        Debug.Log("hiding weapons");
                     }
 
                     //Debug.Log("For UNSNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);
