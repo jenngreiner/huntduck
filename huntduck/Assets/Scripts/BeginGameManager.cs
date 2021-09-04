@@ -14,8 +14,10 @@ public class BeginGameManager : MonoBehaviour
 
         if (GameMode == "PracticeRange")
         {
-            practiceWaves.enabled = true;
             StartCoroutine(PracticeRangeIntro());
+
+            // for now we just start practice waves, but this should be kicked off by something else - gun picked up or carnival ducks killed
+            practiceWaves.enabled = true;
         }
     }
 
