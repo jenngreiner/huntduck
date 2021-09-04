@@ -22,6 +22,7 @@ public class WaveSpawner : MonoBehaviour
     private float searchCountDown = 1f;
 
     public GameObject[] spawnPoints;
+    public GameBeginUIManager begingGameManager;
     public RoundUIManager _roundUIManager;
     public GameObject _gameOverUI;
 
@@ -33,7 +34,9 @@ public class WaveSpawner : MonoBehaviour
         {
             Debug.LogError("No spawnpoints referenced");
         }
+        // show the BeginGameUI
 
+        // set time delay until Waves Start
         waveCountDown = timeBetweenWaves;
     }
 
