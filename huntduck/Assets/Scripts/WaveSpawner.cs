@@ -28,7 +28,7 @@ public class WaveSpawner : MonoBehaviour
     private SpawnState state = SpawnState.COUNTING;
 
 
-    void onEnable()
+    void Start()
     {
         SetupWave();
     }

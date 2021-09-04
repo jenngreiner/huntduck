@@ -5,12 +5,28 @@ using UnityEngine.UI;
 // The BeginGameUI is set from WaveSpawner.cs
 public class BeginGameManager : MonoBehaviour
 {
+    public GameObject beginGameUI;
     public Text beginGameText;
     public WaveSpawner practiceWaves;
     public WeaponsManager weaponsManager;
 
     public static bool isGameStarted = false;
 
+    void OnEnable()
+    {
+        WeaponsManager.onWeaponSelected += HideBeginUI;
+        // we could also start the round once the carnival ducks are gone, or keep this out of practice round all together
+        WeaponsManager.onWeaponSelected += StartRound;
+    }
+
+    void OnDisable()
+    {
+        WeaponsManager.onWeaponSelected -= HideBeginUI;
+        WeaponsManager.onWeaponSelected -= StartRound;
+    }
+
+
+    // this is called in BeginGameTrigger.cs
     public void BeginGame(string GameMode)
     {
         isGameStarted = true;
@@ -19,9 +35,6 @@ public class BeginGameManager : MonoBehaviour
         if (GameMode == "PracticeRange")
         {    
             StartCoroutine(PracticeRangeIntro());
-            
-            // for now we just start practice waves, but this should be kicked off by something else - gun picked up or carnival ducks killed
-            practiceWaves.enabled = true;
         }
     }
 
@@ -32,5 +45,15 @@ public class BeginGameManager : MonoBehaviour
         beginGameText.text = "Select your weapon to begin";
         weaponsManager.ShowWeaponsWall();
         Debug.Log("running practicerangeintro coroutine");
+    }
+
+    void HideBeginUI()
+    {
+        beginGameUI.SetActive(false);
+    }
+
+    void StartRound()
+    {
+        practiceWaves.enabled = true;
     }
 }
