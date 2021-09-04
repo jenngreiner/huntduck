@@ -22,22 +22,15 @@ public class WaveSpawner : MonoBehaviour
     private float searchCountDown = 1f;
 
     public GameObject[] spawnPoints;
-    public GameBeginUIManager begingGameManager;
-    public RoundUIManager _roundUIManager;
-    public GameObject _gameOverUI;
+    public RoundUIManager roundUI;
+    public GameObject gameOverUI;
 
     private SpawnState state = SpawnState.COUNTING;
 
-    void Start()
-    {
-        if (spawnPoints.Length == 0)
-        {
-            Debug.LogError("No spawnpoints referenced");
-        }
-        // show the BeginGameUI
 
-        // set time delay until Waves Start
-        waveCountDown = timeBetweenWaves;
+    void onEnable()
+    {
+        SetupWave();
     }
 
     void Update()
@@ -74,6 +67,17 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    void SetupWave()
+    {
+        if (spawnPoints.Length == 0)
+        {
+            Debug.LogError("No spawnpoints referenced");
+        }
+
+        // set time before and between rounds
+        waveCountDown = timeBetweenWaves;
+    }
+
     void WaveCompleted()
     {
         Debug.Log("Wave completed");
@@ -85,7 +89,7 @@ public class WaveSpawner : MonoBehaviour
         if ((nextWave+1) > (waves.Length - 1))
         {
             Debug.Log("Game is over");
-            _gameOverUI.SetActive(true);
+            gameOverUI.SetActive(true);
             this.enabled = false;
         }
         else
@@ -123,12 +127,12 @@ public class WaveSpawner : MonoBehaviour
         // set state to spawning to make sure only one SpawnWave at a time
         state = SpawnState.SPAWNING;
 
-        _roundUIManager.roundNumber.text = _wave.roundNumber;
-        _roundUIManager.gameObject.SetActive(true);
+        roundUI.roundNumber.text = _wave.roundNumber;
+        roundUI.gameObject.SetActive(true);
         //_roundUIManager.roundStartSound.Play();
 
         yield return new WaitForSeconds(1.5f);
-        _roundUIManager.gameObject.SetActive(false);
+        roundUI.gameObject.SetActive(false);
 
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _wave.count; i++)
