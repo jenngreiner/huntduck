@@ -8,7 +8,7 @@ public class BeginGameManager : MonoBehaviour
     public Text beginGameText;
     public WaveSpawner practiceWaves;
 
-    public void theGameBegins(string GameMode)
+    public void BeginGame(string GameMode)
     {
         Debug.Log("LET THE GAMES BEGIN!!");
 
