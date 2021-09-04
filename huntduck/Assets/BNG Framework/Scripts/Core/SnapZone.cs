@@ -367,6 +367,11 @@ namespace BNG {
 
                         // Do grab
                         grabber.GrabGrabbable(g);
+                        Debug.Log("weapon grabbed");
+
+                        // hide weapons
+                        WeaponsManager.SelectWeapon();
+                        Debug.Log("hiding weapons");
                     }
                 }
             }
@@ -438,12 +443,6 @@ namespace BNG {
                     if (Time.timeSinceLevelLoad > 0.1f)
                     {
                         VRUtils.Instance.PlaySpatialClipAt(SoundOnUnsnap, transform.position, 0.75f);
-
-                        Debug.Log("weapon grabbed");
-
-                        // hide weapons
-                        HideWeapons.hideWeaponWall();
-                        Debug.Log("hiding weapons");
                     }
 
                     //Debug.Log("For UNSNAP sound, time since LevelLoad is " + Time.timeSinceLevelLoad);

@@ -6,10 +6,10 @@ public class BeginGameTrigger : MonoBehaviour
 {
     public BeginGameManager beginGameManager;
 
-    // we begin the game when the collider is entered by the player
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        // begin the game when player touches trigger, if game hasn't already started
+        if (other.tag == "Player" && !BeginGameManager.isGameStarted)
         {
             // Begin the game
             beginGameManager.BeginGame("PracticeRange");            
