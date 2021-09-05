@@ -13,7 +13,7 @@ public class WeaponsManager : MonoBehaviour
 
     void Start()
     {
-        WeaponsWall.SetActive(false);
+        //WeaponsWall.SetActive(false);
     }
 
     void OnEnable()
