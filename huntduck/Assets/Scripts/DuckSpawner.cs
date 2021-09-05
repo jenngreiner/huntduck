@@ -22,6 +22,14 @@ public class DuckSpawner : MonoBehaviour
         //DuckLauncher.SetForce(DuckLauncher.GetInitialProjectileForce() * (launchSpeed / 100));
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ShootLauncher();
+        }
+    }
+
     public void DuckLaunch()
     {
         StartCoroutine(Wait(launchDelayTime));

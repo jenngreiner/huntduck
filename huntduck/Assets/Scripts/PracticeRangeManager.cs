@@ -11,48 +11,43 @@ public class PracticeRangeManager : MonoBehaviour
     public WeaponsManager weaponsManager;
     public Canvas walletCanvas;
     public GameObject carniDucks;
+    public GameObject clayLauncher;
 
     void Start()
     {
-        SetupPracticeRound();
+        SetupRound();
     }
 
     void OnEnable()
     {
-        WeaponsManager.onWeaponSelected += HideBeginUI;
         WeaponsManager.onWeaponSelected += StartRound;
-        WeaponsManager.onWeaponSelected += StartPracticeRound;
     }
 
     void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= HideBeginUI;
         WeaponsManager.onWeaponSelected -= StartRound;
-        WeaponsManager.onWeaponSelected -= StartPracticeRound;
     }
 
-    void SetupPracticeRound()
+    void SetupRound()
     {
         walletCanvas.gameObject.SetActive(false);
         carniDucks.gameObject.SetActive(false);
     }
 
-    void StartPracticeRound()
+    void StartRound()
     {
-        walletCanvas.gameObject.SetActive(true);
-        carniDucks.gameObject.SetActive(true);
+        beginGameUI.SetActive(false);
+        walletCanvas.enabled = true;
+        //carniDucks.SetActive(true);
+        roundWaves.enabled = true;
     }
 
 
     // this is called in BeginGameTrigger.cs
-    public void BeginGame(string GameMode)
+    public void BeginGame()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
-
-        if (GameMode == "PracticeRange")
-        {    
-            StartCoroutine(PracticeRangeIntro());
-        }
+        StartCoroutine(PracticeRangeIntro());
     }
 
     IEnumerator PracticeRangeIntro()
@@ -62,22 +57,5 @@ public class PracticeRangeManager : MonoBehaviour
         beginGameText.text = "Select your weapon to begin";
         weaponsManager.ShowWeaponsWall();
         Debug.Log("running practicerangeintro coroutine");
-    }
-
-    void HideBeginUI()
-    {
-        beginGameUI.SetActive(false);
-    }
-
-    void StartRound()
-    {
-        // display wallet canvas
-        walletCanvas.gameObject.SetActive(true);
-
-        // get those carnival ducks spinnin!
-        carniDucks.SetActive(true);
-
-        //*****figure out how to start rounds once carnival ducks eliminated
-        //roundWaves.enabled = true;
     }
 }
