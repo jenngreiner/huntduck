@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// show and hide weapons wall off key events
 public class WeaponsManager : MonoBehaviour
 {
     public GameObject WeaponsWall;
@@ -17,12 +18,12 @@ public class WeaponsManager : MonoBehaviour
 
     void OnEnable()
     {
-        onWeaponSelected += HideWeaponsWall;
+        //onWeaponSelected += HideWeaponsWall;
     }
 
     void OnDisable()
     {
-        onWeaponSelected -= HideWeaponsWall;
+        //onWeaponSelected -= HideWeaponsWall;
     }
 
     // weapon selection occurs in SnapZone.cs
