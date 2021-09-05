@@ -11,7 +11,6 @@ public class PracticeRangeManager : MonoBehaviour
     public WeaponsManager weaponsManager;
     public Canvas walletCanvas;
     public GameObject carniDucks;
-    public GameObject clayLauncher;
 
     void Start()
     {
