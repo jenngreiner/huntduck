@@ -427,16 +427,6 @@ namespace BNG {
 
             // Play Unsnap sound
             if(HeldItem != null) {
-                //if (SoundOnSnap)
-                //{
-                //    // Only play the sound if not just starting the scene
-                //    if (Time.timeSinceLevelLoad > 0.1f)
-                //    {
-                //        VRUtils.Instance.PlaySpatialClipAt(SoundOnSnap, transform.position, 0.75f);
-                //    }
-
-                //    Debug.Log("Time since LevelLoad is " + Time.timeSinceLevelLoad);
-                //}
                 if (SoundOnSnap) 
                 {
                     // Only play the sound if not just starting the scene
