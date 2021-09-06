@@ -53,7 +53,7 @@ public class PracticeRangeManager : MonoBehaviour
     {
         beginGameText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        beginGameText.text = "Select your weapon to begin";
+        beginGameText.text = "Select your weapon behind you";
         //weaponsManager.ShowWeaponsWall();
         Debug.Log("running practicerangeintro coroutine");
     }

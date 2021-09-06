@@ -13,7 +13,7 @@ namespace BNG {
     /// </summary>
     public class Damageable : MonoBehaviour {
 
-        public float Health = 100;
+        public float Health = 5;
         private float _startingHealth;
         private const string DUCK_TAG = "Duck";
 
@@ -109,6 +109,7 @@ namespace BNG {
         public virtual void DealDamage(float damageAmount, Vector3? hitPosition = null, Vector3? hitNormal = null, bool reactToHit = true, GameObject sender = null, GameObject receiver = null) {
 
             if (destroyed) {
+                Debug.Log("We destroyed that breakable called " + transform.name);
                 return;
             }
 
