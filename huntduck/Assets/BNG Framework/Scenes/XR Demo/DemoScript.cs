@@ -22,6 +22,7 @@ namespace BNG {
         /// </summary>
         public int MaxLaunchedObjects = 5;
 
+        // ***IMPORTANT***
         List<GameObject> launchedObjects;
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace BNG {
         Rigidbody cubeRigid2;
         Rigidbody cubeRigid3;
 
-        // Start is called before the first frame update
+        // ***IMPORTANT*** at this to game manager in duck scenes
         void Start() {
             
             launchedObjects = new List<GameObject>();
@@ -77,7 +78,7 @@ namespace BNG {
             // Spin Cubes around
             rotateGravityCubes();
 
-            // launch ducks with L key
+            // BEN: launch ducks with L key
             if (Input.GetKeyDown(KeyCode.L))
             {
                 DelayedLaunch();
@@ -144,6 +145,7 @@ namespace BNG {
                 RingHelper r = ammo.GetComponentInChildren<RingHelper>();
                 Destroy(r.gameObject);
 
+                // ***IMPORTANT**
                 // Offset to hand
                 ammo.transform.parent = grabber.transform;
                 ammo.transform.localPosition = -g.GrabPositionOffset;
@@ -164,14 +166,18 @@ namespace BNG {
             Debug.Log("fired DelayedLaunch");
         }
 
+
+        // BEN: still needed? check if there is a demoscript in huntDuck Demo scene
         IEnumerator Wait(float delayTime)
         {
             yield return new WaitForSeconds(delayTime);
             Debug.Log("fired WaitForSeconds");
+
             ShootLauncher();
             Debug.Log("fired ShootLauncher");
         }
 
+        // need this function to shoot out of barrells
         public void ShootLauncher() {
             if(launchedObjects == null) {
                 launchedObjects = new List<GameObject>();
