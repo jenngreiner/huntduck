@@ -51,7 +51,7 @@ namespace BNG {
         Rigidbody cubeRigid2;
         Rigidbody cubeRigid3;
 
-        // ***IMPORTANT*** at this to game manager in duck scenes
+        // ***IMPORTANT*** add this to game manager in duck scenes
         void Start() {
             
             launchedObjects = new List<GameObject>();

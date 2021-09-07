@@ -40,7 +40,7 @@ namespace BNG {
                 GameObject launched = Instantiate(ProjectileObject, MuzzleTransform.transform.position, MuzzleTransform.transform.rotation) as GameObject;
 
                 launched.transform.position = MuzzleTransform.transform.position;
-                //decoupling rotation from launch direction, using DuckRotation
+                //decoupling rotation from launch direction, using launchRotation
                 launched.transform.rotation = DuckRotation.transform.rotation;
                     
                 //original rotation
