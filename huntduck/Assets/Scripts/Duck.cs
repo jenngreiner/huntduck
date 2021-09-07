@@ -29,17 +29,19 @@ public class Duck : MonoBehaviour
 
     public void Die()
     {
-        // reliese on ROUNDS
-        //DecrementDuck();
-
         isDead = true;
         Debug.Log(transform.name + " is DEAD!");
 
-        // since this duck was killed, add points to the score
-        Debug.Log("Duck just died, sending player " + duckPoints + " duckpoints");
-        playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
+        // straighten out points, as long as not a "Carnival" duck
+        if (gameObject.layer != LayerMask.NameToLayer("Carnival"))
+        {
+            duckPointsText.transform.rotation = Quaternion.identity;
+        }
 
-        // for multiplayer we will need to refactor to know who killed the duck
+        // MULTIPLAYER will need REFACTOR to know who killed the duck
+        // since this duck was killed, add points to the score
+        playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
+        Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
     }
 
     // reliese on DUCK_DURATION && ROUNDS

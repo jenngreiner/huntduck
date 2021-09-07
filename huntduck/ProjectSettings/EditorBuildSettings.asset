@@ -6,20 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Photon Multiplayer/Launcher.unity
-    guid: ff16e11b71a3543d9bfa0378bec10f58
-  - enabled: 1
-    path: Assets/Scenes/Photon Multiplayer/Room for 1.unity
-    guid: e51bd4b2478a0b8419d7a5d267170258
-  - enabled: 1
-    path: Assets/Scenes/Photon Multiplayer/Room for 2.unity
-    guid: acde594deb81f834ba553dc22abddd46
-  - enabled: 1
-    path: Assets/Scenes/Photon Multiplayer/Room for 3.unity
-    guid: e07e0d4d744552c41a31dcbf0d133d9d
-  - enabled: 1
-    path: Assets/Scenes/Photon Multiplayer/Room for 4.unity
-    guid: 526b601897d18234d85b20c565a50161
+    path: Assets/Scenes/MP_huntduck.unity
+    guid: 1b61c755f0e94447ab47e3c45f0a8996
+  - enabled: 0
+    path: Assets/BNG Framework/Integrations/PUN/MPDemo.unity
+    guid: 1ef291d4030a6484f8bc6edeae91dda9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 77ef9e5d8ab73184cb8debcf4313cf25,
       type: 2}

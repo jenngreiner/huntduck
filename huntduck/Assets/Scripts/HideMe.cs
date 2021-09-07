@@ -10,11 +10,6 @@ public class HideMe : MonoBehaviour
     {
         me = this.gameObject;
         me.SetActive(false);
-        Debug.Log("me setActive false");
-    }
-
-
-    void Update()
-    {
+        Debug.Log(this.gameObject.name + " HideMe!");
     }
 }
