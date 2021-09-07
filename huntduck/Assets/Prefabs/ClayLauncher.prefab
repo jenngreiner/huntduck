@@ -263,7 +263,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5172127632976818101}
   - component: {fileID: 5172127632976818098}
-  - component: {fileID: 5172127632976818099}
   - component: {fileID: 5172127632976818096}
   m_Layer: 0
   m_Name: ClayLauncher
@@ -297,25 +296,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5172127632976818097}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &5172127632976818099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5172127632976818097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b9f0ff530dce347b71aeb31012f93d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectileObject: {fileID: 5518759975476641241, guid: 4ff012547e1f60d4a96d360056fc52e5,
-    type: 3}
-  ProjectileForce: 15
-  LaunchSound: {fileID: 0}
-  LaunchParticles: {fileID: 0}
-  MuzzleTransform: {fileID: 5172127633606443947}
-  DuckRotation: {fileID: 5172127632758076591}
 --- !u!114 &5172127632976818096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +308,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad92bc5f0936242a88fa6542d7ea117e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objLauncher: {fileID: 5172127632976818099}
+  ProjectileObject: {fileID: 5518759975476641241, guid: 4ff012547e1f60d4a96d360056fc52e5,
+    type: 3}
+  ProjectileForce: 15
+  launchTransform: {fileID: 5172127633606443947}
+  launchRotation: {fileID: 5172127632758076591}
   maxLaunchedObjects: 5
   launchDelayTime: 3
+  LaunchSound: {fileID: 0}
+  LaunchParticles: {fileID: 0}
 --- !u!1 &5172127633606443944
 GameObject:
   m_ObjectHideFlags: 0

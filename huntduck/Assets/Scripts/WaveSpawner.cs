@@ -152,6 +152,6 @@ public class WaveSpawner : MonoBehaviour
         Debug.Log("Spawning duck");
 
         GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<ObjectLauncher>().ObjLaunch();
+        activeSpawnPoint.GetComponent<ObjectLauncher>().DelayedLaunch();
     }
 }

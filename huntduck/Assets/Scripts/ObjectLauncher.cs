@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ObjectLauncher : MonoBehaviour
 {
-    public BNG.ProjectileLauncher objLauncher;
     List<GameObject> launchedObjects;
 
     // Object to launch 
@@ -44,10 +43,10 @@ public class ObjectLauncher : MonoBehaviour
         }
     }
 
-    public void ObjLaunch()
+    public void DelayedLaunch()
     {
+        Debug.Log("launch will begin after a delay of " + launchDelayTime);
         StartCoroutine(Wait(launchDelayTime));
-        Debug.Log("the launch begins..");
     }
 
     IEnumerator Wait(float delayTime)
@@ -72,7 +71,7 @@ public class ObjectLauncher : MonoBehaviour
             GameObject.Destroy(launchedObjects[0]);
         }
 
-        launchedObjects.Add(objLauncher.ShootProjectile(objLauncher.ProjectileForce));
+        launchedObjects.Add(ShootProjectile(ProjectileForce));
     }
 
     /// <summary>
