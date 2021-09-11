@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 3278400308339995931}
   - component: {fileID: 3278400308339995932}
   - component: {fileID: 2463619530738425854}
+  - component: {fileID: -7392475300169190861}
   m_Layer: 0
   m_Name: NW_ClayLauncher
   m_TagString: Untagged
@@ -121,6 +122,28 @@ MonoBehaviour:
   launchTransform: {fileID: 3278400307845552389}
   launchRotation: {fileID: 3278400308055944705}
   launchDelayTime: 3
+--- !u!114 &-7392475300169190861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3278400308339995935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7689932750911029577
 GameObject:
   m_ObjectHideFlags: 0
