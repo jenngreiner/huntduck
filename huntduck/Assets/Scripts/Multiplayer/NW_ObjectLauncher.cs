@@ -25,38 +25,25 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            ShootProjectile_PNI();
-            Debug.Log("ShootProjectile_PNI() Shot a clay on the network!!!");
-        }
-
         if (Input.GetKeyDown(KeyCode.R))
         {
-            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
             this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
             Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            this.photonView.RPC("RPC_ShootProjectile_PNI", RpcTarget.All);
-            Debug.Log("RPC_ShootProjectile_PNI() Shot a clay on the network!!!");
-        }
-    }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+        //    ShootProjectile_PNI();
+        //    Debug.Log("ShootProjectile_PNI() Shot a clay on the network!!!");
+        //}
 
-    public void ShootProjectile_PNI()
-    {
-        GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
-
-        launched.transform.position = launchTransform.transform.position;
-        launched.transform.rotation = launchRotation.transform.rotation;
-
-        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-
-        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+        //    this.photonView.RPC("RPC_ShootProjectile_PNI", RpcTarget.All);
+        //    Debug.Log("RPC_ShootProjectile_PNI() Shot a clay on the network!!!");
+        //}
     }
 
     [PunRPC]
@@ -72,28 +59,40 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
     }
 
-    [PunRPC]
-    public void RPC_ShootProjectile_PNI()
+    public void DelayedLaunch()
     {
-        GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
-
-        launched.transform.position = launchTransform.transform.position;
-        launched.transform.rotation = launchRotation.transform.rotation;
-
-        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-
-        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+        Debug.Log("launch will begin after a delay of " + launchDelayTime);
+        StartCoroutine(Wait(launchDelayTime));
     }
 
-    //public void DelayedLaunch()
+    IEnumerator Wait(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        RPC_ShootProjectile();
+    }
+
+    //public void ShootProjectile_PNI()
     //{
-    //    Debug.Log("launch will begin after a delay of " + launchDelayTime);
-    //    StartCoroutine(Wait(launchDelayTime));
+    //    GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+
+    //    launched.transform.position = launchTransform.transform.position;
+    //    launched.transform.rotation = launchRotation.transform.rotation;
+
+    //    launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+    //    //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
     //}
 
-    //IEnumerator Wait(float delayTime)
+    //[PunRPC]
+    //public void RPC_ShootProjectile_PNI()
     //{
-    //    yield return new WaitForSeconds(delayTime);
-    //    RPC_ShootProjectile();
+    //    GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+
+    //    launched.transform.position = launchTransform.transform.position;
+    //    launched.transform.rotation = launchRotation.transform.rotation;
+
+    //    launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+    //    //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
     //}
 }
