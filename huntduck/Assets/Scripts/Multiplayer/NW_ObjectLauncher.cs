@@ -28,12 +28,32 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.L))
         {
             //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            ShootProjectile();
+            ShootProjectile_PNI();
+            Debug.Log("Shooting clays on the network!!!");
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+            RPC_ShootProjectile();
             Debug.Log("Shooting clays on the network!!!");
         }
     }
 
-    public void ShootProjectile()
+    public void ShootProjectile_PNI()
+    {
+        GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+
+        launched.transform.position = launchTransform.transform.position;
+        launched.transform.rotation = launchRotation.transform.rotation;
+
+        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+    }
+
+    [PunRPC]
+    public void RPC_ShootProjectile_PNI()
     {
         GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
 
@@ -48,7 +68,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+        GameObject launched = Instantiate(projectileObject, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
 
         launched.transform.position = launchTransform.transform.position;
         launched.transform.rotation = launchRotation.transform.rotation;
