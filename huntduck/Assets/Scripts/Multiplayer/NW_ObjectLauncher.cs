@@ -29,14 +29,21 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         {
             //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
             ShootProjectile_PNI();
-            Debug.Log("Shooting clays on the network!!!");
+            Debug.Log("ShootProjectile_PNI() Shot a clay on the network!!!");
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
             RPC_ShootProjectile();
-            Debug.Log("Shooting clays on the network!!!");
+            Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+            RPC_ShootProjectile_PNI();
+            Debug.Log("RPC_ShootProjectile_PNI() Shot a clay on the network!!!");
         }
     }
 
