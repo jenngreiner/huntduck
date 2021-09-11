@@ -21,29 +21,20 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     void Awake()
     {
         projectileName = projectileObject.name;
+        PhotonView photonView = PhotonView.Get(this);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            ShootNWProjectile();
+            photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+            Debug.Log("Shooting clays on the network!!!");
         }
     }
 
-    public void DelayedLaunch()
-    {
-        Debug.Log("launch will begin after a delay of " + launchDelayTime);
-        StartCoroutine(Wait(launchDelayTime));
-    }
-
-    IEnumerator Wait(float delayTime)
-    {
-        yield return new WaitForSeconds(delayTime);
-        ShootNWProjectile();
-    }
-
-    public void ShootNWProjectile()
+    [PunRPC]
+    public void RPC_ShootProjectile()
     {
         GameObject launched = PhotonNetwork.Instantiate(projectileName, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
 
@@ -54,4 +45,16 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
         //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
     }
+
+    //public void DelayedLaunch()
+    //{
+    //    Debug.Log("launch will begin after a delay of " + launchDelayTime);
+    //    StartCoroutine(Wait(launchDelayTime));
+    //}
+
+    //IEnumerator Wait(float delayTime)
+    //{
+    //    yield return new WaitForSeconds(delayTime);
+    //    RPC_ShootProjectile();
+    //}
 }
