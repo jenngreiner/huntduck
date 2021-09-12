@@ -7,10 +7,13 @@ public class PracticeRangeManager : MonoBehaviour
 {
     public GameObject helperUI;
     public Text helperText;
-    public WaveSpawner clayWaves;
-    public WeaponsManager weaponsManager;
     public Canvas walletCanvas;
+
+    public GameObject targetWall;
+    public WaveSpawner clayWaves;
     public GameObject carniDucks;
+
+    public WeaponsManager weaponsManager;
 
     void Start()
     {
@@ -34,22 +37,31 @@ public class PracticeRangeManager : MonoBehaviour
         carniDucks.gameObject.SetActive(false);
     }
 
-    void PrepTargetRound()
-    {
-        helperText.text = "Step up to the podium to start!";
-    }
-
-    public void StartTargetRound()
-    {
-        helperText.text = "Shoot the targets to advance!";
-        //clayWaves.enabled = true;
-    }
-
-    // this is called in BeginGameTrigger.cs
+    // called in BeginGameTrigger.cs
     public void BeginGame()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
         StartCoroutine(PracticeRangeIntro());
+    }
+
+    void PrepTargetRound()
+    {
+        BeginTargetTrigger.isTargetReady = true;
+        helperText.text = "Step up to the podium to start!";
+    }
+
+    // called in BeginTargetTrigger.cs
+    public void StartTargetRound()
+    {
+        StartCoroutine(TargetRoundIntro());
+    }
+
+    public void BeginCarniDucks()
+    {
+        // TODO: add some UI here about getting money for ducks
+
+        walletCanvas.enabled = true;
+        carniDucks.SetActive(true);
     }
 
     IEnumerator PracticeRangeIntro()
@@ -59,11 +71,11 @@ public class PracticeRangeManager : MonoBehaviour
         helperText.text = "Select your weapon behind you";
     }
 
-    public void BeginCarniDucks()
+    IEnumerator TargetRoundIntro()
     {
-        // TODO: add some UI here about getting money for ducks
-
-        walletCanvas.enabled = true;
-        carniDucks.SetActive(true);
+        helperText.text = "Shoot the targets to advance!";
+        yield return new WaitForSeconds(3);
+        helperUI.SetActive(false);
+        targetWall.SetActive(true);
     }
 }

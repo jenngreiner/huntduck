@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using Photon.Pun;
 
 namespace BNG {
-    public class SnapZone : MonoBehaviourPun {
+    public class SnapZone : MonoBehaviour {
 
         [Header("Starting / Held Item")]
         [Tooltip("The currently held item. Set this in the editor to equip on start.")]
@@ -329,8 +328,6 @@ namespace BNG {
         /// </summary>
         /// <param name="grabber"></param>
         public void GrabEquipped(Grabber grabber) {
-            if (PhotonNetwork.InRoom)
-            {
                 if (grabber != null)
                 {
                     if (HeldItem)
@@ -384,7 +381,6 @@ namespace BNG {
                         }
                     }
                 }
-            }
         }
 
         public virtual bool CanBeRemoved() {
