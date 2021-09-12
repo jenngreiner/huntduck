@@ -12,7 +12,7 @@ public class BeginPracticeTrigger : MonoBehaviour
         if (other.tag == "Player" && !isGameStarted)
         {
             // Begin the game
-            practiceRangeManager.BeginGame();
+            practiceRangeManager.StartGame();
             isGameStarted = true;
         }
     }
