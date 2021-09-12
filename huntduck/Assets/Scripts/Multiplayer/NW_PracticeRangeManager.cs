@@ -54,12 +54,17 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
         Debug.Log(string.Format("RPC_StartRound"));
     }
 
+    public void BeginGame()
+    {
+        this.photonView.RPC("RPC_BeginGame", RpcTarget.All);
+    }
 
     // this is called in BeginPracticeTrigger.cs on StartingBlock GameObject
     [PunRPC]
     public void RPC_BeginGame()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
+        NW_BeginPracticeTrigger.isGameStarted = true;
         StartCoroutine(PracticeRangeIntro());
     }
 

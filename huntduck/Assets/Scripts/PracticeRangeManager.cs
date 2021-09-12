@@ -5,9 +5,9 @@ using UnityEngine.UI;
 // The BeginGameUI is set from WaveSpawner.cs
 public class PracticeRangeManager : MonoBehaviour
 {
-    public GameObject beginGameUI;
-    public Text beginGameText;
-    public WaveSpawner roundWaves;
+    public GameObject helperUI;
+    public Text helperText;
+    public WaveSpawner clayWaves;
     public WeaponsManager weaponsManager;
     public Canvas walletCanvas;
     public GameObject carniDucks;
@@ -19,12 +19,13 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
-        WeaponsManager.onWeaponSelected += StartRound;
+        // callback happens in SnapZone.cs
+        WeaponsManager.onWeaponSelected += PrepTargetRound;
     }
 
     void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= StartRound;
+        WeaponsManager.onWeaponSelected -= PrepTargetRound;
     }
 
     void SetupRound()
@@ -33,14 +34,16 @@ public class PracticeRangeManager : MonoBehaviour
         carniDucks.gameObject.SetActive(false);
     }
 
-    void StartRound()
+    void PrepTargetRound()
     {
-        beginGameUI.SetActive(false);
-        walletCanvas.enabled = true;
-        //carniDucks.SetActive(true);
-        roundWaves.enabled = true;
+        helperText.text = "Step up to the podium to start!";
     }
 
+    public void StartTargetRound()
+    {
+        helperText.text = "Shoot the targets to advance!";
+        //clayWaves.enabled = true;
+    }
 
     // this is called in BeginGameTrigger.cs
     public void BeginGame()
@@ -51,10 +54,16 @@ public class PracticeRangeManager : MonoBehaviour
 
     IEnumerator PracticeRangeIntro()
     {
-        beginGameText.text = "Welcome to the Practice Range!";
+        helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        beginGameText.text = "Select your weapon behind you";
-        //weaponsManager.ShowWeaponsWall();
-        Debug.Log("running practicerangeintro coroutine");
+        helperText.text = "Select your weapon behind you";
+    }
+
+    public void BeginCarniDucks()
+    {
+        // TODO: add some UI here about getting money for ducks
+
+        walletCanvas.enabled = true;
+        carniDucks.SetActive(true);
     }
 }

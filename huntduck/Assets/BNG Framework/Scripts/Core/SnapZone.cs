@@ -378,15 +378,9 @@ namespace BNG {
                             grabber.GrabGrabbable(g);
                             Debug.Log("weapon grabbed");
 
-                            // BEN: Added 0911
-                            // hide weapons
-
-                            //NW_WeaponsManager.RPC_SelectWeapon();
-
-                            // BEN: disabled 0911
-                            // hide weapons
+                            // select weapon event
                             WeaponsManager.SelectWeapon();
-                            Debug.Log("hiding weapons");
+                            Debug.Log("weapon selected");
                         }
                     }
                 }

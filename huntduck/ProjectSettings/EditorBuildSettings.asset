@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SinglePlayer/SP_PracticeRange.unity
+    path: Assets/Scenes/World 1/SP_PracticeRange.unity
     guid: 1b61c755f0e94447ab47e3c45f0a8996
   - enabled: 0
     path: Assets/BNG Framework/Integrations/PUN/MPDemo.unity
