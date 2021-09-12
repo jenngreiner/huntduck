@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
 namespace BNG {
-    public class SnapZone : MonoBehaviour {
+    public class SnapZone : MonoBehaviourPun {
 
         [Header("Starting / Held Item")]
         [Tooltip("The currently held item. Set this in the editor to equip on start.")]
@@ -328,50 +329,65 @@ namespace BNG {
         /// </summary>
         /// <param name="grabber"></param>
         public void GrabEquipped(Grabber grabber) {
+            if (PhotonNetwork.InRoom)
+            {
+                if (grabber != null)
+                {
+                    if (HeldItem)
+                    {
 
-            if (grabber != null) {
-                if(HeldItem) {
-
-                    // Not allowed to be removed
-                    if(!CanBeRemoved()) {
-                        return;
-                    }
-
-                    var g = HeldItem;
-                    if(DuplicateItemOnGrab) {
-
-                        ReleaseAll();
-
-                        // Position next to grabber if somewhat far away
-                        if (Vector3.Distance(g.transform.position, grabber.transform.position) > 0.2f) {
-                            g.transform.position = grabber.transform.position;
+                        // Not allowed to be removed
+                        if (!CanBeRemoved())
+                        {
+                            return;
                         }
 
-                        // Instantiate the object before it is grabbed
-                        GameObject go = Instantiate(g.gameObject, transform.position, Quaternion.identity) as GameObject;
-                        Grabbable grab = go.GetComponent<Grabbable>();
+                        var g = HeldItem;
+                        if (DuplicateItemOnGrab)
+                        {
 
-                        // Ok to attach it to snap zone now
-                        this.GrabGrabbable(grab);
+                            ReleaseAll();
 
-                        // Finish Grabbing the desired object
-                        grabber.GrabGrabbable(g);
-                    }
-                    else {
-                        ReleaseAll();
+                            // Position next to grabber if somewhat far away
+                            if (Vector3.Distance(g.transform.position, grabber.transform.position) > 0.2f)
+                            {
+                                g.transform.position = grabber.transform.position;
+                            }
 
-                        // Position next to grabber if somewhat far away
-                        if (Vector3.Distance(g.transform.position, grabber.transform.position) > 0.2f) {
-                            g.transform.position = grabber.transform.position;
+                            // Instantiate the object before it is grabbed
+                            GameObject go = Instantiate(g.gameObject, transform.position, Quaternion.identity) as GameObject;
+                            Grabbable grab = go.GetComponent<Grabbable>();
+
+                            // Ok to attach it to snap zone now
+                            this.GrabGrabbable(grab);
+
+                            // Finish Grabbing the desired object
+                            grabber.GrabGrabbable(g);
                         }
+                        else
+                        {
+                            ReleaseAll();
 
-                        // Do grab
-                        grabber.GrabGrabbable(g);
-                        Debug.Log("weapon grabbed");
+                            // Position next to grabber if somewhat far away
+                            if (Vector3.Distance(g.transform.position, grabber.transform.position) > 0.2f)
+                            {
+                                g.transform.position = grabber.transform.position;
+                            }
 
-                        // hide weapons
-                        WeaponsManager.SelectWeapon();
-                        Debug.Log("hiding weapons");
+                            // Do grab
+                            grabber.GrabGrabbable(g);
+                            Debug.Log("weapon grabbed");
+
+                            // BEN: Added 0911
+                            // hide weapons
+
+                            NW_WeaponsManager.RPC_SelectWeapon();
+
+                            // BEN: disabled 0911
+                            //// hide weapons
+                            //WeaponsManager.SelectWeapon();
+                            //Debug.Log("hiding weapons");
+                        }
                     }
                 }
             }

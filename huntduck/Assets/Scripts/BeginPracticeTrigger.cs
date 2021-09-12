@@ -16,6 +16,4 @@ public class BeginPracticeTrigger : MonoBehaviour
             isGameStarted = true;
         }
     }
-
-
 }
