@@ -15,7 +15,10 @@ public class NW_WeaponsManager : MonoBehaviour
     [PunRPC]
     public static void RPC_SelectWeapon()
     {
-        onWeaponSelected();
+        if (PhotonNetwork.InRoom)
+        {
+            onWeaponSelected();
+        }
     }
 
     //public void ShowWeaponsWall()

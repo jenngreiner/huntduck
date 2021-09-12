@@ -25,7 +25,7 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
     {
         if (PhotonNetwork.InRoom)
         {
-            WeaponsManager.onWeaponSelected += RPC_StartRound;
+            NW_WeaponsManager.onWeaponSelected += RPC_StartRound;
         }
     }
 
@@ -33,7 +33,7 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
     {
         if (PhotonNetwork.InRoom)
         {
-            WeaponsManager.onWeaponSelected -= RPC_StartRound;
+            NW_WeaponsManager.onWeaponSelected -= RPC_StartRound;
         }
     }
 
@@ -51,6 +51,7 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
         walletCanvas.enabled = true;
         //carniDucks.SetActive(true);
         nw_waveSpawner.enabled = true;
+        Debug.Log(string.Format("RPC_StartRound"));
     }
 
 

@@ -63,6 +63,9 @@ namespace BNG {
                 }
 
                 BeingHeld = heldByGrabbers != null && heldByGrabbers.Count > 0;
+
+                // BEN: Added 0911
+                //NW_WeaponsManager.RPC_SelectWeapon();
             }
         }
 

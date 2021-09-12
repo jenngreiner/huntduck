@@ -381,12 +381,12 @@ namespace BNG {
                             // BEN: Added 0911
                             // hide weapons
 
-                            NW_WeaponsManager.RPC_SelectWeapon();
+                            //NW_WeaponsManager.RPC_SelectWeapon();
 
                             // BEN: disabled 0911
-                            //// hide weapons
-                            //WeaponsManager.SelectWeapon();
-                            //Debug.Log("hiding weapons");
+                            // hide weapons
+                            WeaponsManager.SelectWeapon();
+                            Debug.Log("hiding weapons");
                         }
                     }
                 }
