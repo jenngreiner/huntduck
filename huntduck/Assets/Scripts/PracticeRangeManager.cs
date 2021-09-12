@@ -57,9 +57,11 @@ public class PracticeRangeManager : MonoBehaviour
             if (PracticeWaveSpawner.claysHit >= 3)
             {
                 // go on to next round
+                Debug.Log("Starting Carni Ducks Round");
+                clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
-            Debug.Log("We still got clays left!");
+            Debug.Log("We've hit " + PracticeWaveSpawner.claysHit + "clays");
             return;
         }
     }
@@ -122,10 +124,7 @@ public class PracticeRangeManager : MonoBehaviour
 
     public void StartCarniDucks()
     {
-        // TODO: add some UI here about getting money for ducks
-
-        walletCanvas.enabled = true;
-        carniDucks.SetActive(true);
+        StartCoroutine(CarniDuckIntro());
     }
 
 
@@ -151,11 +150,22 @@ public class PracticeRangeManager : MonoBehaviour
         state = PracticeState.CLAY;
         //claysHit = 0;
         helperUI.SetActive(true);
-        Debug.Log("Clay helper UI should now be showing");
         helperText.text = "Shoot the clays to advance!";
         yield return new WaitForSeconds(3);
         helperUI.SetActive(false);
         clayWavesManager.enabled = true;
+    }
+
+    IEnumerator CarniDuckIntro()
+    {
+        state = PracticeState.DUCKS;
+        walletCanvas.enabled = true;
+        helperUI.SetActive(true);
+        helperText.text = "Shoot the ducks to advance!";
+        yield return new WaitForSeconds(3);
+        helperUI.SetActive(false);
+        carniDucks.SetActive(true);
+        Debug.Log("Carni ducks are alive!!!");
     }
 
     //IEnumerator SpawnClayWave()

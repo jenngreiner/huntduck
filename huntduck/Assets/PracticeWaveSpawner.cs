@@ -19,7 +19,7 @@ public class PracticeWaveSpawner : MonoBehaviour
     private int nextWave = 0;
     public static int claysHit = 0;
 
-    public float timeBetweenWaves = 5f;
+    public float timeBetweenWaves = 1f;
     private float waveCountDown;
     private float searchCountDown = 1f;
 
@@ -46,8 +46,8 @@ public class PracticeWaveSpawner : MonoBehaviour
             }
             else
             {
-                // ducks still left, so rounds not over
-                Debug.Log("We still got ducks left!");
+                // clays still left, so rounds not over
+                Debug.Log("PracticeWaveSpawner knows: We still got clays left!");
                 return;
             }
         }
@@ -146,6 +146,6 @@ public class PracticeWaveSpawner : MonoBehaviour
         Debug.Log("Spawning clay");
 
         GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<ObjectLauncher>().DelayedLaunch();
+        activeSpawnPoint.GetComponent<ObjectLauncher>().ShootLauncher();
     }
 }
