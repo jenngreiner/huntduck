@@ -50,10 +50,10 @@ public class PracticeRangeManager : MonoBehaviour
             if (PracticeWaveSpawner.claysHit >= 3)
             {
                 // stop waves, go on to next round
-                clayWavesManager.enabled = false;
+                //clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
-            Debug.Log("We've hit " + PracticeWaveSpawner.claysHit + "clays");
+            Debug.Log("We've hit " + PracticeWaveSpawner.claysHit + " clays");
             return;
         }
 
@@ -75,13 +75,11 @@ public class PracticeRangeManager : MonoBehaviour
     {
         // onWeaponsSelected callback happens in SnapZone.cs
         WeaponsManager.onWeaponSelected += PrepTargetRound;
-        PracticeWaveSpawner.onClayWavesComplete += StartCarniDucks;
     }
 
     void OnDisable()
     {
         WeaponsManager.onWeaponSelected -= PrepTargetRound;
-        PracticeWaveSpawner.onClayWavesComplete -= StartCarniDucks;
     }
 
     void SetupRound()
@@ -152,7 +150,7 @@ public class PracticeRangeManager : MonoBehaviour
     IEnumerator TargetRoundIntro()
     {
         state = PracticeState.TARGET;
-        helperText.text = "Shoot the targets to advance!";
+        helperText.text = "Shoot ALL targets to advance!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);
@@ -167,7 +165,7 @@ public class PracticeRangeManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "Shoot the clays to advance!";
+        helperText.text = "Shoot 3 clays to advance!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);
@@ -184,6 +182,9 @@ public class PracticeRangeManager : MonoBehaviour
         walletCanvas.enabled = true;
         helperUI.SetActive(true);
         helperText.text = "Shoot the ducks to make some bucks!";
+        yield return new WaitForSeconds(3);
+
+        helperText.text = "Make $2,100 to buy your duck license!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PracticeWaveSpawner : MonoBehaviour
 {
-    public enum SpawnState { SPAWNING, WAITING, READY, COUNTING };
+    public enum SpawnState { SPAWNING, WAITING, COUNTING };
     private SpawnState state = SpawnState.COUNTING;
 
     // makes the Wave class fields editable from Inspector
@@ -25,9 +25,6 @@ public class PracticeWaveSpawner : MonoBehaviour
 
     public GameObject[] spawnPoints;
 
-    public delegate void ClayWavesComplete();
-    public static event ClayWavesComplete onClayWavesComplete;
-
 
     void Start()
     {
@@ -39,18 +36,21 @@ public class PracticeWaveSpawner : MonoBehaviour
         if (state == SpawnState.WAITING)
         {
             // check if ducks still left
-            if (!ClaysAreLeft())
+            if (hitAllClays())
             {
+                Debug.Log("We hit 3 clays, calling WaveComplete");
                 // start the next wave
                 WaveCompleted();
             }
             else
             {
-                // clays still left, so rounds not over
+                // need more clays
                 Debug.Log("PracticeWaveSpawner knows: We still got clays left!");
                 return;
             }
         }
+
+        Debug.Log("We are not in a waiting state");
 
         // check if no seconds left, if still seconds, drop down to else and remove 1 second per second
         if (waveCountDown <= 0)
@@ -60,6 +60,7 @@ public class PracticeWaveSpawner : MonoBehaviour
             {
                 // start spawning wave
                 StartCoroutine(SpawnWave(waves[nextWave]));
+                Debug.Log("Spawning a new wave");
             }
         }
         else
@@ -90,14 +91,25 @@ public class PracticeWaveSpawner : MonoBehaviour
         if ((nextWave + 1) > (waves.Length - 1))
         {
             Debug.Log("Clay waves are over");
-            onClayWavesComplete();
-            this.enabled = false;
+            //onClayWavesComplete();
+            //this.enabled = false;
+            this.gameObject.SetActive(false);
         }
         else
         {
             nextWave++;
             Debug.Log("Wave  is ending. Next wave is " + (nextWave + 1));
         }
+    }
+
+    bool hitAllClays()
+    {
+        if (claysHit >= 3)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     bool ClaysAreLeft()
@@ -133,6 +145,12 @@ public class PracticeWaveSpawner : MonoBehaviour
         {
             SpawnClay();
             yield return new WaitForSeconds(1 / _wave.rate);
+
+            if (hitAllClays())
+            {
+                // stop spawning clays
+                break;
+            }
         }
 
         state = SpawnState.WAITING;
