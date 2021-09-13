@@ -149,7 +149,7 @@ namespace BNG {
 
             if (gameObject.tag == PRACTICEDUCK_TAG)
             {
-                PracticeRangeManager.cduckList.Remove(transform.parent.gameObject);
+                PracticeRangeManager.cduckList.Remove(transform.parent.transform.parent.gameObject);
                 Debug.Log("One less carniduck in cduck list! Count is now " + PracticeRangeManager.cduckList.Count);
                 gameObject.GetComponent<Duck>().Die();
             }

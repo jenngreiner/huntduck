@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 503475101496990361}
   - component: {fileID: 503475101496990360}
   - component: {fileID: 503475101496990362}
+  - component: {fileID: 2293669237444700083}
   m_Layer: 0
   m_Name: Duck
   m_TagString: Untagged
@@ -152,6 +153,20 @@ MonoBehaviour:
   onRespawn:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2293669237444700083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503475101496990342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b375fd4de2d4c4c9118f331b86df8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duckPoints: 500
+  duckPointsText: {fileID: 1092106154386110036}
 --- !u!1 &1389433877532717811
 GameObject:
   m_ObjectHideFlags: 0
