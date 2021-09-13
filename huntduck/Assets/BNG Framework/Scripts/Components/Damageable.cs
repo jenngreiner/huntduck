@@ -18,6 +18,7 @@ namespace BNG {
         private const string DUCK_TAG = "Duck";
         private const string PRACTICECLAY_TAG = "PracticeClay";
         private const string TARGET_TAG = "Target";
+        private const string PRACTICEDUCK_TAG = "PracticeDuck";
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -143,6 +144,13 @@ namespace BNG {
 
             if (gameObject.tag == DUCK_TAG)
             {
+                gameObject.GetComponent<Duck>().Die();
+            }
+
+            if (gameObject.tag == PRACTICEDUCK_TAG)
+            {
+                PracticeRangeManager.cduckList.Remove(transform.parent.gameObject);
+                Debug.Log("One less carniduck in cduck list! Count is now " + PracticeRangeManager.cduckList.Count);
                 gameObject.GetComponent<Duck>().Die();
             }
 

@@ -3,33 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// The BeginGameUI is set from WaveSpawner.cs
 public class PracticeRangeManager : MonoBehaviour
 {
     private enum PracticeState { INTRO, TARGET, CLAY, DUCKS, END };
     private PracticeState state;
 
+    public WeaponsManager weaponsManager;
+
     public GameObject helperUI;
     public Text helperText;
+    public GameObject congratsUI;
     public Canvas walletCanvas;
-    public WeaponsManager weaponsManager;
 
     public GameObject targetWall;
     public static List<GameObject> targetList;
 
-    //[System.Serializable]
-    //public class ClayWave
-    //{
-    //    public int count;
-    //    public float rate;
-    //}
-    //private ClayWave[] clayWaves;
-    //public static int claysHit;
-    //public GameObject[] spawnPoints;
-
     public PracticeWaveSpawner clayWavesManager;
 
     public GameObject carniDucks;
+    public static List<GameObject> cduckList;
+
+    public AudioSource levelupSound;
 
 
     void Start()
@@ -46,8 +40,7 @@ public class PracticeRangeManager : MonoBehaviour
             {
                 StartClayRound();
             }
-            // tagets still left
-            Debug.Log("We still got " + targetList.Count + "targets left!");
+            // targets still left
             return;
         }
 
@@ -56,19 +49,31 @@ public class PracticeRangeManager : MonoBehaviour
             // check if we have hit 3 clays
             if (PracticeWaveSpawner.claysHit >= 3)
             {
-                // go on to next round
-                Debug.Log("Starting Carni Ducks Round");
+                // stop waves, go on to next round
                 clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
             Debug.Log("We've hit " + PracticeWaveSpawner.claysHit + "clays");
             return;
         }
+
+        if (state == PracticeState.DUCKS)
+        {
+            // check if we have shot all the carni ducks
+            if (cduckList.Count == 0)
+            {
+                carniDucks.SetActive(false);
+                EndPracticeSession();
+            }
+            // carni ducks still left
+            Debug.Log("We still got " + cduckList.Count + " cducks left!");
+            return;
+        }
     }
 
     void OnEnable()
     {
-        // callback happens in SnapZone.cs
+        // onWeaponsSelected callback happens in SnapZone.cs
         WeaponsManager.onWeaponSelected += PrepTargetRound;
         PracticeWaveSpawner.onClayWavesComplete += StartCarniDucks;
     }
@@ -81,24 +86,28 @@ public class PracticeRangeManager : MonoBehaviour
 
     void SetupRound()
     {
+        // set up lists to track gameobjects you shoot
         targetList = new List<GameObject>();
+        cduckList = new List<GameObject>();
 
         foreach (Transform child in targetWall.transform)
         {
             targetList.Add(child.gameObject);
-            Debug.Log("Added " + child.gameObject + " to targetList");
-            Debug.Log("We've got " + targetList.Count + "targets to shoot");
         }
 
-        //clayWave = new ClayWave();
-        //claysHit = 0;
+        foreach (Transform child in carniDucks.transform)
+        {
+            cduckList.Add(child.gameObject);
+            Debug.Log("Added " + child.gameObject + " to cducklist");
+            Debug.Log("We've got " + cduckList.Count + "carniducks to shoot");
+        }
 
-        walletCanvas.gameObject.SetActive(false);
+        walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
     }
 
     // called in BeginGameTrigger.cs
-    public void StartGame()
+    public void StartPractice()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
         StartCoroutine(PracticeRangeIntro());
@@ -119,12 +128,16 @@ public class PracticeRangeManager : MonoBehaviour
     void StartClayRound()
     {
         StartCoroutine(ClayRoundIntro());
-        //StartCoroutine(SpawnClayWave());
     } 
 
     public void StartCarniDucks()
     {
         StartCoroutine(CarniDuckIntro());
+    }
+
+    void EndPracticeSession()
+    {
+        StartCoroutine(EndPracticeOutro());
     }
 
 
@@ -141,6 +154,7 @@ public class PracticeRangeManager : MonoBehaviour
         state = PracticeState.TARGET;
         helperText.text = "Shoot the targets to advance!";
         yield return new WaitForSeconds(3);
+
         helperUI.SetActive(false);
         targetWall.SetActive(true);
     }
@@ -148,10 +162,14 @@ public class PracticeRangeManager : MonoBehaviour
     IEnumerator ClayRoundIntro()
     {
         state = PracticeState.CLAY;
-        //claysHit = 0;
+        congratsUI.SetActive(true);
+        yield return new WaitForSeconds(3);
+        congratsUI.SetActive(false);
+
         helperUI.SetActive(true);
         helperText.text = "Shoot the clays to advance!";
         yield return new WaitForSeconds(3);
+
         helperUI.SetActive(false);
         clayWavesManager.enabled = true;
     }
@@ -159,29 +177,32 @@ public class PracticeRangeManager : MonoBehaviour
     IEnumerator CarniDuckIntro()
     {
         state = PracticeState.DUCKS;
+        congratsUI.SetActive(true);
+        yield return new WaitForSeconds(3);
+        congratsUI.SetActive(false);
+
         walletCanvas.enabled = true;
         helperUI.SetActive(true);
-        helperText.text = "Shoot the ducks to advance!";
+        helperText.text = "Shoot the ducks to make some bucks!";
         yield return new WaitForSeconds(3);
+
         helperUI.SetActive(false);
         carniDucks.SetActive(true);
         Debug.Log("Carni ducks are alive!!!");
     }
 
-    //IEnumerator SpawnClayWave()
-    //{
-    //    Debug.Log("Spawning Clay Wave");
+    IEnumerator EndPracticeOutro()
+    {
+        state = PracticeState.END;
+        congratsUI.SetActive(true);
+        yield return new WaitForSeconds(3);
+        congratsUI.SetActive(false);
 
-    //    for (int i = 0; i < clayWaves[0].count; i++)
-    //    {
-    //        SpawnClay();
-    //        yield return new WaitForSeconds(1 / clayWaves[0].rate);
-    //    }
-    //}
+        helperUI.SetActive(true);
+        helperText.text = "You have completed the practice round!";
+        yield return new WaitForSeconds(3);
 
-    //void SpawnClay()
-    //{
-    //    Debug.Log("Spawning clays");
-    //}
-
+        helperText.text = "You have unlocked your duck license!";
+        levelupSound.Play();
+    }
 }
