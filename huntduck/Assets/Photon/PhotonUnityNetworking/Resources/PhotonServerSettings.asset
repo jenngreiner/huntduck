@@ -39,6 +39,18 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_ShootProjectile
+  - RPC_ShootProjectile_PNI
+  - RPC_WaveStart
+  - RPC_BeginGame
+  - RPC_SetupRound
+  - RPC_StartRound
+  - RPC_SetupWave
+  - RPC_StartCountDown
+  - RPC_WaveCompleted
+  - RPC_BeginPractice
+  - RPC_setGameNotStarted
+  - RPC_SelectWeapon
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

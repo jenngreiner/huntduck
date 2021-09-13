@@ -16,6 +16,9 @@ namespace BNG {
         public float Health = 5;
         private float _startingHealth;
         private const string DUCK_TAG = "Duck";
+        private const string PRACTICECLAY_TAG = "PracticeClay";
+        private const string TARGET_TAG = "Target";
+        private const string PRACTICEDUCK_TAG = "PracticeDuck";
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -144,12 +147,23 @@ namespace BNG {
                 gameObject.GetComponent<Duck>().Die();
             }
 
-            if (!(gameObject.tag == DUCK_TAG))
+            if (gameObject.tag == PRACTICEDUCK_TAG)
             {
-                Debug.Log("You best put a duck tag on " + transform.name + " if its a duck!");
-                Debug.Log(transform.name + "'s parent is " + transform.parent.name);
+                PracticeRangeManager.cduckList.Remove(transform.parent.transform.parent.gameObject);
+                Debug.Log("One less carniduck in cduck list! Count is now " + PracticeRangeManager.cduckList.Count);
+                gameObject.GetComponent<Duck>().Die();
             }
 
+            if (gameObject.tag == PRACTICECLAY_TAG)
+            {
+                PracticeWaveSpawner.claysHit++;
+            }
+
+            if (gameObject.tag == TARGET_TAG)
+            {
+                PracticeRangeManager.targetList.Remove(transform.parent.gameObject);
+                Debug.Log("One less target in target list! Count is now " + PracticeRangeManager.targetList.Count);
+            }
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {

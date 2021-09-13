@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Duck
   - DuckLauncher
+  - PracticeClay
+  - Target
+  - PracticeDuck
   layers:
   - Default
   - TransparentFX
