@@ -17,7 +17,6 @@ public class WalletUI : MonoBehaviour
         // reset score when game starts
         UpdateScoreUI();
         dollarsText.text = walletScore;
-        Debug.Log("Wallet dollars is now reset to " + walletScore);
     }
 
     // subscribe events

@@ -11,12 +11,6 @@ public class PlayerScore : MonoBehaviour
     public delegate void ScoreUpdate();
     public static event ScoreUpdate onScoreUpdate;
 
-    void Awake()
-    {
-        Debug.Log(transform.name + " started with a score of " + playerScore);
-        Debug.Log(transform.name + " started with " + duckKills + " duck kills");
-    }
-
     public void UpdatePlayerScore(int points)
     {
         playerScore += points;
