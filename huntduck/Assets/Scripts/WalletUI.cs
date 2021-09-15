@@ -7,7 +7,7 @@ public class WalletUI : MonoBehaviour
     private PlayerScore playerScoreScript;
 
     public Text dollarsText;
-    private string walletScore;
+    public static string walletScore;
 
     void Start()
     {

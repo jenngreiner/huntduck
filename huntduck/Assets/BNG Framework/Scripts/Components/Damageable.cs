@@ -19,6 +19,10 @@ namespace BNG {
         private const string PRACTICECLAY_TAG = "PracticeClay";
         private const string TARGET_TAG = "Target";
         private const string PRACTICEDUCK_TAG = "PracticeDuck";
+        private const string INFINITEDUCK_TAG = "InfiniteDuck";
+
+        public delegate void InfiniteDuckHit();
+        public static event InfiniteDuckHit onInfiniteDuckHit;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -138,6 +142,7 @@ namespace BNG {
             }
         }
 
+
         public virtual void DestroyThis() {
             Health = 0;
             destroyed = true;
@@ -163,6 +168,15 @@ namespace BNG {
             {
                 PracticeRangeManager.targetList.Remove(transform.parent.gameObject);
                 Debug.Log("One less target in target list! Count is now " + PracticeRangeManager.targetList.Count);
+            }
+
+            if (gameObject.tag == INFINITEDUCK_TAG)
+            {
+                //trying event driven approach so I can wire up within InfiniteWaveSpawner itself
+                // if successful, refactor PRACTICECLAY_TAG to be consistent
+                //onInfiniteDuckHit();
+                InfiniteWaveSpawner.ducksHit++;
+                Debug.Log("We hit an infinite duck!");
             }
 
             // Activate

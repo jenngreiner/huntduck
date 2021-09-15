@@ -31,6 +31,13 @@ public class PracticeRangeManager : MonoBehaviour
         SetupRound();
     }
 
+    // called in BeginGameTrigger.cs
+    public void StartPractice()
+    {
+        Debug.Log("LET THE GAMES BEGIN!!");
+        StartCoroutine(PracticeRangeIntro());
+    }
+
     void Update()
     {
         if (state == PracticeState.TARGET)
@@ -102,13 +109,6 @@ public class PracticeRangeManager : MonoBehaviour
 
         walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
-    }
-
-    // called in BeginGameTrigger.cs
-    public void StartPractice()
-    {
-        Debug.Log("LET THE GAMES BEGIN!!");
-        StartCoroutine(PracticeRangeIntro());
     }
 
     void PrepTargetRound()
