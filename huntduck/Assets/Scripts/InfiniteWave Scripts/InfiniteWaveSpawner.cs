@@ -43,16 +43,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         SetupWave();
     }
 
-    //void OnEnable()
-    //{
-    //    BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
-    //}
-
-    //void OnDisable()
-    //{
-    //    BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
-    //}
-
     void Update()
     {
         if(waveTimeRemaining > 0)
@@ -88,6 +78,16 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             waveCountDown -= Time.deltaTime;
         }
+    }
+
+    void OnEnable()
+    {
+        BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
+    }
+
+    void OnDisable()
+    {
+        BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
     }
 
     void SetupWave()
@@ -144,11 +144,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
         return false;
     }
 
-    //public void increaseDuckHitCount()
-    //{
-    //    ducksHit++;
-    //    Debug.Log("We hit a duck!");
-    //}
+    public void increaseDuckHitCount()
+    {
+        ducksHit++;
+        Debug.Log("We hit a duck!");
+    }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
