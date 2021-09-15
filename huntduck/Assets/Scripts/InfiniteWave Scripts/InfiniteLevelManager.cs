@@ -27,37 +27,6 @@ public class InfiniteLevelManager : MonoBehaviour
         StartCoroutine(InfiniteWaveIntro());
     }
 
-    void Update()
-    {
-        if (state == PracticeState.INTRO)
-        {
-
-        }
-
-        if (state == PracticeState.INFINITEWAVE)
-        {
-            // run wave logic
-        }
-
-        if (state == PracticeState.END)
-        {
-
-        }
-
-        //if (state == PracticeState.END)
-        //{
-        //    // check if we have shot all the carni ducks
-        //    if (cduckList.Count == 0)
-        //    {
-        //        carniDucks.SetActive(false);
-        //        EndPracticeSession();
-        //    }
-        //    // carni ducks still left
-        //    Debug.Log("We still got " + cduckList.Count + " cducks left!");
-        //    return;
-        //}
-    }
-
     void OnEnable()
     {
         // onWeaponsSelected callback happens in SnapZone.cs

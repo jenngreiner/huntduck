@@ -161,7 +161,7 @@ namespace BNG {
 
             if (gameObject.tag == PRACTICECLAY_TAG)
             {
-                // TODO: Refactor this to match INFINITEDUCK_TAG implementation below (using delgate event)
+                // TODO: Refactor this to match INFINITEDUCK_TAG delegate event implementation below
                 PracticeWaveSpawner.claysHit++;
             }
 
@@ -173,9 +173,12 @@ namespace BNG {
 
             if (gameObject.tag == INFINITEDUCK_TAG)
             {
-                //trying event driven approach so I can wire up within InfiniteWaveSpawner itself
-                // if successful, refactor PRACTICECLAY_TAG to be consistent
-                onInfiniteDuckHit();
+                if (onInfiniteDuckHit != null)
+                {
+                    onInfiniteDuckHit();
+                }
+
+                gameObject.GetComponent<Duck>().Die();
                 //InfiniteWaveSpawner.ducksHit++;
                 Debug.Log("We hit an infinite duck!");
             }

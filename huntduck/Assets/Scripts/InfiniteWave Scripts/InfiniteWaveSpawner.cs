@@ -114,7 +114,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             Debug.Log("Infinite waves are over");
             onGameOver();
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
         else
         {
