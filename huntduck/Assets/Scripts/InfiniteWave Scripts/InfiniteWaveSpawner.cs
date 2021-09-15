@@ -65,20 +65,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
             // we hit all ducks this wave, or ran out of time
             if (playerBeatWave() || !isTimeLeft())
             {
-                Debug.Log("Is time left?" + isTimeLeft());
                 // start the next wave
-                Debug.Log("This wave has ended");
                 WaveCompleted();
-                Debug.Log("New wave has begun");
             }
             else
             {
-                Debug.Log("We still got ducks (and time!) left!");
                 return;
             }
         }
-
-        Debug.Log("Not in a WAITING state");
 
         // check if no seconds left, if still seconds, drop down to else and remove 1 second per second
         if (waveCountDown <= 0)
@@ -86,9 +80,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
             // spawn wave, as long as not already spawning
             if (state != WaveState.STARTING)
             {
-                Debug.Log("Creating next wave");
-                Debug.Log("Total number of waves is " + waves.Count);
-
                 // start next wave
                 StartCoroutine(StartWave(waves[nextWave]));
             }
@@ -115,7 +106,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void WaveCompleted()
     {
-        Debug.Log("Wave completed");
         state = WaveState.COUNTING;
         waveCountDown = timeBetweenWaves;
 
@@ -137,12 +127,10 @@ public class InfiniteWaveSpawner : MonoBehaviour
     {
         if (waveTimeRemaining >= 0)
         {
-            Debug.Log("All we have is time");
             return true;
         }
         else
         {
-            Debug.Log("Time is out, set isTimeLeft to false");
             return false;
         }        
     }
@@ -151,10 +139,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     {
         if (ducksHit >= waves[nextWave].duckCount)
         {
-            Debug.Log("YEP WE BEAT IT");
             return true;
         }
-        Debug.Log("NOPE WE DIDN'T BEAT IT YET");
         return false;
     }
 
@@ -166,8 +152,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
-        Debug.Log("Starting Wave " + _thisWave.waveNumber);
-
         // set state to spawning to make sure only one SpawnWave at a time
         state = WaveState.STARTING;
 
@@ -185,7 +169,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         state = WaveState.WAITING;
-        Debug.Log("Back in WAITING state");
         yield break;
     }
 
@@ -194,6 +177,5 @@ public class InfiniteWaveSpawner : MonoBehaviour
         // Spawn Duck
         GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         activeSpawnPoint.GetComponent<ObjectLauncher>().ShootLauncher();
-        Debug.Log("Duck spawned");
     }
 }
