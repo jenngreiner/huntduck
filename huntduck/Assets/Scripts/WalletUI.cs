@@ -16,7 +16,6 @@ public class WalletUI : MonoBehaviour
 
         // reset score when game starts
         UpdateScoreUI();
-        dollarsText.text = walletScore;
     }
 
     // subscribe events

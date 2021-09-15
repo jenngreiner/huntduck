@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
-    private enum PracticeState { INTRO, INFINITEWAVE, END };
-    private PracticeState state;
-
     public WeaponsManager weaponsManager;
 
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
+    public GameObject walletUIObj;
     public Canvas walletCanvas;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
@@ -29,7 +27,6 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void OnEnable()
     {
-        // onWeaponsSelected callback happens in SnapZone.cs
         WeaponsManager.onWeaponSelected += StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
     }
@@ -53,8 +50,6 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator InfiniteWaveIntro()
     {
-        state = PracticeState.INTRO;
-
         helperText.text = "Welcome to the Infinite Wave";
         yield return new WaitForSecondsRealtime(3);
         helperText.text = "Select your weapon to begin";
@@ -62,8 +57,6 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator BeginInfiniteWave()
     {
-        state = PracticeState.INFINITEWAVE;
-
         helperText.text = "Welcome to the Infinite Wave";
         yield return new WaitForSecondsRealtime(3);
         helperUI.SetActive(false);
@@ -73,7 +66,8 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator InfiniteWaveOutro()
     {
-        state = PracticeState.END;
+        string finalScore = WalletUI.walletScore;
+        walletUIObj.SetActive(false);
         infiniteWaveSpawner.enabled = false;
 
         congratsUI.SetActive(true);
@@ -81,7 +75,7 @@ public class InfiniteLevelManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "Your final score is " + WalletUI.walletScore;
+        helperText.text = "Your final score is " + finalScore;
         yield return new WaitForSecondsRealtime(3);
         levelupSound.Play();
 

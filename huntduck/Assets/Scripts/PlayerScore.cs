@@ -19,6 +19,9 @@ public class PlayerScore : MonoBehaviour
         duckKills++;
         Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
 
-        onScoreUpdate();
+        if (onScoreUpdate != null)
+        {
+            onScoreUpdate();
+        }
     }
 }
