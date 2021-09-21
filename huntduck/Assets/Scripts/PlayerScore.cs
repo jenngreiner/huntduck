@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
@@ -11,12 +9,6 @@ public class PlayerScore : MonoBehaviour
     public delegate void ScoreUpdate();
     public static event ScoreUpdate onScoreUpdate;
 
-    void Awake()
-    {
-        Debug.Log(transform.name + " started with a score of " + playerScore);
-        Debug.Log(transform.name + " started with " + duckKills + " duck kills");
-    }
-
     public void UpdatePlayerScore(int points)
     {
         playerScore += points;
@@ -25,6 +17,9 @@ public class PlayerScore : MonoBehaviour
         duckKills++;
         Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
 
-        onScoreUpdate();
+        if (onScoreUpdate != null)
+        {
+            onScoreUpdate();
+        }
     }
 }

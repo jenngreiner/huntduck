@@ -9,6 +9,7 @@ TagManager:
   - PracticeClay
   - Target
   - PracticeDuck
+  - InfiniteDuck
   layers:
   - Default
   - TransparentFX

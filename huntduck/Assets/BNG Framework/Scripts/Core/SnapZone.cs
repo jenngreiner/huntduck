@@ -377,7 +377,6 @@ namespace BNG {
 
                             // select weapon event
                             WeaponsManager.SelectWeapon();
-                            Debug.Log("weapon selected");
                         }
                     }
                 }
