@@ -40,6 +40,9 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public delegate void gameOver();
     public static event gameOver onGameOver;
 
+    public delegate void OnWaveCompleted();
+    public static event OnWaveCompleted onWaveCompleted;
+
     void Start()
     {
         SetupWave();
@@ -103,6 +106,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
         nextWave = 0;
         waves[nextWave].waveNumber = 1;
+        currentWave = waves[nextWave].waveNumber;
         waveTimeRemaining = waves[nextWave].waveTime;
 
         // set time before and between rounds
@@ -129,9 +133,15 @@ public class InfiniteWaveSpawner : MonoBehaviour
             Debug.Log("Starting Wave " + waves[nextWave].waveNumber);
             currentWave = waves[nextWave].waveNumber;
             waveTimeRemaining -= Time.deltaTime;
+            if (onWaveCompleted != null)
+            {
+                onWaveCompleted();
+            }
             //Debug.Log(waveTimeRemaining + " seconds left!");
         }
     }
+
+
 
     bool isTimeLeft()
     {
