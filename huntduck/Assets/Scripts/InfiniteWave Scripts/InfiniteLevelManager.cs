@@ -12,11 +12,16 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject congratsUI;
     public GameObject walletUIObj;
     public Canvas walletCanvas;
+    public GameObject endLevelUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
     public AudioSource levelupSound;
 
+    void Start()
+    {
+        StartIntro(); 
+    }
 
     // called in BeginLevelTrigger.cs
     public void StartIntro()
@@ -75,6 +80,7 @@ public class InfiniteLevelManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
+        endLevelUI.SetActive(true);
         helperText.text = "Your final score is " + finalScore;
         yield return new WaitForSecondsRealtime(3);
         levelupSound.Play();
