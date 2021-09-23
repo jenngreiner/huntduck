@@ -39,7 +39,7 @@ public class WalletUI : MonoBehaviour
 
     void CreateWalletScore()
     {
-        string _scoreAsString = playerScoreScript.playerScore.ToString();
+        string _scoreAsString = PlayerScore.playerScore.ToString();
         walletScore = "$";
         walletScore += _scoreAsString;
     }
