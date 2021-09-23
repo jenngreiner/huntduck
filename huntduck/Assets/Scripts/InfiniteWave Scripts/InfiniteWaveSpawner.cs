@@ -14,7 +14,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         public int waveNumber;
         public int duckCount;
         public float rate;
-        public float waveTime = 60f;
+        public float waveTime = 3f;
 
         public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime)
         {
@@ -32,6 +32,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     private float waveTimeRemaining;
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
+    public static int currentWave;
+
 
     public GameObject[] spawnPoints;
 
@@ -45,10 +47,10 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if(waveTimeRemaining > 0)
-        {
-            waveTimeRemaining -= Time.deltaTime;
-        }
+        //    if (waveTimeRemaining > 0)
+        //    {
+
+        //    }
 
         if (state == WaveState.WAITING)
         {
@@ -60,6 +62,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
             }
             else
             {
+                waveTimeRemaining -= Time.deltaTime;
+                //Debug.Log(waveTimeRemaining + " seconds left!");
                 return;
             }
         }
@@ -98,6 +102,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         nextWave = 0;
+        waves[nextWave].waveNumber = 1;
         waveTimeRemaining = waves[nextWave].waveTime;
 
         // set time before and between rounds
@@ -118,8 +123,13 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
         else
         {
+            waveTimeRemaining = 0;
             waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
             nextWave++;
+            Debug.Log("Starting Wave " + waves[nextWave].waveNumber);
+            currentWave = waves[nextWave].waveNumber;
+            waveTimeRemaining -= Time.deltaTime;
+            //Debug.Log(waveTimeRemaining + " seconds left!");
         }
     }
 
@@ -147,7 +157,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public void increaseDuckHitCount()
     {
         ducksHit++;
-        Debug.Log("We hit a duck!");
+        //Debug.Log("We hit a duck!");
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
