@@ -23,6 +23,14 @@ public class InfiniteLevelManager : MonoBehaviour
         StartIntro(); 
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.P))
+        {
+            Debug.Log("Yo final score was " + PlayerPrefs.GetInt("FinalScore"));
+        }
+    }
+
     // called in BeginLevelTrigger.cs
     public void StartIntro()
     {
@@ -72,6 +80,13 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator InfiniteWaveOutro()
     {
         string finalScore = WalletUI.walletScore;
+        int finalScoreInt = PlayerScore.playerScore;
+
+        // TODO: consider highest score implementation for PlayerPrefs
+        // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores
+        PlayerPrefs.SetInt("FinalScore", finalScoreInt);
+        Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
+
         walletUIObj.SetActive(false);
         infiniteWaveSpawner.enabled = false;
 

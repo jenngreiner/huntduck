@@ -108238,7 +108238,7 @@ GameObject:
   - component: {fileID: 2078510400}
   - component: {fileID: 2078510399}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: InfiniteLevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -51,7 +51,7 @@ public class ScoreUI : MonoBehaviour
 
     void CreateArcadeScore()
     {
-        string _scoreAsString = playerScoreScript.playerScore.ToString();
+        string _scoreAsString = PlayerScore.playerScore.ToString();
         int numZeros = scoreLength - _scoreAsString.Length;
 
         arcadeScore = "";
