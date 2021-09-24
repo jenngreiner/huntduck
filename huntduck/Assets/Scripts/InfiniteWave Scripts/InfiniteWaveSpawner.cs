@@ -33,7 +33,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     private float waveTimeRemaining;
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
-    public static int currentWave;
+    public static int currentWaveNumber;
 
     public GameObject[] spawnPoints;
 
@@ -42,6 +42,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public delegate void OnWaveCompleted();
     public static event OnWaveCompleted onWaveCompleted;
+
+    public delegate void OnWaveChange();
+    public static event OnWaveChange onWaveChange;
+
+    public static TimeSpan timerSeconds;
 
     void Start()
     {
@@ -54,11 +59,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             if (waveTimeRemaining > 0)
             {
-                waveTimeRemaining -= Time.deltaTime;
-
-                // Debug.Log seconds remaining in wave (wave timer)
-                TimeSpan time = TimeSpan.FromSeconds(waveTimeRemaining);
-                Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + time.Seconds);
+                Timer();
             }
 
             // we hit all ducks this wave, or ran out of time
@@ -108,11 +109,36 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         nextWave = 0;
+
+        // set the wave # and wave time
         waves[nextWave].waveNumber = 1;
-        currentWave = waves[nextWave].waveNumber;
+        waveTimeRemaining = waves[nextWave].waveTime;
+
+        currentWaveNumber = waves[nextWave].waveNumber;
+
+        // update timerSeconds to waveTimeRemaining
+        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
+
+        // call out an event: hey subs, I changed my wave, do what you will man
+        if (onWaveChange != null)
+        {
+            onWaveChange();
+        }
 
         // set time before and between rounds
         waveCountDown = timeBetweenWaves;
+    }
+
+    void Timer()
+    {
+        // decrement waveTimeRemaining once per second
+        waveTimeRemaining -= Time.deltaTime;
+
+        // update timerSeconds to waveTimeRemaining
+        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
+
+        // Debug.Log seconds remaining in wave (wave timer)
+        Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + timerSeconds.Seconds);
     }
 
     void WaveCompleted()
@@ -124,13 +150,17 @@ public class InfiniteWaveSpawner : MonoBehaviour
         if (!playerBeatWave())
         {
             Debug.Log("Infinite waves are over");
-            onGameOver();
+            if (onGameOver != null)
+            {
+                onGameOver();
+            }
+            
         }
         else
         {
             waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
             nextWave++;
-            currentWave = waves[nextWave].waveNumber;
+            currentWaveNumber = waves[nextWave].waveNumber;
 
             if (onWaveCompleted != null)
             {
@@ -172,6 +202,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
     {
         // set state to spawning to make sure only one SpawnWave at a time
         state = WaveState.STARTING;
+
+        if (onWaveChange != null)
+        {
+            onWaveChange();
+        }
 
         // reset wave time
         waveTimeRemaining = waves[nextWave].waveTime;
