@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InfiniteWaveSpawner : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         public int waveNumber;
         public int duckCount;
         public float rate;
-        public float waveTime = 60f;
+        public float waveTime = 3f;
 
         public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime)
         {
@@ -32,11 +33,15 @@ public class InfiniteWaveSpawner : MonoBehaviour
     private float waveTimeRemaining;
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
+    public static int currentWave;
 
     public GameObject[] spawnPoints;
 
     public delegate void gameOver();
     public static event gameOver onGameOver;
+
+    public delegate void OnWaveCompleted();
+    public static event OnWaveCompleted onWaveCompleted;
 
     void Start()
     {
@@ -45,13 +50,17 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if(waveTimeRemaining > 0)
-        {
-            waveTimeRemaining -= Time.deltaTime;
-        }
-
         if (state == WaveState.WAITING)
         {
+            if (waveTimeRemaining > 0)
+            {
+                waveTimeRemaining -= Time.deltaTime;
+
+                // Debug.Log seconds remaining in wave (wave timer)
+                TimeSpan time = TimeSpan.FromSeconds(waveTimeRemaining);
+                Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + time.Seconds);
+            }
+
             // we hit all ducks this wave, or ran out of time
             if (playerBeatWave() || !isTimeLeft())
             {
@@ -60,6 +69,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
             }
             else
             {
+                waveTimeRemaining -= Time.deltaTime;
                 return;
             }
         }
@@ -98,7 +108,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         nextWave = 0;
-        waveTimeRemaining = waves[nextWave].waveTime;
+        waves[nextWave].waveNumber = 1;
+        currentWave = waves[nextWave].waveNumber;
 
         // set time before and between rounds
         waveCountDown = timeBetweenWaves;
@@ -114,14 +125,21 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             Debug.Log("Infinite waves are over");
             onGameOver();
-            //this.gameObject.SetActive(false);
         }
         else
         {
             waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
             nextWave++;
+            currentWave = waves[nextWave].waveNumber;
+
+            if (onWaveCompleted != null)
+            {
+                onWaveCompleted();
+            }
         }
     }
+
+
 
     bool isTimeLeft()
     {
@@ -132,7 +150,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         else
         {
             return false;
-        }        
+        }
     }
 
     bool playerBeatWave()
@@ -147,13 +165,16 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public void increaseDuckHitCount()
     {
         ducksHit++;
-        Debug.Log("We hit a duck!");
+        //Debug.Log("We hit a duck!");
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
         // set state to spawning to make sure only one SpawnWave at a time
         state = WaveState.STARTING;
+
+        // reset wave time
+        waveTimeRemaining = waves[nextWave].waveTime;
 
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _thisWave.duckCount; i++)
@@ -175,7 +196,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void SpawnDuck()
     {
         // Spawn Duck
-        GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
         activeSpawnPoint.GetComponent<ObjectLauncher>().ShootLauncher();
     }
 }
