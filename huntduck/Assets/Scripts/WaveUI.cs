@@ -25,6 +25,11 @@ public class WaveUI : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        UpdateWaveUI();
+    }
+
     // subscribe events
     private void OnEnable()
     {
