@@ -5,8 +5,8 @@ using System;
 
 public class InfiniteWaveSpawner : MonoBehaviour
 {
-    public enum WaveState { STARTING, WAVING, COUNTING };
-    private WaveState state = WaveState.COUNTING;
+    public enum WaveState { STARTING, WAVING, READY };
+    private WaveState state = WaveState.READY;
 
     // makes the Wave class fields editable from Inspector
     [System.Serializable]
@@ -15,7 +15,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         public int waveNumber;
         public int duckCount;
         public float rate;
-        public float waveTime = 3f;
+        public float waveTime = 60f;
 
         public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime)
         {
@@ -144,9 +144,40 @@ public class InfiniteWaveSpawner : MonoBehaviour
         Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + timerSeconds.Seconds);
     }
 
+    IEnumerator StartWave(InfiniteWave _thisWave)
+    {
+        // set state to spawning to make sure only one SpawnWave at a time
+        state = WaveState.STARTING;
+
+        // reset wave time
+        waveTimeRemaining = waves[nextWave].waveTime;
+
+        if (onWaveChange != null)
+        {
+            onWaveChange();
+        }
+
+
+        // loop through the amount of ducks you want to spawn
+        for (int i = 0; i < _thisWave.duckCount; i++)
+        {
+            state = WaveState.WAVING;
+            SpawnDuck();
+            yield return new WaitForSeconds(1 / _thisWave.rate);
+
+            if (playerBeatWave())
+            {
+                // stop spawning ducks
+                break;
+            }
+        }
+
+        yield break;
+    }
+
     void WaveCompleted()
     {
-        state = WaveState.COUNTING;
+        state = WaveState.READY;
         waveCountDown = timeBetweenWaves;
 
         // infinite waves are over
@@ -197,37 +228,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public void increaseDuckHitCount()
     {
         ducksHit++;
-    }
-
-    IEnumerator StartWave(InfiniteWave _thisWave)
-    {
-        // set state to spawning to make sure only one SpawnWave at a time
-        state = WaveState.STARTING;
-
-        // reset wave time
-        waveTimeRemaining = waves[nextWave].waveTime;
-
-        if (onWaveChange != null)
-        {
-            onWaveChange();
-        }
-
-
-        // loop through the amount of ducks you want to spawn
-        for (int i = 0; i < _thisWave.duckCount; i++)
-        {
-            state = WaveState.WAVING;
-            SpawnDuck();
-            yield return new WaitForSeconds(1 / _thisWave.rate);
-
-            if (playerBeatWave())
-            {
-                // stop spawning ducks
-                break;
-            }
-        }
-
-        yield break;
     }
 
     void SpawnDuck()
