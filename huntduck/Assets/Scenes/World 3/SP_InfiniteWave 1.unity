@@ -4215,6 +4215,11 @@ PrefabInstance:
       objectReference: {fileID: 73846268}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
+      propertyPath: launchDelayTime
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
+        type: 3}
       propertyPath: launchTransform
       value: 
       objectReference: {fileID: 73846269}
@@ -13128,7 +13133,7 @@ PrefabInstance:
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
       propertyPath: launchDelayTime
-      value: 3
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
@@ -55696,6 +55701,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
+      propertyPath: launchDelayTime
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
+        type: 3}
       propertyPath: launchTransform
       value: 
       objectReference: {fileID: 1078884110}
@@ -55708,7 +55718,7 @@ PrefabInstance:
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
       propertyPath: maxLaunchedObjects
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818097, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}

@@ -81,11 +81,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
             {
                 WaveCompleted();
             }
-            else
-            {
-                waveTimeRemaining -= Time.deltaTime;
-                return;
-            }
         }
         
         // start next wave, as long as not already spawning
