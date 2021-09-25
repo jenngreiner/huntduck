@@ -118,11 +118,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         currentWaveNumber = waves[nextWave].waveNumber;
         currentWaveTime = (int)waves[nextWave].waveTime;
 
-        //if (onTimeChange != null)
-        //{
-        //    onTimeChange();
-        //}
-
         // call out an event: hey subs, I changed my wave, do what you will man
         if (onWaveChange != null)
         {
