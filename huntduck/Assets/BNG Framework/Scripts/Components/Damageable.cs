@@ -139,6 +139,7 @@ namespace BNG {
 
             if (Health <= 0) {
                 DestroyThis();
+                // DESTROY PARENT HERE
             }
         }
 
@@ -215,10 +216,16 @@ namespace BNG {
                 onDestroyed.Invoke();
             }
 
-            if (DestroyOnDeath) {
+            if (DestroyOnDeath)
+            {
                 Destroy(this.gameObject, DestroyDelay);
+                if (gameObject.tag == INFINITEDUCK_TAG)
+                {
+                    Destroy(this.transform.parent.gameObject);
+                }
             }
-            else if (Respawn) {
+            else if (Respawn)
+            {
                 StartCoroutine(RespawnRoutine(RespawnTime));
             }
 
