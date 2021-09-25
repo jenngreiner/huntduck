@@ -64,19 +64,20 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator InfiniteWaveIntro()
     {
-        helperText.text = "Welcome to the Infinite Wave";
+        helperText.text = "Welcome to\nHunt Duck";
         yield return new WaitForSecondsRealtime(3);
         helperText.text = "Select your weapon to begin";
     }
 
     IEnumerator BeginInfiniteWave()
     {
-        helperText.text = "Welcome to the Infinite Wave";
-        gameUI.SetActive(true);
-        yield return new WaitForSecondsRealtime(3);
+        helperText.text = "Prepare to Hunt!";
+        yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
 
         infiniteWaveSpawner.enabled = true;
+        gameUI.SetActive(true);
+        yield return null;
     }
 
     IEnumerator InfiniteWaveOutro()
@@ -102,7 +103,7 @@ public class InfiniteLevelManager : MonoBehaviour
         helperUI.SetActive(true);
         endLevelUI.SetActive(true);
         helperText.text = "Your final score is " + finalScore;
-        yield return new WaitForSecondsRealtime(3);
         levelupSound.Play();
+        yield return new WaitForSecondsRealtime(3);
     }
 }

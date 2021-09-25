@@ -9,42 +9,46 @@ public class DuckShotUI : MonoBehaviour
     private const string PLAYER_TAG = "Player";
     private PlayerScore playerScoreScript;
 
-    public Text hitsText;
-    public static string duckScore;
+    public Text waveDucksLeftText;
+    //public Text totalDucksHitText;
+
+    public static string waveDucksLeft;
+    //public static string totalDucksHit;
 
     void Start()
     {
         // get the playerscore script on player object
         playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
-
-        // reset score when game starts
-        UpdateScoreUI();
     }
 
     // subscribe events
     private void OnEnable()
     {
         // update duck ui when player kills a duck
-        PlayerScore.onScoreUpdate += UpdateScoreUI;
+        //PlayerScore.onScoreUpdate += UpdateDucksUI;
+        InfiniteWaveSpawner.onWaveChange += UpdateDucksUI;
+        InfiniteWaveSpawner.onDuckHit += UpdateDucksUI;
     }
 
     // unsubscribe events
     private void OnDisable()
     {
-        PlayerScore.onScoreUpdate -= UpdateScoreUI;
+        //PlayerScore.onScoreUpdate -= UpdateDucksUI;
+        InfiniteWaveSpawner.onWaveChange -= UpdateDucksUI;
+        InfiniteWaveSpawner.onDuckHit -= UpdateDucksUI;
     }
 
-    void UpdateScoreUI()
+    void UpdateDucksUI()
     {
-        CreateDuckScore();
-        hitsText.text = duckScore;
+        CountDucksLeft();
+        waveDucksLeftText.text = waveDucksLeft;
+        //totalDucksHitText.text = totalDucksHit;
     }
 
-    void CreateDuckScore()
+    void CountDucksLeft()
     {
-        string _scoreAsString = PlayerScore.duckKills.ToString();
-        duckScore = _scoreAsString;
+        //waveDucksHit = InfiniteWaveSpawner.ducksHitThisWave.ToString();
+        //totalDucksHit = InfiniteWaveSpawner.ducksHitTotal.ToString();
+        waveDucksLeft = InfiniteWaveSpawner.ducksLeft.ToString();
     }
-    
-
 }
