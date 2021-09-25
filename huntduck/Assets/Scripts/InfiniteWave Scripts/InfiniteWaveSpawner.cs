@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
 
 public class InfiniteWaveSpawner : MonoBehaviour
 {
@@ -33,8 +34,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public static int ducksLeft;
 
     private float waveTimeRemaining;
-    public float timeBetweenWaves = 1f;
-    private float waveCountDown;
+    public float timeDelay = 1f;
     public static int currentWaveNumber;
     public static int currentWaveTime;
 
@@ -56,6 +56,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public static event gameOver onGameOver;
 
     public static TimeSpan timerSeconds;
+    public GameObject waveCountUI;
+    public Text waveCountText;
     public GameObject getReadyUI;
 
     void Start()
@@ -75,7 +77,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
             // we hit all ducks this wave, or ran out of time
             if (playerBeatWave() || !isTimeLeft())
             {
-                // start the next wave
                 WaveCompleted();
             }
             else
@@ -85,19 +86,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
             }
         }
 
-        // check time between waves left, if so, drop down to else and remove 1 second per second
-        if (waveCountDown <= 0)
+        
+        // start next wave, as long as not already spawning
+        if (state != WaveState.STARTING)
         {
-            // spawn wave, as long as not already spawning
-            if (state != WaveState.STARTING)
-            {
-                // start next wave
-                StartCoroutine(StartWave(waves[nextWave]));
-            }
-        }
-        else
-        {
-            waveCountDown -= Time.deltaTime;
+            StartCoroutine(StartWave(waves[nextWave]));
         }
     }
 
@@ -128,19 +121,42 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             onWaveChange();
         }
+    }
 
-        // set time before and between wave start
-        waveCountDown = timeBetweenWaves;
+        void WaveCompleted()
+    {
+        state = WaveState.READY;
 
-        getReadyUI.SetActive(true);
+        // infinite waves are over
+        if (!playerBeatWave())
+        {
+            Debug.Log("Infinite waves are over");
+            if (onGameOver != null)
+            {
+                onGameOver();
+            }
+            
+        }
+        else
+        {
+            waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
+            nextWave++;
+            currentWaveNumber = waves[nextWave].waveNumber;
+            currentWaveTime = (int)waves[nextWave].waveTime;
+            ducksLeft = waves[nextWave].duckCount;
+            ducksHitThisWave = 0;
+
+            if (onWaveCompleted != null)
+            {
+                onWaveCompleted();
+            }
+        }
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
-        // set state to STARTING to make sure only one SpawnWave at a time
+        // set state to STARTING to make sure only one Wave at a time
         state = WaveState.STARTING;
-
-        getReadyUI.SetActive(false);
 
         // reset wave time
         waveTimeRemaining = waves[nextWave].waveTime;
@@ -149,6 +165,17 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             onWaveChange();
         }
+
+        // set wave number & show it
+        waveCountText.text = waves[nextWave].waveNumber.ToString();
+        waveCountUI.SetActive(true);
+        yield return new WaitForSecondsRealtime(timeDelay);
+        waveCountUI.SetActive(false);
+
+        // "Get Ready"
+        getReadyUI.SetActive(true);
+        yield return new WaitForSecondsRealtime(timeDelay);
+        getReadyUI.SetActive(false);
 
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _thisWave.duckCount; i++)
@@ -165,38 +192,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         yield break;
-    }
-
-    void WaveCompleted()
-    {
-        state = WaveState.READY;
-        waveCountDown = timeBetweenWaves;
-
-        // infinite waves are over
-        if (!playerBeatWave())
-        {
-            Debug.Log("Infinite waves are over");
-            if (onGameOver != null)
-            {
-                onGameOver();
-            }
-            
-        }
-        else
-        {
-            getReadyUI.SetActive(true);
-            waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
-            nextWave++;
-            currentWaveNumber = waves[nextWave].waveNumber;
-            currentWaveTime = (int)waves[nextWave].waveTime;
-            ducksLeft = waves[nextWave].duckCount;
-            ducksHitThisWave = 0;
-
-            if (onWaveCompleted != null)
-            {
-                onWaveCompleted();
-            }
-        }
     }
 
     void Timer()
