@@ -219,10 +219,6 @@ namespace BNG {
             if (DestroyOnDeath)
             {
                 Destroy(this.gameObject, DestroyDelay);
-                if (gameObject.tag == INFINITEDUCK_TAG)
-                {
-                    Destroy(this.transform.parent.gameObject);
-                }
             }
             else if (Respawn)
             {
