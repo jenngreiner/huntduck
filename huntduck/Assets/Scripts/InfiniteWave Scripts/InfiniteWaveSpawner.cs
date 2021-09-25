@@ -28,7 +28,9 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public List<InfiniteWave> waves;
     private int nextWave;
-    public static int ducksHit = 0;
+    public static int ducksHitTotal = 0;
+    public static int ducksHitThisWave = 0;
+    public static int ducksLeft;
 
     private float waveTimeRemaining;
     public float timeBetweenWaves = 1f;
@@ -40,6 +42,9 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public delegate void OnTimeChange();
     public static event OnTimeChange onTimeChange;
+
+    public delegate void OnDuckHit();
+    public static event OnDuckHit onDuckHit;
 
     public delegate void OnWaveCompleted();
     public static event OnWaveCompleted onWaveCompleted;
@@ -116,6 +121,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         nextWave = 0;
         currentWaveNumber = waves[nextWave].waveNumber;
         currentWaveTime = (int)waves[nextWave].waveTime;
+        ducksLeft = waves[nextWave].duckCount;
 
         // call out an event: hey subs, I changed my wave, do what you will man
         if (onWaveChange != null)
@@ -183,6 +189,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
             nextWave++;
             currentWaveNumber = waves[nextWave].waveNumber;
             currentWaveTime = (int)waves[nextWave].waveTime;
+            ducksLeft = waves[nextWave].duckCount;
+            ducksHitThisWave = 0;
 
             if (onWaveCompleted != null)
             {
@@ -223,7 +231,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     bool playerBeatWave()
     {
-        if (ducksHit >= waves[nextWave].duckCount)
+        if (ducksHitThisWave >= waves[nextWave].duckCount)
         {
             return true;
         }
@@ -232,7 +240,15 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public void increaseDuckHitCount()
     {
-        ducksHit++;
+        ducksHitTotal++;
+        ducksHitThisWave++;
+
+        if (ducksLeft > 0)
+        {
+            ducksLeft--;
+        }
+
+        onDuckHit();
     }
 
     void SpawnDuck()
