@@ -13127,6 +13127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
+      propertyPath: launchDelayTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
+        type: 3}
       propertyPath: ProjectileObject
       value: 
       objectReference: {fileID: 1258970808748892992, guid: 1dc539eb8475549a4b6ba6d8d7eb36e1,
@@ -24505,7 +24510,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480517281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1556306240}
@@ -94963,8 +94968,9 @@ MonoBehaviour:
   waves:
   - waveNumber: 1
     duckCount: 1
-    rate: 1
+    rate: 0.1
     waveTime: 60
+    duckTotal: 1000
   timeDelay: 3
   spawnPoints:
   - {fileID: 1078884111}
