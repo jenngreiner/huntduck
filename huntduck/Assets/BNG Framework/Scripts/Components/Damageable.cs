@@ -139,6 +139,7 @@ namespace BNG {
 
             if (Health <= 0) {
                 DestroyThis();
+                // DESTROY PARENT HERE
             }
         }
 
@@ -215,10 +216,12 @@ namespace BNG {
                 onDestroyed.Invoke();
             }
 
-            if (DestroyOnDeath) {
+            if (DestroyOnDeath)
+            {
                 Destroy(this.gameObject, DestroyDelay);
             }
-            else if (Respawn) {
+            else if (Respawn)
+            {
                 StartCoroutine(RespawnRoutine(RespawnTime));
             }
 

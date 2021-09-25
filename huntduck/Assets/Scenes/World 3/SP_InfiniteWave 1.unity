@@ -4216,7 +4216,7 @@ PrefabInstance:
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
       propertyPath: launchDelayTime
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
@@ -13133,7 +13133,7 @@ PrefabInstance:
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
       propertyPath: launchDelayTime
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
@@ -55702,7 +55702,7 @@ PrefabInstance:
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
       propertyPath: launchDelayTime
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5172127632976818096, guid: 835ff895c6e064000a338887d7dc5cc8,
         type: 3}
@@ -94979,6 +94979,7 @@ MonoBehaviour:
   - waveNumber: 1
     duckCount: 1
     rate: 0.1
+    ducksHitThisWave: 0
     waveTime: 60
     duckTotal: 1000
   timeDelay: 3
