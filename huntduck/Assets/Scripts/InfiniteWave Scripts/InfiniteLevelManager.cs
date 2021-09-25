@@ -10,9 +10,10 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
-    public GameObject walletUIObj;
+    public GameObject gameUI; // this UI shows waves, time, ducks, score
     public Canvas walletCanvas;
-    public GameObject endLevelUI;
+    public GameObject gameOverUI; // "Game Over"
+    public GameObject endLevelUI; // replay & exit button, score rollup
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -31,7 +32,7 @@ public class InfiniteLevelManager : MonoBehaviour
         }
     }
 
-    // called in BeginLevelTrigger.cs
+    // used to be called in BeginLevelTrigger.cs
     public void StartIntro()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
@@ -71,6 +72,7 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator BeginInfiniteWave()
     {
         helperText.text = "Welcome to the Infinite Wave";
+        gameUI.SetActive(true);
         yield return new WaitForSecondsRealtime(3);
         helperUI.SetActive(false);
 
@@ -87,19 +89,20 @@ public class InfiniteLevelManager : MonoBehaviour
         PlayerPrefs.SetInt("FinalScore", finalScoreInt);
         Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
 
-        walletUIObj.SetActive(false);
+        // wave ends, hide game UI
         infiniteWaveSpawner.enabled = false;
+        gameUI.SetActive(false);
 
-        congratsUI.SetActive(true);
+        // GAME OVER UI
+        gameOverUI.SetActive(true);
         yield return new WaitForSeconds(3);
-        congratsUI.SetActive(false);
+        gameOverUI.SetActive(false);
 
+        // show final UI with score rollup
         helperUI.SetActive(true);
         endLevelUI.SetActive(true);
         helperText.text = "Your final score is " + finalScore;
         yield return new WaitForSecondsRealtime(3);
         levelupSound.Play();
-
-        // present "Play again" UI
     }
 }

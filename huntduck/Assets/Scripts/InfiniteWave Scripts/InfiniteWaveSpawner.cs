@@ -51,6 +51,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public static event gameOver onGameOver;
 
     public static TimeSpan timerSeconds;
+    public GameObject getReadyUI;
 
     void Start()
     {
@@ -122,32 +123,18 @@ public class InfiniteWaveSpawner : MonoBehaviour
             onWaveChange();
         }
 
-        // set time before and between rounds
+        // set time before and between wave start
         waveCountDown = timeBetweenWaves;
-    }
 
-    void Timer()
-    {
-        // decrement waveTimeRemaining once per second
-        waveTimeRemaining -= Time.deltaTime;
-
-        // update timerSeconds to waveTimeRemaining
-        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
-        currentWaveTime = timerSeconds.Seconds;
-
-        if (onTimeChange != null)
-        {
-            onTimeChange();
-        }
-
-        // Debug.Log seconds remaining in wave (wave timer)
-        Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + timerSeconds.Seconds);
+        getReadyUI.SetActive(true);
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
         // set state to STARTING to make sure only one SpawnWave at a time
         state = WaveState.STARTING;
+
+        getReadyUI.SetActive(false);
 
         // reset wave time
         waveTimeRemaining = waves[nextWave].waveTime;
@@ -191,6 +178,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
         else
         {
+            getReadyUI.SetActive(true);
             waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
             nextWave++;
             currentWaveNumber = waves[nextWave].waveNumber;
@@ -201,6 +189,24 @@ public class InfiniteWaveSpawner : MonoBehaviour
                 onWaveCompleted();
             }
         }
+    }
+
+    void Timer()
+    {
+        // decrement waveTimeRemaining once per second
+        waveTimeRemaining -= Time.deltaTime;
+
+        // update timerSeconds to waveTimeRemaining
+        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
+        currentWaveTime = timerSeconds.Seconds;
+
+        if (onTimeChange != null)
+        {
+            onTimeChange();
+        }
+
+        // Debug.Log seconds remaining in wave (wave timer)
+        Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + timerSeconds.Seconds);
     }
 
     bool isTimeLeft()
