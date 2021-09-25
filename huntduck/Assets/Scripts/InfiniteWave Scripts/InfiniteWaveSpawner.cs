@@ -146,7 +146,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     IEnumerator StartWave(InfiniteWave _thisWave)
     {
-        // set state to spawning to make sure only one SpawnWave at a time
+        // set state to STARTING to make sure only one SpawnWave at a time
         state = WaveState.STARTING;
 
         // reset wave time
@@ -156,7 +156,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             onWaveChange();
         }
-
 
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _thisWave.duckCount; i++)
