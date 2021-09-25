@@ -94378,7 +94378,7 @@ MonoBehaviour:
     duckCount: 1
     rate: 1
     waveTime: 10
-  timeBetweenWaves: 1
+  timeBetweenWaves: 5
   spawnPoints:
   - {fileID: 1078884111}
   - {fileID: 73846270}

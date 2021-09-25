@@ -34,6 +34,7 @@ public class WaveUI : MonoBehaviour
     private void OnEnable()
     {
         // update duck ui when new wave starts
+        InfiniteWaveSpawner.onTimeChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveCompleted += UpdateWaveUI;
 
@@ -42,31 +43,14 @@ public class WaveUI : MonoBehaviour
     // unsubscribe events
     private void OnDisable()
     {
+        InfiniteWaveSpawner.onTimeChange -= UpdateWaveUI;
         InfiniteWaveSpawner.onWaveChange -= UpdateWaveUI;
         InfiniteWaveSpawner.onWaveCompleted -= UpdateWaveUI;
     }
 
     void UpdateWaveUI()
     {
-        CreateWaveCount();
-        CreateWaveTime();
-        waveCountText.text = waveCount;
-        waveTimeText.text = waveTime;
+        waveCountText.text = InfiniteWaveSpawner.currentWaveNumber.ToString();
+        waveTimeText.text = InfiniteWaveSpawner.currentWaveTime.ToString();
     }
-
-    void CreateWaveCount()
-    {
-        //string _waveCount = InfiniteWaveSpawner.currentWaveNumber.ToString();
-        //waveCount = _waveCount;
-        waveCount = InfiniteWaveSpawner.currentWaveNumber.ToString();
-    }
-
-    void CreateWaveTime()
-    {
-        // capture the time for the current wave in a way we can convert and set to UI text
-        // set waveTime
-        waveTime = InfiniteWaveSpawner.timerSeconds.Seconds.ToString();
-    }
-
-
 }
