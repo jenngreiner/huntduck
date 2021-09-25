@@ -38,7 +38,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public GameObject[] spawnPoints;
 
-
     public delegate void OnTimeChange();
     public static event OnTimeChange onTimeChange;
 
@@ -93,7 +92,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         else
         {
             waveCountDown -= Time.deltaTime;
-            //currentWaveTime = (int)waveTimeRemaining;
         }
     }
 
@@ -175,8 +173,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
     }
 
-
-
     bool isTimeLeft()
     {
         if (waveTimeRemaining >= 0)
@@ -201,7 +197,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public void increaseDuckHitCount()
     {
         ducksHit++;
-        //Debug.Log("We hit a duck!");
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)
@@ -227,8 +222,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
             if (playerBeatWave())
             {
-                // stop spawning ducks
-                break;
+                break; // stop spawning ducks
             }
         }
 
