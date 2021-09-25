@@ -33,7 +33,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     private float waveTimeRemaining;
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
-    public static int currentWave;
+    public static int currentWaveNumber;
+    public static int currentWaveTime;
 
     public GameObject[] spawnPoints;
 
@@ -42,6 +43,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public delegate void OnWaveCompleted();
     public static event OnWaveCompleted onWaveCompleted;
+
+    public delegate void OnWaveChange();
+    public static event OnWaveChange onWaveChange;
+
+    public delegate void OnTimeChange();
+    public static event OnTimeChange onTimeChange;
+
+    public static TimeSpan timerSeconds;
 
     void Start()
     {
@@ -54,11 +63,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             if (waveTimeRemaining > 0)
             {
-                waveTimeRemaining -= Time.deltaTime;
-
-                // Debug.Log seconds remaining in wave (wave timer)
-                TimeSpan time = TimeSpan.FromSeconds(waveTimeRemaining);
-                Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + time.Seconds);
+                Timer();
             }
 
             // we hit all ducks this wave, or ran out of time
@@ -87,6 +92,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         else
         {
             waveCountDown -= Time.deltaTime;
+            //currentWaveTime = (int)waveTimeRemaining;
         }
     }
 
@@ -108,11 +114,40 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
 
         nextWave = 0;
-        waves[nextWave].waveNumber = 1;
-        currentWave = waves[nextWave].waveNumber;
+        currentWaveNumber = waves[nextWave].waveNumber;
+        currentWaveTime = (int)waves[nextWave].waveTime;
+
+        if (onTimeChange != null)
+        {
+            onTimeChange();
+        }
+
+        // call out an event: hey subs, I changed my wave, do what you will man
+        if (onWaveChange != null)
+        {
+            onWaveChange();
+        }
 
         // set time before and between rounds
         waveCountDown = timeBetweenWaves;
+    }
+
+    void Timer()
+    {
+        // decrement waveTimeRemaining once per second
+        waveTimeRemaining -= Time.deltaTime;
+
+        // update timerSeconds to waveTimeRemaining
+        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
+        currentWaveTime = timerSeconds.Seconds;
+
+        if (onTimeChange != null)
+        {
+            onTimeChange();
+        }
+
+        // Debug.Log seconds remaining in wave (wave timer)
+        Debug.Log("Wave " + waves[nextWave].waveNumber + " time remaining: " + timerSeconds.Seconds);
     }
 
     void WaveCompleted()
@@ -124,13 +159,18 @@ public class InfiniteWaveSpawner : MonoBehaviour
         if (!playerBeatWave())
         {
             Debug.Log("Infinite waves are over");
-            onGameOver();
+            if (onGameOver != null)
+            {
+                onGameOver();
+            }
+            
         }
         else
         {
             waves.Add(new InfiniteWave((waves[nextWave].waveNumber + 1), (waves[nextWave].duckCount * 2), (waves[nextWave].rate * 1.05f), waves[nextWave].waveTime));
             nextWave++;
-            currentWave = waves[nextWave].waveNumber;
+            currentWaveNumber = waves[nextWave].waveNumber;
+            currentWaveTime = (int)waves[nextWave].waveTime;
 
             if (onWaveCompleted != null)
             {
@@ -176,9 +216,16 @@ public class InfiniteWaveSpawner : MonoBehaviour
         // reset wave time
         waveTimeRemaining = waves[nextWave].waveTime;
 
+        if (onWaveChange != null)
+        {
+            onWaveChange();
+        }
+
+
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _thisWave.duckCount; i++)
         {
+            state = WaveState.WAITING;
             SpawnDuck();
             yield return new WaitForSeconds(1 / _thisWave.rate);
 
@@ -189,7 +236,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
             }
         }
 
-        state = WaveState.WAITING;
         yield break;
     }
 

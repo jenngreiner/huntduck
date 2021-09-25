@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaveCountUI : MonoBehaviour
+public class WaveUI : MonoBehaviour
 {
 
     private const string PLAYER_TAG = "Player";
     private PlayerScore playerScoreScript;
 
-    public Text waveText;
+    public Text waveCountText;
     public static string waveCount;
+    public Text waveTimeText;
+    public static string waveTime;
 
     void Start()
     {
@@ -19,34 +21,36 @@ public class WaveCountUI : MonoBehaviour
 
 
         // start on wave 1
-        waveText.text = "1";
+        UpdateWaveUI();
 
+    }
+
+    void Update()
+    {
+        UpdateWaveUI();
     }
 
     // subscribe events
     private void OnEnable()
     {
         // update duck ui when new wave starts
+        InfiniteWaveSpawner.onTimeChange += UpdateWaveUI;
+        InfiniteWaveSpawner.onWaveChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveCompleted += UpdateWaveUI;
+
     }
 
     // unsubscribe events
     private void OnDisable()
     {
+        InfiniteWaveSpawner.onTimeChange -= UpdateWaveUI;
+        InfiniteWaveSpawner.onWaveChange -= UpdateWaveUI;
         InfiniteWaveSpawner.onWaveCompleted -= UpdateWaveUI;
     }
 
     void UpdateWaveUI()
     {
-        CreateWaveCount();
-        waveText.text = waveCount;
+        waveCountText.text = InfiniteWaveSpawner.currentWaveNumber.ToString();
+        waveTimeText.text = InfiniteWaveSpawner.currentWaveTime.ToString();
     }
-
-    void CreateWaveCount()
-    {
-        string _scoreAsString = InfiniteWaveSpawner.currentWave.ToString();
-        waveCount = _scoreAsString;
-    }
-
-
 }
