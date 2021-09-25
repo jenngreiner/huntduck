@@ -5,7 +5,7 @@ using System;
 
 public class InfiniteWaveSpawner : MonoBehaviour
 {
-    public enum WaveState { STARTING, WAITING, COUNTING };
+    public enum WaveState { STARTING, WAVING, COUNTING };
     private WaveState state = WaveState.COUNTING;
 
     // makes the Wave class fields editable from Inspector
@@ -59,7 +59,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (state == WaveState.WAITING)
+        if (state == WaveState.WAVING)
         {
             if (waveTimeRemaining > 0)
             {
@@ -79,7 +79,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
             }
         }
 
-        // check if no seconds left, if still seconds, drop down to else and remove 1 second per second
+        // check time between waves left, if so, drop down to else and remove 1 second per second
         if (waveCountDown <= 0)
         {
             // spawn wave, as long as not already spawning
@@ -216,13 +216,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
         // loop through the amount of ducks you want to spawn
         for (int i = 0; i < _thisWave.duckCount; i++)
         {
-            state = WaveState.WAITING;
+            state = WaveState.WAVING;
             SpawnDuck();
             yield return new WaitForSeconds(1 / _thisWave.rate);
 
             if (playerBeatWave())
             {
-                break; // stop spawning ducks
+                // stop spawning ducks
+                break;
             }
         }
 
