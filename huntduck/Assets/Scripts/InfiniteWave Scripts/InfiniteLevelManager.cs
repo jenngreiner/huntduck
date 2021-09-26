@@ -15,6 +15,11 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject gameOverUI; // "Game Over"
     public GameObject endLevelUI; // replay & exit button, score rollup
 
+    public GameObject finalScoreUI;
+    public Text finalBucksText;
+    public Text finalDucksText;
+    public Text finalWavesBeatText;
+
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
     public AudioSource levelupSound;
@@ -100,9 +105,11 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
-        helperUI.SetActive(true);
+        finalBucksText.text = finalScore;
+        finalDucksText.text = InfiniteWaveSpawner.ducksHitTotal.ToString();
+        finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
+        finalScoreUI.SetActive(true);
         endLevelUI.SetActive(true);
-        helperText.text = "Your final score is " + finalScore;
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);
     }
