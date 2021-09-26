@@ -4461,8 +4461,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 123.88, y: -396}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 123.88, y: -736.00006}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77328697
 MonoBehaviour:
@@ -4497,7 +4497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Waves Beat
+  m_Text: WAVES BEAT
 --- !u!222 &77328698
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8118,8 +8118,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.36, y: -477.69998}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 121.36, y: -861.00006}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150833767
 MonoBehaviour:
@@ -13646,7 +13646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Bucks
+  m_Text: BUCKS
 --- !u!222 &274720516
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17693,7 +17693,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Wave
+  m_Text: WAVE
 --- !u!222 &339522489
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25107,8 +25107,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0016937256, y: -0.5827637}
-  m_SizeDelta: {x: -184.56, y: -520.2}
+  m_AnchoredPosition: {x: 0, y: 0.00579834}
+  m_SizeDelta: {x: -184.56, y: -924.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485850969
 MonoBehaviour:
@@ -25299,7 +25299,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Nice Work!
+  m_Text: NICE WORK!
 --- !u!222 &486798177
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40295,7 +40295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: EXIT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -40322,8 +40322,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -56305,8 +56305,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 123.88, y: -233}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 123.88, y: -436.00006}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079348239
 MonoBehaviour:
@@ -56341,7 +56341,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ducks Hit
+  m_Text: DUCKS HIT
 --- !u!222 &1079348240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -65541,7 +65541,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Time
+  m_Text: TIME
 --- !u!222 &1166805849
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -80561,7 +80561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Replay
+  m_text: REPLAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -80588,8 +80588,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -95424,7 +95424,7 @@ MonoBehaviour:
   - waveNumber: 1
     duckCount: 1
     rate: 0.2
-    waveTime: 60
+    waveTime: 10
     ducksHitThisWave: 0
     duckTotal: 1000
   timeDelay: 3
@@ -99041,8 +99041,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 123.88, y: -72.3}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 123.88, y: -136.00006}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698701535
 MonoBehaviour:
@@ -99077,7 +99077,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bucks Earned
+  m_Text: BUCKS EARNED
 --- !u!222 &1698701536
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -110875,7 +110875,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wave
+  m_Text: WAVE
 --- !u!222 &1889135942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -111828,8 +111828,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.36, y: -314.6999}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 121.36, y: -561}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1908780865
 MonoBehaviour:
@@ -115215,8 +115215,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.36, y: -154}
-  m_SizeDelta: {x: 550, y: 50}
+  m_AnchoredPosition: {x: 121.36, y: -261.00006}
+  m_SizeDelta: {x: 550, y: 75.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1960314586
 MonoBehaviour:
@@ -118833,7 +118833,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038461890}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.005}
   m_LocalScale: {x: 0.006954422, y: 0.0017487042, z: 0.0017487042}
   m_Children:
   - {fileID: 485850968}
@@ -118849,8 +118849,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 244.4548, y: 554}
+  m_AnchoredPosition: {x: 0, y: 0.211}
+  m_SizeDelta: {x: 244.4548, y: 984.8104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2038461892
 MonoBehaviour:
@@ -124586,7 +124586,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Ducks
+  m_Text: DUCKS
 --- !u!222 &2136658094
 CanvasRenderer:
   m_ObjectHideFlags: 0

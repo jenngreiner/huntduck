@@ -161,7 +161,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
             {
                 onGameOver();
             }
-            
+            StopAllCoroutines(); // stop ducks flying
         }
         else
         {
@@ -204,7 +204,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     {
         if (ducksLeft <= 0)
         {
-            StopAllCoroutines();
+            StopAllCoroutines(); // stop ducks flying
             return true;
         }
         return false;

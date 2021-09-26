@@ -40,7 +40,6 @@ public class InfiniteLevelManager : MonoBehaviour
     // used to be called in BeginLevelTrigger.cs
     public void StartIntro()
     {
-        Debug.Log("LET THE GAMES BEGIN!!");
         StartCoroutine(InfiniteWaveIntro());
     }
 
@@ -69,14 +68,14 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator InfiniteWaveIntro()
     {
-        helperText.text = "Welcome to\nHunt Duck";
+        helperText.text = "WELCOME TO\nHUNT DUCK";
         yield return new WaitForSecondsRealtime(3);
-        helperText.text = "Select your weapon to begin";
+        helperText.text = "SELECT YOUR WEAPON TO BEGIN";
     }
 
     IEnumerator BeginInfiniteWave()
     {
-        helperText.text = "Prepare to Hunt!";
+        helperText.text = "PREPARE TO HUNT";
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
 
