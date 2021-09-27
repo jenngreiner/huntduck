@@ -10,11 +10,9 @@ public class DuckShotUI : MonoBehaviour
     private PlayerScore playerScoreScript;
 
     public Text waveDucksLeftText;
-    //public Text totalDucksHitText;
 
     public static string waveDucksLeft;
-    //public static string totalDucksHit;
-
+    
     void Start()
     {
         // get the playerscore script on player object

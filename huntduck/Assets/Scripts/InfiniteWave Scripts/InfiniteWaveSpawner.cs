@@ -165,7 +165,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
         else
         {
-            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, waves[nextWave].duckCount * 2, waves[nextWave].rate * 1.05f, waves[nextWave].waveTime, waves[nextWave].ducksHitThisWave = 0, waves[nextWave].duckTotal));
+            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, waves[nextWave].duckCount * 2, waves[nextWave].rate * 1.05f, waves[nextWave].waveTime + (5f * waves[nextWave].duckCount*2), waves[nextWave].ducksHitThisWave = 0, waves[nextWave].duckTotal));
             nextWave++;
             SetupWave();
 
