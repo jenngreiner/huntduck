@@ -69,11 +69,11 @@ public class LeaderboardManager : MonoBehaviour
 			{
 				m_highScores[entry.Rank] = entry;
 
-				//if (entry.User.ID == PlatformManager.MyID)
-				//{
-				//	m_foundLocalUserHighScore = true;
-				//}
-			}
+                if (entry.User.ID == huntduck.PlatformManager.MyID)
+                {
+                    m_foundLocalUserHighScore = true;
+                }
+            }
 
 			// results might be paged for large requests
 			if (msg.Data.HasNextPage)
