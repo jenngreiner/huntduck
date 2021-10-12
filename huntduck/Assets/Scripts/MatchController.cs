@@ -73,7 +73,7 @@ namespace huntduck
 			//PlatformManager.Leaderboards.MostWinsLeaderboardUpdatedCallback = MostWinsLeaderboardCallback;
 
 			// we need this
-			PlatformManager.Leaderboards.HighScoreLeaderboardUpdatedCallback = HighestScoreLeaderboardCallback;
+			huntduck.PlatformManager.Leaderboards.HighScoreLeaderboardUpdatedCallback = HighestScoreLeaderboardCallback;
 
 			//TransitionToState(State.NONE);
 		}

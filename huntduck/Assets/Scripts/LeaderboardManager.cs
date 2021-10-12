@@ -102,7 +102,15 @@ public class LeaderboardManager : MonoBehaviour
 	#endregion
 
 	// submit the local player's match score to the leaderboard service
-	public void SubmitMatchScores(bool wonMatch, uint score)
+	//public void SubmitMatchScores(bool wonMatch, uint score)
+	//{
+	//	if (score > 0)
+	//	{
+	//		Leaderboards.WriteEntry(HIGHEST_MATCH_SCORE, score);
+	//	}
+	//}
+
+	public void SubmitMatchScores(uint score)
 	{
 		if (score > 0)
 		{

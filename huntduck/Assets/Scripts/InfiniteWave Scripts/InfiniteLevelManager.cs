@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InfiniteLevelManager : MonoBehaviour
 {
     public WeaponsManager weaponsManager;
+    private LeaderboardManager ilm_leaderboards;
 
     public GameObject helperUI;
     public Text helperText;
@@ -19,6 +20,8 @@ public class InfiniteLevelManager : MonoBehaviour
     public Text finalBucksText;
     public Text finalDucksText;
     public Text finalWavesBeatText;
+
+    public GameObject leaderBoardUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -88,11 +91,14 @@ public class InfiniteLevelManager : MonoBehaviour
     {
         string finalScore = WalletUI.walletScore;
         int finalScoreInt = PlayerScore.playerScore;
+        uint finalScoreUInt = (uint)PlayerScore.playerScore;
 
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores
         PlayerPrefs.SetInt("FinalScore", finalScoreInt);
         Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
+
+
 
         // wave ends, hide game UI
         infiniteWaveSpawner.enabled = false;
@@ -104,11 +110,17 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
+        ilm_leaderboards.SubmitMatchScores(finalScoreUInt);
         finalBucksText.text = finalScore;
         finalDucksText.text = InfiniteWaveSpawner.ducksHitTotal.ToString();
         finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
         finalScoreUI.SetActive(true);
         endLevelUI.SetActive(true);
+
+        // set leaderboard active
+        leaderBoardUI.SetActive(true);
+
+
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);
     }
