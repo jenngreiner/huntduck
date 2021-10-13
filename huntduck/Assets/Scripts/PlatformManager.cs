@@ -7,12 +7,11 @@ namespace huntduck
 	public class PlatformManager : MonoBehaviour
 	{
 		private static PlatformManager s_instance;
-		private LeaderboardManager m_leaderboards;
-		private State m_currentState;
-
 		//private MatchmakingManager m_matchmaking;
 		//private P2PManager m_p2p;
+		private LeaderboardManager m_leaderboards;
 		//private AchievementsManager m_achievements;
+		private State m_currentState;
 
 		// my Application-scoped Oculus ID
 		private ulong m_myID;
