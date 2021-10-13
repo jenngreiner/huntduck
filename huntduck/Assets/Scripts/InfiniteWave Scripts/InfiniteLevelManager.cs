@@ -21,7 +21,9 @@ public class InfiniteLevelManager : MonoBehaviour
     public Text finalDucksText;
     public Text finalWavesBeatText;
 
-    public GameObject leaderBoardUI;
+    public GameObject myScoresUI;
+    public GameObject highestScoresUI;
+    public GameObject allScoresUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -125,7 +127,7 @@ public class InfiniteLevelManager : MonoBehaviour
         // query for latest scores - this doesnt seem to be working yet
         huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
         // set leaderboard active
-        leaderBoardUI.SetActive(true);
+        highestScoresUI.SetActive(true);
 
 
         levelupSound.Play();
