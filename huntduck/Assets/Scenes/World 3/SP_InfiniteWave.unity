@@ -3414,7 +3414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &60168660
 Transform:
   m_ObjectHideFlags: 0
@@ -48190,7 +48190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dollarsText: {fileID: 948833202}
-  totalDucksHitText: {fileID: 0}
+  totalDucksHitText: {fileID: 973300485}
 --- !u!1001 &909011942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99059,7 +99059,7 @@ MonoBehaviour:
   - waveNumber: 1
     duckCount: 1
     rate: 0.2
-    waveTime: 10
+    waveTime: 5
     ducksHitThisWave: 0
     duckTotal: 1000
   timeDelay: 3
@@ -125282,7 +125282,7 @@ MonoBehaviour:
   finalBucksText: {fileID: 1960314586}
   finalDucksText: {fileID: 1908780865}
   finalWavesBeatText: {fileID: 150833767}
-  leaderBoardUI: {fileID: 0}
+  leaderBoardUI: {fileID: 1289004630}
   infiniteWaveSpawner: {fileID: 1641447321}
   levelupSound: {fileID: 2078510400}
 --- !u!82 &2078510400

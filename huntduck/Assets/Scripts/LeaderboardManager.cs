@@ -48,7 +48,8 @@ public class LeaderboardManager : MonoBehaviour
 		set { m_highScoreCallback = value; }
 	}
 
-	void QueryHighScoreLeaderboard()
+	// made this public
+	public void QueryHighScoreLeaderboard()
 	{
 		// if a query is already in progress, don't start a new one.
 		if (m_highScores != null)

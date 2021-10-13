@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InfiniteLevelManager : MonoBehaviour
 {
     public WeaponsManager weaponsManager;
-    private LeaderboardManager ilm_leaderboards;
+    //private LeaderboardManager ilm_leaderboards;
 
     public GameObject helperUI;
     public Text helperText;
@@ -26,6 +26,11 @@ public class InfiniteLevelManager : MonoBehaviour
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
     public AudioSource levelupSound;
+
+    //void awake()
+    //{
+    //    ilm_leaderboards = new leaderboardmanager();
+    //}
 
     void Start()
     {
@@ -110,13 +115,15 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
-        ilm_leaderboards.SubmitMatchScores(finalScoreUInt);
+        huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
         finalBucksText.text = finalScore;
         finalDucksText.text = InfiniteWaveSpawner.ducksHitTotal.ToString();
         finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
         finalScoreUI.SetActive(true);
         endLevelUI.SetActive(true);
 
+        // query for latest scores - this doesnt seem to be working yet
+        huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
         // set leaderboard active
         leaderBoardUI.SetActive(true);
 
