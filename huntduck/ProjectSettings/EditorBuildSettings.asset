@@ -11,15 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/BNG Framework/Integrations/PUN/MPDemo.unity
     guid: 1ef291d4030a6484f8bc6edeae91dda9
-  - enabled: 0
-    path: Assets/Scenes/World 2/SelectWorld.unity
-    guid: 7808aa3954251458e85bee032424ec9a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World 3/SP_InfiniteWave.unity
     guid: 8bf489e0be9594b4a814fd66b8108c3f
-  - enabled: 1
-    path: Assets/Scenes/Environments/01_duckPond_mountains.unity
-    guid: 371224e143c864e798e7aa5a75435d83
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 77ef9e5d8ab73184cb8debcf4313cf25,
       type: 2}
