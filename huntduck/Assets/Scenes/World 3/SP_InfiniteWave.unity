@@ -54139,6 +54139,7 @@ GameObject:
   - component: {fileID: 991030365}
   - component: {fileID: 991030364}
   - component: {fileID: 991030363}
+  - component: {fileID: 991030368}
   m_Layer: 0
   m_Name: BreakableObj
   m_TagString: Untagged
@@ -54220,11 +54221,8 @@ MonoBehaviour:
   RemoveBulletHolesOnDeath: 1
   onDamaged:
     m_PersistentCalls:
-      m_Calls: []
-  onDestroyed:
-    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1126909534}
+      - m_Target: {fileID: 991030368}
         m_TargetAssemblyTypeName: ReplayLevel, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
@@ -54236,6 +54234,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
   onRespawn:
     m_PersistentCalls:
       m_Calls: []
@@ -54288,6 +54289,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991030361}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &991030368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991030361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc423ef2884c0408a8c3226636c81a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &991144963
 GameObject:
   m_ObjectHideFlags: 0
@@ -61936,7 +61949,6 @@ GameObject:
   - component: {fileID: 1126909537}
   - component: {fileID: 1126909536}
   - component: {fileID: 1126909535}
-  - component: {fileID: 1126909534}
   m_Layer: 5
   m_Name: ReplayButton
   m_TagString: Untagged
@@ -61964,18 +61976,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0020179749, y: 0.0057999697}
   m_SizeDelta: {x: 90, y: 66.17}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1126909534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126909532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc423ef2884c0408a8c3226636c81a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1126909535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62020,7 +62020,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1126909534}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ReplayScene, Assembly-CSharp
         m_MethodName: Replay
         m_Mode: 1
@@ -100866,6 +100866,7 @@ MonoBehaviour:
     waveTime: 5
     ducksHitThisWave: 0
     duckTotal: 1000
+  ducksHitTotal: 0
   timeDelay: 3
   spawnPoints:
   - {fileID: 1078884111}
@@ -119496,6 +119497,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56997bd1afbbda42b2ac3be7140dfb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScore: 0
+  duckKills: 0
 --- !u!114 &1935787645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127490,9 +127493,7 @@ MonoBehaviour:
   finalBucksText: {fileID: 1960314586}
   finalDucksText: {fileID: 1908780865}
   finalWavesBeatText: {fileID: 150833767}
-  myScoresUI: {fileID: 961400720}
   highestScoresUI: {fileID: 1289004630}
-  allScoresUI: {fileID: 7205244}
   infiniteWaveSpawner: {fileID: 1641447321}
   levelupSound: {fileID: 2078510400}
 --- !u!82 &2078510400
