@@ -33,7 +33,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public List<InfiniteWave> waves;
     private int nextWave;
-    public static int ducksHitTotal = 0;
+    public int ducksHitTotal = 0;
     //public static int ducksHitThisWave;
     public static int ducksLeft;
 

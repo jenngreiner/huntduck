@@ -14,8 +14,7 @@ public class ScoreUI : MonoBehaviour
     void Start()
     {
         //// find player in the scene, grab its PlayerScore script
-        //playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
-        playerScoreScript = GetComponent<PlayerScore>();
+        playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
 
         // reset score when game starts
         CreateArcadeScore();
@@ -51,7 +50,7 @@ public class ScoreUI : MonoBehaviour
 
     void CreateArcadeScore()
     {
-        string _scoreAsString = PlayerScore.playerScore.ToString();
+        string _scoreAsString = playerScoreScript.playerScore.ToString();
         int numZeros = scoreLength - _scoreAsString.Length;
 
         arcadeScore = "";
