@@ -23,6 +23,15 @@ namespace BNG {
 
         public delegate void InfiniteDuckHit();
         public static event InfiniteDuckHit onInfiniteDuckHit;
+ 
+        public delegate void TargetHit(GameObject target);
+        public static event TargetHit onTargetHit;
+
+        public delegate void ClayHit();
+        public static event ClayHit onClayHit;
+
+        public delegate void CarniDuckHit(GameObject carniDuck);
+        public static event CarniDuckHit onCarniDuckHit;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -155,21 +164,21 @@ namespace BNG {
 
             if (gameObject.tag == PRACTICEDUCK_TAG)
             {
-                PracticeRangeManager.cduckList.Remove(transform.parent.transform.parent.gameObject);
-                Debug.Log("One less carniduck in cduck list! Count is now " + PracticeRangeManager.cduckList.Count);
+                onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+               
                 gameObject.GetComponent<Duck>().Die();
             }
 
             if (gameObject.tag == PRACTICECLAY_TAG)
             {
                 // TODO: Refactor this to match INFINITEDUCK_TAG delegate event implementation below
-                PracticeWaveSpawner.claysHit++;
+                onClayHit?.Invoke();
             }
 
             if (gameObject.tag == TARGET_TAG)
             {
-                PracticeRangeManager.targetList.Remove(transform.parent.gameObject);
-                Debug.Log("One less target in target list! Count is now " + PracticeRangeManager.targetList.Count);
+                onTargetHit?.Invoke(transform.parent.gameObject);
+                
             }
 
             if (gameObject.tag == INFINITEDUCK_TAG)
