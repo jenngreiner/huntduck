@@ -56,13 +56,13 @@ public class PracticeRangeManager : MonoBehaviour
         if (state == PracticeState.CLAY)
         {
             // check if we have hit 3 clays
-            if (PracticeWaveSpawner.claysHit >= 3)
+            if (clayWavesManager.claysHit >= 3)
             {
                 // stop waves, go on to next round
                 //clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
-            Debug.Log("We've hit " + PracticeWaveSpawner.claysHit + " clays");
+            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
             return;
         }
 
@@ -84,15 +84,15 @@ public class PracticeRangeManager : MonoBehaviour
     {
         // onWeaponsSelected callback happens in SnapZone.cs
         WeaponsManager.onWeaponSelected += PrepTargetRound;
-        Damageable.onCarniDuckHit += RemoveCarniDuck;
-        Damageable.onTargetHit += RemoveTarget;
+        BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
+        BNG.Damageable.onTargetHit += RemoveTarget;
     }
 
     void OnDisable()
     {
         WeaponsManager.onWeaponSelected -= PrepTargetRound;
-        Damageable.onCarniDuckHit -= RemoveCarniDuck;
-        Damageable.onTargetHit -= RemoveTarget;
+        BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
+        BNG.Damageable.onTargetHit -= RemoveTarget;
     }
 
     void SetupRound()
@@ -144,15 +144,15 @@ public class PracticeRangeManager : MonoBehaviour
         StartCoroutine(EndPracticeOutro());
     }
 
-    void RemoveCarniDuck()
+    void RemoveCarniDuck(GameObject carniDuck)
     {
-        cduckList.Remove(transform.parent.transform.parent.gameObject);
+        cduckList.Remove(carniDuck);
         Debug.Log("One less carniduck in cduck list! Count is now " + cduckList.Count);
     }
 
-    void RemoveTarget()
+    void RemoveTarget(GameObject target)
     {
-        targetList.Remove(transform.parent.gameObject);
+        targetList.Remove(target);
         Debug.Log("One less target in target list! Count is now " + targetList.Count);
     }
 

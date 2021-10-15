@@ -23,12 +23,15 @@ namespace BNG {
 
         public delegate void InfiniteDuckHit();
         public static event InfiniteDuckHit onInfiniteDuckHit;
-
-        public delegate void CarniDuckHit();
-        public static event CarniDuckHit onCarniDuckHit;
-
-        public delegate void TargetHit();
+ 
+        public delegate void TargetHit(GameObject target);
         public static event TargetHit onTargetHit;
+
+        public delegate void ClayHit();
+        public static event ClayHit onClayHit;
+
+        public delegate void CarniDuckHit(GameObject carniDuck);
+        public static event CarniDuckHit onCarniDuckHit;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -161,7 +164,7 @@ namespace BNG {
 
             if (gameObject.tag == PRACTICEDUCK_TAG)
             {
-                onCarniDuckHit?.Invoke();
+                onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
                
                 gameObject.GetComponent<Duck>().Die();
             }
@@ -169,12 +172,12 @@ namespace BNG {
             if (gameObject.tag == PRACTICECLAY_TAG)
             {
                 // TODO: Refactor this to match INFINITEDUCK_TAG delegate event implementation below
-                PracticeWaveSpawner.claysHit++;
+                onClayHit?.Invoke();
             }
 
             if (gameObject.tag == TARGET_TAG)
             {
-                onTargetHit?.Invoke();
+                onTargetHit?.Invoke(transform.parent.gameObject);
                 
             }
 
