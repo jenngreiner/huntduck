@@ -3031,7 +3031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1850ed9558be34eb891623e418184f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: SP_Practice
+  nextLevel: SP_Practice 1
 --- !u!54 &57915961
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -106133,7 +106133,6 @@ GameObject:
   - component: {fileID: 2002032112}
   - component: {fileID: 2002032111}
   - component: {fileID: 2002032110}
-  - component: {fileID: 2002032113}
   m_Layer: 5
   m_Name: WavesButton
   m_TagString: Untagged
@@ -106204,19 +106203,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2002032111}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2002032108}
-        m_TargetAssemblyTypeName: ReplayScene, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2002032111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106231,7 +106218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -106255,19 +106242,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002032108}
   m_CullTransparentMesh: 1
---- !u!114 &2002032113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002032108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1850ed9558be34eb891623e418184f46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextLevel: 
 --- !u!1 &2005639344
 GameObject:
   m_ObjectHideFlags: 0
@@ -109026,7 +109000,6 @@ GameObject:
   - component: {fileID: 2075488226}
   - component: {fileID: 2075488225}
   - component: {fileID: 2075488224}
-  - component: {fileID: 2075488223}
   m_Layer: 5
   m_Name: PracticeButton
   m_TagString: Untagged
@@ -109054,19 +109027,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0020179749, y: 0.0057999697}
   m_SizeDelta: {x: 90, y: 66.17}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2075488223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2075488221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1850ed9558be34eb891623e418184f46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextLevel: 
 --- !u!114 &2075488224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109110,19 +109070,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2075488225}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2075488223}
-        m_TargetAssemblyTypeName: NextLevel, Assembly-CSharp
-        m_MethodName: goToLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2075488225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109137,7 +109085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

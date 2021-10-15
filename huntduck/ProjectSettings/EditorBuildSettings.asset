@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/World 2/SelectWorld.unity
     guid: 7808aa3954251458e85bee032424ec9a
   - enabled: 1
-    path: Assets/Scenes/World 1/SP_Practice.unity
+    path: Assets/Scenes/DEPRECATED/SP_Practice.unity
     guid: fc641c44c60864a749551d798e53fbff
   - enabled: 1
     path: Assets/Scenes/World 1/SP_Practice 1.unity
