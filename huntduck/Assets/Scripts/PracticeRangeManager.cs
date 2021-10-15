@@ -10,6 +10,8 @@ public class PracticeRangeManager : MonoBehaviour
 
     public WeaponsManager weaponsManager;
 
+    public BeginTargetTrigger beginTargetTrigger;
+
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
@@ -119,7 +121,7 @@ public class PracticeRangeManager : MonoBehaviour
 
     void PrepTargetRound()
     {
-        BeginTargetTrigger.isTargetReady = true;
+        beginTargetTrigger.isTargetReady = true;
         helperText.text = "Step up to the podium to start!";
     }
 

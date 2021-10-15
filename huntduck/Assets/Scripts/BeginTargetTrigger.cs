@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BeginTargetTrigger : MonoBehaviour
 {
-    public static bool isTargetReady = false;
-    public static bool isTargetStarted = false;
+    public bool isTargetReady = false;
+    public bool isTargetStarted = false;
 
     public PracticeRangeManager practiceRangeManager;
 
