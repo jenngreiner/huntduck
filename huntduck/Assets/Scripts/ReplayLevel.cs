@@ -25,22 +25,14 @@ public class ReplayLevel : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(LoadAsyncScene(thisScene));
-            //loadSceneCoroutine();
         }
     }
-
-    //public void loadSceneCoroutine()
-    //{
-    //    // Use a coroutine to load the Scene in the background
-    //    StartCoroutine(LoadAsyncScene());
-    //}
 
     IEnumerator LoadAsyncScene(string thisScene)
     {
         // The Application loads the Scene in the background as the current Scene runs.
         // This is particularly good for creating loading screens.
-        // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
-        // a sceneBuildIndex of 1 as shown in Build Settings.
+        // You could also load the Scene by using sceneBuildIndex shown in Build Settings.
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(thisScene);
 
