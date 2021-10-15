@@ -17,7 +17,7 @@ public class PracticeWaveSpawner : MonoBehaviour
 
     public ClayWave[] waves;
     private int nextWave = 0;
-    public static int claysHit = 0;
+    public int claysHit = 0;
 
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
@@ -69,6 +69,16 @@ public class PracticeWaveSpawner : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        BNG.Damageable.onClayHit += HitClay;
+    }
+
+    void OnDisable()
+    {
+        BNG.Damageable.onClayHit -= HitClay;
+    }
+
     void SetupWave()
     {
         if (spawnPoints.Length == 0)
@@ -100,6 +110,11 @@ public class PracticeWaveSpawner : MonoBehaviour
             nextWave++;
             Debug.Log("Wave  is ending. Next wave is " + (nextWave + 1));
         }
+    }
+
+    void HitClay()
+    {
+        claysHit++;
     }
 
     bool hitAllClays()

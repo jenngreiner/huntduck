@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-    public static int playerScore = 0;
-    public static int duckKills = 0;
+    public int playerScore = 0;
+    public int duckKills = 0;
 
     // create a callback to hook to be able to update score in ScoreUI
     public delegate void ScoreUpdate();

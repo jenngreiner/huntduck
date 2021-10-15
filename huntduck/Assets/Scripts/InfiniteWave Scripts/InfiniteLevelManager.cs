@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InfiniteLevelManager : MonoBehaviour
 {
     public WeaponsManager weaponsManager;
+    //private LeaderboardManager ilm_leaderboards;
 
     public GameObject helperUI;
     public Text helperText;
@@ -20,12 +21,22 @@ public class InfiniteLevelManager : MonoBehaviour
     public Text finalDucksText;
     public Text finalWavesBeatText;
 
+    //public GameObject myScoresUI;
+    public GameObject highestScoresUI;
+    //public GameObject allScoresUI;
+
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
     public AudioSource levelupSound;
+    private PlayerScore playerScoreScript;
+
 
     void Start()
     {
+        // TODO: some day don't be lazy, make a TagManager
+        // get the playerscore script on player object
+        playerScoreScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScore>();
+
         StartIntro(); 
     }
 
@@ -87,7 +98,8 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator InfiniteWaveOutro()
     {
         string finalScore = WalletUI.walletScore;
-        int finalScoreInt = PlayerScore.playerScore;
+        int finalScoreInt = playerScoreScript.playerScore;
+        uint finalScoreUInt = (uint)playerScoreScript.playerScore;
 
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores
@@ -104,11 +116,19 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
+        huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
         finalBucksText.text = finalScore;
-        finalDucksText.text = InfiniteWaveSpawner.ducksHitTotal.ToString();
+        finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
         finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
         finalScoreUI.SetActive(true);
         endLevelUI.SetActive(true);
+
+        // query for latest scores - this doesnt seem to be working yet
+        huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
+        // set leaderboard active
+        highestScoresUI.SetActive(true);
+
+
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);
     }
