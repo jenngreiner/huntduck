@@ -14,14 +14,16 @@ public class PracticeRangeManager : MonoBehaviour
     public Text helperText;
     public GameObject congratsUI;
     public Canvas walletCanvas;
+    public GameObject endLevelUI; // replay & exit button
+
 
     public GameObject targetWall;
-    public static List<GameObject> targetList;
+    public List<GameObject> targetList;
 
     public PracticeWaveSpawner clayWavesManager;
 
     public GameObject carniDucks;
-    public static List<GameObject> cduckList;
+    public List<GameObject> cduckList;
 
     public AudioSource levelupSound;
 
@@ -29,13 +31,13 @@ public class PracticeRangeManager : MonoBehaviour
     void Start()
     {
         SetupRound();
+        StartCoroutine(PracticeRangeIntro());
     }
 
     // called in BeginGameTrigger.cs
     public void StartPractice()
     {
         Debug.Log("LET THE GAMES BEGIN!!");
-        StartCoroutine(PracticeRangeIntro());
     }
 
     void Update()
@@ -82,11 +84,15 @@ public class PracticeRangeManager : MonoBehaviour
     {
         // onWeaponsSelected callback happens in SnapZone.cs
         WeaponsManager.onWeaponSelected += PrepTargetRound;
+        Damageable.onCarniDuckHit += RemoveCarniDuck;
+        Damageable.onTargetHit += RemoveTarget;
     }
 
     void OnDisable()
     {
         WeaponsManager.onWeaponSelected -= PrepTargetRound;
+        Damageable.onCarniDuckHit -= RemoveCarniDuck;
+        Damageable.onTargetHit -= RemoveTarget;
     }
 
     void SetupRound()
@@ -138,6 +144,18 @@ public class PracticeRangeManager : MonoBehaviour
         StartCoroutine(EndPracticeOutro());
     }
 
+    void RemoveCarniDuck()
+    {
+        cduckList.Remove(transform.parent.transform.parent.gameObject);
+        Debug.Log("One less carniduck in cduck list! Count is now " + cduckList.Count);
+    }
+
+    void RemoveTarget()
+    {
+        targetList.Remove(transform.parent.gameObject);
+        Debug.Log("One less target in target list! Count is now " + targetList.Count);
+    }
+
 
     IEnumerator PracticeRangeIntro()
     {
@@ -179,7 +197,7 @@ public class PracticeRangeManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         congratsUI.SetActive(false);
 
-        walletCanvas.enabled = true;
+        // walletCanvas.enabled = true;
         helperUI.SetActive(true);
         helperText.text = "Shoot the ducks to make some bucks!";
         yield return new WaitForSeconds(3);
@@ -202,6 +220,8 @@ public class PracticeRangeManager : MonoBehaviour
         helperUI.SetActive(true);
         helperText.text = "You have completed the practice round!";
         yield return new WaitForSeconds(3);
+
+        endLevelUI.SetActive(true);
 
         helperText.text = "You have unlocked your duck license!";
         levelupSound.Play();
