@@ -116,7 +116,7 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
-        huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
+        // huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
         finalBucksText.text = finalScore;
         finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
         finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
@@ -124,7 +124,7 @@ public class InfiniteLevelManager : MonoBehaviour
         endLevelUI.SetActive(true);
 
         // query for latest scores - this doesnt seem to be working yet
-        huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
+        // huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
         // set leaderboard active
         highestScoresUI.SetActive(true);
 

@@ -3092,7 +3092,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 57915960}
         m_TargetAssemblyTypeName: NextLevel, Assembly-CSharp
-        m_MethodName: goToLevel
+        m_MethodName: gotoLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -82754,7 +82754,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1509257401}
         m_TargetAssemblyTypeName: NextLevel, Assembly-CSharp
-        m_MethodName: goToLevel
+        m_MethodName: gotoLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -106267,7 +106267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1850ed9558be34eb891623e418184f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: SP_Infinite Wave
+  nextLevel: 
 --- !u!1 &2005639344
 GameObject:
   m_ObjectHideFlags: 0
@@ -109066,7 +109066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1850ed9558be34eb891623e418184f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: SP_Practice
+  nextLevel: 
 --- !u!114 &2075488224
 MonoBehaviour:
   m_ObjectHideFlags: 0
