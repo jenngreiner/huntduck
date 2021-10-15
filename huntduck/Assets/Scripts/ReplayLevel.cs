@@ -13,10 +13,8 @@ public class ReplayLevel : MonoBehaviour
 
     public void Replay()
     {
-        
         //SceneManager.LoadSceneAsync(thisScene);
         StartCoroutine(LoadAsyncScene(thisScene));
-
     }
 
     void Update()
