@@ -15,6 +15,7 @@ namespace BNG {
 
         public float Health = 5;
         private float _startingHealth;
+
         private const string DUCK_TAG = "Duck";
         private const string PRACTICECLAY_TAG = "PracticeClay";
         private const string TARGET_TAG = "Target";
@@ -32,6 +33,8 @@ namespace BNG {
 
         public delegate void CarniDuckHit(GameObject carniDuck);
         public static event CarniDuckHit onCarniDuckHit;
+
+        private Duck duckScript;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -106,6 +109,8 @@ namespace BNG {
             if (rigid) {
                 initialWasKinematic = rigid.isKinematic;
             }
+
+            duckScript = gameObject.GetComponent<Duck>();
         }
 
         void Update()
@@ -157,32 +162,55 @@ namespace BNG {
             Health = 0;
             destroyed = true;
 
-            if (gameObject.tag == DUCK_TAG)
+            switch (gameObject.tag)
             {
-                gameObject.GetComponent<Duck>().Die();
+                case INFINITEDUCK_TAG:
+                    onInfiniteDuckHit?.Invoke();
+                    duckScript.Die();
+                    break;
+                case TARGET_TAG:
+                    onTargetHit?.Invoke(transform.parent.gameObject);
+                    break;
+                case PRACTICECLAY_TAG:
+                    onClayHit?.Invoke();
+                    break;
+                case PRACTICEDUCK_TAG:
+                    onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+                    duckScript.Die();
+                    break;
+                case DUCK_TAG:
+                    duckScript.Die();
+                    break;
+                default:
+                    break;
             }
 
-            if (gameObject.tag == PRACTICEDUCK_TAG)
-            {
-                onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
-                gameObject.GetComponent<Duck>().Die();
-            }
+            //if (gameObject.tag == DUCK_TAG)
+            //{
+            //    gameObject.GetComponent<Duck>().Die();
+            //}
 
-            if (gameObject.tag == PRACTICECLAY_TAG)
-            {
-                onClayHit?.Invoke();
-            }
+            //if (gameObject.tag == PRACTICEDUCK_TAG)
+            //{
+            //    onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+            //    gameObject.GetComponent<Duck>().Die();
+            //}
 
-            if (gameObject.tag == TARGET_TAG)
-            {
-                onTargetHit?.Invoke(transform.parent.gameObject);
-            }
+            //if (gameObject.tag == PRACTICECLAY_TAG)
+            //{
+            //    onClayHit?.Invoke();
+            //}
 
-            if (gameObject.tag == INFINITEDUCK_TAG)
-            {
-                onInfiniteDuckHit?.Invoke();
-                gameObject.GetComponent<Duck>().Die();
-            }
+            //if (gameObject.tag == TARGET_TAG)
+            //{
+            //    onTargetHit?.Invoke(transform.parent.gameObject);
+            //}
+
+            //if (gameObject.tag == INFINITEDUCK_TAG)
+            //{
+            //    onInfiniteDuckHit?.Invoke();
+            //    gameObject.GetComponent<Duck>().Die();
+            //}
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
-    public WeaponsManager weaponsManager;
+    //public WeaponsManager weaponsManager;
     //private LeaderboardManager ilm_leaderboards;
 
     public GameObject helperUI;
