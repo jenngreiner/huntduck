@@ -9,6 +9,6 @@ public class WeaponsManager : MonoBehaviour
     // weapon selection occurs in SnapZone.cs
     public static void SelectWeapon()
     {
-        onWeaponSelected();
+        onWeaponSelected?.Invoke();
     }
 }

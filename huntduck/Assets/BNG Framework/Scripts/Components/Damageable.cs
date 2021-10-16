@@ -165,32 +165,23 @@ namespace BNG {
             if (gameObject.tag == PRACTICEDUCK_TAG)
             {
                 onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
-               
                 gameObject.GetComponent<Duck>().Die();
             }
 
             if (gameObject.tag == PRACTICECLAY_TAG)
             {
-                // TODO: Refactor this to match INFINITEDUCK_TAG delegate event implementation below
                 onClayHit?.Invoke();
             }
 
             if (gameObject.tag == TARGET_TAG)
             {
                 onTargetHit?.Invoke(transform.parent.gameObject);
-                
             }
 
             if (gameObject.tag == INFINITEDUCK_TAG)
             {
-                if (onInfiniteDuckHit != null)
-                {
-                    onInfiniteDuckHit();
-                }
-
+                onInfiniteDuckHit?.Invoke();
                 gameObject.GetComponent<Duck>().Die();
-                //InfiniteWaveSpawner.ducksHit++;
-                Debug.Log("We hit an infinite duck!");
             }
 
             // Activate
