@@ -44,7 +44,8 @@ public class InfiniteLevelManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.P))
         {
-            Debug.Log("Yo final score was " + PlayerPrefs.GetInt("FinalScore"));
+            EndInfiniteWave();
+            Debug.Log("This shi is ova!");
         }
     }
 

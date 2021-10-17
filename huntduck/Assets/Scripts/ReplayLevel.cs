@@ -16,15 +16,6 @@ public class ReplayLevel : MonoBehaviour
         StartCoroutine(LoadAsyncScene(thisScene));
     }
 
-    void Update()
-    {
-        // Press the space key to start coroutine
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(LoadAsyncScene(thisScene));
-        }
-    }
-
     IEnumerator LoadAsyncScene(string thisScene)
     {
         // The Application loads the Scene in the background as the current Scene runs.
