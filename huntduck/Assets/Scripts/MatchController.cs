@@ -431,8 +431,16 @@ namespace huntduck
 			{
 				GameObject label = Instantiate(m_leaderboardEntryPrefab);
 				label.transform.SetParent(m_highestScoresLeaderboard.transform, false);
-				label.GetComponent<Text>().text =
-					string.Format("{0} - {1} - {2}", entry.Rank, entry.User.OculusID, entry.Score);
+				Text[] texts = label.GetComponentsInChildren<Text>();
+				texts[0].text = entry.Rank.ToString();
+				texts[1].text = entry.User.OculusID;
+				texts[2].text = entry.Score.ToString();
+
+				// OLD LEADERBOARD IMPLEMENTATION
+				//GameObject label = Instantiate(m_leaderboardEntryPrefab);
+				//label.transform.SetParent(m_highestScoresLeaderboard.transform, false);
+				//label.GetComponent<Text>().text =
+				//	string.Format("{0} - {1} - {2}", entry.Rank, entry.User.OculusID, entry.Score);
 			}
 		}
 
