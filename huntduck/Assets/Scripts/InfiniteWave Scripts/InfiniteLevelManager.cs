@@ -11,7 +11,7 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
-    public GameObject gameUI; // this UI shows waves, time, ducks, score
+    public GameObject gameplayUI; // this UI shows waves, time, ducks, score
     public Canvas walletCanvas;
     public GameObject gameOverUI; // "Game Over"
     public GameObject endLevelUI; // replay & exit button, score rollup
@@ -91,7 +91,7 @@ public class InfiniteLevelManager : MonoBehaviour
         helperUI.SetActive(false);
 
         infiniteWaveSpawner.enabled = true;
-        gameUI.SetActive(true);
+        gameplayUI.SetActive(true);
         yield return null;
     }
 
@@ -108,7 +108,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // wave ends, hide game UI
         infiniteWaveSpawner.enabled = false;
-        gameUI.SetActive(false);
+        gameplayUI.SetActive(false);
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
