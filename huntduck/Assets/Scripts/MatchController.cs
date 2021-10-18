@@ -5,10 +5,11 @@ namespace huntduck
 	using UnityEngine.UI;
 	using System.Collections.Generic;
 	using Oculus.Platform.Models;
+    using TMPro;
 
-	// This class coordinates playing matches.  It mediates being idle
-	// and entering a practice or online game match.
-	public class MatchController : MonoBehaviour
+    // This class coordinates playing matches.  It mediates being idle
+    // and entering a practice or online game match.
+    public class MatchController : MonoBehaviour
 	{
 		// commented out
         #region fields
@@ -431,10 +432,14 @@ namespace huntduck
 			{
 				GameObject label = Instantiate(m_leaderboardEntryPrefab);
 				label.transform.SetParent(m_highestScoresLeaderboard.transform, false);
-				Text[] texts = label.GetComponentsInChildren<Text>();
+				TextMeshProUGUI[] texts = label.GetComponentsInChildren<TextMeshProUGUI>();
 				texts[0].text = entry.Rank.ToString();
 				texts[1].text = entry.User.OculusID;
 				texts[2].text = entry.Score.ToString();
+
+				Debug.Log("texts[0].text is " + texts[0].text);
+				Debug.Log("texts[1].text is " + texts[1].text);
+				Debug.Log("texts[2].text is " + texts[2].text);
 
 				// OLD LEADERBOARD IMPLEMENTATION
 				//GameObject label = Instantiate(m_leaderboardEntryPrefab);
