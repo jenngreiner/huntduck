@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
-    public WeaponsManager weaponsManager;
+    //public WeaponsManager weaponsManager;
     //private LeaderboardManager ilm_leaderboards;
 
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
-    public GameObject gameUI; // this UI shows waves, time, ducks, score
+    public GameObject gameplayUI; // this UI shows waves, time, ducks, score
     public Canvas walletCanvas;
     public GameObject gameOverUI; // "Game Over"
-    public GameObject endLevelUI; // replay & exit button, score rollup
+    public GameObject endLevelUI; // replay & exit button
 
-    public GameObject finalScoreUI;
-    public Text finalBucksText;
-    public Text finalDucksText;
-    public Text finalWavesBeatText;
+    public GameObject howYouDidUI;
+    public TextMeshProUGUI finalWavesText;
+    public TextMeshProUGUI finalDucksText;
+    public TextMeshProUGUI finalBucksText;
 
     //public GameObject myScoresUI;
     public GameObject highestScoresUI;
@@ -44,7 +45,8 @@ public class InfiniteLevelManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.P))
         {
-            Debug.Log("Yo final score was " + PlayerPrefs.GetInt("FinalScore"));
+            EndInfiniteWave();
+            Debug.Log("This shi is ova!");
         }
     }
 
@@ -91,7 +93,7 @@ public class InfiniteLevelManager : MonoBehaviour
         helperUI.SetActive(false);
 
         infiniteWaveSpawner.enabled = true;
-        gameUI.SetActive(true);
+        gameplayUI.SetActive(true);
         yield return null;
     }
 
@@ -108,7 +110,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // wave ends, hide game UI
         infiniteWaveSpawner.enabled = false;
-        gameUI.SetActive(false);
+        gameplayUI.SetActive(false);
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
@@ -117,10 +119,10 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // show final UI with score rollup
         huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
-        finalBucksText.text = finalScore;
+        finalWavesText.text = (infiniteWaveSpawner.waves.Count).ToString();
         finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
-        finalWavesBeatText.text = (infiniteWaveSpawner.waves.Count - 1).ToString();
-        finalScoreUI.SetActive(true);
+        finalBucksText.text = finalScore;
+        howYouDidUI.SetActive(true);
         endLevelUI.SetActive(true);
 
         // query for latest scores - this doesnt seem to be working yet
