@@ -15,15 +15,7 @@ namespace BNG {
 
         public float Health = 5;
         private float _startingHealth;
-        private const string DUCK_TAG = "Duck";
-        private const string PRACTICECLAY_TAG = "PracticeClay";
-        private const string TARGET_TAG = "Target";
-        private const string PRACTICEDUCK_TAG = "PracticeDuck";
-        private const string INFINITEDUCK_TAG = "InfiniteDuck";
 
-        public delegate void InfiniteDuckHit();
-        public static event InfiniteDuckHit onInfiniteDuckHit;
- 
         public delegate void TargetHit(GameObject target);
         public static event TargetHit onTargetHit;
 
@@ -32,6 +24,12 @@ namespace BNG {
 
         public delegate void CarniDuckHit(GameObject carniDuck);
         public static event CarniDuckHit onCarniDuckHit;
+
+        public delegate void InfiniteDuckHit();
+        public static event InfiniteDuckHit onInfiniteDuckHit;
+
+        public delegate void DuckDie();
+        public static event DuckDie onDuckDie;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -148,7 +146,9 @@ namespace BNG {
 
             if (Health <= 0) {
                 DestroyThis();
-                // DESTROY PARENT HERE
+
+                // runs switch statement against object tag
+                broadcastHit();
             }
         }
 
@@ -156,42 +156,6 @@ namespace BNG {
         public virtual void DestroyThis() {
             Health = 0;
             destroyed = true;
-
-            if (gameObject.tag == DUCK_TAG)
-            {
-                gameObject.GetComponent<Duck>().Die();
-            }
-
-            if (gameObject.tag == PRACTICEDUCK_TAG)
-            {
-                onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
-               
-                gameObject.GetComponent<Duck>().Die();
-            }
-
-            if (gameObject.tag == PRACTICECLAY_TAG)
-            {
-                // TODO: Refactor this to match INFINITEDUCK_TAG delegate event implementation below
-                onClayHit?.Invoke();
-            }
-
-            if (gameObject.tag == TARGET_TAG)
-            {
-                onTargetHit?.Invoke(transform.parent.gameObject);
-                
-            }
-
-            if (gameObject.tag == INFINITEDUCK_TAG)
-            {
-                if (onInfiniteDuckHit != null)
-                {
-                    onInfiniteDuckHit();
-                }
-
-                gameObject.GetComponent<Duck>().Die();
-                //InfiniteWaveSpawner.ducksHit++;
-                Debug.Log("We hit an infinite duck!");
-            }
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {
@@ -283,6 +247,32 @@ namespace BNG {
             // Call events
             if (onRespawn != null) {
                 onRespawn.Invoke();
+            }
+        }
+
+        void broadcastHit()
+        {
+            switch (gameObject.tag)
+            {
+                case TagManager.TARGET_TAG:
+                    onTargetHit?.Invoke(transform.parent.gameObject);
+                    break;
+                case TagManager.PRACTICECLAY_TAG:
+                    onClayHit?.Invoke();
+                    break;
+                case TagManager.PRACTICEDUCK_TAG:
+                    onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+                    onDuckDie?.Invoke();
+                    break;
+                case TagManager.INFINITEDUCK_TAG:
+                    onInfiniteDuckHit?.Invoke();
+                    onDuckDie?.Invoke();
+                    break;
+                case TagManager.DUCK_TAG:
+                    onDuckDie?.Invoke();
+                    break;
+                default:
+                    break;
             }
         }
     }
