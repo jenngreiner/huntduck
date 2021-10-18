@@ -10,7 +10,7 @@ public class LeaderboardManager : MonoBehaviour
 	private const string HIGHEST_MATCH_SCORE = "Leaderboard";
 
 	// the top number of entries to query
-	private const int TOP_N_COUNT = 5;
+	private const int TOP_N_COUNT = 10;
 
 	// how often to poll the service for leaderboard updates
 	private const float LEADERBOARD_POLL_FREQ = 30.0f;
