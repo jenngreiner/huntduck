@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Jennsogreen
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ec3e67a73f90024d825e5215a6bda1b, type: 2}
-  m_sharedMaterial: {fileID: 3106175293352641196, guid: 6ec3e67a73f90024d825e5215a6bda1b,
+  m_fontAsset: {fileID: 11400000, guid: 0e139920f56de48a4a252cefe137adf1, type: 2}
+  m_sharedMaterial: {fileID: 7651554137796032096, guid: 0e139920f56de48a4a252cefe137adf1,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -169,8 +169,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41.199993, y: -0.27502}
-  m_SizeDelta: {x: 52, y: 12}
+  m_AnchoredPosition: {x: 44.54, y: -0.27502}
+  m_SizeDelta: {x: 45.33, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5998009101421057757
 CanvasRenderer:
@@ -202,8 +202,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 255000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ec3e67a73f90024d825e5215a6bda1b, type: 2}
-  m_sharedMaterial: {fileID: 3106175293352641196, guid: 6ec3e67a73f90024d825e5215a6bda1b,
+  m_fontAsset: {fileID: 11400000, guid: 0e139920f56de48a4a252cefe137adf1, type: 2}
+  m_sharedMaterial: {fileID: 7651554137796032096, guid: 0e139920f56de48a4a252cefe137adf1,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -228,8 +228,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -375,8 +375,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ec3e67a73f90024d825e5215a6bda1b, type: 2}
-  m_sharedMaterial: {fileID: 3106175293352641196, guid: 6ec3e67a73f90024d825e5215a6bda1b,
+  m_fontAsset: {fileID: 11400000, guid: 0e139920f56de48a4a252cefe137adf1, type: 2}
+  m_sharedMaterial: {fileID: 7651554137796032096, guid: 0e139920f56de48a4a252cefe137adf1,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -401,8 +401,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
