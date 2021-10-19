@@ -7,20 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1564140159034194053, guid: 4ff012547e1f60d4a96d360056fc52e5,
-        type: 3}
-      propertyPath: m_TagString
-      value: PracticeClay
-      objectReference: {fileID: 0}
     - target: {fileID: 5518759975476641241, guid: 4ff012547e1f60d4a96d360056fc52e5,
         type: 3}
       propertyPath: m_Name
       value: Practice Clay Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 5518759975476641241, guid: 4ff012547e1f60d4a96d360056fc52e5,
-        type: 3}
-      propertyPath: m_TagString
-      value: PracticeClay
       objectReference: {fileID: 0}
     - target: {fileID: 5918184633382750022, guid: 4ff012547e1f60d4a96d360056fc52e5,
         type: 3}
