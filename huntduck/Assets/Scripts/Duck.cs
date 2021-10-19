@@ -26,6 +26,15 @@ public class Duck : MonoBehaviour
         playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
     }
 
+    void OnEnable()
+    {
+        BNG.Damageable.onDuckDie += Die;
+    }
+
+    void OnDisable()
+    {
+        BNG.Damageable.onDuckDie -= Die;
+    }
 
     public void Die()
     {
@@ -43,67 +52,4 @@ public class Duck : MonoBehaviour
         playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
         Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
     }
-
-    // reliese on DUCK_DURATION && ROUNDS
-    //public void FlyAway()
-    //{
-    //    if (!isDead && Rounds.Duration <= 0)
-    //    {
-    //        //duck flies off screen
-    //        DecrementDuck();
-    //    }
-    //}
-
-    // reliese on ROUNDS
-    //public void DecrementDucks()
-    //{
-    //    Rounds.ducksLeft--;
-
-    //    if (Rounds.ducksLeft <= 0)
-    //    {
-    //        // end round
-    //    };
-    //}
-
-    // OLD SCRIPT BELOW
-
-    //[SerializeField]
-    //private int maxHealth = 100;
-    //private int currentHealth;
-
-
-
-    //void Awake()
-    //{
-    //    ////SetDefaults();
-    //}
-
-    //public void TakeDamage(int _amount)
-    //{
-    //    if (isDead)
-    //    {
-    //        return;
-    //    }
-
-    //    currentHealth -= _amount;
-
-    //    Debug.Log(transform.name + " now has " + currentHealth + " health.");
-
-    //    if (currentHealth <= 0)
-    //    {
-    //        Die();
-    //    }
-    //}
-
-    //public void Die()
-    //{
-    //    isDead = true;
-    //    Debug.Log(transform.name + " is DEAD!");
-
-    //}
-
-    //public void SetDefaults()
-    //{
-    //    currentHealth = maxHealth;
-    //}
 }
