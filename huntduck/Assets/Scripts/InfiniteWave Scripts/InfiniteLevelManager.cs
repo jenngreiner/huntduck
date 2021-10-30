@@ -110,7 +110,6 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // wave ends, hide game UI
         infiniteWaveSpawner.enabled = false;
-        gameplayUI.SetActive(false);
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
