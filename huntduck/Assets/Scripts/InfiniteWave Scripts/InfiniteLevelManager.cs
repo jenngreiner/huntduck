@@ -16,6 +16,7 @@ public class InfiniteLevelManager : MonoBehaviour
     public Canvas walletCanvas;
     public GameObject gameOverUI; // "Game Over"
     public GameObject endLevelUI; // replay & exit button
+    public GameObject weaponsWall;
 
     public GameObject howYouDidUI;
     public TextMeshProUGUI finalWavesText;
@@ -70,6 +71,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void StartInfiniteWave()
     {
+        weaponsWall.SetActive(false);
         StartCoroutine(BeginInfiniteWave());
     }
 
@@ -84,6 +86,7 @@ public class InfiniteLevelManager : MonoBehaviour
         helperText.text = "WELCOME TO\nHUNT DUCK";
         yield return new WaitForSecondsRealtime(3);
         helperText.text = "SELECT YOUR WEAPON TO BEGIN";
+        weaponsWall.SetActive(true);
     }
 
     IEnumerator BeginInfiniteWave()
