@@ -10,15 +10,14 @@ public class WalletUI : MonoBehaviour
     public Text dollarsText;
     public static string walletScore;
 
-    public Text totalDucksHitText;
-    private string totalDucksHit;
+    //public Text totalDucksHitText;
+    //private string totalDucksHit;
 
 
     void Start()
     {
         // get the playerscore script on player object
         playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
-        infiniteWaveSpawnerScript = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();
 
         // don't you change the name of InfiniteWaveManager yo!
         infiniteWaveSpawnerScript = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();
@@ -46,7 +45,7 @@ public class WalletUI : MonoBehaviour
     {
         CreateWalletScore();
         dollarsText.text = walletScore;
-        totalDucksHitText.text = totalDucksHit;
+        //totalDucksHitText.text = totalDucksHit;
     }
 
     void CreateWalletScore()
@@ -54,6 +53,6 @@ public class WalletUI : MonoBehaviour
         string _scoreAsString = playerScoreScript.playerScore.ToString();
         walletScore = "$";
         walletScore += _scoreAsString;
-        totalDucksHit = infiniteWaveSpawnerScript.ducksHitTotal.ToString();
+        //totalDucksHit = infiniteWaveSpawnerScript.ducksHitTotal.ToString();
     }
 }

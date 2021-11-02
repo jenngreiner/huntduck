@@ -19,15 +19,7 @@ public class WaveUI : MonoBehaviour
         // get the playerscore script on player object
         playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
 
-
-        // start on wave 1
-        UpdateWaveUI();
-
-    }
-
-    void Update()
-    {
-        UpdateWaveUI();
+        waveCountText.text = "0";
     }
 
     // subscribe events

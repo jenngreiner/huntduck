@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // show and hide weapons wall off key events
-public class WeaponsManager
+public class WeaponsManager : MonoBehaviour
 {
     public delegate void WeaponSelected();
     public static event WeaponSelected onWeaponSelected;
