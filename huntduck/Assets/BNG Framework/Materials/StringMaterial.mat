@@ -23,7 +23,7 @@ Material:
   m_Name: StringMaterial
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
-  m_LightmapFlags: 1
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -120,8 +120,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.94130903, b: 1, a: 0}
+    - _BaseColor: {r: 1, g: 0.3019608, b: 0, a: 0}
     - _Color: {r: 0, g: 0.941309, b: 1, a: 0}
-    - _EmissionColor: {r: 0, g: 0.9896784, b: 1, a: 1}
+    - _EmissionColor: {r: 0.60382754, g: 0.052860655, b: 0.018500218, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
