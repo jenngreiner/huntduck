@@ -9,6 +9,7 @@ public class SelectManager : MonoBehaviour
     public Text helperText;
 
     public GameObject buttons;
+    public GameObject weaponsWall;
 
     private void Start()
     {
@@ -38,6 +39,7 @@ public class SelectManager : MonoBehaviour
         helperUI.SetActive(true);
         helperText.text = "Welcome to\nHunt Duck";
         yield return new WaitForSeconds(3f);
+        weaponsWall.SetActive(true);
         helperText.text = "Select your weapon behind you to begin";
     }
 }
