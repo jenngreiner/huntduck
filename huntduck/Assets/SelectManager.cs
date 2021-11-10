@@ -14,12 +14,14 @@ public class SelectManager : MonoBehaviour
     private void OnEnable()
     {
         SelectModeTrigger.onSelectModeTriggered += StartSelectMode;
+        WallSlider.onPosition1Reached += ShowWeaponsWall;
         WeaponsManager.onWeaponSelected += ShowButtons;
     }
 
     private void OnDisable()
     {
         WeaponsManager.onWeaponSelected -= ShowButtons;
+        WallSlider.onPosition1Reached -= ShowWeaponsWall;
         SelectModeTrigger.onSelectModeTriggered -= StartSelectMode;
     }
 
@@ -35,12 +37,16 @@ public class SelectManager : MonoBehaviour
         StartCoroutine(SelectModeIntro());
     }
 
+    void ShowWeaponsWall()
+    {
+        weaponsWall.SetActive(true);
+    }
+
     IEnumerator SelectModeIntro()
     {
         helperUI.SetActive(true);
         helperText.text = "Welcome to\nHunt Duck";
         yield return new WaitForSeconds(3f);
-        weaponsWall.SetActive(true);
         helperText.text = "Select your weapon behind you to begin";
     }
 }

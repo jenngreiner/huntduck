@@ -8,8 +8,6 @@ public class SelectModeTrigger : MonoBehaviour
     public delegate void SelectModeTriggered();
     public static SelectModeTriggered onSelectModeTriggered;
 
-    public GameObject selectManager;
-
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
