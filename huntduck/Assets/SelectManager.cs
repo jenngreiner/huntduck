@@ -11,30 +11,31 @@ public class SelectManager : MonoBehaviour
     public GameObject buttons;
     public GameObject weaponsWall;
 
-    private void Start()
-    {
-        // start script here
-        StartCoroutine(startSelectMode());
-    }
-
     private void OnEnable()
     {
-        WeaponsManager.onWeaponSelected += showButtons;
+        SelectModeTrigger.onSelectModeTriggered += StartSelectMode;
+        WeaponsManager.onWeaponSelected += ShowButtons;
     }
 
     private void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= showButtons;
+        WeaponsManager.onWeaponSelected -= ShowButtons;
+        SelectModeTrigger.onSelectModeTriggered -= StartSelectMode;
     }
 
-    void showButtons()
+    void ShowButtons()
     {
         helperText.text = "Shoot Practice or Hunt to begin";
         // turn on button gameobject
         buttons.SetActive(true);
     }
 
-    IEnumerator startSelectMode()
+    void StartSelectMode()
+    {
+        StartCoroutine(SelectModeIntro());
+    }
+
+    IEnumerator SelectModeIntro()
     {
         helperUI.SetActive(true);
         helperText.text = "Welcome to\nHunt Duck";
