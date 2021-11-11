@@ -168,7 +168,7 @@ public class PracticeRangeManager : MonoBehaviour
     {
         state = PracticeState.INTRO;
         helperUI.SetActive(true);
-        // helperText.text = "Welcome to the Practice Range!";
+        helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
         //commenting out and jumping to target round for single scene experiment
         //helperText.text = "Select your weapon behind you";
