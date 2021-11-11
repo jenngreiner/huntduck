@@ -39,7 +39,7 @@ public class InfiniteLevelManager : MonoBehaviour
         // get the playerscore script on player object
         playerScoreScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScore>();
 
-        StartIntro(); 
+        // StartIntro(); 
     }
 
     void Update()
@@ -61,13 +61,15 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void OnEnable()
     {
-        WeaponsManager.onWeaponSelected += StartInfiniteWave;
+        MoveGameWorld.onWorldPosition1Reached += StartInfiniteWave;
+        // WeaponsManager.onWeaponSelected += StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
     }
 
     void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= StartInfiniteWave;
+        MoveGameWorld.onWorldPosition1Reached -= StartInfiniteWave;
+        // WeaponsManager.onWeaponSelected -= StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
     }
 
@@ -93,6 +95,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator BeginInfiniteWave()
     {
+        helperUI.SetActive(true);
         helperText.text = "PREPARE TO HUNT";
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);

@@ -37,5 +37,7 @@ public class MoveGameWorld : MonoBehaviour
             transform.position = Vector3.Lerp(startPosition, position1.position, timeElasped);
             yield return null;
         }
+
+        onWorldPosition1Reached?.Invoke();
     }
 }

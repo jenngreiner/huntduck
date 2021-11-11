@@ -45,8 +45,17 @@ public class SelectManager : MonoBehaviour
     IEnumerator SelectModeIntro()
     {
         helperUI.SetActive(true);
-        helperText.text = "Welcome to\nHunt Duck";
+        helperText.text = "WELCOME TO\nHUNT DUCK";
         yield return new WaitForSeconds(3f);
         helperText.text = "Select your weapon behind you to begin";
+
+    //     welcomeUI.SetActive(true);
+    //     yield return new WaitForSeconds(3f);
+    //     welcomeUI.SetActive(false);
+
+    //     helperUI.SetActive(true);
+    //     helperText.text = "Select your weapon behind you to begin";
+    //     // yield return new WaitForSeconds(3f);
+    // }
     }
 }
