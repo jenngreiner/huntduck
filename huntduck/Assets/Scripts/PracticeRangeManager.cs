@@ -33,13 +33,6 @@ public class PracticeRangeManager : MonoBehaviour
     void Start()
     {
         SetupRound();
-        StartCoroutine(PracticeRangeIntro());
-    }
-
-    // called in BeginGameTrigger.cs
-    public void StartPractice()
-    {
-        Debug.Log("LET THE GAMES BEGIN!!");
     }
 
     void Update()
@@ -85,16 +78,28 @@ public class PracticeRangeManager : MonoBehaviour
     void OnEnable()
     {
         // onWeaponsSelected callback happens in SnapZone.cs
-        WeaponsManager.onWeaponSelected += PrepTargetRound;
+        // WeaponsManager.onWeaponSelected += PrepTargetRound;
+        MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
         BNG.Damageable.onTargetHit += RemoveTarget;
     }
 
     void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= PrepTargetRound;
+        // WeaponsManager.onWeaponSelected -= PrepTargetRound;
+        MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;
+    }
+
+    void StartPracticeRange() {
+        StartCoroutine(PracticeRangeIntro());
+    }
+
+    // called in BeginGameTrigger.cs
+    public void StartPractice()
+    {
+        Debug.Log("LET THE GAMES BEGIN!!");
     }
 
     void SetupRound()
@@ -122,7 +127,7 @@ public class PracticeRangeManager : MonoBehaviour
     void PrepTargetRound()
     {
         beginTargetTrigger.isTargetReady = true;
-        helperText.text = "Step up to the podium to start!";
+        // helperText.text = "Step up to the podium to start!";
     }
 
     // called in BeginTargetTrigger.cs
@@ -162,9 +167,12 @@ public class PracticeRangeManager : MonoBehaviour
     IEnumerator PracticeRangeIntro()
     {
         state = PracticeState.INTRO;
+        helperUI.SetActive(true);
         helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        helperText.text = "Select your weapon behind you";
+        //commenting out and jumping to target round for single scene experiment
+        //helperText.text = "Select your weapon behind you";
+        StartCoroutine(TargetRoundIntro());
     }
 
     IEnumerator TargetRoundIntro()
