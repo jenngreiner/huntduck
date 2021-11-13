@@ -69,6 +69,7 @@ public class PracticeRangeManager : MonoBehaviour
             // check if we have shot all the carni ducks
             if (cduckList.Count == 0)
             {
+                RespawnDucks();
                 carniDucks.SetActive(false);
                 EndPracticeSession();
             }
@@ -122,6 +123,16 @@ public class PracticeRangeManager : MonoBehaviour
         {
             Debug.Log("target found named " + target.name);
             BNG.Damageable damageableScript = target.GetComponent<BNG.Damageable>();
+            damageableScript.InstantRespawn();
+        }
+    }
+
+    void RespawnDucks()
+    {
+        foreach (Transform cduck in carniDucks.transform)
+        {
+            Debug.Log("cduck found named " + cduck.name);
+            BNG.Damageable damageableScript = cduck.GetComponent<BNG.Damageable>();
             damageableScript.InstantRespawn();
         }
     }
