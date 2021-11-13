@@ -32,11 +32,16 @@ public class PracticeRangeManager : MonoBehaviour
 
     void Start()
     {
-        SetupRound();
+        //SetupRound();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartPracticeRange();
+        }
+
         if (state == PracticeState.TARGET)
         {
             // check if we have hit all the targets
@@ -77,8 +82,9 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
-        // onWeaponsSelected callback happens in SnapZone.cs
-        // WeaponsManager.onWeaponSelected += PrepTargetRound;
+        SetupRound();
+
+        // new event tied to StartPracticeRange()
         MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
         BNG.Damageable.onTargetHit += RemoveTarget;
@@ -86,20 +92,10 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnDisable()
     {
-        // WeaponsManager.onWeaponSelected -= PrepTargetRound;
+
         MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;
-    }
-
-    void StartPracticeRange() {
-        StartCoroutine(PracticeRangeIntro());
-    }
-
-    // called in BeginGameTrigger.cs
-    public void StartPractice()
-    {
-        Debug.Log("LET THE GAMES BEGIN!!");
     }
 
     void SetupRound()
@@ -124,10 +120,15 @@ public class PracticeRangeManager : MonoBehaviour
         carniDucks.gameObject.SetActive(false);
     }
 
-    void PrepTargetRound()
+    //void PrepTargetRound()
+    //{
+    //    beginTargetTrigger.isTargetReady = true;
+    //    // helperText.text = "Step up to the podium to start!";
+    //}
+
+    void StartPracticeRange()
     {
-        beginTargetTrigger.isTargetReady = true;
-        // helperText.text = "Step up to the podium to start!";
+        StartCoroutine(PracticeRangeIntro());
     }
 
     // called in BeginTargetTrigger.cs
@@ -170,9 +171,7 @@ public class PracticeRangeManager : MonoBehaviour
         helperUI.SetActive(true);
         helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        //commenting out and jumping to target round for single scene experiment
-        //helperText.text = "Select your weapon behind you";
-        StartCoroutine(TargetRoundIntro());
+        StartTargetRound();
     }
 
     IEnumerator TargetRoundIntro()

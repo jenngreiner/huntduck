@@ -255,7 +255,7 @@ namespace BNG {
             switch (gameObject.tag)
             {
                 case TagManager.TARGET_TAG:
-                    onTargetHit?.Invoke(transform.parent.gameObject);
+                    onTargetHit?.Invoke(gameObject);
                     break;
                 case TagManager.PRACTICECLAY_TAG:
                     onClayHit?.Invoke();
