@@ -11,14 +11,13 @@ public class PracticeRangeManager : MonoBehaviour
 
     public WeaponsManager weaponsManager;
 
-    public BeginTargetTrigger beginTargetTrigger;
+    //public BeginTargetTrigger beginTargetTrigger;
 
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
     public Canvas walletCanvas;
     public GameObject endLevelUI; // replay & exit button
-
 
     public GameObject targetWall;
     public List<GameObject> targetList;
@@ -131,8 +130,9 @@ public class PracticeRangeManager : MonoBehaviour
     {
         foreach (Transform cduck in carniDucks.transform)
         {
-            Debug.Log("cduck found named " + cduck.name);
-            BNG.Damageable damageableScript = cduck.GetComponent<BNG.Damageable>();
+            Transform duck = cduck.GetChild(0);
+            Debug.Log("duck found named " + duck.name);
+            BNG.Damageable damageableScript = duck.GetComponent<BNG.Damageable>();
             damageableScript.InstantRespawn();
         }
     }

@@ -8,9 +8,11 @@ public class RestartGameMode : MonoBehaviour
     public static event RestartMode onRestartMode;
 
     public GameObject hideThisUI;
+    public BNG.Damageable damageableScript;
 
     public void restartModeEvent()
     {
+        damageableScript.InstantRespawn();
         onRestartMode?.Invoke();
         hideThisUI.SetActive(false);
     }

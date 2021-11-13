@@ -306,7 +306,7 @@ namespace BNG {
                     onClayHit?.Invoke();
                     break;
                 case TagManager.PRACTICEDUCK_TAG:
-                    onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+                    onCarniDuckHit?.Invoke(transform.parent.gameObject);
                     onDuckDie?.Invoke();
                     break;
                 case TagManager.INFINITEDUCK_TAG:
