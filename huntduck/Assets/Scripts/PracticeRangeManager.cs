@@ -30,10 +30,10 @@ public class PracticeRangeManager : MonoBehaviour
     public AudioSource levelupSound;
 
 
-    void Start()
-    {
-        SetupRound();
-    }
+    //void Start()
+    //{
+    //    SetupRound();
+    //}
 
     void Update()
     {
@@ -80,6 +80,9 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
+        SetupRound();
+
+        ExitGameMode.onExitMode += RestartPracticeSession;
         RestartGameMode.onRestartMode += RestartPracticeSession;
         MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
@@ -89,6 +92,7 @@ public class PracticeRangeManager : MonoBehaviour
     void OnDisable()
     {
         RestartGameMode.onRestartMode -= RestartPracticeSession;
+        ExitGameMode.onExitMode -= RestartPracticeSession;
         MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;

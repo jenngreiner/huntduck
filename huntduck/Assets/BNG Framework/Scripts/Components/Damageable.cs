@@ -83,6 +83,9 @@ namespace BNG {
         [Tooltip("Optional Event to be called once health is <= 0")]
         public UnityEvent onDestroyed;
 
+        public delegate void DestroyDelegate();
+        public static event DestroyDelegate onDestroyedDelegate;
+
         [Tooltip("Optional Event to be called once the object has been respawned, if Respawn is true and after RespawnTime")]
         public UnityEvent onRespawn;
 
@@ -188,6 +191,8 @@ namespace BNG {
             if (onDestroyed != null) {
                 onDestroyed.Invoke();
             }
+
+            onDestroyedDelegate?.Invoke();
 
             if (DestroyOnDeath)
             {
