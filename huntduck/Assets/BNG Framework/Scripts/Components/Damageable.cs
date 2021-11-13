@@ -219,6 +219,49 @@ namespace BNG {
             }
         }
 
+        public void InstantRespawn()
+        {
+            Debug.Log("Calling instant respawn on " + transform.name);
+
+            Health = _startingHealth;
+            destroyed = false;
+
+            // Deactivate
+            foreach (var go in ActivateGameObjectsOnDeath)
+            {
+                go.SetActive(false);
+                Debug.Log("Should be turning off " + go.name + " as part of respawn");
+            }
+
+            // Re-Activate
+            foreach (var go in DeactivateGameObjectsOnDeath)
+            {
+                go.SetActive(true);
+                Debug.Log("Should be turning on " + go.name + " as part of respawn");
+            }
+            foreach (var col in DeactivateCollidersOnDeath)
+            {
+                col.enabled = true;
+            }
+
+            // Reset kinematic property if applicable
+            if (rigid)
+            {
+                rigid.isKinematic = initialWasKinematic;
+            }
+
+            // Call events
+            if (onRespawn != null)
+            {
+                onRespawn.Invoke();
+            }
+        }
+
+        public void RespawnObject(float seconds)
+        {
+            StartCoroutine(RespawnRoutine(seconds));
+        }
+
         IEnumerator RespawnRoutine(float seconds) {
 
             yield return new WaitForSeconds(seconds);
@@ -229,11 +272,13 @@ namespace BNG {
             // Deactivate
             foreach (var go in ActivateGameObjectsOnDeath) {
                 go.SetActive(false);
+                Debug.Log("Should be turning off " + go.name + " as part of respawn");
             }
 
             // Re-Activate
             foreach (var go in DeactivateGameObjectsOnDeath) {
                 go.SetActive(true);
+                Debug.Log("Should be turning on " + go.name + " as part of respawn");
             }
             foreach (var col in DeactivateCollidersOnDeath) {
                 col.enabled = true;

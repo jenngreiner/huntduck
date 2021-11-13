@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,21 +33,18 @@ public class PracticeRangeManager : MonoBehaviour
 
     void Start()
     {
-        //SetupRound();
+        SetupRound();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartPracticeRange();
-        }
-
         if (state == PracticeState.TARGET)
         {
             // check if we have hit all the targets
             if (targetList.Count == 0)
             {
+                RespawnTargets();
+                targetWall.SetActive(false);
                 StartClayRound();
             }
             // targets still left
@@ -82,9 +80,7 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
-        SetupRound();
-
-        // new event tied to StartPracticeRange()
+        RestartGameMode.onRestartMode += RestartPracticeSession;
         MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
         BNG.Damageable.onTargetHit += RemoveTarget;
@@ -92,7 +88,7 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnDisable()
     {
-
+        RestartGameMode.onRestartMode -= RestartPracticeSession;
         MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;
@@ -118,6 +114,16 @@ public class PracticeRangeManager : MonoBehaviour
 
         walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
+    }
+
+    void RespawnTargets()
+    {
+        foreach (Transform target in targetWall.transform)
+        {
+            Debug.Log("target found named " + target.name);
+            BNG.Damageable damageableScript = target.GetComponent<BNG.Damageable>();
+            damageableScript.InstantRespawn();
+        }
     }
 
     //void PrepTargetRound()
@@ -152,6 +158,12 @@ public class PracticeRangeManager : MonoBehaviour
         StartCoroutine(EndPracticeOutro());
     }
 
+    void RestartPracticeSession()
+    {
+        SetupRound();
+        StartPracticeRange();
+    }
+
     void RemoveCarniDuck(GameObject carniDuck)
     {
         cduckList.Remove(carniDuck);
@@ -163,7 +175,6 @@ public class PracticeRangeManager : MonoBehaviour
         targetList.Remove(target);
         Debug.Log("One less target in target list! Count is now " + targetList.Count);
     }
-
 
     IEnumerator PracticeRangeIntro()
     {
