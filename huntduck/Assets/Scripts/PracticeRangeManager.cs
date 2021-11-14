@@ -30,10 +30,11 @@ public class PracticeRangeManager : MonoBehaviour
     public AudioSource levelupSound;
 
 
-    //void Start()
-    //{
-    //    SetupRound();
-    //}
+    void Start()
+    {
+        //SetupRound();
+        Debug.Log("Start method complete");
+    }
 
     void Update()
     {
@@ -80,22 +81,26 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
-        SetupRound();
-
-        ExitGameMode.onExitMode += RestartPracticeSession;
-        RestartGameMode.onRestartMode += RestartPracticeSession;
-        MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
         BNG.Damageable.onTargetHit += RemoveTarget;
+
+        // these events are needed when switching game mode in the same scene
+        ChooseGameMode.onSwitchMode += StartPracticeSession;
+        RestartGameMode.onRestartMode += StartPracticeSession;
+        //ExitGameMode.onExitMode += ResetPracticeSession;
+        //MoveGameWorld.onWorldPosition1Reached += StartPracticeSession;
     }
 
     void OnDisable()
     {
-        RestartGameMode.onRestartMode -= RestartPracticeSession;
-        ExitGameMode.onExitMode -= RestartPracticeSession;
-        MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;
+
+        // these events are needed when switching game mode in the same scene
+        ChooseGameMode.onSwitchMode -= StartPracticeSession;
+        RestartGameMode.onRestartMode -= StartPracticeSession;
+        //ExitGameMode.onExitMode -= ResetPracticeSession;
+        //MoveGameWorld.onWorldPosition1Reached -= StartPracticeSession;
     }
 
     void SetupRound()
@@ -112,12 +117,12 @@ public class PracticeRangeManager : MonoBehaviour
         foreach (Transform child in carniDucks.transform)
         {
             cduckList.Add(child.gameObject);
-            Debug.Log("Added " + child.gameObject + " to cducklist");
-            Debug.Log("We've got " + cduckList.Count + "carniducks to shoot");
         }
 
         walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
+
+        Debug.Log("SetupRound complete");
     }
 
     void RespawnTargets()
@@ -147,8 +152,9 @@ public class PracticeRangeManager : MonoBehaviour
     //    // helperText.text = "Step up to the podium to start!";
     //}
 
-    void StartPracticeRange()
+    void StartPracticeSession()
     {
+        SetupRound();
         StartCoroutine(PracticeRangeIntro());
     }
 
@@ -173,11 +179,16 @@ public class PracticeRangeManager : MonoBehaviour
         StartCoroutine(EndPracticeOutro());
     }
 
-    void RestartPracticeSession()
-    {
-        SetupRound();
-        StartPracticeRange();
-    }
+    //void RestartPracticeSession()
+    //{
+    //    SetupRound();
+    //    StartPracticeSession();
+    //}
+
+    //void ResetPracticeSession()
+    //{
+    //    SetupRound();
+    //}
 
     void RemoveCarniDuck(GameObject carniDuck)
     {
@@ -193,11 +204,15 @@ public class PracticeRangeManager : MonoBehaviour
 
     IEnumerator PracticeRangeIntro()
     {
+        yield return new WaitForSeconds(0.1f); // within same scene, we gotta let the first frame load when switching over from selectmode
+        Debug.Log("Starting PracticeRange Intro");
         state = PracticeState.INTRO;
         helperUI.SetActive(true);
+
         helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
         StartTargetRound();
+        Debug.Log("PracticeRangeIntro fired StartTargetRound");
     }
 
     IEnumerator TargetRoundIntro()
