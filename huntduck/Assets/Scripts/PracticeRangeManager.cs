@@ -53,14 +53,16 @@ public class PracticeRangeManager : MonoBehaviour
 
         if (state == PracticeState.CLAY)
         {
+            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
+
             // check if we have hit 3 clays
             if (clayWavesManager.claysHit >= 3)
             {
+                Debug.Log("Hit 3 clays, moving on to ducks");
                 // stop waves, go on to next round
                 //clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
-            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
             return;
         }
 
@@ -112,11 +114,15 @@ public class PracticeRangeManager : MonoBehaviour
         foreach (Transform child in targetWall.transform)
         {
             targetList.Add(child.gameObject);
+            Debug.Log("Added " + child.gameObject + " to targetlist");
+            Debug.Log("We've got " + targetList.Count + "targets to shoot");
         }
 
         foreach (Transform child in carniDucks.transform)
         {
             cduckList.Add(child.gameObject);
+            Debug.Log("Added " + child.gameObject + " to cducklist");
+            Debug.Log("We've got " + cduckList.Count + "carniducks to shoot");
         }
 
         walletCanvas.enabled = false;
