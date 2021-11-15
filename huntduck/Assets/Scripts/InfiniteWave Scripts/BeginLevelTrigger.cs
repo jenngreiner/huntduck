@@ -12,7 +12,7 @@ public class BeginLevelTrigger : MonoBehaviour
         if (other.tag == "Player" && !isGameStarted)
         {
             // Begin the game
-            infiniteLevelManager.StartIntro();
+            //infiniteLevelManager.StartIntro();
             isGameStarted = true;
             Debug.Log("Started the game");
         }

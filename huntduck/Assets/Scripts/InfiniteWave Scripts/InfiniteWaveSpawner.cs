@@ -33,14 +33,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public List<InfiniteWave> waves;
     private int nextWave;
-    public int ducksHitTotal = 0;
+    public int ducksHitTotal;
     //public static int ducksHitThisWave;
-    public static int ducksLeft;
+    public int ducksLeft;
 
     private float waveTimeRemaining;
     public float timeDelay = 1f;
-    public static int currentWaveNumber;
-    public static int currentWaveTime;
+    public int currentWaveNumber;
+    public int currentWaveTime;
 
     public GameObject[] spawnPoints;
 
@@ -59,7 +59,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public delegate void gameOver();
     public static event gameOver onGameOver;
 
-    public static TimeSpan timerSeconds;
+    public TimeSpan timerSeconds;
     public GameObject waveCountUI;
     public Text waveCountText;
     public GameObject getReadyUI;
@@ -72,9 +72,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
             Debug.LogError("No spawnpoints referenced");
         }
 
-        nextWave = 0;
-
-        SetupWave();
+        //nextWave = 0;
+        //SetupWave();
         // note: we are in READY state, so first Frame after start will StartWave
     }
 
@@ -101,6 +100,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
+        nextWave = 0;
+        ducksHitTotal = 0;
+        SetupWave();
+        state = WaveState.READY;
+
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
     }
 
@@ -117,10 +121,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
         waves[nextWave].ducksHitThisWave = 0;
         ducksLeft = waves[nextWave].duckCount;
 
-        // call out an event: hey subs, I changed my wave, do what you will man
-        if (onWaveChange != null)
+        onWaveChange?.Invoke();
+    }
+
+    public void ResetWaves()
+    {
+        if (waves.Count > 1)
         {
-            onWaveChange();
+            waves.RemoveRange(1, waves.Count - 1);
         }
     }
 
@@ -157,11 +165,13 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
         if (!playerBeatWave())
         {
-            if (onGameOver != null)
-            {
-                onGameOver();
-            }
+            onGameOver?.Invoke();
             StopAllCoroutines(); // stop ducks flying
+
+            //nextWave = 0;
+            //SetupWave();
+
+            enabled = false;
         }
         else
         {

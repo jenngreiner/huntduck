@@ -13,6 +13,8 @@ public class InfiniteLevelManager : MonoBehaviour
     public Text helperText;
     public GameObject congratsUI;
     public GameObject gameplayUI; // this UI shows waves, time, ducks, score
+    public Text duckText; // duck count on sign
+    public Text timeText; // time on sign
     public Canvas walletCanvas;
     public GameObject gameOverUI; // "Game Over"
     public GameObject endLevelUI; // replay & exit button
@@ -32,14 +34,17 @@ public class InfiniteLevelManager : MonoBehaviour
     public AudioSource levelupSound;
     private PlayerScore playerScoreScript;
 
+    public delegate void StartInfinite();
+    public static event StartInfinite onStartInfinite;
+
 
     void Start()
     {
-        // TODO: some day don't be lazy, make a TagManager
         // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScore>();
+        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER).GetComponent<PlayerScore>();
 
-        // StartIntro(); 
+        // not needed while in single scene setup
+        //StartInfiniteWave();
     }
 
     void Update()
@@ -51,32 +56,44 @@ public class InfiniteLevelManager : MonoBehaviour
         }
     }
 
-    // used to be called in BeginLevelTrigger.cs, now called on Start()
-    public void StartIntro()
-    {
-        // commenting out for single scene experiment
-        //StartCoroutine(InfiniteWaveIntro());
-        StartInfiniteWave();
-    }
-
     void OnEnable()
     {
-        MoveGameWorld.onWorldPosition1Reached += StartInfiniteWave;
-        // WeaponsManager.onWeaponSelected += StartInfiniteWave;
+        ResetText();
+
+        ChooseGameMode.onSwitchMode += StartInfiniteWave;
+        RestartGameMode.onRestartMode += StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
+
+        //MoveGameWorld.onWorldPosition1Reached += StartInfiniteWave;
+        // WeaponsManager.onWeaponSelected += StartInfiniteWave;
     }
 
     void OnDisable()
     {
-        MoveGameWorld.onWorldPosition1Reached -= StartInfiniteWave;
-        // WeaponsManager.onWeaponSelected -= StartInfiniteWave;
+        ChooseGameMode.onSwitchMode -= StartInfiniteWave;
+        RestartGameMode.onRestartMode -= StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
+
+        // need this in single scene setup
+        howYouDidUI.SetActive(false);
+        highestScoresUI.SetActive(false);
+
+        //MoveGameWorld.onWorldPosition1Reached -= StartInfiniteWave;
+        // WeaponsManager.onWeaponSelected -= StartInfiniteWave;
     }
+
+    void ResetText()
+    {
+        duckText.text = "-";
+        timeText.text = "-";
+    }
+
 
     void StartInfiniteWave()
     {
-        //weaponsWall.SetActive(false);
+        onStartInfinite?.Invoke();
         StartCoroutine(BeginInfiniteWave());
+        //weaponsWall.SetActive(false);
     }
 
     void EndInfiniteWave()
@@ -84,7 +101,7 @@ public class InfiniteLevelManager : MonoBehaviour
         StartCoroutine(InfiniteWaveOutro());
     }
 
-
+    // not needed if selecting weapon in select mode
     IEnumerator InfiniteWaveIntro()
     {
         helperText.text = "WELCOME TO\n THE HUNT";
@@ -117,7 +134,7 @@ public class InfiniteLevelManager : MonoBehaviour
         Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
 
         // wave ends, hide game UI
-        infiniteWaveSpawner.enabled = false;
+        //infiniteWaveSpawner.enabled = false;
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
@@ -126,7 +143,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // show final UI with score rollup
         huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
-        finalWavesText.text = (infiniteWaveSpawner.waves.Count).ToString();
+        finalWavesText.text = infiniteWaveSpawner.waves.Count.ToString();
         finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
         howYouDidUI.SetActive(true);

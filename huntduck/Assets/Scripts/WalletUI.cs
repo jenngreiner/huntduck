@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class WalletUI : MonoBehaviour
 {
-    private const string PLAYER_TAG = "Player";
-    private PlayerScore playerScoreScript;
+    public PlayerScore playerScoreScript;
     private InfiniteWaveSpawner infiniteWaveSpawnerScript;
 
     public Text dollarsText;
@@ -17,7 +16,7 @@ public class WalletUI : MonoBehaviour
     void Start()
     {
         // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
+        //playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER).GetComponent<PlayerScore>();
 
         // don't you change the name of InfiniteWaveManager yo!
         infiniteWaveSpawnerScript = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();

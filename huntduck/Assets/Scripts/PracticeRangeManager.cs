@@ -101,6 +101,7 @@ public class PracticeRangeManager : MonoBehaviour
         // these events are needed when switching game mode in the same scene
         ChooseGameMode.onSwitchMode -= StartPracticeSession;
         RestartGameMode.onRestartMode -= StartPracticeSession;
+
         //ExitGameMode.onExitMode -= ResetPracticeSession;
         //MoveGameWorld.onWorldPosition1Reached -= StartPracticeSession;
     }
