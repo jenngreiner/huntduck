@@ -16,7 +16,7 @@ public class WaveUI : MonoBehaviour
     {
         infiniteWaveSpawnerScript = FindObjectOfType<InfiniteWaveSpawner>();
 
-        waveCountText.text = "0";
+        //waveCountText.text = "0";
     }
 
     private void OnEnable()

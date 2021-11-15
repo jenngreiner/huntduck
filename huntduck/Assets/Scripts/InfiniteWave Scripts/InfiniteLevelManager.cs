@@ -74,7 +74,7 @@ public class InfiniteLevelManager : MonoBehaviour
         RestartGameMode.onRestartMode -= StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
 
-        // need this in single scene setup
+        // SINGLESCENE
         howYouDidUI.SetActive(false);
         highestScoresUI.SetActive(false);
 
@@ -82,7 +82,7 @@ public class InfiniteLevelManager : MonoBehaviour
         // WeaponsManager.onWeaponSelected -= StartInfiniteWave;
     }
 
-    void ResetText()
+    public void ResetText()
     {
         duckText.text = "-";
         timeText.text = "-";

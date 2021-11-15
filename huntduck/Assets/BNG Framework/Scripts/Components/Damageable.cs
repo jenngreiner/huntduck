@@ -197,7 +197,7 @@ namespace BNG {
             if (DestroyOnDeath)
             {
                 Destroy(this.gameObject, DestroyDelay);
-                Destroy(this.transform.parent.gameObject, DestroyDelay);
+                //Destroy(this.transform.parent.gameObject, DestroyDelay);
             }
             else if (Respawn)
             {
