@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,13 @@ public class PracticeRangeManager : MonoBehaviour
 
     public WeaponsManager weaponsManager;
 
-    public BeginTargetTrigger beginTargetTrigger;
+    //public BeginTargetTrigger beginTargetTrigger;
 
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
     public Canvas walletCanvas;
     public GameObject endLevelUI; // replay & exit button
-
 
     public GameObject targetWall;
     public List<GameObject> targetList;
@@ -32,7 +32,8 @@ public class PracticeRangeManager : MonoBehaviour
 
     void Start()
     {
-        SetupRound();
+        //SetupRound();
+        Debug.Log("Start method complete");
     }
 
     void Update()
@@ -42,6 +43,8 @@ public class PracticeRangeManager : MonoBehaviour
             // check if we have hit all the targets
             if (targetList.Count == 0)
             {
+                RespawnTargets();
+                targetWall.SetActive(false);
                 StartClayRound();
             }
             // targets still left
@@ -50,14 +53,16 @@ public class PracticeRangeManager : MonoBehaviour
 
         if (state == PracticeState.CLAY)
         {
+            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
+
             // check if we have hit 3 clays
             if (clayWavesManager.claysHit >= 3)
             {
+                Debug.Log("Hit 3 clays, moving on to ducks");
                 // stop waves, go on to next round
                 //clayWavesManager.enabled = false;
                 StartCarniDucks();
             }
-            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
             return;
         }
 
@@ -66,6 +71,7 @@ public class PracticeRangeManager : MonoBehaviour
             // check if we have shot all the carni ducks
             if (cduckList.Count == 0)
             {
+                RespawnDucks();
                 carniDucks.SetActive(false);
                 EndPracticeSession();
             }
@@ -77,29 +83,27 @@ public class PracticeRangeManager : MonoBehaviour
 
     void OnEnable()
     {
-        // onWeaponsSelected callback happens in SnapZone.cs
-        // WeaponsManager.onWeaponSelected += PrepTargetRound;
-        MoveGameWorld.onWorldPosition1Reached += StartPracticeRange;
         BNG.Damageable.onCarniDuckHit += RemoveCarniDuck;
         BNG.Damageable.onTargetHit += RemoveTarget;
+
+        // these events are needed when switching game mode in the same scene
+        ChooseGameMode.onSwitchMode += StartPracticeSession;
+        RestartGameMode.onRestartMode += StartPracticeSession;
+        //ExitGameMode.onExitMode += ResetPracticeSession;
+        //MoveGameWorld.onWorldPosition1Reached += StartPracticeSession;
     }
 
     void OnDisable()
     {
-        // WeaponsManager.onWeaponSelected -= PrepTargetRound;
-        MoveGameWorld.onWorldPosition1Reached -= StartPracticeRange;
         BNG.Damageable.onCarniDuckHit -= RemoveCarniDuck;
         BNG.Damageable.onTargetHit -= RemoveTarget;
-    }
 
-    void StartPracticeRange() {
-        StartCoroutine(PracticeRangeIntro());
-    }
+        // these events are needed when switching game mode in the same scene
+        ChooseGameMode.onSwitchMode -= StartPracticeSession;
+        RestartGameMode.onRestartMode -= StartPracticeSession;
 
-    // called in BeginGameTrigger.cs
-    public void StartPractice()
-    {
-        Debug.Log("LET THE GAMES BEGIN!!");
+        //ExitGameMode.onExitMode -= ResetPracticeSession;
+        //MoveGameWorld.onWorldPosition1Reached -= StartPracticeSession;
     }
 
     void SetupRound()
@@ -111,6 +115,8 @@ public class PracticeRangeManager : MonoBehaviour
         foreach (Transform child in targetWall.transform)
         {
             targetList.Add(child.gameObject);
+            Debug.Log("Added " + child.gameObject + " to targetlist");
+            Debug.Log("We've got " + targetList.Count + "targets to shoot");
         }
 
         foreach (Transform child in carniDucks.transform)
@@ -122,12 +128,41 @@ public class PracticeRangeManager : MonoBehaviour
 
         walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
+
+        Debug.Log("SetupRound complete");
     }
 
-    void PrepTargetRound()
+    void RespawnTargets()
     {
-        beginTargetTrigger.isTargetReady = true;
-        // helperText.text = "Step up to the podium to start!";
+        foreach (Transform target in targetWall.transform)
+        {
+            Debug.Log("target found named " + target.name);
+            BNG.Damageable damageableScript = target.GetComponent<BNG.Damageable>();
+            damageableScript.InstantRespawn();
+        }
+    }
+
+    void RespawnDucks()
+    {
+        foreach (Transform cduck in carniDucks.transform)
+        {
+            Transform duck = cduck.GetChild(0);
+            Debug.Log("duck found named " + duck.name);
+            BNG.Damageable damageableScript = duck.GetComponent<BNG.Damageable>();
+            damageableScript.InstantRespawn();
+        }
+    }
+
+    //void PrepTargetRound()
+    //{
+    //    beginTargetTrigger.isTargetReady = true;
+    //    // helperText.text = "Step up to the podium to start!";
+    //}
+
+    void StartPracticeSession()
+    {
+        SetupRound();
+        StartCoroutine(PracticeRangeIntro());
     }
 
     // called in BeginTargetTrigger.cs
@@ -151,6 +186,17 @@ public class PracticeRangeManager : MonoBehaviour
         StartCoroutine(EndPracticeOutro());
     }
 
+    //void RestartPracticeSession()
+    //{
+    //    SetupRound();
+    //    StartPracticeSession();
+    //}
+
+    //void ResetPracticeSession()
+    //{
+    //    SetupRound();
+    //}
+
     void RemoveCarniDuck(GameObject carniDuck)
     {
         cduckList.Remove(carniDuck);
@@ -163,16 +209,17 @@ public class PracticeRangeManager : MonoBehaviour
         Debug.Log("One less target in target list! Count is now " + targetList.Count);
     }
 
-
     IEnumerator PracticeRangeIntro()
     {
+        yield return new WaitForSeconds(0.1f); // within same scene, we gotta let the first frame load when switching over from selectmode
+        Debug.Log("Starting PracticeRange Intro");
         state = PracticeState.INTRO;
         helperUI.SetActive(true);
+
         helperText.text = "Welcome to the Practice Range!";
         yield return new WaitForSeconds(3);
-        //commenting out and jumping to target round for single scene experiment
-        //helperText.text = "Select your weapon behind you";
-        StartCoroutine(TargetRoundIntro());
+        StartTargetRound();
+        Debug.Log("PracticeRangeIntro fired StartTargetRound");
     }
 
     IEnumerator TargetRoundIntro()

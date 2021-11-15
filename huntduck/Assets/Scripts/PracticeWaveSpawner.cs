@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PracticeWaveSpawner : MonoBehaviour
 {
-    public enum SpawnState { SPAWNING, WAITING, COUNTING };
+    public enum SpawnState { SPAWNING, WAVING, COUNTING };
     private SpawnState state = SpawnState.COUNTING;
 
     // makes the Wave class fields editable from Inspector
@@ -16,8 +16,8 @@ public class PracticeWaveSpawner : MonoBehaviour
     }
 
     public ClayWave[] waves;
-    private int nextWave = 0;
-    public int claysHit = 0;
+    private int nextWave;
+    public int claysHit;
 
     public float timeBetweenWaves = 1f;
     private float waveCountDown;
@@ -26,14 +26,9 @@ public class PracticeWaveSpawner : MonoBehaviour
     public GameObject[] spawnPoints;
 
 
-    void Start()
-    {
-        SetupWave();
-    }
-
     void Update()
     {
-        if (state == SpawnState.WAITING)
+        if (state == SpawnState.WAVING)
         {
             // check if ducks still left
             if (hitAllClays())
@@ -71,6 +66,7 @@ public class PracticeWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
+        SetupWave();
         BNG.Damageable.onClayHit += HitClay;
     }
 
@@ -88,7 +84,9 @@ public class PracticeWaveSpawner : MonoBehaviour
 
         // set time before and between rounds
         waveCountDown = timeBetweenWaves;
-    }
+        nextWave = 0;
+        claysHit = 0;
+}
 
     void WaveCompleted()
     {
@@ -101,9 +99,8 @@ public class PracticeWaveSpawner : MonoBehaviour
         if ((nextWave + 1) > (waves.Length - 1))
         {
             Debug.Log("Clay waves are over");
-            //onClayWavesComplete();
-            //this.enabled = false;
-            this.gameObject.SetActive(false);
+            SetupWave(); // setup waves in case you want to run them again
+            enabled = false;
         }
         else
         {
@@ -168,7 +165,7 @@ public class PracticeWaveSpawner : MonoBehaviour
             }
         }
 
-        state = SpawnState.WAITING;
+        state = SpawnState.WAVING;
         Debug.Log("Back in waiting state");
         yield break;
     }

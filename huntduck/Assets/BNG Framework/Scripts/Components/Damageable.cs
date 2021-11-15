@@ -83,6 +83,9 @@ namespace BNG {
         [Tooltip("Optional Event to be called once health is <= 0")]
         public UnityEvent onDestroyed;
 
+        public delegate void DestroyDelegate();
+        public static event DestroyDelegate onDestroyedDelegate;
+
         [Tooltip("Optional Event to be called once the object has been respawned, if Respawn is true and after RespawnTime")]
         public UnityEvent onRespawn;
 
@@ -189,10 +192,12 @@ namespace BNG {
                 onDestroyed.Invoke();
             }
 
+            onDestroyedDelegate?.Invoke();
+
             if (DestroyOnDeath)
             {
                 Destroy(this.gameObject, DestroyDelay);
-                Destroy(this.transform.parent.gameObject, DestroyDelay);
+                //Destroy(this.transform.parent.gameObject, DestroyDelay);
             }
             else if (Respawn)
             {
@@ -219,6 +224,49 @@ namespace BNG {
             }
         }
 
+        public void InstantRespawn()
+        {
+            Debug.Log("Calling instant respawn on " + transform.name);
+
+            Health = _startingHealth;
+            destroyed = false;
+
+            // Deactivate
+            foreach (var go in ActivateGameObjectsOnDeath)
+            {
+                go.SetActive(false);
+                Debug.Log("Should be turning off " + go.name + " as part of respawn");
+            }
+
+            // Re-Activate
+            foreach (var go in DeactivateGameObjectsOnDeath)
+            {
+                go.SetActive(true);
+                Debug.Log("Should be turning on " + go.name + " as part of respawn");
+            }
+            foreach (var col in DeactivateCollidersOnDeath)
+            {
+                col.enabled = true;
+            }
+
+            // Reset kinematic property if applicable
+            if (rigid)
+            {
+                rigid.isKinematic = initialWasKinematic;
+            }
+
+            // Call events
+            if (onRespawn != null)
+            {
+                onRespawn.Invoke();
+            }
+        }
+
+        public void RespawnObject(float seconds)
+        {
+            StartCoroutine(RespawnRoutine(seconds));
+        }
+
         IEnumerator RespawnRoutine(float seconds) {
 
             yield return new WaitForSeconds(seconds);
@@ -229,11 +277,13 @@ namespace BNG {
             // Deactivate
             foreach (var go in ActivateGameObjectsOnDeath) {
                 go.SetActive(false);
+                Debug.Log("Should be turning off " + go.name + " as part of respawn");
             }
 
             // Re-Activate
             foreach (var go in DeactivateGameObjectsOnDeath) {
                 go.SetActive(true);
+                Debug.Log("Should be turning on " + go.name + " as part of respawn");
             }
             foreach (var col in DeactivateCollidersOnDeath) {
                 col.enabled = true;
@@ -255,13 +305,13 @@ namespace BNG {
             switch (gameObject.tag)
             {
                 case TagManager.TARGET_TAG:
-                    onTargetHit?.Invoke(transform.parent.gameObject);
+                    onTargetHit?.Invoke(gameObject);
                     break;
                 case TagManager.PRACTICECLAY_TAG:
                     onClayHit?.Invoke();
                     break;
                 case TagManager.PRACTICEDUCK_TAG:
-                    onCarniDuckHit?.Invoke(transform.parent.transform.parent.gameObject);
+                    onCarniDuckHit?.Invoke(transform.parent.gameObject);
                     onDuckDie?.Invoke();
                     break;
                 case TagManager.INFINITEDUCK_TAG:

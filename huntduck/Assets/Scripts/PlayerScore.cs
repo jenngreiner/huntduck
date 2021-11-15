@@ -9,6 +9,16 @@ public class PlayerScore : MonoBehaviour
     public delegate void ScoreUpdate();
     public static event ScoreUpdate onScoreUpdate;
 
+    void OnEnable()
+    {
+        InfiniteLevelManager.onStartInfinite += ResetPlayerScore;
+    }
+
+    void OnDisable()
+    {
+        InfiniteLevelManager.onStartInfinite -= ResetPlayerScore;
+    }
+
     public void UpdatePlayerScore(int points)
     {
         playerScore += points;
@@ -16,10 +26,14 @@ public class PlayerScore : MonoBehaviour
 
         duckKills++;
         Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
+        
+        onScoreUpdate?.Invoke();
+    }
 
-        if (onScoreUpdate != null)
-        {
-            onScoreUpdate();
-        }
+    public void ResetPlayerScore()
+    {
+        playerScore = 0;
+        duckKills = 0;
+        onScoreUpdate?.Invoke();
     }
 }
