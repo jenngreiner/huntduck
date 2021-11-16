@@ -35,7 +35,7 @@ public class InfiniteLevelManager : MonoBehaviour
     void Start()
     {
         // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER).GetComponent<PlayerScore>();
+        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).GetComponent<PlayerScore>();
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();

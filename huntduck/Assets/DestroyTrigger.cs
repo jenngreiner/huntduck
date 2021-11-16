@@ -7,7 +7,7 @@ public class DestroyTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == TagManager.INFINITEDUCK_TAG)
+        if (other.tag == TagManager.INFINITEDUCK_TAG || other.tag == TagManager.PRACTICECLAY_TAG)
         {
             Destroy(other.gameObject);
         }
