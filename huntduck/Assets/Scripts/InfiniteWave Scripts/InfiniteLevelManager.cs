@@ -6,9 +6,6 @@ using TMPro;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
-    //public WeaponsManager weaponsManager;
-    //private LeaderboardManager ilm_leaderboards;
-
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
@@ -18,16 +15,13 @@ public class InfiniteLevelManager : MonoBehaviour
     public Canvas walletCanvas;
     public GameObject gameOverUI; // "Game Over"
     public GameObject endLevelUI; // replay & exit button
-    //public GameObject weaponsWall;
 
     public GameObject howYouDidUI;
     public TextMeshProUGUI finalWavesText;
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
 
-    //public GameObject myScoresUI;
     public GameObject highestScoresUI;
-    //public GameObject allScoresUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -43,7 +37,7 @@ public class InfiniteLevelManager : MonoBehaviour
         // get the playerscore script on player object
         playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER).GetComponent<PlayerScore>();
 
-        // not needed while in single scene setup
+        // SINGLESCENE: DISABLED
         //StartInfiniteWave();
     }
 
@@ -58,14 +52,12 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void OnEnable()
     {
-        ResetText();
-
+        // SINGLESCENE: reset the gameplay UIs and start
+        ResetText(); 
         ChooseGameMode.onSwitchMode += StartInfiniteWave;
         RestartGameMode.onRestartMode += StartInfiniteWave;
+        
         InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
-
-        //MoveGameWorld.onWorldPosition1Reached += StartInfiniteWave;
-        // WeaponsManager.onWeaponSelected += StartInfiniteWave;
     }
 
     void OnDisable()
@@ -74,12 +66,9 @@ public class InfiniteLevelManager : MonoBehaviour
         RestartGameMode.onRestartMode -= StartInfiniteWave;
         InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
 
-        // SINGLESCENE
+        // SINGLESCENE: hide scoreboards on "Play Again"
         howYouDidUI.SetActive(false);
         highestScoresUI.SetActive(false);
-
-        //MoveGameWorld.onWorldPosition1Reached -= StartInfiniteWave;
-        // WeaponsManager.onWeaponSelected -= StartInfiniteWave;
     }
 
     public void ResetText()
@@ -93,7 +82,6 @@ public class InfiniteLevelManager : MonoBehaviour
     {
         onStartInfinite?.Invoke();
         StartCoroutine(BeginInfiniteWave());
-        //weaponsWall.SetActive(false);
     }
 
     void EndInfiniteWave()
@@ -101,14 +89,13 @@ public class InfiniteLevelManager : MonoBehaviour
         StartCoroutine(InfiniteWaveOutro());
     }
 
-    // not needed if selecting weapon in select mode
-    IEnumerator InfiniteWaveIntro()
-    {
-        helperText.text = "WELCOME TO\n THE HUNT";
-        yield return new WaitForSecondsRealtime(3);
-        helperText.text = "SELECT YOUR WEAPON TO BEGIN";
-        //weaponsWall.SetActive(true);
-    }
+    // SINGLESCENE: not needed bc selecting weapon in select mode
+    //IEnumerator InfiniteWaveIntro()
+    //{
+    //    helperText.text = "WELCOME TO\n THE HUNT";
+    //    yield return new WaitForSecondsRealtime(3);
+    //    helperText.text = "SELECT YOUR WEAPON TO BEGIN";
+    //}
 
     IEnumerator BeginInfiniteWave()
     {
@@ -133,9 +120,6 @@ public class InfiniteLevelManager : MonoBehaviour
         PlayerPrefs.SetInt("FinalScore", finalScoreInt);
         Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
 
-        // wave ends, hide game UI
-        //infiniteWaveSpawner.enabled = false;
-
         // GAME OVER UI
         gameOverUI.SetActive(true);
         yield return new WaitForSeconds(3);
@@ -153,7 +137,6 @@ public class InfiniteLevelManager : MonoBehaviour
         huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
         // set leaderboard active
         highestScoresUI.SetActive(true);
-
 
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);

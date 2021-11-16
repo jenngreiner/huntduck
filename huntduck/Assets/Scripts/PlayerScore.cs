@@ -11,12 +11,12 @@ public class PlayerScore : MonoBehaviour
 
     void OnEnable()
     {
-        InfiniteLevelManager.onStartInfinite += ResetPlayerScore;
+        InfiniteLevelManager.onStartInfinite += ResetPlayerScore; // SINGLESCENE: ResetScore subscribe
     }
 
     void OnDisable()
     {
-        InfiniteLevelManager.onStartInfinite -= ResetPlayerScore;
+        InfiniteLevelManager.onStartInfinite -= ResetPlayerScore; // SINGLESCENE: ResetScore unsubscribe
     }
 
     public void UpdatePlayerScore(int points)
@@ -30,6 +30,7 @@ public class PlayerScore : MonoBehaviour
         onScoreUpdate?.Invoke();
     }
 
+    // SINGLESCENE: reset the player score via "Play Again" or "Quit" buttons in Hunt Mode
     public void ResetPlayerScore()
     {
         playerScore = 0;
