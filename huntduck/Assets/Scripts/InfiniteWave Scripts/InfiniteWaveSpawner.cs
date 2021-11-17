@@ -41,6 +41,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public float timeDelay = 1f;
     public int currentWaveNumber;
     public int currentWaveTime;
+    public string currentWaveMinutes;
+    public string currentWaveSeconds;
 
     public GameObject[] spawnPoints;
 
@@ -124,7 +126,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void SetupWave()
     {
         waveTimeRemaining = waves[nextWave].waveTime;
-        currentWaveTime = (int)waveTimeRemaining;
+        ConvertTime();
+        //currentWaveTime = (int)waveTimeRemaining;
         currentWaveNumber = waves[nextWave].waveNumber;
         waves[nextWave].ducksHitThisWave = 0;
         ducksLeft = waves[nextWave].duckCount;
@@ -191,18 +194,25 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void Timer()
     {
-        // decrement waveTimeRemaining once per second
-        waveTimeRemaining -= Time.deltaTime;
-
-        // set currentWaveTime to display to user on UI
-        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
-        currentWaveTime = timerSeconds.Seconds;
-
-        if (onTimeChange != null)
+        if (waveTimeRemaining >= 0)
         {
-            onTimeChange();
+            ConvertTime();
+
+            // decrement waveTimeRemaining once per second
+            waveTimeRemaining -= Time.deltaTime;
+
+            onTimeChange?.Invoke();
         }
     }
+
+    void ConvertTime()
+    {
+        currentWaveMinutes = Mathf.FloorToInt(waveTimeRemaining / 60).ToString();
+        float mathSeconds = Mathf.FloorToInt(waveTimeRemaining % 60);
+        currentWaveSeconds = string.Format("{0:00}", mathSeconds);
+        Debug.Log("Current minutes is " + currentWaveMinutes);
+        Debug.Log("Current seconds is " + currentWaveSeconds);
+    }    
 
     bool isTimeLeft()
     {

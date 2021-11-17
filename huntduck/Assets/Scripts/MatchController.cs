@@ -437,9 +437,9 @@ namespace huntduck
 				texts[1].text = entry.User.OculusID;
 				texts[2].text = entry.Score.ToString();
 
-				Debug.Log("texts[0].text is " + texts[0].text);
-				Debug.Log("texts[1].text is " + texts[1].text);
-				Debug.Log("texts[2].text is " + texts[2].text);
+				//Debug.Log("texts[0].text is " + texts[0].text);
+				//Debug.Log("texts[1].text is " + texts[1].text);
+				//Debug.Log("texts[2].text is " + texts[2].text);
 
 				// OLD LEADERBOARD IMPLEMENTATION
 				//GameObject label = Instantiate(m_leaderboardEntryPrefab);
