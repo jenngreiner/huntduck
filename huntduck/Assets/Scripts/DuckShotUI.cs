@@ -10,9 +10,6 @@ public class DuckShotUI : MonoBehaviour
     public Text waveDucksLeftText;
     public static string waveDucksLeft;
 
-    //public Text totalDucksHitText;
-    //public static string totalDucksHit;
-
     void Start()
     {
         infiniteWaveSpawnerScript = FindObjectOfType<InfiniteWaveSpawner>();
@@ -34,13 +31,10 @@ public class DuckShotUI : MonoBehaviour
     {
         CountDucksLeft();
         waveDucksLeftText.text = waveDucksLeft;
-        //totalDucksHitText.text = totalDucksHit;
     }
 
     void CountDucksLeft()
     {
         waveDucksLeft = infiniteWaveSpawnerScript.ducksLeft.ToString();
-        //waveDucksHit = InfiniteWaveSpawner.ducksHitThisWave.ToString();
-        //totalDucksHit = InfiniteWaveSpawner.ducksHitTotal.ToString();
     }
 }

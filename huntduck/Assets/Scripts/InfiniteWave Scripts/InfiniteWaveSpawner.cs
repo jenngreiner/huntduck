@@ -72,8 +72,10 @@ public class InfiniteWaveSpawner : MonoBehaviour
             Debug.LogError("No spawnpoints referenced");
         }
 
+        // SINGLESCENE: DISABLED
         //nextWave = 0;
         //SetupWave();
+
         // note: we are in READY state, so first Frame after start will StartWave
     }
 
@@ -100,10 +102,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        nextWave = 0;
-        ducksHitTotal = 0;
-        SetupWave();
-        state = WaveState.READY;
+        // SINGLESCENE: starts infinite play correctly via first play, play again, quit & return
+        InitialWaveSetup();
 
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
     }
@@ -111,6 +111,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void OnDisable()
     {
         BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
+    }
+
+    void InitialWaveSetup()
+    {
+        nextWave = 0;
+        ducksHitTotal = 0;
+        SetupWave();
+        state = WaveState.READY;
     }
 
     void SetupWave()
@@ -124,6 +132,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         onWaveChange?.Invoke();
     }
 
+    // SINGLESCENE: used on "Play Again"
     public void ResetWaves()
     {
         if (waves.Count > 1)
@@ -167,9 +176,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         {
             onGameOver?.Invoke();
             StopAllCoroutines(); // stop ducks flying
-
-            //nextWave = 0;
-            //SetupWave();
 
             enabled = false;
         }

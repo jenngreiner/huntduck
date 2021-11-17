@@ -66,7 +66,7 @@ public class PracticeWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        SetupWave();
+        SetupWave(); // SINGLESCENE: in enabled instead of start for "Play Again"
         BNG.Damageable.onClayHit += HitClay;
     }
 
@@ -99,7 +99,7 @@ public class PracticeWaveSpawner : MonoBehaviour
         if ((nextWave + 1) > (waves.Length - 1))
         {
             Debug.Log("Clay waves are over");
-            SetupWave(); // setup waves in case you want to run them again
+            SetupWave(); //SINGLESCENE: setup waves in case you want to run them again
             enabled = false;
         }
         else

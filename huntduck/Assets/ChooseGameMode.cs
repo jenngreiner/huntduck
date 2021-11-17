@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// when you shoot the button, go to the corresponding game mode
+// SINGLESCENE CLASS: when you shoot the button, go to the corresponding game mode
 public class ChooseGameMode : MonoBehaviour
 {
     public GameObject gameMode;

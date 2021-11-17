@@ -224,6 +224,7 @@ namespace BNG {
             }
         }
 
+        // SINGLESCENE: Reset elements during practice mode for "Play Again"
         public void InstantRespawn()
         {
             Debug.Log("Calling instant respawn on " + transform.name);

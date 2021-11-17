@@ -42,7 +42,7 @@ public class Duck : MonoBehaviour
         Debug.Log(transform.name + " is DEAD!");
 
         // straighten out points, as long as not a "Carnival" duck
-        if (gameObject.layer != LayerMask.NameToLayer("Carnival"))
+        if (gameObject.tag != TagManager.PRACTICEDUCK_TAG)
         {
             duckPointsText.transform.rotation = Quaternion.identity;
         }
