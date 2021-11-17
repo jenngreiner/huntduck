@@ -9,19 +9,20 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
-    public GameObject gameplayUI; // this UI shows waves, time, ducks, score
+    public GameObject gameplayUI; // this UI shows ducks, time, score
     public Text duckText; // duck count on sign
     public Text timeText; // time on sign
     public Canvas walletCanvas;
-    public GameObject gameOverUI; // "Game Over"
-    public GameObject endLevelUI; // replay & exit button
+    public GameObject gameOverUI;
+    public GameObject replayExitUI;
 
-    public GameObject howYouDidUI;
+    public GameObject leaderboard;
+    //public GameObject howYouDidUI;
     public TextMeshProUGUI finalWavesText;
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
 
-    public GameObject highestScoresUI;
+    //public GameObject highestScoresUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -67,8 +68,9 @@ public class InfiniteLevelManager : MonoBehaviour
         InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
 
         // SINGLESCENE: hide scoreboards on "Play Again"
-        howYouDidUI.SetActive(false);
-        highestScoresUI.SetActive(false);
+        leaderboard.SetActive(false);
+        //howYouDidUI.SetActive(false);
+        //highestScoresUI.SetActive(false);
     }
 
     public void ResetText()
@@ -130,13 +132,14 @@ public class InfiniteLevelManager : MonoBehaviour
         finalWavesText.text = infiniteWaveSpawner.waves.Count.ToString();
         finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
-        howYouDidUI.SetActive(true);
-        endLevelUI.SetActive(true);
 
         // query for latest scores - this doesnt seem to be working yet
         huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
         // set leaderboard active
-        highestScoresUI.SetActive(true);
+        leaderboard.SetActive(true);
+        replayExitUI.SetActive(true);
+        //highestScoresUI.SetActive(true);
+        //howYouDidUI.SetActive(true);
 
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);
