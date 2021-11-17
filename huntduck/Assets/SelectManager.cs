@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SelectManager : MonoBehaviour
 {
+    public GameObject welcomeUI;
     public GameObject helperUI;
     public Text helperText;
 
@@ -27,7 +28,7 @@ public class SelectManager : MonoBehaviour
 
     void ShowButtons()
     {
-        helperText.text = "Shoot Practice or Hunt to begin";
+        helperText.text = "SHOOT PRACTICE OR HUNT TO BEGIN";
         // turn on button gameobject
         buttons.SetActive(true);
     }
@@ -44,18 +45,16 @@ public class SelectManager : MonoBehaviour
 
     IEnumerator SelectModeIntro()
     {
-        helperUI.SetActive(true);
-        helperText.text = "WELCOME TO\nHUNT DUCK";
+        //helperUI.SetActive(true);
+        //helperText.text = "WELCOME TO\nHUNT DUCK";
+        //yield return new WaitForSeconds(3f);
+        //helperText.text = "Select your weapon behind you to begin";
+
+        welcomeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
-        helperText.text = "Select your weapon behind you to begin";
+        welcomeUI.SetActive(false);
 
-    //     welcomeUI.SetActive(true);
-    //     yield return new WaitForSeconds(3f);
-    //     welcomeUI.SetActive(false);
-
-    //     helperUI.SetActive(true);
-    //     helperText.text = "Select your weapon behind you to begin";
-    //     // yield return new WaitForSeconds(3f);
-    // }
+        helperUI.SetActive(true);
+        helperText.text = "SELECT YOUR WEAPONT TO BEGIN";
     }
 }

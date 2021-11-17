@@ -197,7 +197,7 @@ public class PracticeRangeManager : MonoBehaviour
         state = PracticeState.INTRO;
         helperUI.SetActive(true);
 
-        helperText.text = "Welcome to the Practice Range!";
+        helperText.text = "PRACTICE MAKES PERFECT!";
         yield return new WaitForSeconds(3);
         StartTargetRound();
         Debug.Log("PracticeRangeIntro fired StartTargetRound");
@@ -206,7 +206,7 @@ public class PracticeRangeManager : MonoBehaviour
     IEnumerator TargetRoundIntro()
     {
         state = PracticeState.TARGET;
-        helperText.text = "Shoot ALL targets to advance!";
+        helperText.text = "SHOOT ALL TARGETS TO ADVANCE!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);
@@ -221,7 +221,7 @@ public class PracticeRangeManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "Shoot 3 clays to advance!";
+        helperText.text = "SHOOT 3 CLAYS TO ADVANCE!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);
@@ -236,10 +236,10 @@ public class PracticeRangeManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "Shoot the ducks to make some bucks!";
+        helperText.text = "SHOOT THE DUCKS TO MAKE SOME BUCKS!";
         yield return new WaitForSeconds(3);
 
-        helperText.text = "Make $2,100 to buy your duck license!";
+        helperText.text = "MAKE $75 TO BUY YOUR DUCK LICENSE!";
         yield return new WaitForSeconds(3);
 
         helperUI.SetActive(false);
@@ -255,12 +255,12 @@ public class PracticeRangeManager : MonoBehaviour
         congratsUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "You have completed the practice round!";
+        helperText.text = "YOU HAVE COMPLETED THE PRACTICE ROUND!";
         yield return new WaitForSeconds(3);
 
         endLevelUI.SetActive(true);
 
-        helperText.text = "You have unlocked your duck license!";
+        helperText.text = "YOU HAVE UNLOCKED YOUR DUCK LICENSE!";
         levelupSound.Play();
     }
 }
