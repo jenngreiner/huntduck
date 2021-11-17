@@ -71,9 +71,6 @@ public class PracticeRangeManager : MonoBehaviour
             // check if we have shot all the carni ducks
             if (cduckList.Count == 0)
             {
-                RespawnDucks(); // SINGLESCENE: reset ducks for "Play Again"
-                
-                carniDucks.SetActive(false);
                 EndPracticeSession();
             }
             // carni ducks still left
@@ -249,6 +246,10 @@ public class PracticeRangeManager : MonoBehaviour
 
     IEnumerator EndPracticeOutro()
     {
+        yield return new WaitForSeconds(2);
+        RespawnDucks(); // SINGLESCENE: reset ducks for "Play Again"
+        carniDucks.SetActive(false);
+
         state = PracticeState.END;
         congratsUI.SetActive(true);
         yield return new WaitForSeconds(3);
