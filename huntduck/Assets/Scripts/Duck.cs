@@ -18,7 +18,7 @@ public class Duck : MonoBehaviour
     void Awake()
     {
         // set the kill points display equal to points duck is worth
-        duckPointsText.text = duckPoints.ToString();
+        duckPointsText.text = "$" + duckPoints.ToString();
     }
 
     void Start()
