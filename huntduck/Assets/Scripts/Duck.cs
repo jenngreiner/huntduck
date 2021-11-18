@@ -18,7 +18,7 @@ public class Duck : MonoBehaviour
     void Awake()
     {
         // set the kill points display equal to points duck is worth
-        duckPointsText.text = duckPoints.ToString();
+        duckPointsText.text = "$" + duckPoints.ToString();
     }
 
     void Start()
@@ -42,7 +42,7 @@ public class Duck : MonoBehaviour
         Debug.Log(transform.name + " is DEAD!");
 
         // straighten out points, as long as not a "Carnival" duck
-        if (gameObject.layer != LayerMask.NameToLayer("Carnival"))
+        if (gameObject.tag != TagManager.PRACTICEDUCK_TAG)
         {
             duckPointsText.transform.rotation = Quaternion.identity;
         }

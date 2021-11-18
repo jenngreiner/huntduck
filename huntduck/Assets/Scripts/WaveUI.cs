@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class WaveUI : MonoBehaviour
 {
-
-    private const string PLAYER_TAG = "Player";
-    private PlayerScore playerScoreScript;
+    private InfiniteWaveSpawner iWS;
 
     public Text waveCountText;
     public static string waveCount;
@@ -16,23 +14,16 @@ public class WaveUI : MonoBehaviour
 
     void Start()
     {
-        // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
-
-        waveCountText.text = "0";
+        iWS = FindObjectOfType<InfiniteWaveSpawner>();
     }
 
-    // subscribe events
     private void OnEnable()
     {
-        // update duck ui when new wave starts
         InfiniteWaveSpawner.onTimeChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveCompleted += UpdateWaveUI;
-
     }
 
-    // unsubscribe events
     private void OnDisable()
     {
         InfiniteWaveSpawner.onTimeChange -= UpdateWaveUI;
@@ -42,7 +33,9 @@ public class WaveUI : MonoBehaviour
 
     void UpdateWaveUI()
     {
-        waveCountText.text = InfiniteWaveSpawner.currentWaveNumber.ToString();
-        waveTimeText.text = InfiniteWaveSpawner.currentWaveTime.ToString();
+        waveCountText.text = iWS.currentWaveNumber.ToString();
+        waveTimeText.text = iWS.currentWaveMinutes + ":" + iWS.currentWaveSeconds;
+        //waveTimeText.text = infiniteWaveSpawnerScript.currentWaveTime.ToString();
+        Debug.Log("Updating wave time on sign posts to " + waveTimeText.text);
     }
 }

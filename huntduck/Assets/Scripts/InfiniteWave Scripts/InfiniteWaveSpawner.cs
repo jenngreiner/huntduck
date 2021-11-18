@@ -33,14 +33,16 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public List<InfiniteWave> waves;
     private int nextWave;
-    public int ducksHitTotal = 0;
+    public int ducksHitTotal;
     //public static int ducksHitThisWave;
-    public static int ducksLeft;
+    public int ducksLeft;
 
     private float waveTimeRemaining;
     public float timeDelay = 1f;
-    public static int currentWaveNumber;
-    public static int currentWaveTime;
+    public int currentWaveNumber;
+    public int currentWaveTime;
+    public string currentWaveMinutes;
+    public string currentWaveSeconds;
 
     public GameObject[] spawnPoints;
 
@@ -59,7 +61,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public delegate void gameOver();
     public static event gameOver onGameOver;
 
-    public static TimeSpan timerSeconds;
+    public TimeSpan timerSeconds;
     public GameObject waveCountUI;
     public Text waveCountText;
     public GameObject getReadyUI;
@@ -72,9 +74,10 @@ public class InfiniteWaveSpawner : MonoBehaviour
             Debug.LogError("No spawnpoints referenced");
         }
 
-        nextWave = 0;
+        // SINGLESCENE: DISABLED
+        //nextWave = 0;
+        //SetupWave();
 
-        SetupWave();
         // note: we are in READY state, so first Frame after start will StartWave
     }
 
@@ -101,6 +104,9 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
+        // SINGLESCENE: starts infinite play correctly via first play, play again, quit & return
+        InitialWaveSetup();
+
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
     }
 
@@ -109,18 +115,32 @@ public class InfiniteWaveSpawner : MonoBehaviour
         BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
     }
 
+    void InitialWaveSetup()
+    {
+        nextWave = 0;
+        ducksHitTotal = 0;
+        SetupWave();
+        state = WaveState.READY;
+    }
+
     void SetupWave()
     {
         waveTimeRemaining = waves[nextWave].waveTime;
-        currentWaveTime = (int)waveTimeRemaining;
+        ConvertTime();
+        //currentWaveTime = (int)waveTimeRemaining;
         currentWaveNumber = waves[nextWave].waveNumber;
         waves[nextWave].ducksHitThisWave = 0;
         ducksLeft = waves[nextWave].duckCount;
 
-        // call out an event: hey subs, I changed my wave, do what you will man
-        if (onWaveChange != null)
+        onWaveChange?.Invoke();
+    }
+
+    // SINGLESCENE: used on "Play Again"
+    public void ResetWaves()
+    {
+        if (waves.Count > 1)
         {
-            onWaveChange();
+            waves.RemoveRange(1, waves.Count - 1);
         }
     }
 
@@ -157,11 +177,10 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
         if (!playerBeatWave())
         {
-            if (onGameOver != null)
-            {
-                onGameOver();
-            }
+            onGameOver?.Invoke();
             StopAllCoroutines(); // stop ducks flying
+
+            enabled = false;
         }
         else
         {
@@ -175,18 +194,25 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void Timer()
     {
-        // decrement waveTimeRemaining once per second
-        waveTimeRemaining -= Time.deltaTime;
-
-        // set currentWaveTime to display to user on UI
-        timerSeconds = TimeSpan.FromSeconds(waveTimeRemaining);
-        currentWaveTime = timerSeconds.Seconds;
-
-        if (onTimeChange != null)
+        if (waveTimeRemaining >= 0)
         {
-            onTimeChange();
+            ConvertTime();
+
+            // decrement waveTimeRemaining once per second
+            waveTimeRemaining -= Time.deltaTime;
+
+            onTimeChange?.Invoke();
         }
     }
+
+    void ConvertTime()
+    {
+        currentWaveMinutes = Mathf.FloorToInt(waveTimeRemaining / 60).ToString();
+        float mathSeconds = Mathf.FloorToInt(waveTimeRemaining % 60);
+        currentWaveSeconds = string.Format("{0:00}", mathSeconds);
+        Debug.Log("Current minutes is " + currentWaveMinutes);
+        Debug.Log("Current seconds is " + currentWaveSeconds);
+    }    
 
     bool isTimeLeft()
     {

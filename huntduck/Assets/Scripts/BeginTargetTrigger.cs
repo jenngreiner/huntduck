@@ -9,7 +9,6 @@ public class BeginTargetTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("BeginTargetTrigger has been triggered");
         // begin the game when player touches trigger, if game hasn't already started
         if (other.tag == "Player" && isTargetReady && !isTargetStarted)
         {
