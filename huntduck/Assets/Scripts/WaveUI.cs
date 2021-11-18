@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class WaveUI : MonoBehaviour
 {
-    private InfiniteWaveSpawner infiniteWaveSpawnerScript;
+    private InfiniteWaveSpawner iWS;
 
     public Text waveCountText;
     public static string waveCount;
@@ -14,7 +14,7 @@ public class WaveUI : MonoBehaviour
 
     void Start()
     {
-        infiniteWaveSpawnerScript = FindObjectOfType<InfiniteWaveSpawner>();
+        iWS = FindObjectOfType<InfiniteWaveSpawner>();
     }
 
     private void OnEnable()
@@ -33,7 +33,9 @@ public class WaveUI : MonoBehaviour
 
     void UpdateWaveUI()
     {
-        waveCountText.text = infiniteWaveSpawnerScript.currentWaveNumber.ToString();
-        waveTimeText.text = infiniteWaveSpawnerScript.currentWaveTime.ToString();
+        waveCountText.text = iWS.currentWaveNumber.ToString();
+        waveTimeText.text = iWS.currentWaveMinutes + ":" + iWS.currentWaveSeconds;
+        //waveTimeText.text = infiniteWaveSpawnerScript.currentWaveTime.ToString();
+        Debug.Log("Updating wave time on sign posts to " + waveTimeText.text);
     }
 }

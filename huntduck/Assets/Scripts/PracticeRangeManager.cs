@@ -14,7 +14,7 @@ public class PracticeRangeManager : MonoBehaviour
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
-    public Canvas walletCanvas;
+    //public Canvas walletCanvas;
     public GameObject endLevelUI; // replay & exit button
 
     public GameObject targetWall;
@@ -119,7 +119,7 @@ public class PracticeRangeManager : MonoBehaviour
             Debug.Log("We've got " + cduckList.Count + "carniducks to shoot");
         }
 
-        walletCanvas.enabled = false;
+        //walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
 
         Debug.Log("SetupRound complete");
@@ -246,7 +246,7 @@ public class PracticeRangeManager : MonoBehaviour
 
     IEnumerator EndPracticeOutro()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         RespawnDucks(); // SINGLESCENE: reset ducks for "Play Again"
         carniDucks.SetActive(false);
 
