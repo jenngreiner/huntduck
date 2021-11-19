@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Scalable Games
+  companyName: BoomBamBingo
   productName: Hunt Duck
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -164,6 +164,15 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -4117320755984529516, guid: 402f473ab6ff4d547a5d04906fdd832e, type: 2}
   - {fileID: 11400000, guid: 77ef9e5d8ab73184cb8debcf4313cf25, type: 2}
   - {fileID: 0}
@@ -184,7 +193,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.ScalableGames.HuntDuck
+    Android: com.BoomBamBingo.HuntDuck
     Standalone: com.DefaultCompany.huntduck
   buildNumber:
     Standalone: 0
