@@ -30,7 +30,7 @@ public class DuckFly : MonoBehaviour
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
         if (delayStart < 0f)
         {
-            body.velocity = idleSpeed * direction;
+            body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
         }
     }
 
