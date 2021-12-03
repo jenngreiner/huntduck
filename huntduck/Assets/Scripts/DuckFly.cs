@@ -197,7 +197,8 @@ public class DuckFly : MonoBehaviour
         if (returnToBase)
         {
             // send the duck to its base
-            newDir = homeTarget.position - currentPosition;
+            randomizedBase = homeTarget.position;
+            newDir = randomizedBase - currentPosition;
         }
         // check distance between duck and its target
         else if (distanceFromTarget > radiusMinMax.y) // if larger than maximum allowable radius
