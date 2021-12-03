@@ -60,6 +60,7 @@ public class DuckFly : MonoBehaviour
                 //reset velocity to zero and restore original turn speed for next outing
                 body.velocity = Vector3.zero;
                 turnSpeed = turnSpeedBackup;
+                return;
             }
         }
 
