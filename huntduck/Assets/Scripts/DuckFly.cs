@@ -190,17 +190,39 @@ public class DuckFly : MonoBehaviour
     // Select a new direction to fly in randomly
     private Vector3 ChangeDirection(Vector3 currentPosition)
     {
-        // 360-degree freedom of choice on the horizontal plane
-        float angleXZ = Random.Range(-Mathf.PI, Mathf.PI);
+        Vector3 newDir;
+        
+        // keep duck in specified radius around its target
+        if (returnToBase)
+        {
+            // send the duck to its base
+            newDir = homeTarget.position - currentPosition;
+        }
+        // check distance between duck and its target
+        else if (distanceFromTarget > radiusMinMax.y) // if larger than maximum allowable radius
+        {
+            // fly in direction of target
+            newDir = flyingTarget.position - currentPosition;
+        }
+        else if (distanceFromTarget < radiusMinMax.y) // if too close to target
+        {
+            // fly away from target
+            newDir = currentPosition  - flyingTarget.position;
+        }
+        else // flying towards target and within radius
+        {
+            // 360-degree freedom of choice on the horizontal plane
+            float angleXZ = Random.Range(-Mathf.PI, Mathf.PI);
 
-        // Limited max steepness of ascent/descent in the vertical direction
-        // the larger the denomitor, the less steep the ascent / descent is
-        // good idea to parameterize this as serializable parameter in future
-        float angleY = Random.Range(-Mathf.PI/48, Mathf.PI/48);
+            // Limited max steepness of ascent/descent in the vertical direction
+            // the larger the denomitor, the less steep the ascent / descent is (48 is arbitrary, could parameterize)
+            // good idea to parameterize this as serializable parameter in future
+            float angleY = Random.Range(-Mathf.PI / 48, Mathf.PI / 48);
 
-        // calculate direction
-        Vector3 newDir = Mathf.Sin(angleXZ) * Vector3.forward + Mathf.Cos(angleXZ) * Vector3.right + Mathf.Sin(angleY) * Vector3.up;
+            // calculate direction
+            newDir = Mathf.Sin(angleXZ) * Vector3.forward + Mathf.Cos(angleXZ) * Vector3.right + Mathf.Sin(angleY) * Vector3.up;
+        }
 
-        return newDir;
+        return newDir.normalized;
     }
 }
