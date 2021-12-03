@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:huntduck/Assets/Oculus/VR/Plugins/1.66.0.meta
+guid: b86b7d0ffd3a16e4090b85953aa4e143
+=======
 guid: df895ee441dc9b144a4d08953b1da1ea
+>>>>>>> main:huntduck/Assets/Materials/Skyboxes.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
