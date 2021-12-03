@@ -198,6 +198,7 @@ public class DuckFly : MonoBehaviour
         {
             // send the duck to its base
             randomizedBase = homeTarget.position;
+            randomizedBase.y += Random.Range(-randomBaseOffset, randomBaseOffset);
             newDir = randomizedBase - currentPosition;
         }
         // check distance between duck and its target
