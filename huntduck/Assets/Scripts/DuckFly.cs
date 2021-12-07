@@ -33,6 +33,9 @@ public class DuckFly : MonoBehaviour
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
         }
+
+        homeTarget = GameObject.Find("HomeTree").transform;
+        flyingTarget = GameObject.Find("TargetTree").transform;
     }
 
     private void Update()
