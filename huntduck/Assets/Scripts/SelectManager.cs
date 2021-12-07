@@ -55,6 +55,6 @@ public class SelectManager : MonoBehaviour
         welcomeUI.SetActive(false);
 
         helperUI.SetActive(true);
-        helperText.text = "SELECT YOUR WEAPONT TO BEGIN";
+        helperText.text = "SELECT YOUR WEAPON TO BEGIN";
     }
 }
