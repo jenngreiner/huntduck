@@ -211,9 +211,8 @@ public class DuckFly : MonoBehaviour
             // send the duck to its base
             randomizedBase = homeTarget.position;
             randomizedBase.y += Random.Range(-randomBaseOffset, randomBaseOffset);
+            yMinMax.x = yMinMax.y; // make the ascent to the sky smooth
             yMinMax.y = 100f; // base in the sky
-            // heightBuffer = 15f; // stop duck from teleporting
-            yMinMax.x = 6f; // how close to ground you want duck to be
             newDir = randomizedBase - currentPosition;
         }
         // check distance between duck and its target
