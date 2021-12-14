@@ -7,7 +7,7 @@ public class DuckFly : MonoBehaviour
 {
     [SerializeField] float idleSpeed, turnSpeed, switchSeconds, idleRatio;
     [SerializeField] Vector2 animSpeedMinMax, moveSpeedMinMax, changeAnimEveryFromTo, changeTargetEveryFromTo;
-    [SerializeField] Transform homeTarget, flyingTarget, playerStand;
+    [SerializeField] Transform homeTarget, flyingTarget;
     [SerializeField] Vector2 radiusMinMax;
     [SerializeField] Vector2 yMinMax;
     [SerializeField] float heightBuffer = 10f;
@@ -36,7 +36,6 @@ public class DuckFly : MonoBehaviour
 
         homeTarget = GameObject.Find("HomeTree").transform;
         flyingTarget = GameObject.Find("TargetTree").transform;
-        playerStand = GameObject.Find("PlayerSpace").transform;
     }
 
     private void Update()
@@ -59,7 +58,6 @@ public class DuckFly : MonoBehaviour
         // calculate distances between duck & base, duck and target
         distanceFromBase = Vector3.Magnitude(randomizedBase - body.position);
         distanceFromTarget = Vector3.Magnitude(flyingTarget.position - body.position);
-        distanceFromStand = Vector3.Magnitude(playerStand.position - body.position);
 
         // allow drastic turns close to base to ensure target can be reached, even if approaching at angle
         if (returnToBase && distanceFromBase < 10f)
@@ -227,10 +225,6 @@ public class DuckFly : MonoBehaviour
         {
             // fly away from target
             newDir = currentPosition  - flyingTarget.position;
-        }
-        else if (distanceFromStand < radiusMinMax.x)
-        {
-            newDir = currentPosition - playerStand.position;
         }
         else // flying towards target and within radius
         {
