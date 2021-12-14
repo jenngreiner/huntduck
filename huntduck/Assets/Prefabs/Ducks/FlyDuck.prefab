@@ -5263,7 +5263,7 @@ MonoBehaviour:
   changeTargetEveryFromTo: {x: 0.5, y: 1}
   homeTarget: {fileID: 0}
   flyingTarget: {fileID: 0}
-  radiusMinMax: {x: 15, y: 30}
+  radiusMinMax: {x: 25, y: 30}
   yMinMax: {x: 2, y: 6}
   heightBuffer: 2
   returnToBase: 0

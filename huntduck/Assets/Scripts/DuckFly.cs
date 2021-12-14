@@ -35,7 +35,9 @@ public class DuckFly : MonoBehaviour
         }
 
         homeTarget = GameObject.Find("HomeTree").transform;
-        flyingTarget = GameObject.Find("TargetTree").transform;
+        flyingTarget = GameObject.Find("PlayerGuard").transform;
+        Debug.Log("flyingTarget is " + flyingTarget.name);
+        Debug.Log("2flyingTarget is " + flyingTarget.transform.name);
     }
 
     private void Update()
@@ -58,6 +60,7 @@ public class DuckFly : MonoBehaviour
         // calculate distances between duck & base, duck and target
         distanceFromBase = Vector3.Magnitude(randomizedBase - body.position);
         distanceFromTarget = Vector3.Magnitude(flyingTarget.position - body.position);
+        Debug.Log(gameObject.transform.name + ": Distance from target: " + distanceFromTarget);
 
         // allow drastic turns close to base to ensure target can be reached, even if approaching at angle
         if (returnToBase && distanceFromBase < 10f)
@@ -106,6 +109,7 @@ public class DuckFly : MonoBehaviour
             {
                 changeTarget = Random.Range(changeTargetEveryFromTo.x, changeTargetEveryFromTo.y);
                 timeSinceTarget = 0f;
+                Debug.Log(gameObject.transform.name + ": changeTarget: " + changeTarget);
             }
         }
 
@@ -128,6 +132,7 @@ public class DuckFly : MonoBehaviour
         // Update timers
         changeAnim -= Time.fixedDeltaTime;
         changeTarget -= Time.fixedDeltaTime;
+        // Debug.Log("Update Timers - changeTarget: " + changeTarget);
 
         // Update stopwatches
         timeSinceTarget += Time.fixedDeltaTime;
