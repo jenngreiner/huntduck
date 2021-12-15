@@ -5253,20 +5253,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e913772fc112c4bb0b30346599a282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleSpeed: 50
-  turnSpeed: 20
-  switchSeconds: 1
-  idleRatio: 2
-  animSpeedMinMax: {x: 0, y: 0}
-  moveSpeedMinMax: {x: 10, y: 10}
-  changeAnimEveryFromTo: {x: 0, y: 0}
-  changeTargetEveryFromTo: {x: 0, y: 0}
+  idleSpeed: 5
+  turnSpeed: 40
+  switchSeconds: 3
+  idleRatio: 0.3
+  animSpeedMinMax: {x: 0.5, y: 2}
+  moveSpeedMinMax: {x: 10, y: 20}
+  changeAnimEveryFromTo: {x: 2, y: 4}
+  changeTargetEveryFromTo: {x: 0.5, y: 1}
   homeTarget: {fileID: 0}
   flyingTarget: {fileID: 0}
-  radiusMinMax: {x: 100, y: 100}
-  yMinMax: {x: 0, y: 0}
+  radiusMinMax: {x: 25, y: 30}
+  yMinMax: {x: 2, y: 6}
+  heightBuffer: 2
   returnToBase: 0
-  randomBaseOffset: 5
+  randomBaseOffset: 0
   delayStart: 0
 --- !u!1 &6659966412359471394
 GameObject:

@@ -10,6 +10,7 @@ public class DuckFly : MonoBehaviour
     [SerializeField] Transform homeTarget, flyingTarget;
     [SerializeField] Vector2 radiusMinMax;
     [SerializeField] Vector2 yMinMax;
+    [SerializeField] float heightBuffer = 10f;
     [SerializeField] public bool returnToBase = false;
     [SerializeField] public float randomBaseOffset = 5, delayStart = 0f;
 
@@ -19,7 +20,7 @@ public class DuckFly : MonoBehaviour
     public float changeTarget = 0f, changeAnim = 0f, timeSinceTarget = 0f, timeSinceAnim = 0f, prevAnim, currentAnim = 0f, prevSpeed, speed, zturn, prevz, turnSpeedBackup;
     private Vector3 rotateTarget, position, direction, velocity, randomizedBase;
     private Quaternion lookRotation;
-    [System.NonSerialized] public float distanceFromBase, distanceFromTarget;
+    [System.NonSerialized] public float distanceFromBase, distanceFromTarget, distanceFromStand;
 
     void Start()
     {
@@ -31,6 +32,18 @@ public class DuckFly : MonoBehaviour
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
+        }
+
+        homeTarget = GameObject.Find("HomeTree").transform;
+        flyingTarget = GameObject.Find("PlayerGuard").transform;
+        Debug.Log("flyingTarget is " + flyingTarget.name);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            returnToBase = !returnToBase;
         }
     }
 
@@ -99,9 +112,9 @@ public class DuckFly : MonoBehaviour
 
         // Force Duck to turn up or down when reaching top or bottom of allowable height
         // ToDo: Adjust limit and "exit direction" by object's direction and velocity, instead of the 10f and 1f
-        if (body.transform.position.y < yMinMax.x + 10f || body.transform.position.y > yMinMax.y - 10f)
+        if (body.transform.position.y < yMinMax.x + heightBuffer || body.transform.position.y > yMinMax.y - heightBuffer)
         {
-            if (body.transform.position.y < yMinMax.x + 10f)
+            if (body.transform.position.y < yMinMax.x + heightBuffer)
             {
                 rotateTarget.y = 1f;
             }
@@ -116,6 +129,7 @@ public class DuckFly : MonoBehaviour
         // Update timers
         changeAnim -= Time.fixedDeltaTime;
         changeTarget -= Time.fixedDeltaTime;
+        // Debug.Log("Update Timers - changeTarget: " + changeTarget);
 
         // Update stopwatches
         timeSinceTarget += Time.fixedDeltaTime;
@@ -199,6 +213,8 @@ public class DuckFly : MonoBehaviour
             // send the duck to its base
             randomizedBase = homeTarget.position;
             randomizedBase.y += Random.Range(-randomBaseOffset, randomBaseOffset);
+            yMinMax.x = yMinMax.y; // make the ascent to the sky smooth
+            yMinMax.y = 100f; // base in the sky
             newDir = randomizedBase - currentPosition;
         }
         // check distance between duck and its target
@@ -207,7 +223,7 @@ public class DuckFly : MonoBehaviour
             // fly in direction of target
             newDir = flyingTarget.position - currentPosition;
         }
-        else if (distanceFromTarget < radiusMinMax.y) // if too close to target
+        else if (distanceFromTarget < radiusMinMax.x) // if too close to target
         {
             // fly away from target
             newDir = currentPosition  - flyingTarget.position;
