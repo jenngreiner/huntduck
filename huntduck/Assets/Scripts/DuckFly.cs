@@ -32,7 +32,7 @@ public class DuckFly : MonoBehaviour
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
-        }
+        } 
 
         homeTarget = GameObject.Find("HomeTree").transform;
         flyingTarget = GameObject.Find("PlayerGuard").transform;
