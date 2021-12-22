@@ -22,6 +22,8 @@ public class DuckFly : MonoBehaviour
     private Quaternion lookRotation;
     [System.NonSerialized] public float distanceFromBase, distanceFromTarget, distanceFromStand;
 
+    private float oldyMin;
+
     void Start()
     {
         // Initialize imp values
@@ -36,7 +38,8 @@ public class DuckFly : MonoBehaviour
 
         homeTarget = GameObject.Find("HomeBase").transform;
         flyingTarget = GameObject.Find("PlayerGuard").transform;
-        Debug.Log("flyingTarget is " + flyingTarget.name);
+
+        oldyMin = yMinMax.y;
     }
 
     private void Update()
@@ -182,6 +185,16 @@ public class DuckFly : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        InfiniteWaveSpawner.onGameOver += FlyAway;
+    }
+
+    void OnDisable()
+    {
+        InfiniteWaveSpawner.onGameOver -= FlyAway;
+    }
+
     // select new animation speed randomly
     private float ChangeAnim(float currentAnim)
     {
@@ -213,7 +226,7 @@ public class DuckFly : MonoBehaviour
             // send the duck to its base
             randomizedBase = homeTarget.position;
             randomizedBase.y += Random.Range(-randomBaseOffset, randomBaseOffset);
-            yMinMax.x = yMinMax.y; // make the ascent to the sky smooth
+            yMinMax.x = oldyMin; // make the ascent to the sky smooth
             yMinMax.y = 100f; // base in the sky
             newDir = randomizedBase - currentPosition;
         }
@@ -243,5 +256,10 @@ public class DuckFly : MonoBehaviour
         }
 
         return newDir.normalized;
+    }
+
+    void FlyAway()
+    {
+        returnToBase = true;
     }
 }
