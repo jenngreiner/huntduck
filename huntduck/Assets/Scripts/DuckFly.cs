@@ -23,7 +23,7 @@ public class DuckFly : MonoBehaviour
     [System.NonSerialized] public float distanceFromBase, distanceFromTarget, distanceFromStand;
 
     private float oldyMin;
-    private bool isSwerving;
+    public bool isSwerving;
     private float swerveDelay;
 
     void Start()
@@ -140,24 +140,18 @@ public class DuckFly : MonoBehaviour
         InfiniteWaveSpawner.onGameOver -= FlyAway;
     }
 
-    // select new animation speed randomly
-    private float ChangeAnim(float currentAnim)
+    void ChangeTarget()
     {
-        return 1;
-
-        // TODO: add this to make animation match flying later
-        //float newState;
-        //if (Random.Range(0f, 1f) < idleRatio) newState = 0f;
-        //else
-        //{
-        //    newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y);
-        //}
-        //if (newState != currentAnim)
-        //{
-        //    animator.SetFloat("flySpeed", newState);
-        //    if (newState == 0) animator.speed = 1f; else animator.speed = newState;
-        //}
-        //return newState;
+        rotateTarget = ChangeDirection(body.transform.position); // get newDir back
+        if (returnToBase)
+        {
+            changeTarget = 0.2f; // if bird instructed to return to base, update target every 0.2s (more quickly) to be more straight
+        }
+        else
+        {
+            changeTarget = Random.Range(changeTargetEveryFromTo.x, changeTargetEveryFromTo.y);
+            timeSinceTarget = 0f;
+        }
     }
 
     // Select a new direction to fly in randomly
@@ -219,37 +213,6 @@ public class DuckFly : MonoBehaviour
         }
     }
 
-    void ChangeAnimSpeed()
-    {
-        prevAnim = currentAnim;
-        currentAnim = ChangeAnim(currentAnim);
-        changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y);
-        timeSinceAnim = 0f;
-        prevSpeed = speed;
-        if (currentAnim == 0)
-        {
-            speed = idleSpeed;
-        }
-        else
-        {
-            speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x));
-        }
-    }
-
-    void ChangeTarget()
-    {
-        rotateTarget = ChangeDirection(body.transform.position); // get newDir back
-        if (returnToBase)
-        {
-            changeTarget = 0.2f; // if bird instructed to return to base, update target every 0.2s (more quickly) to be more straight
-        }
-        else
-        {
-            changeTarget = Random.Range(changeTargetEveryFromTo.x, changeTargetEveryFromTo.y);
-            timeSinceTarget = 0f;
-        }
-    }
-
     void FlyUpAndDown()
     {
         // ToDo: Adjust limit and "exit direction" by object's direction and velocity, instead of the 10f and 1f
@@ -261,17 +224,6 @@ public class DuckFly : MonoBehaviour
         {
             rotateTarget.y = -1f;
         }
-    }
-
-    void UpdateTimersAndStopWatches()
-    {
-        // Update timers
-        changeAnim -= Time.fixedDeltaTime;
-        changeTarget -= Time.fixedDeltaTime;
-
-        // Update stopwatches
-        timeSinceTarget += Time.fixedDeltaTime;
-        timeSinceAnim += Time.fixedDeltaTime;
     }
 
     void TurnTowardsTarget()
@@ -314,13 +266,6 @@ public class DuckFly : MonoBehaviour
         {
             body.velocity = Mathf.Lerp(prevSpeed, speed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f)) * direction;
         }
-    }
-
-    void ResetHeight()
-    {
-        position = body.transform.position;
-        position.y = Mathf.Clamp(position.y, yMinMax.x, yMinMax.y);
-        body.transform.position = position;
     }
 
     //void LimitRotationXZ()
@@ -370,18 +315,38 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
-    public void Swerve()
-    {
-        //StartCoroutine(ISwerve());
+    //public void Swerve()
+    //{
+    //    //StartCoroutine(ISwerve());
 
-        Debug.Log(transform.name + " is swerving!");
+    //    if (!isSwerving){
+    //        Debug.Log(transform.name + " is swerving!");
+    //        isSwerving = true;
+    //        swerveDelay = 0.5f;
+
+    //        Debug.Log(transform.name + "'s TARGET right before swerve is " + rotateTarget);
+    //        rotateTarget = body.transform.position - (body.transform.forward * 10f); // change diretion to behind duck
+    //        Debug.Log(transform.name + "'s position before swerve is " + body.transform.position + " and intends to swerve to " + rotateTarget);
+    //        turnSpeed = turnSpeedBackup*10;
+    //        TurnTowardsTarget();
+    //        TiltIntoTurn();
+    //    }
+
+    //}
+
+    public void Swerve(Transform otherObj)
+    {
         isSwerving = true;
         swerveDelay = 0.5f;
+
+        float distanceFromOtherObj = Vector3.Magnitude(otherObj.position - body.position); // magnitude is the distance between the vector's origin (0,0,0) and its endpoint. If you think of the vector as a line, the magnitude is equal to its length.
+        body.velocity = Mathf.Min(idleSpeed, distanceFromOtherObj) * direction;
 
         DrasticTurn();
         rotateTarget = body.transform.position - body.transform.forward; // change diretion to behind duck
         TurnTowardsTarget();
         TiltIntoTurn();
+
     }
 
     //void Swerve(Transform otherDuck)
@@ -417,4 +382,59 @@ public class DuckFly : MonoBehaviour
     //    yield return null;
     //    Debug.Log(transform.name + " STOPPED swerving!");
     //}
+
+    void UpdateTimersAndStopWatches()
+    {
+        // Update timers
+        changeAnim -= Time.fixedDeltaTime;
+        changeTarget -= Time.fixedDeltaTime;
+
+        // Update stopwatches
+        timeSinceTarget += Time.fixedDeltaTime;
+        timeSinceAnim += Time.fixedDeltaTime;
+    }
+
+    void ResetHeight()
+    {
+        position = body.transform.position;
+        position.y = Mathf.Clamp(position.y, (yMinMax.x - heightBuffer), (yMinMax.y + heightBuffer));
+        body.transform.position = position;
+    }
+
+    // select new animation speed randomly
+    private float ChangeAnim(float currentAnim)
+    {
+        return 1;
+
+        // TODO: add this to make animation match flying later
+        //float newState;
+        //if (Random.Range(0f, 1f) < idleRatio) newState = 0f;
+        //else
+        //{
+        //    newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y);
+        //}
+        //if (newState != currentAnim)
+        //{
+        //    animator.SetFloat("flySpeed", newState);
+        //    if (newState == 0) animator.speed = 1f; else animator.speed = newState;
+        //}
+        //return newState;
+    }
+
+    void ChangeAnimSpeed()
+    {
+        prevAnim = currentAnim;
+        currentAnim = ChangeAnim(currentAnim);
+        changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y);
+        timeSinceAnim = 0f;
+        prevSpeed = speed;
+        if (currentAnim == 0)
+        {
+            speed = idleSpeed;
+        }
+        else
+        {
+            speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x));
+        }
+    }
 }
