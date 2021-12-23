@@ -11,7 +11,11 @@ public class StopBumps : MonoBehaviour
     {
         if (other.tag == TagManager.INFINITEDUCK_TAG)
         {
-            onBump?.Invoke();
+            Debug.Log(transform.name + " collided with " + other.name);
+
+            DuckFly duckFly = other.GetComponentInParent<DuckFly>();
+            duckFly?.Swerve();
+            //onBump?.Invoke(other.transform.parent.transform);
         }
     }
 }
