@@ -52,9 +52,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public delegate void OnDuckHit();
     public static event OnDuckHit onDuckHit;
 
-    public delegate void OnWaveCompleted();
-    public static event OnWaveCompleted onWaveCompleted;
-
     public delegate void OnWaveChange();
     public static event OnWaveChange onWaveChange;
 
