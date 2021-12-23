@@ -66,128 +66,54 @@ public class DuckFly : MonoBehaviour
         // allow drastic turns close to base to ensure target can be reached, even if approaching at angle
         if (returnToBase && distanceFromBase < 10f)
         {
-            if (turnSpeed != 300f && body.velocity.magnitude != 0f)
-            {
-                turnSpeedBackup = turnSpeed;
-                turnSpeed = 300f;
-            }
-            else if (distanceFromBase <= 1f) // when close enough to base, 
-            {
-                //reset velocity to zero and restore original turn speed for next outing
-                body.velocity = Vector3.zero;
-                turnSpeed = turnSpeedBackup;
-                return;
-            }
+            DrasticTurn();
         }
 
         // Time for a new animation speed
         if (changeAnim < 0f)
         {
-            prevAnim = currentAnim;
-            currentAnim = ChangeAnim(currentAnim);
-            changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y);
-            timeSinceAnim = 0f;
-            prevSpeed = speed;
-            if (currentAnim == 0)
-            {
-                speed = idleSpeed;
-            }
-            else
-            {
-                speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x));
-            }
+            ChangeAnimSpeed();
         }
 
         // Time for a new target position
         if (changeTarget < 0f)
         {
-            rotateTarget = ChangeDirection(body.transform.position);
-            if (returnToBase)
-            {
-                changeTarget = 0.2f; // if bird instructed to return to base, update target every 0.2s (more quickly) to be more straight
-            }
-            else
-            {
-                changeTarget = Random.Range(changeTargetEveryFromTo.x, changeTargetEveryFromTo.y);
-                timeSinceTarget = 0f;
-            }
+            ChangeTarget();
         }
 
         // Force Duck to turn up or down when reaching top or bottom of allowable height
-        // ToDo: Adjust limit and "exit direction" by object's direction and velocity, instead of the 10f and 1f
         if (body.transform.position.y < yMinMax.x + heightBuffer || body.transform.position.y > yMinMax.y - heightBuffer)
         {
-            if (body.transform.position.y < yMinMax.x + heightBuffer)
-            {
-                rotateTarget.y = 1f;
-            }
-            else
-            {
-                rotateTarget.y = -1f;
-            }
+            FlyUpAndDown();
         }
 
         zturn = Mathf.Clamp(Vector3.SignedAngle(rotateTarget, direction, Vector3.up), -45f, 45f);
 
-        // Update timers
-        changeAnim -= Time.fixedDeltaTime;
-        changeTarget -= Time.fixedDeltaTime;
-        // Debug.Log("Update Timers - changeTarget: " + changeTarget);
-
-        // Update stopwatches
-        timeSinceTarget += Time.fixedDeltaTime;
-        timeSinceAnim += Time.fixedDeltaTime;
+        UpdateTimersAndStopWatches();
 
         // Rotate towards target
         if (rotateTarget != Vector3.zero)
         {
-            lookRotation = Quaternion.LookRotation(rotateTarget, Vector3.up); // required rotation
-            Vector3 rotation = Quaternion.RotateTowards(body.transform.rotation, lookRotation, turnSpeed * Time.fixedDeltaTime).eulerAngles;
-            body.transform.eulerAngles = rotation;
+            TurnTowardsTarget();
         }
 
         // Rotate on z-axis to tilt body towards turn direction
-        float temp = prevz;
-        if (prevz < zturn)
-        {
-            prevz += Mathf.Min(turnSpeed * Time.fixedDeltaTime, zturn - prevz);
-        }
-        else
-        {
-            prevz -= Mathf.Min(turnSpeed * Time.fixedDeltaTime, prevz - zturn);
-        }
-
-        // Min and max rotation on z-axis - can also be parameterized
-        prevz = Mathf.Clamp(prevz, -45f, 45f);
-
-        // Remove temp if transform is rotated back earlier in FixedUpdate
-        body.transform.Rotate(0f, 0f, prevz - temp, Space.Self);
+        TiltIntoTurn();
 
         // Move duck
-        direction = Quaternion.Euler(transform.eulerAngles) * Vector3.forward;
-
-        if (returnToBase && distanceFromBase < idleSpeed) // only a moment before landing at base
-        {
-            // gradually reduce velocity as you near base
-            body.velocity = Mathf.Min(idleSpeed, distanceFromBase) * direction;
-        }
-        else
-        {
-            body.velocity = Mathf.Lerp(prevSpeed, speed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f)) * direction;
-        }
+        FlyAround();
 
         // Hard-limit the height, in case the limit is breached desptire turnaround attempt
         if (body.transform.position.y < yMinMax.x || body.transform.position.y > yMinMax.y)
         {
-            position = body.transform.position;
-            position.y = Mathf.Clamp(position.y, yMinMax.x, yMinMax.y);
-            body.transform.position = position;
+            ResetHeight();
         }
     }
 
     void OnEnable()
     {
         InfiniteWaveSpawner.onGameOver += FlyAway;
+        StopBumps.onBump += Swerve;
     }
 
     void OnDisable()
@@ -258,8 +184,144 @@ public class DuckFly : MonoBehaviour
         return newDir.normalized;
     }
 
+    void DrasticTurn()
+    {
+        if (turnSpeed != 300f && body.velocity.magnitude != 0f)
+        {
+            turnSpeedBackup = turnSpeed;
+            turnSpeed = 300f;
+        }
+        else if (distanceFromBase <= 1f) // when close enough to base, 
+        {
+            //reset velocity to zero and restore original turn speed for next outing
+            body.velocity = Vector3.zero;
+            turnSpeed = turnSpeedBackup;
+            return;
+        }
+    }
+
+    void ChangeAnimSpeed()
+    {
+        prevAnim = currentAnim;
+        currentAnim = ChangeAnim(currentAnim);
+        changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y);
+        timeSinceAnim = 0f;
+        prevSpeed = speed;
+        if (currentAnim == 0)
+        {
+            speed = idleSpeed;
+        }
+        else
+        {
+            speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x));
+        }
+    }
+
+    void ChangeTarget()
+    {
+        rotateTarget = ChangeDirection(body.transform.position);
+        if (returnToBase)
+        {
+            changeTarget = 0.2f; // if bird instructed to return to base, update target every 0.2s (more quickly) to be more straight
+        }
+        else
+        {
+            changeTarget = Random.Range(changeTargetEveryFromTo.x, changeTargetEveryFromTo.y);
+            timeSinceTarget = 0f;
+        }
+    }
+
+    void FlyUpAndDown()
+    {
+        // ToDo: Adjust limit and "exit direction" by object's direction and velocity, instead of the 10f and 1f
+        if (body.transform.position.y < yMinMax.x + heightBuffer)
+        {
+            rotateTarget.y = 1f;
+        }
+        else
+        {
+            rotateTarget.y = -1f;
+        }
+    }
+
+    void UpdateTimersAndStopWatches()
+    {
+        // Update timers
+        changeAnim -= Time.fixedDeltaTime;
+        changeTarget -= Time.fixedDeltaTime;
+
+        // Update stopwatches
+        timeSinceTarget += Time.fixedDeltaTime;
+        timeSinceAnim += Time.fixedDeltaTime;
+    }
+
+    void TurnTowardsTarget()
+    {
+        lookRotation = Quaternion.LookRotation(rotateTarget, Vector3.up); // required rotation
+        Vector3 rotation = Quaternion.RotateTowards(body.transform.rotation, lookRotation, turnSpeed * Time.fixedDeltaTime).eulerAngles;
+        body.transform.eulerAngles = rotation;
+    }
+
+    void TiltIntoTurn()
+    {
+        float temp = prevz;
+        if (prevz < zturn)
+        {
+            prevz += Mathf.Min(turnSpeed * Time.fixedDeltaTime, zturn - prevz);
+        }
+        else
+        {
+            prevz -= Mathf.Min(turnSpeed * Time.fixedDeltaTime, prevz - zturn);
+        }
+
+        // Min and max rotation on z-axis - can also be parameterized
+        prevz = Mathf.Clamp(prevz, -45f, 45f);
+
+        // Remove temp if transform is rotated back earlier in FixedUpdate
+        body.transform.Rotate(0f, 0f, prevz - temp, Space.Self);
+    }
+
+    void FlyAround()
+    {
+        direction = Quaternion.Euler(transform.eulerAngles) * Vector3.forward;
+
+        if (returnToBase && distanceFromBase < idleSpeed) // only a moment before landing at base
+        {
+            // gradually reduce velocity as you near base
+            body.velocity = Mathf.Min(idleSpeed, distanceFromBase) * direction;
+        }
+        else
+        {
+            body.velocity = Mathf.Lerp(prevSpeed, speed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f)) * direction;
+        }
+    }
+
+    void ResetHeight()
+    {
+        position = body.transform.position;
+        position.y = Mathf.Clamp(position.y, yMinMax.x, yMinMax.y);
+        body.transform.position = position;
+    }
+
     void FlyAway()
     {
         returnToBase = true;
+    }
+
+    void Swerve()
+    {
+        StartCoroutine(ISwerve());
+    }
+
+    IEnumerator ISwerve()
+    {
+        Debug.Log(transform.name + " is swerving!");
+        DrasticTurn();
+        ChangeTarget();
+        TurnTowardsTarget();
+        TiltIntoTurn();
+        yield return new WaitForSeconds(0.5f);
+        turnSpeed = turnSpeedBackup;
+        Debug.Log(transform.name + " STOPPED swerving!");
     }
 }
