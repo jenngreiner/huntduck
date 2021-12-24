@@ -268,13 +268,6 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
-    void ChangeToSwerveSpeed()
-    {
-        float newTurnSpeed = turnSpeedBackup * 5;
-        //turnSpeed = Mathf.Lerp(prevSpeed, newTurnSpeed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f));
-        turnSpeed = newTurnSpeed;
-    }
-
     public void SwerveToCenter(Transform otherTransform)
     {
         if(otherTransform == transform)
@@ -283,7 +276,6 @@ public class DuckFly : MonoBehaviour
             swerveDelay = 0.5f;
 
             rotateTarget = centerZone;
-            //ChangeToSwerveSpeed();
             turnSpeed = turnSpeedBackup * 5;
 
             Debug.Log(transform.name + " back to center!");
