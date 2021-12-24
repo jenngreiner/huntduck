@@ -25,6 +25,7 @@ public class DuckFly : MonoBehaviour
     private float oldyMin;
     public bool isSwerving;
     private float swerveDelay;
+    private Vector3 centerZone;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class DuckFly : MonoBehaviour
         flyingTarget = GameObject.Find("PlayerGuard").transform;
 
         oldyMin = yMinMax.y;
+        centerZone = GameObject.Find("CenterZone").transform.position;
     }
 
     private void Update()
@@ -114,14 +116,6 @@ public class DuckFly : MonoBehaviour
         // Move duck
         FlyAround();
 
-        // Limit rotation on X and Z axes so bird doesn't spiral
-        //float xRot = transform.localRotation.eulerAngles.x;
-        //float zRot = transform.localRotation.eulerAngles.z;
-        //if (xRot < 90f || xRot <-90f || zRot > 90f || zRot < -90f)
-        //{
-        //    LimitRotationXZ();
-        //}
-
         // Hard-limit the height, in case the limit is breached desptire turnaround attempt
         if (body.transform.position.y < yMinMax.x || body.transform.position.y > yMinMax.y)
         {
@@ -132,12 +126,13 @@ public class DuckFly : MonoBehaviour
     void OnEnable()
     {
         InfiniteWaveSpawner.onGameOver += FlyAway;
-        //StopBumps.onBump += Swerve;
+        StopBumps.onBump += SwerveToCenter;
     }
 
     void OnDisable()
     {
         InfiniteWaveSpawner.onGameOver -= FlyAway;
+        StopBumps.onBump -= SwerveToCenter;
     }
 
     void ChangeTarget()
@@ -268,120 +263,26 @@ public class DuckFly : MonoBehaviour
         }
     }
 
-    //void LimitRotationXZ()
-    //{
-    //    float zAngle = transform.eulerAngles.z;
-    //    float xAngle = transform.eulerAngles.x;
-    //    transform.eulerAngles = new Vector3(ClampAngle(xAngle, -90f, 90f), 0f, ClampAngle(zAngle, -90f, 90f));
-    //}
-
-    //private float ClampAngle(float angle, float min, float max)
-    //{
-    //    if (angle < 90f || angle > 270f)
-    //    {
-    //        if (angle > 180)
-    //        {
-    //            angle -= 360f;
-    //        }
-    //        if (max > 180)
-    //        {
-    //            max -= 360f;
-    //        }
-    //        if (min > 180)
-    //        {
-    //            min -= 360f;
-    //        }
-    //    }
-    //    angle = Mathf.Clamp(angle, min, max);
-    //    if (angle < 0)
-    //    {
-    //        angle += 360f;
-    //    }
-    //    return angle;
-    //}
-
-    void LimitRotationXZ()
-    {
-        float minRotation = -90;
-        float maxRotation = 90;
-        Vector3 currentRotation = transform.localRotation.eulerAngles;
-        currentRotation.x = Mathf.Clamp(currentRotation.x, minRotation, maxRotation);
-        currentRotation.z = Mathf.Clamp(currentRotation.z, minRotation, maxRotation);
-        transform.localRotation = Quaternion.Euler(currentRotation);
-    }
-
     void FlyAway()
     {
         returnToBase = true;
     }
 
-    //public void Swerve()
-    //{
-    //    //StartCoroutine(ISwerve());
-
-    //    if (!isSwerving){
-    //        Debug.Log(transform.name + " is swerving!");
-    //        isSwerving = true;
-    //        swerveDelay = 0.5f;
-
-    //        Debug.Log(transform.name + "'s TARGET right before swerve is " + rotateTarget);
-    //        rotateTarget = body.transform.position - (body.transform.forward * 10f); // change diretion to behind duck
-    //        Debug.Log(transform.name + "'s position before swerve is " + body.transform.position + " and intends to swerve to " + rotateTarget);
-    //        turnSpeed = turnSpeedBackup*10;
-    //        TurnTowardsTarget();
-    //        TiltIntoTurn();
-    //    }
-
-    //}
-
-    public void Swerve(Transform otherObj)
+    public void SwerveToCenter(Transform otherTransform)
     {
-        isSwerving = true;
-        swerveDelay = 0.5f;
+        if(otherTransform == transform)
+        {
+            isSwerving = true;
+            swerveDelay = 1f;
 
-        float distanceFromOtherObj = Vector3.Magnitude(otherObj.position - body.position); // magnitude is the distance between the vector's origin (0,0,0) and its endpoint. If you think of the vector as a line, the magnitude is equal to its length.
-        body.velocity = Mathf.Min(idleSpeed, distanceFromOtherObj) * direction;
-
-        DrasticTurn();
-        rotateTarget = body.transform.position - body.transform.forward; // change diretion to behind duck
-        TurnTowardsTarget();
-        TiltIntoTurn();
-
+            DrasticTurn();
+            //rotateTarget = body.transform.position - (body.transform.forward * 20f); // change diretion to behind duck
+            rotateTarget = centerZone;
+            TurnTowardsTarget();
+            TiltIntoTurn();
+            Debug.Log(transform.name + " back to center!");
+        }
     }
-
-    //void Swerve(Transform otherDuck)
-    //{
-    //    Debug.Log(otherDuck.name + "is otherDuck that DuckFly knows");
-
-    //    isSwerving = true;
-    //    swerveDelay = 0.5f;
-
-    //    //distanceFromTarget = Vector3.Magnitude(flyingTarget.position - body.position);
-    //    //float distanceFromOtherDuck = Vector3.Magnitude(otherDuck.position - body.position); // magnitude is the distance between the vector's origin (0,0,0) and its endpoint. If you think of the vector as a line, the magnitude is equal to its length.
-
-    //    DrasticTurn();
-    //    // change diretion to behind duck
-    //    rotateTarget = body.transform.position - body.transform.forward;
-    //    TurnTowardsTarget();
-    //    TiltIntoTurn();
-
-    //}
-
-    //IEnumerator ISwerve()
-    //{
-    //    Debug.Log(transform.name + " is swerving!");
-    //    isSwerving = true;
-    //    swerveDelay = 0.5f;
-
-    //    DrasticTurn();
-    //    rotateTarget = body.transform.position - body.transform.forward; // change diretion to behind duck
-    //    TurnTowardsTarget();
-    //    TiltIntoTurn();
-    //    //yield return new WaitForSeconds(0.5f);
-    //    //turnSpeed = turnSpeedBackup;
-    //    yield return null;
-    //    Debug.Log(transform.name + " STOPPED swerving!");
-    //}
 
     void UpdateTimersAndStopWatches()
     {

@@ -208,8 +208,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         currentWaveMinutes = Mathf.FloorToInt(waveTimeRemaining / 60).ToString();
         float mathSeconds = Mathf.FloorToInt(waveTimeRemaining % 60);
         currentWaveSeconds = string.Format("{0:00}", mathSeconds);
-        Debug.Log("Current minutes is " + currentWaveMinutes);
-        Debug.Log("Current seconds is " + currentWaveSeconds);
     }    
 
     bool isTimeLeft()
