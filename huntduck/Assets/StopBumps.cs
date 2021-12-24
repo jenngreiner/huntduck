@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class StopBumps : MonoBehaviour
 {
-    //public delegate void OnBump(Transform otherDuck);
-    //public static event OnBump onBump;
-
     private DuckFly duckFly;
 
     private void Start()
     {
-        duckFly = transform.GetComponentInParent<DuckFly>();
+        if (gameObject.layer == LayerMask.NameToLayer("InfiniteDuck"))
+        {
+            duckFly = transform.GetComponentInParent<DuckFly>();
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -22,10 +22,10 @@ public class StopBumps : MonoBehaviour
             DuckFly otherDuckFly = other.GetComponentInParent<DuckFly>();
             otherDuckFly?.Swerve(other.transform);
 
-            duckFly.Swerve(other.transform);
-
-            ////onBump?.Invoke();
-            //onBump?.Invoke(other.transform.parent.transform);
+            if (gameObject.layer == LayerMask.NameToLayer("InfiniteDuck"))
+            {
+                duckFly.Swerve(other.transform);
+            }
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
