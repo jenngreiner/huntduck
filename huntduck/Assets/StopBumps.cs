@@ -16,30 +16,25 @@ public class StopBumps : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log(transform.name + " collided with " + other.name);
+        
         if (other.tag == TagManager.INFINITEDUCK_TAG)
         {
-            Debug.Log(transform.name + " collided with " + other.name);
-            DuckFly otherDuckFly = other.GetComponentInParent<DuckFly>();
-            otherDuckFly?.Swerve(other.transform);
 
-            if (gameObject.layer == LayerMask.NameToLayer("InfiniteDuck"))
+            DuckFly otherDuckFly = other.GetComponentInParent<DuckFly>();
+
+            if (otherDuckFly != null)
             {
-                duckFly.Swerve(other.transform);
+                otherDuckFly.Swerve(other.transform);
+                return;
             }
+
+            return;
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        if (gameObject.layer == LayerMask.NameToLayer("InfiniteDuck") && other.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
             duckFly.Swerve(other.transform);
         }
-
-        //if (other.tag == TagManager.INFINITEDUCK_TAG || other.gameObject.layer == LayerMask.NameToLayer("Environment"))
-        //{
-        //    Debug.Log(transform.name + " collided with " + other.name);
-
-        //    DuckFly duckFly = other.GetComponentInParent<DuckFly>();
-        //    duckFly?.Swerve();
-        //    //onBump?.Invoke(other.transform.parent.transform);
-        //}
     }
 }
