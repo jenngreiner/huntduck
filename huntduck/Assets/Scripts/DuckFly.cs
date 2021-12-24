@@ -91,7 +91,7 @@ public class DuckFly : MonoBehaviour
         }
 
         // Time for a new target position
-        if (changeTarget < 0f)
+        if (changeTarget < 0f && !isSwerving)
         {
             ChangeTarget();
         }
@@ -268,18 +268,24 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
+    void ChangeToSwerveSpeed()
+    {
+        float newTurnSpeed = turnSpeedBackup * 5;
+        //turnSpeed = Mathf.Lerp(prevSpeed, newTurnSpeed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f));
+        turnSpeed = newTurnSpeed;
+    }
+
     public void SwerveToCenter(Transform otherTransform)
     {
         if(otherTransform == transform)
         {
             isSwerving = true;
-            swerveDelay = 1f;
+            swerveDelay = 0.5f;
 
-            DrasticTurn();
-            //rotateTarget = body.transform.position - (body.transform.forward * 20f); // change diretion to behind duck
             rotateTarget = centerZone;
-            TurnTowardsTarget();
-            TiltIntoTurn();
+            //ChangeToSwerveSpeed();
+            turnSpeed = turnSpeedBackup * 5;
+
             Debug.Log(transform.name + " back to center!");
         }
     }

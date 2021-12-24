@@ -87,7 +87,7 @@ public class ObjectLauncher : MonoBehaviour
 
             launched.transform.position = launchTransform.transform.position;
             //decoupling rotation from launch direction, using launchRotation
-            launched.transform.rotation = launchRotation.transform.rotation;
+            //launched.transform.rotation = launchRotation.transform.rotation;
 
             //original rotation
             //launched.transform.rotation = launchTransform.transform.rotation;
@@ -101,6 +101,7 @@ public class ObjectLauncher : MonoBehaviour
                 LaunchParticles.Play();
             }
 
+            Debug.Log("Launched " + ProjectileObject.name + " from " + launchTransform.name);
             return launched;
         }
 

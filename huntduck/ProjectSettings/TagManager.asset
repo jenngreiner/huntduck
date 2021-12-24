@@ -14,16 +14,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ForceField
   - Water
   - UI
   - Environment
-  - 
+  - InfiniteDuck
   - Restricted
   - Player
   - Grabbable
   - Carnival
-  - 
+  - Guard
   - 
   - 
   - 
