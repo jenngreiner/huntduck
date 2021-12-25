@@ -2844,7 +2844,7 @@ MonoBehaviour:
   RecoilDuration: 0.25
   ValidLayers:
     serializedVersion: 2
-    m_Bits: 1281
+    m_Bits: 1409
   TriggerTransform: {fileID: 8601947652134121899}
   SlideTransform: {fileID: 6676062162756001175}
   MuzzlePointTransform: {fileID: 6676062162562329576}
