@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))] // Requires Rigidbody to move around
 public class DuckFly : MonoBehaviour
 {
-    [SerializeField] float idleSpeed, turnSpeed, switchSeconds, idleRatio;
+    [SerializeField] float idleSpeed, turnSpeed, switchSeconds, idleRatio; // idleRatio can never be more than 1
     [SerializeField] Vector2 animSpeedMinMax, moveSpeedMinMax, changeAnimEveryFromTo, changeTargetEveryFromTo;
     [SerializeField] Transform homeTarget, flyingTarget;
     [SerializeField] Vector2 radiusMinMax;
@@ -29,11 +29,11 @@ public class DuckFly : MonoBehaviour
 
     void Start()
     {
-        // Initialize imp values
         //animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody>();
         turnSpeedBackup = turnSpeed;
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
+
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
@@ -42,7 +42,7 @@ public class DuckFly : MonoBehaviour
         homeTarget = GameObject.Find("HomeBase").transform;
         flyingTarget = GameObject.Find("PlayerGuard").transform;
 
-        oldyMin = yMinMax.y;
+        oldyMin = yMinMax.x;
         centerZone = GameObject.Find("CenterZone").transform.position;
     }
 
@@ -84,7 +84,7 @@ public class DuckFly : MonoBehaviour
             DrasticTurn();
         }
 
-        // Time for a new animation speed
+        // Time for a new animation AND new speed
         if (changeAnim < 0f)
         {
             ChangeAnimSpeed();
@@ -273,10 +273,10 @@ public class DuckFly : MonoBehaviour
         if(otherTransform == transform)
         {
             isSwerving = true;
-            swerveDelay = 0.5f;
+            swerveDelay = 1f;
 
             rotateTarget = centerZone;
-            turnSpeed = turnSpeedBackup * 5;
+            turnSpeed = turnSpeedBackup * 8;
 
             Debug.Log(transform.name + " back to center!");
         }
@@ -307,35 +307,42 @@ public class DuckFly : MonoBehaviour
 
         // TODO: add this to make animation match flying later
         float newState;
-        if (Random.Range(0f, 1f) < idleRatio) newState = 0f;
+
+        if (Random.Range(0f, 1f) < idleRatio)
+        {
+            newState = 0f;
+        }
         else
         {
-            newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y);
+            newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y); //  right now b/w 0.5-2
         }
-        if (newState != currentAnim)
+
+        // if moving at a new speed, change animation to match
+        if (newState != currentAnim) 
         {
             // TODO: Uncomment when you have animations
             //animator.SetFloat("flySpeed", newState);
             //if (newState == 0) animator.speed = 1f; else animator.speed = newState;
         }
-        return newState;
+
+        return newState; // right now, this can be 0, or 0.5-2
     }
 
     void ChangeAnimSpeed()
     {
         prevAnim = currentAnim;
-        currentAnim = ChangeAnim(currentAnim); // this value determines whether speed is idlespeed or lerp moveSpeedMinMax
+        currentAnim = ChangeAnim(currentAnim); // 0 or 0.5-2 (this value determines whether speed is idlespeed or lerp moveSpeedMinMax)
         changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y); // reset timer until next animation
         timeSinceAnim = 0f;
         prevSpeed = speed;
 
-        if (currentAnim == 0)
+        if (currentAnim == 0) // this happens 30% of time (Random.Range(0,1) returns value less than idlespeed (0.3) in ChangeAnim)
         {
             speed = idleSpeed;
         }
         else
         {
-            speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x));
+            speed = Mathf.Lerp(moveSpeedMinMax.x, moveSpeedMinMax.y, (currentAnim - animSpeedMinMax.x) / (animSpeedMinMax.y - animSpeedMinMax.x)); // speed is somewhere between moveMin & moveMax based on value of currentAnim
         }
     }
 }
