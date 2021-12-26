@@ -26,24 +26,41 @@ public class DuckFly : MonoBehaviour
     public bool isSwerving;
     private float swerveDelay;
     private Vector3 centerZone;
+    private InfiniteWaveSpawner infiniteWaveSpawner;
+    private float speedMultiplier;
 
     void Start()
     {
-        //animator = GetComponent<Animator>();
+        // TODO: add animation
+        //animator = GetComponent<Animator>(); 
         body = GetComponent<Rigidbody>();
-        turnSpeedBackup = turnSpeed;
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
+
+        homeTarget = GameObject.Find("HomeBase").transform;
+        flyingTarget = GameObject.Find("PlayerGuard").transform;
+        centerZone = GameObject.Find("CenterZone").transform.position;
+        oldyMin = yMinMax.x;
+
+        infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();
+        speedMultiplier = infiniteWaveSpawner.duckSpeed;
+
+        // adjust speed of ducks based on wave speed
+        idleSpeed *= speedMultiplier;
+        turnSpeed *= speedMultiplier;
+        moveSpeedMinMax.x *= speedMultiplier;
+        moveSpeedMinMax.y *= speedMultiplier;
+
+        Debug.Log("idlespeed is " + idleSpeed);
+        Debug.Log("turnSpeed is " + turnSpeed);
+        Debug.Log("moveSpeedMinMax.x is " + moveSpeedMinMax.x);
+        Debug.Log("moveSpeedMinMax.y is " + moveSpeedMinMax.y);
+
+        turnSpeedBackup = turnSpeed;
 
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
         } 
-
-        homeTarget = GameObject.Find("HomeBase").transform;
-        flyingTarget = GameObject.Find("PlayerGuard").transform;
-
-        oldyMin = yMinMax.x;
-        centerZone = GameObject.Find("CenterZone").transform.position;
     }
 
     private void Update()
