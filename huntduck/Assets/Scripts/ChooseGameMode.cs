@@ -11,6 +11,18 @@ public class ChooseGameMode : MonoBehaviour
     public delegate void SwitchModes();
     public static event SwitchModes onSwitchMode;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("Pressed H Key");
+            if(gameMode.name == "HuntMode")
+            {
+                changeGameMode();
+            }
+        }
+    }
+
     public void changeGameMode()
     {
         gameMode.SetActive(true);

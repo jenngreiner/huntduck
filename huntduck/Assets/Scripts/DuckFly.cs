@@ -48,7 +48,7 @@ public class DuckFly : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             returnToBase = !returnToBase;
         }
@@ -257,9 +257,9 @@ public class DuckFly : MonoBehaviour
             // gradually reduce velocity as you near base
             body.velocity = Mathf.Min(idleSpeed, distanceFromBase) * direction;
         }
-        else
+        else // as long as not returning to base
         {
-            body.velocity = Mathf.Lerp(prevSpeed, speed, Mathf.Clamp(timeSinceAnim / switchSeconds, 0f, 1f)) * direction;
+            body.velocity = Mathf.Lerp(prevSpeed, speed, Mathf.Clamp01(timeSinceAnim / switchSeconds)) * direction;
         }
     }
 
@@ -303,30 +303,32 @@ public class DuckFly : MonoBehaviour
     // select new animation speed randomly
     private float ChangeAnim(float currentAnim)
     {
-        return 1;
+        //return 1;
 
         // TODO: add this to make animation match flying later
-        //float newState;
-        //if (Random.Range(0f, 1f) < idleRatio) newState = 0f;
-        //else
-        //{
-        //    newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y);
-        //}
-        //if (newState != currentAnim)
-        //{
-        //    animator.SetFloat("flySpeed", newState);
-        //    if (newState == 0) animator.speed = 1f; else animator.speed = newState;
-        //}
-        //return newState;
+        float newState;
+        if (Random.Range(0f, 1f) < idleRatio) newState = 0f;
+        else
+        {
+            newState = Random.Range(animSpeedMinMax.x, animSpeedMinMax.y);
+        }
+        if (newState != currentAnim)
+        {
+            // TODO: Uncomment when you have animations
+            //animator.SetFloat("flySpeed", newState);
+            //if (newState == 0) animator.speed = 1f; else animator.speed = newState;
+        }
+        return newState;
     }
 
     void ChangeAnimSpeed()
     {
         prevAnim = currentAnim;
-        currentAnim = ChangeAnim(currentAnim);
-        changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y);
+        currentAnim = ChangeAnim(currentAnim); // this value determines whether speed is idlespeed or lerp moveSpeedMinMax
+        changeAnim = Random.Range(changeAnimEveryFromTo.x, changeAnimEveryFromTo.y); // reset timer until next animation
         timeSinceAnim = 0f;
         prevSpeed = speed;
+
         if (currentAnim == 0)
         {
             speed = idleSpeed;
