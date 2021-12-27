@@ -13346,6 +13346,7 @@ GameObject:
   - component: {fileID: 4459090241018642978}
   - component: {fileID: 822457005664177388}
   - component: {fileID: 4612607581145103637}
+  - component: {fileID: 2486058391012050312}
   m_Layer: 5
   m_Name: PointsText
   m_TagString: Untagged
@@ -13414,3 +13415,15 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 5
+--- !u!114 &2486058391012050312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9119019699683920492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8f87e1d56fcec40952b0c1d1ae6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
