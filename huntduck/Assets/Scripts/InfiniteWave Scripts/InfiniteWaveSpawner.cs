@@ -36,6 +36,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public int ducksHitTotal;
     //public static int ducksHitThisWave;
     public int ducksLeft;
+    public float duckSpeed;
 
     private float waveTimeRemaining;
     public float timeDelay = 1f;
@@ -128,6 +129,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         currentWaveNumber = waves[nextWave].waveNumber;
         waves[nextWave].ducksHitThisWave = 0;
         ducksLeft = waves[nextWave].duckCount;
+        duckSpeed = waves[nextWave].rate;
 
         onWaveChange?.Invoke();
     }
@@ -182,7 +184,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         else
         {
             int nextDucks = waves[nextWave].duckCount * 2;
-            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, nextDucks, waves[nextWave].rate * 1.05f, waves[nextWave].waveTime + (5f * waves[nextWave].duckCount), waves[nextWave].ducksHitThisWave = 0, nextDucks));
+            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, nextDucks, waves[nextWave].rate * 1.1f, waves[nextWave].waveTime + (5f * waves[nextWave].duckCount), waves[nextWave].ducksHitThisWave = 0, nextDucks));
             nextWave++;
             SetupWave();
 
