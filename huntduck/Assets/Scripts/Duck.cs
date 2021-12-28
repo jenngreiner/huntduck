@@ -11,6 +11,8 @@ public class Duck : MonoBehaviour
     private GameObject player;
     private PlayerScore playerScoreScript;
 
+    private BNG.Damageable damageableScript;
+
     public delegate void DuckDied(Transform thisTransform);
     public static event DuckDied onDuckDied;
 
@@ -18,6 +20,8 @@ public class Duck : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag(PLAYER_TAG);
         playerScoreScript = player.GetComponent<PlayerScore>();
+
+        damageableScript = GetComponent<BNG.Damageable>();
     }
 
     void OnEnable()
@@ -37,16 +41,18 @@ public class Duck : MonoBehaviour
             playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
             Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
 
-            CreatePointsText(duckPoints);
+            CreatePointsText(duckPoints, damageableScript.DestroyDelay);
         }
     }
 
-    public void CreatePointsText(int duckPoints)
+    public void CreatePointsText(int duckPoints, float destroyDelay)
     {
         GameObject pointsObj = Instantiate(pointsTextObj, transform.position, Quaternion.identity);
         pointsObj.transform.position = gameObject.transform.position;
         pointsObj.transform.LookAt(player.transform);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
+
+        Destroy(pointsObj, destroyDelay);
     }
 }
