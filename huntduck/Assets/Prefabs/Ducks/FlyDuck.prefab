@@ -5222,7 +5222,7 @@ MonoBehaviour:
   - {fileID: 5321008479419601368}
   DestroyOnDeath: 1
   DropOnDeath: 1
-  DestroyDelay: 10
+  DestroyDelay: 2
   Respawn: 0
   RespawnTime: 10
   RemoveBulletHolesOnDeath: 1
