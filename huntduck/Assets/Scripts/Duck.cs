@@ -30,12 +30,15 @@ public class Duck : MonoBehaviour
         BNG.Damageable.onDuckDie -= Die;
     }
 
-    public void Die()
+    public void Die(GameObject deadDuck)
     {
-        playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
-        Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
+        if (deadDuck == gameObject)
+        {
+            playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
+            Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
 
-        CreatePointsText(duckPoints);
+            CreatePointsText(duckPoints);
+        }
     }
 
     public void CreatePointsText(int duckPoints)

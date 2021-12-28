@@ -28,7 +28,7 @@ namespace BNG {
         public delegate void InfiniteDuckHit();
         public static event InfiniteDuckHit onInfiniteDuckHit;
 
-        public delegate void DuckDie();
+        public delegate void DuckDie(GameObject deadDuck);
         public static event DuckDie onDuckDie;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
@@ -313,14 +313,11 @@ namespace BNG {
                     break;
                 case TagManager.PRACTICEDUCK_TAG:
                     onCarniDuckHit?.Invoke(transform.parent.gameObject);
-                    onDuckDie?.Invoke();
+                    onDuckDie?.Invoke(gameObject);
                     break;
                 case TagManager.INFINITEDUCK_TAG:
                     onInfiniteDuckHit?.Invoke();
-                    onDuckDie?.Invoke();
-                    break;
-                case TagManager.DUCK_TAG:
-                    onDuckDie?.Invoke();
+                    onDuckDie?.Invoke(gameObject);
                     break;
                 default:
                     break;
