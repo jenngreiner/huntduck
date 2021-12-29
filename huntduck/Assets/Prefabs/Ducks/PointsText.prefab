@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2988833073551449394}
   - component: {fileID: 188523609658329175}
+  - component: {fileID: -6132735771223629301}
   m_Layer: 7
   m_Name: PointsText
   m_TagString: Untagged
@@ -48,6 +49,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &-6132735771223629301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407571069154332473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0330293534b1284cb339168d4efd5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveYSpeed: 0.1
 --- !u!1 &1478445219807715713
 GameObject:
   m_ObjectHideFlags: 0

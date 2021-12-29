@@ -20,8 +20,6 @@ public class Duck : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag(PLAYER_TAG);
         playerScoreScript = player.GetComponent<PlayerScore>();
-
-        damageableScript = GetComponent<BNG.Damageable>();
     }
 
     void OnEnable()
@@ -41,18 +39,16 @@ public class Duck : MonoBehaviour
             playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
             Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
 
-            CreatePointsText(duckPoints, damageableScript.DestroyDelay);
+            CreatePointsText(duckPoints);
         }
     }
 
-    public void CreatePointsText(int duckPoints, float destroyDelay)
+    public void CreatePointsText(int duckPoints)
     {
         GameObject pointsObj = Instantiate(pointsTextObj, transform.position, Quaternion.identity);
         pointsObj.transform.position = gameObject.transform.position;
         pointsObj.transform.LookAt(player.transform);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
-
-        Destroy(pointsObj, destroyDelay);
     }
 }

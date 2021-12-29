@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class ScorePopup : MonoBehaviour
 {
-    // add scaling and drifting effects captured here https://www.youtube.com/watch?v=iD1_JczQcFY&t=514s
+    public float moveYSpeed = 0.1f;
+    public float destroyTimer = 3f;
+
+    void Start()
+    {
+        Destroy(gameObject, destroyTimer);
+    }
+
+    void Update()
+    {
+        transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
+        //keep going video 10:18 to make number disappear a little
+        //may have to adjust the destroy delay, make it 3 seconds, decouple from duck
+    }
 
 }
