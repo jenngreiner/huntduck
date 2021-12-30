@@ -65,7 +65,7 @@ MonoBehaviour:
   moveUpSpeed: 0.2
   scaleSpeed: 10
   scaleAmount: 10
-  disappearTimer: 3
+  effectTimer: 3
   disappearSpeed: 0.75
   effectType: 0
 --- !u!1 &1478445219807715713
