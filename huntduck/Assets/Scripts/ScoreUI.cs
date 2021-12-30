@@ -4,7 +4,6 @@ using UnityEngine.UI;
 // this is a single player score implementation
 public class ScoreUI : MonoBehaviour
 {
-    private const string PLAYER_TAG = "Player";
     private PlayerScore playerScoreScript;
 
     public Text scoreText;
@@ -14,26 +13,21 @@ public class ScoreUI : MonoBehaviour
     void Start()
     {
         //// find player in the scene, grab its PlayerScore script
-        playerScoreScript = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerScore>();
+        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).GetComponent<PlayerScore>();
 
         // reset score when game starts
         CreateArcadeScore();
         scoreText.text = arcadeScore;
         Debug.Log("Score UI is now reset to " + arcadeScore);
-
-        //scoreText.text = playerScoreScript.playerScore.ToString();
-        //Debug.Log("Score UI is now reset to " + playerScoreScript.playerScore);
     }
 
-    // subscribe events
-    private void OnEnable()
+    void OnEnable()
     {
         // update score ui when the player's score changes
         PlayerScore.onScoreUpdate += UpdateScoreUI;
     }
 
-    // unsubscribe events
-    private void OnDisable()
+    void OnDisable()
     {
         PlayerScore.onScoreUpdate -= UpdateScoreUI;
     }
@@ -43,9 +37,6 @@ public class ScoreUI : MonoBehaviour
         // implementation with leading zeros to give arcade feel
         CreateArcadeScore();
         scoreText.text = arcadeScore;
-
-        // implementation without leading zeros
-        // scoreText.text = playerScoreScript.playerScore.ToString();
     }
 
     void CreateArcadeScore()
