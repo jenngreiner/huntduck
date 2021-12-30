@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class ScorePopup : MonoBehaviour
 {
-    public Vector3 movePopup = new Vector3(0f, 0.1f, 0f);
-    public float moveSpeedFast = 60f;
-    public float moveSpeedSlow = 8f;
-    public float scaleAmount = 1f;
+    public Vector3 movePopup = new Vector3(0f, 1f, 0f);
+    public float moveUpSpeed = 0.2f;
+    public float scaleSpeed = 10f;
+    public float scaleAmount = 10f;
 
-    public float disappearTimerMax = 1f;
-    public float disappearSpeed = 3f;
-    private float disappearTimer = 1f;
+    public float effectTimer = 3f;
+    private float effectTimerLeft = 1f;
+    public float disappearSpeed = 0.75f;
 
     private Text scoreText;
     private Color textColor;
 
     // dropdown to select effect you want
-    public enum EffectType { ScaleAndShrink, ScalePauseFade, FloatAndFade }
+    public enum EffectType { ScaleAndFade, ScaleAndShrink, FloatAndFade }
     public EffectType effectType;
 
     public delegate void SelectedDelegate();
@@ -26,14 +26,13 @@ public class ScorePopup : MonoBehaviour
 
     void Start()
     {
-        //Destroy(gameObject, disappearTimer);
-
         scoreText = GetComponentInChildren<Text>();
         textColor = scoreText.color;
-        disappearTimer = disappearTimerMax;
-        movePopup *= moveSpeedFast;
-        Debug.Log("movePopup + moveSpeedFast is " + movePopup);
-        RunEffectSelected(effectType);
+
+        // setup popup
+        effectTimerLeft = effectTimer;
+        movePopup *= moveUpSpeed;
+        SetSelectedEffect(effectType);
     }
 
     void Update()
@@ -41,14 +40,15 @@ public class ScorePopup : MonoBehaviour
         effectMethod();
     }
 
-    void RunEffectSelected(EffectType _effectType)
+    void SetSelectedEffect(EffectType _effectType)
     {
+        // set delegate method in update via enum selected in inspector
         switch (effectType)
         {
             case EffectType.ScaleAndShrink:
                 effectMethod = ScaleAndShrink;
                 break;
-            case EffectType.ScalePauseFade:
+            case EffectType.ScaleAndFade:
                 effectMethod = ScalePauseFade;
                 break;
             case EffectType.FloatAndFade:
@@ -59,55 +59,15 @@ public class ScorePopup : MonoBehaviour
         }
     }
 
-    void ScaleAndShrink()
-    {
-        transform.position += movePopup * Time.deltaTime;
-        movePopup -= movePopup * moveSpeedSlow * Time.deltaTime;
-        Debug.Log("movePopup - movePopup * moveSpeedSlow is " + movePopup);
-
-        if (disappearTimer > disappearTimerMax / 2)
-        {
-            // first half of popup lifetime
-            transform.localScale += Vector3.one * scaleAmount * Time.deltaTime;
-        }
-        else 
-        {
-            // second half of popup lifetime
-            transform.localScale -= Vector3.one * scaleAmount * Time.deltaTime;
-        }
-
-        disappearTimer -= Time.deltaTime;
-
-        if (disappearTimer < 0)
-        {
-            textColor.a -= disappearSpeed * Time.deltaTime;
-            scoreText.color = textColor;
-            if (textColor.a <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }
-        
-    }
-
     void ScalePauseFade()
     {
-        //transform.position += movePopup * Time.deltaTime;
-        //movePopup -= movePopup * moveSpeedSlow * Time.deltaTime;
-        //Debug.Log("movePopup - movePopup * moveSpeedSlow is " + movePopup);
-
-        if (disappearTimer > disappearTimerMax / 2)
+        if (effectTimerLeft > effectTimer / 2) // first half of popup lifetime
         {
-            // scale up, more quickly at first then slower
+            // scale up, quickly at first then slower
             transform.localScale += Vector3.one * scaleAmount * Time.deltaTime;
-            scaleAmount -= scaleAmount * moveSpeedSlow * Time.deltaTime;
+            scaleAmount -= scaleAmount * scaleSpeed * Time.deltaTime;
         }
-        //else if (disappearTimer < disappearTimerMax * 2/3 && disappearTimer > disappearTimerMax * 1 / 3)
-        //{
-        //    transform.position += movePopup * Time.deltaTime;
-        //    movePopup -= movePopup * moveSpeedSlow * Time.deltaTime;
-        //}
-        else
+        else // second half of popup lifetime
         {
             // move up
             transform.position += movePopup * Time.deltaTime;
@@ -123,17 +83,27 @@ public class ScorePopup : MonoBehaviour
             }
         }
 
-        disappearTimer -= Time.deltaTime;
+        effectTimerLeft -= Time.deltaTime;
     }
 
-    void FloatAndFade()
+    void ScaleAndShrink()
     {
-        //transform.localScale += Vector3.one * scaleAmount * Time.deltaTime;
         transform.position += movePopup * Time.deltaTime;
+        movePopup -= movePopup * scaleSpeed * Time.deltaTime;
+        Debug.Log("movePopup - movePopup * moveSpeedSlow is " + movePopup);
 
-        disappearTimer -= Time.deltaTime;
+        if (effectTimerLeft > effectTimer / 2)
+        {
+            transform.localScale += Vector3.one * scaleAmount * Time.deltaTime;
+        }
+        else
+        {
+            transform.localScale -= Vector3.one * scaleAmount * Time.deltaTime;
+        }
 
-        if (disappearTimer < 0)
+        effectTimerLeft -= Time.deltaTime;
+
+        if (effectTimerLeft < 0)
         {
             textColor.a -= disappearSpeed * Time.deltaTime;
             scoreText.color = textColor;
@@ -144,5 +114,20 @@ public class ScorePopup : MonoBehaviour
         }
     }
 
-    // 16:45 sort order https://www.youtube.com/watch?v=iD1_JczQcFY&t=514s
+    void FloatAndFade()
+    {
+        transform.position += movePopup * Time.deltaTime;
+
+        effectTimerLeft -= Time.deltaTime;
+
+        if (effectTimerLeft < 0)
+        {
+            textColor.a -= disappearSpeed * Time.deltaTime;
+            scoreText.color = textColor;
+            if (textColor.a <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }

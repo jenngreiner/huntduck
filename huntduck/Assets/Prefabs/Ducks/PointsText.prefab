@@ -61,13 +61,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0330293534b1284cb339168d4efd5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePopup: {x: 0, y: 0.01, z: 0}
-  moveSpeedFast: 20
-  moveSpeedSlow: 10
+  movePopup: {x: 0, y: 1, z: 0}
+  moveUpSpeed: 0.2
+  scaleSpeed: 10
   scaleAmount: 10
-  disappearTimerMax: 1
-  disappearSpeed: 1
-  effectType: 1
+  disappearTimer: 3
+  disappearSpeed: 0.75
+  effectType: 0
 --- !u!1 &1478445219807715713
 GameObject:
   m_ObjectHideFlags: 0
