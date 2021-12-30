@@ -7,7 +7,6 @@ public class Duck : MonoBehaviour
     public int duckPoints = 500;
     public GameObject pointsTextObj;
 
-    private const string PLAYER_TAG = "Player";
     private GameObject player;
     private PlayerScore playerScoreScript;
 
@@ -16,7 +15,7 @@ public class Duck : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag(PLAYER_TAG);
+        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
         playerScoreScript = player.GetComponent<PlayerScore>();
     }
 
