@@ -10,9 +10,6 @@ public class Duck : MonoBehaviour
     private GameObject player;
     private PlayerScore playerScoreScript;
 
-    public delegate void DuckDied(Transform thisTransform);
-    public static event DuckDied onDuckDied;
-
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
