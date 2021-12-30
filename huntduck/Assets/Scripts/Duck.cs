@@ -46,7 +46,6 @@ public class Duck : MonoBehaviour
     public void CreatePointsText(int duckPoints)
     {
         GameObject pointsObj = Instantiate(pointsTextObj, transform.position, Quaternion.identity);
-        pointsObj.transform.position = gameObject.transform.position;
         pointsObj.transform.LookAt(player.transform);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
