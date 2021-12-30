@@ -11,8 +11,6 @@ public class Duck : MonoBehaviour
     private GameObject player;
     private PlayerScore playerScoreScript;
 
-    private BNG.Damageable damageableScript;
-
     public delegate void DuckDied(Transform thisTransform);
     public static event DuckDied onDuckDied;
 
