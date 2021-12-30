@@ -61,7 +61,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0330293534b1284cb339168d4efd5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveYSpeed: 0.1
+  movePopup: {x: 0, y: 0.1, z: 0}
+  scaleAmount: 1
+  disappearTimerMax: 2
+  disappearSpeed: 3
 --- !u!1 &1478445219807715713
 GameObject:
   m_ObjectHideFlags: 0
