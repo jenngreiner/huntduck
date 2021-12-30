@@ -11,11 +11,13 @@ public class PlayerScore : MonoBehaviour
 
     void OnEnable()
     {
+        Duck.onDuckDied += UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite += ResetPlayerScore; // SINGLESCENE: ResetScore subscribe
     }
 
     void OnDisable()
     {
+        Duck.onDuckDied -= UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite -= ResetPlayerScore; // SINGLESCENE: ResetScore unsubscribe
     }
 

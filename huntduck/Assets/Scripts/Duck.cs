@@ -8,12 +8,13 @@ public class Duck : MonoBehaviour
     public GameObject pointsTextObj;
 
     private GameObject player;
-    private PlayerScore playerScoreScript;
+
+    public delegate void DuckDied(int points);
+    public static event DuckDied onDuckDied;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
-        playerScoreScript = player.GetComponent<PlayerScore>();
     }
 
     void OnEnable()
@@ -30,8 +31,7 @@ public class Duck : MonoBehaviour
     {
         if (deadDuck == gameObject)
         {
-            playerScoreScript.SendMessage("UpdatePlayerScore", duckPoints);
-            Debug.Log("Duck died, player receives " + duckPoints + " duckpoints");
+            onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
 
             CreatePointsText(duckPoints);
         }
