@@ -28,7 +28,7 @@ public class PlayerScore : MonoBehaviour
         duckKills++;
         Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
         
-        onScoreUpdate?.Invoke(); // update score in ScoreUI.cs
+        onScoreUpdate?.Invoke(); // update score in ScoreUI.cs & WalletUI
     }
 
     // SINGLESCENE: reset the player score via "Play Again" or "Quit" buttons in Hunt Mode
