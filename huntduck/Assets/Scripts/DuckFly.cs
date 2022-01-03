@@ -338,8 +338,8 @@ public class DuckFly : MonoBehaviour
         if (newState != currentAnim) 
         {
             // TODO: Uncomment when you have animations
-            //animator.SetFloat("flySpeed", newState);
-            //if (newState == 0) animator.speed = 1f; else animator.speed = newState;
+            animator.SetFloat("flySpeed", newState);
+            if (newState == 0) animator.speed = 1f; else animator.speed = newState;
         }
 
         return newState; // right now, this can be 0, or 0.5-2
