@@ -247,6 +247,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void SpawnDuck()
     {
         GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<ObjectLauncher>().ShootLauncher();
+        activeSpawnPoint.GetComponent<DuckLauncher>().LaunchObj();
     }
 }
