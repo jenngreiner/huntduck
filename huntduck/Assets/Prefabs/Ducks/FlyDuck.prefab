@@ -5417,7 +5417,6 @@ MonoBehaviour:
   returnToBase: 0
   randomBaseOffset: 0
   delayStart: 0
-  animator: {fileID: 0}
   isSwerving: 0
 --- !u!1 &5981692124151303494
 GameObject:
@@ -5428,7 +5427,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410860134230742419}
-  - component: {fileID: 1661724394575189798}
   m_Layer: 7
   m_Name: WingPivot(L)
   m_TagString: Untagged
@@ -5451,25 +5449,6 @@ Transform:
   m_Father: {fileID: 6659966412827742703}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -65, y: 0, z: 0}
---- !u!95 &1661724394575189798
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5981692124151303494}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e09df2c233eb5457d9c480106e4b05c6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6659966412359471394
 GameObject:
   m_ObjectHideFlags: 0
@@ -6436,7 +6415,7 @@ GameObject:
   - component: {fileID: 6659966412827742702}
   - component: {fileID: 2134455792544682110}
   m_Layer: 7
-  m_Name: GFX
+  m_Name: DuckGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13647,7 +13626,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1613810156762405926}
-  - component: {fileID: 3272798629913979712}
   m_Layer: 7
   m_Name: WingPivot(R)
   m_TagString: Untagged
@@ -13662,33 +13640,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8920442414318230754}
-  m_LocalRotation: {x: 0.53729963, y: 0, z: 0, w: 0.8433915}
+  m_LocalRotation: {x: 0.54463905, y: 0, z: 0, w: 0.8386706}
   m_LocalPosition: {x: -0.003, y: 0.267, z: 0.129}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2531683027967149315}
   m_Father: {fileID: 6659966412827742703}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 65, y: 0, z: 0}
---- !u!95 &3272798629913979712
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8920442414318230754}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b9b5c44ae8b044c3e995f7bf6a6be12b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_LocalEulerAnglesHint: {x: 66, y: 0, z: 0}
 --- !u!1 &9196489644924705393
 GameObject:
   m_ObjectHideFlags: 0

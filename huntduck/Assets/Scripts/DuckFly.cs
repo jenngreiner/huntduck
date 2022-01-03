@@ -14,7 +14,7 @@ public class DuckFly : MonoBehaviour
     [SerializeField] public bool returnToBase = false;
     [SerializeField] public float randomBaseOffset = 5, delayStart = 0f;
 
-    public Animator animator;
+    private Animator animator;
     private Rigidbody body;
     [System.NonSerialized]
     public float changeTarget = 0f, changeAnim = 0f, timeSinceTarget = 0f, timeSinceAnim = 0f, prevAnim, currentAnim = 0f, prevSpeed, speed, zturn, prevz, turnSpeedBackup;
@@ -32,7 +32,7 @@ public class DuckFly : MonoBehaviour
     void Start()
     {
         // TODO: add animation
-        //animator = GetComponent<Animator>(); 
+        animator = GetComponentInChildren<Animator>(); 
         body = GetComponent<Rigidbody>();
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
 
