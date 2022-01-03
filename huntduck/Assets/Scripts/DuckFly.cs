@@ -14,12 +14,12 @@ public class DuckFly : MonoBehaviour
     [SerializeField] public bool returnToBase = false;
     [SerializeField] public float randomBaseOffset = 5, delayStart = 0f;
 
-    private Animator animator;
+    public Animator animator;
     private Rigidbody body;
     [System.NonSerialized]
     public float changeTarget = 0f, changeAnim = 0f, timeSinceTarget = 0f, timeSinceAnim = 0f, prevAnim, currentAnim = 0f, prevSpeed, speed, zturn, prevz, turnSpeedBackup;
-    private Vector3 rotateTarget, position, direction, velocity, randomizedBase;
-    private Quaternion lookRotation, bodyRotation;
+    private Vector3 rotateTarget, position, direction, randomizedBase;
+    private Quaternion lookRotation;
     [System.NonSerialized] public float distanceFromBase, distanceFromTarget, distanceFromStand;
 
     private float oldyMin;
