@@ -101,6 +101,7 @@ public class ObjectLauncher : MonoBehaviour
                 LaunchParticles.Play();
             }
 
+            Debug.Log("Launched " + ProjectileObject.name + " from " + launchTransform.name);
             return launched;
         }
 

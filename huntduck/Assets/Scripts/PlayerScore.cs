@@ -5,17 +5,18 @@ public class PlayerScore : MonoBehaviour
     public int playerScore = 0;
     public int duckKills = 0;
 
-    // create a callback to hook to be able to update score in ScoreUI
     public delegate void ScoreUpdate();
     public static event ScoreUpdate onScoreUpdate;
 
     void OnEnable()
     {
+        Duck.onDuckDied += UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite += ResetPlayerScore; // SINGLESCENE: ResetScore subscribe
     }
 
     void OnDisable()
     {
+        Duck.onDuckDied -= UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite -= ResetPlayerScore; // SINGLESCENE: ResetScore unsubscribe
     }
 
@@ -27,7 +28,7 @@ public class PlayerScore : MonoBehaviour
         duckKills++;
         Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
         
-        onScoreUpdate?.Invoke();
+        onScoreUpdate?.Invoke(); // update score in ScoreUI.cs & WalletUI
     }
 
     // SINGLESCENE: reset the player score via "Play Again" or "Quit" buttons in Hunt Mode

@@ -36,6 +36,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public int ducksHitTotal;
     //public static int ducksHitThisWave;
     public int ducksLeft;
+    public float duckSpeed;
 
     private float waveTimeRemaining;
     public float timeDelay = 1f;
@@ -51,9 +52,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     public delegate void OnDuckHit();
     public static event OnDuckHit onDuckHit;
-
-    public delegate void OnWaveCompleted();
-    public static event OnWaveCompleted onWaveCompleted;
 
     public delegate void OnWaveChange();
     public static event OnWaveChange onWaveChange;
@@ -131,6 +129,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         currentWaveNumber = waves[nextWave].waveNumber;
         waves[nextWave].ducksHitThisWave = 0;
         ducksLeft = waves[nextWave].duckCount;
+        duckSpeed = waves[nextWave].rate;
 
         onWaveChange?.Invoke();
     }
@@ -184,7 +183,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
         else
         {
-            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, waves[nextWave].duckCount * 2, waves[nextWave].rate * 1.05f, waves[nextWave].waveTime + (5f * waves[nextWave].duckCount), waves[nextWave].ducksHitThisWave = 0, waves[nextWave].duckTotal));
+            int nextDucks = waves[nextWave].duckCount * 2;
+            waves.Add(new InfiniteWave(waves[nextWave].waveNumber + 1, nextDucks, waves[nextWave].rate * 1.1f, waves[nextWave].waveTime + (5f * waves[nextWave].duckCount), waves[nextWave].ducksHitThisWave = 0, nextDucks));
             nextWave++;
             SetupWave();
 
@@ -210,8 +210,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
         currentWaveMinutes = Mathf.FloorToInt(waveTimeRemaining / 60).ToString();
         float mathSeconds = Mathf.FloorToInt(waveTimeRemaining % 60);
         currentWaveSeconds = string.Format("{0:00}", mathSeconds);
-        Debug.Log("Current minutes is " + currentWaveMinutes);
-        Debug.Log("Current seconds is " + currentWaveSeconds);
     }    
 
     bool isTimeLeft()
@@ -249,6 +247,6 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void SpawnDuck()
     {
         GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<ObjectLauncher>().ShootLauncher();
+        activeSpawnPoint.GetComponent<DuckLauncher>().LaunchObj();
     }
 }

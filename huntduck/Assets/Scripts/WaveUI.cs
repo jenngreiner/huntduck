@@ -21,21 +21,17 @@ public class WaveUI : MonoBehaviour
     {
         InfiniteWaveSpawner.onTimeChange += UpdateWaveUI;
         InfiniteWaveSpawner.onWaveChange += UpdateWaveUI;
-        InfiniteWaveSpawner.onWaveCompleted += UpdateWaveUI;
     }
 
     private void OnDisable()
     {
         InfiniteWaveSpawner.onTimeChange -= UpdateWaveUI;
         InfiniteWaveSpawner.onWaveChange -= UpdateWaveUI;
-        InfiniteWaveSpawner.onWaveCompleted -= UpdateWaveUI;
     }
 
     void UpdateWaveUI()
     {
         waveCountText.text = iWS.currentWaveNumber.ToString();
         waveTimeText.text = iWS.currentWaveMinutes + ":" + iWS.currentWaveSeconds;
-        //waveTimeText.text = infiniteWaveSpawnerScript.currentWaveTime.ToString();
-        Debug.Log("Updating wave time on sign posts to " + waveTimeText.text);
     }
 }

@@ -12,17 +12,15 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject gameplayUI; // this UI shows ducks, time, score
     public Text duckText; // duck count on sign
     public Text timeText; // time on sign
+    public Text waveText;
     public Canvas walletCanvas;
     public GameObject gameOverUI;
     public GameObject replayExitUI;
 
     public GameObject leaderboard;
-    //public GameObject howYouDidUI;
     public TextMeshProUGUI finalWavesText;
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
-
-    //public GameObject highestScoresUI;
 
     public InfiniteWaveSpawner infiniteWaveSpawner;
 
@@ -54,10 +52,10 @@ public class InfiniteLevelManager : MonoBehaviour
     void OnEnable()
     {
         // SINGLESCENE: reset the gameplay UIs and start
-        ResetText(); 
+        ResetText();
+
         ChooseGameMode.onSwitchMode += StartInfiniteWave;
         RestartGameMode.onRestartMode += StartInfiniteWave;
-        
         InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
     }
 
@@ -69,16 +67,14 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // SINGLESCENE: hide scoreboards on "Play Again"
         leaderboard.SetActive(false);
-        //howYouDidUI.SetActive(false);
-        //highestScoresUI.SetActive(false);
     }
 
     public void ResetText()
     {
         duckText.text = "-";
         timeText.text = "-";
+        waveText.text = "-";
     }
-
 
     void StartInfiniteWave()
     {
@@ -90,14 +86,6 @@ public class InfiniteLevelManager : MonoBehaviour
     {
         StartCoroutine(InfiniteWaveOutro());
     }
-
-    // SINGLESCENE: not needed bc selecting weapon in select mode
-    //IEnumerator InfiniteWaveIntro()
-    //{
-    //    helperText.text = "WELCOME TO\n THE HUNT";
-    //    yield return new WaitForSecondsRealtime(3);
-    //    helperText.text = "SELECT YOUR WEAPON TO BEGIN";
-    //}
 
     IEnumerator BeginInfiniteWave()
     {
@@ -135,11 +123,10 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // query for latest scores - this doesnt seem to be working yet
         huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
-        // set leaderboard active
+
+        // set leaderboard & buttons active
         leaderboard.SetActive(true);
         replayExitUI.SetActive(true);
-        //highestScoresUI.SetActive(true);
-        //howYouDidUI.SetActive(true);
 
         levelupSound.Play();
         yield return new WaitForSecondsRealtime(3);
