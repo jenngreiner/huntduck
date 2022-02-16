@@ -18,6 +18,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         public float rate;
         public float waveTime = 30f;
         public int ducksHitThisWave = 0;
+        public bool isBonusWave = false;
 
         public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime, int newDucksHitThisWave)
         {
@@ -26,6 +27,16 @@ public class InfiniteWaveSpawner : MonoBehaviour
             rate = newRate;
             waveTime = newWaveTime;
             ducksHitThisWave = newDucksHitThisWave;
+        }
+        
+        public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime, int newDucksHitThisWave, bool isBonusWaveValue)
+        {
+            waveNumber = newWaveNumber;
+            duckCount = newDuckCount;
+            rate = newRate;
+            waveTime = newWaveTime;
+            ducksHitThisWave = newDucksHitThisWave;
+            isBonusWave = isBonusWaveValue;
         }
     }
 
@@ -76,6 +87,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public GameObject waveCountUI;
     public Text waveCountText;
     public GameObject getReadyUI;
+    public Text getReadyText;
 
 
     void Start()
@@ -96,7 +108,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
     {
         if (state == WaveState.READY)
         {
-            StartCoroutine(StartWave(waves[thisWave]));
+            if (waves[thisWave].isBonusWave){
+                StartCoroutine(StartBonusWave(waves[thisWave]));
+            } else {
+                StartCoroutine(StartWave(waves[thisWave]));
+            }
         }
 
         if (state == WaveState.WAVING)
@@ -167,6 +183,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         waveCountUI.SetActive(false);
 
         // "Get Ready"
+        getReadyText.text = "GET READY";
         getReadyUI.SetActive(true);
         yield return new WaitForSecondsRealtime(timeDelay);
         getReadyUI.SetActive(false);
@@ -177,6 +194,39 @@ public class InfiniteWaveSpawner : MonoBehaviour
         for (int i = 0; i < _thisWave.duckCount; i++)
         {
             SpawnDuck();
+            yield return new WaitForSeconds(1 / _thisWave.rate);
+        }
+
+        yield break;
+    }
+
+    IEnumerator StartBonusWave(InfiniteWave _thisWave)
+    {
+        state = WaveState.STARTING;
+
+        // set wave number & show it
+        waveCountText.text = waves[thisWave].waveNumber.ToString();
+        waveCountUI.SetActive(true);
+        yield return new WaitForSecondsRealtime(timeDelay);
+        waveCountUI.SetActive(false);
+
+        // waveCountText.text = "Bonus Wave";
+        // waveCountUI.SetActive(true);
+        // yield return new WaitForSecondsRealtime(timeDelay);
+        // waveCountUI.SetActive(false);
+
+        // "Get Ready
+        getReadyText.text = "BONUS WAVE";
+        getReadyUI.SetActive(true);
+        yield return new WaitForSecondsRealtime(timeDelay);
+        getReadyUI.SetActive(false);
+
+        state = WaveState.WAVING;
+
+        // loop through the amount of ducks you want to spawn
+        for (int i = 0; i < _thisWave.duckCount; i++)
+        {
+            SpawnBonusDucks();
             yield return new WaitForSeconds(1 / _thisWave.rate);
         }
 
@@ -202,14 +252,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
             if (nextWaveNumber == 5) {
                 // first bonus wave
                 bonusWaveNumber = 1;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber, 15f, 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber, 15f, 0, true));
 
                 Debug.Log("starting first bonus wave");
                 //waves.Add(new BonusWave(1, 1, waves[thisWave].waveNumber + 1, 0, 1.05f,15f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].duckTotal));
             } else if ((nextWaveNumber % 5) == 0) { // multiples of 5 
                 // bonus wave
                 bonusWaveNumber++;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber * 1.05f, 15f, 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber * 1.05f, 15f, 0, true));
 
                 Debug.Log("bonuswave: " + bonusWaveNumber);
 
@@ -287,6 +337,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void SpawnDuck()
     {
         GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<DuckLauncher>().LaunchObj();
+        private DuckLauncher duckLauncher = activeSpawnPoint.GetComponent<DuckLauncher>();
+        duckLauncher.LaunchObj(duckLauncher.launchObject);
+    }
+
+    void SpawnBonusDucks()
+    {
+        GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        private DuckLauncher duckLauncher = activeSpawnPoint.GetComponent<DuckLauncher>();
+        duckLauncher.LaunchObj(duckLauncher.bonusObject);
     }
 }
