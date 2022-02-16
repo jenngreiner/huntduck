@@ -18,37 +18,29 @@ public class InfiniteWaveSpawner : MonoBehaviour
         public float rate;
         public float waveTime = 60f;
         public int ducksHitThisWave = 0;
-        public int duckTotal = 1000;
 
-        public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime, int newDucksHitThisWave, int newDuckTotal)
+        public InfiniteWave(int newWaveNumber, int newDuckCount, float newRate, float newWaveTime, int newDucksHitThisWave)
         {
             waveNumber = newWaveNumber;
             duckCount = newDuckCount;
             rate = newRate;
             waveTime = newWaveTime;
             ducksHitThisWave = newDucksHitThisWave;
-            duckTotal = newDuckTotal;
         }
     }
 
-    public class BonusWave : InfiniteWave
-    {
-        public int bonusWaveCount;
-        public int vCount;
+    //public class BonusWave : InfiniteWave
+    //{
+    //    public int bonusWaveCount;
+    //    public int vCount;
 
-        public BonusWave(int newBonusWaveCount, int newWaveNumber, int newVCount, float newRate, int newDucksHitThisWave, int newHitTotal)
-        {
-            Debug.Log("calling BW constructor");
-            bonusWaveCount = newBonusWaveCount;
-            waveNumber = newWaveNumber;
-            vCount = newVCount;
-            rate = newRate;
-            waveTime = 15f;
-            ducksHitThisWave = newDucksHitThisWave;
-            hitTotal = newHitTotal;
-        }
-
-    }
+    //    public BonusWave(int newBonusWaveCount, int newVCount, int newWaveNumber, int newDuckCount, float newRate, float newWaveTime, int newDucksHitThisWave, int newDuckTotal) : base(newWaveNumber, newDuckCount, newRate, newWaveTime, newDucksHitThisWave, newDuckTotal)
+    //    {
+    //        Debug.Log("calling BW constructor");
+    //        bonusWaveCount = newBonusWaveCount;
+    //        vCount = newVCount;
+    //    }
+    //}
 
     public List<InfiniteWave> waves;
     private int thisWave;
@@ -63,6 +55,8 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public int currentWaveTime;
     public string currentWaveMinutes;
     public string currentWaveSeconds;
+
+    public int bonusWaveNumber;
 
     public GameObject[] spawnPoints;
 
@@ -180,7 +174,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         state = WaveState.WAVING;
 
         // loop through the amount of ducks you want to spawn
-        for (int i = 0; i < _thisWave.duckTotal; i++)
+        for (int i = 0; i < _thisWave.duckCount; i++)
         {
             SpawnDuck();
             yield return new WaitForSeconds(1 / _thisWave.rate);
@@ -203,19 +197,33 @@ public class InfiniteWaveSpawner : MonoBehaviour
         else
         {
             Debug.Log("thisWave: " + thisWave);
-            int nextWave = thisWave++;
-            Debug.Log("nextWave: " + nextWave);
-            if (nextWave == 5) { // first bonus wave {
-                waves.Add(new BonusWave(1, waves[thisWave].waveNumber + 1, 1, 1.05f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
-            } else if ((nextWave % 5) == 0) { // multiples of 5 
+            int nextWaveNumber = waves[thisWave].waveNumber + 1;
+            Debug.Log("nextWave: " + nextWaveNumber);
+            if (nextWaveNumber == 5) {
+                // first bonus wave
+                bonusWaveNumber = 1;
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 10, bonusWaveNumber, 20f, waves[thisWave].ducksHitThisWave = 0));
+
+                Debug.Log("starting first bonus wave");
+                //waves.Add(new BonusWave(1, 1, waves[thisWave].waveNumber + 1, 0, 1.05f,15f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].duckTotal));
+            } else if ((nextWaveNumber % 5) == 0) { // multiples of 5 
                 // bonus wave
+                bonusWaveNumber++;
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 1, bonusWaveNumber * 1.05f, 20f, waves[thisWave].ducksHitThisWave = 0));
+
+                Debug.Log("bonuswave: " + bonusWaveNumber);
+
                 // public BonusWave(int newBonusWaveCount, int newWaveNumber, int newDuckCount, float newRate, int newDucksHitThisWave, int newHitTotal)
-                waves.Add(new BonusWave(waves.[thisWave].bonusWaveCount + 1, waves[thisWave].waveNumber + 1, waves[thisWave].vCount + 1, waves[thisWave].rate * 1.05f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
-            } else if ((nextWave % 5) == 1) {
+                //waves.Add(new BonusWave(waves[thisWave] + 1, waveCountText[thisWave].vCount, waves[thisWave].waveNumber + 1, waves[thisWave].vCount + 1, waves[thisWave].rate * 1.05f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
+            } else if ((nextWaveNumber % 5) == 1) {
                 // reset time and duck count so shit dont get too crazy
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 10, waves[thisWave].rate * 1.05f, 20f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 2, waves[thisWave].rate * 1.05f, 20f, waves[thisWave].ducksHitThisWave = 0));
+
+                Debug.Log("resetwave on wave #: " + (waves[thisWave].waveNumber + 1));
             } else {
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, waves[thisWave].duckCount * 2, waves[thisWave].rate * 1.05f, waves[thisWave].waveTime + (5f * waves[thisWave].duckCount), waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, waves[thisWave].duckCount * 2, waves[thisWave].rate * 1.05f, waves[thisWave].waveTime + (5f * waves[thisWave].duckCount), waves[thisWave].ducksHitThisWave = 0));
+
+                Debug.Log("infinitewave #: " + (waves[thisWave].waveNumber + 1));
             }
             thisWave++;
             SetupWave();
