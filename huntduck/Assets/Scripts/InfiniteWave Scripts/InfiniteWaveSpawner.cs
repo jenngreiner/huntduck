@@ -202,14 +202,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
             if (nextWaveNumber == 5) {
                 // first bonus wave
                 bonusWaveNumber = 1;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber, 15f, waves[thisWave].ducksHitThisWave = 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber, 15f, 0));
 
                 Debug.Log("starting first bonus wave");
                 //waves.Add(new BonusWave(1, 1, waves[thisWave].waveNumber + 1, 0, 1.05f,15f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].duckTotal));
             } else if ((nextWaveNumber % 5) == 0) { // multiples of 5 
                 // bonus wave
                 bonusWaveNumber++;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber * 1.05f, 15f, waves[thisWave].ducksHitThisWave = 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber * 1.05f, 15f, 0));
 
                 Debug.Log("bonuswave: " + bonusWaveNumber);
 
@@ -217,11 +217,11 @@ public class InfiniteWaveSpawner : MonoBehaviour
                 //waves.Add(new BonusWave(waves[thisWave] + 1, waveCountText[thisWave].vCount, waves[thisWave].waveNumber + 1, waves[thisWave].vCount + 1, waves[thisWave].rate * 1.05f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].hitTotal));
             } else if ((nextWaveNumber % 5) == 1) {
                 // reset time and duck count so shit dont get too crazy
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 2, waves[thisWave].rate * 1.05f, 30f, waves[thisWave].ducksHitThisWave = 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, 2, waves[thisWave].rate * 1.05f, 30f, 0));
 
                 Debug.Log("resetwave on wave #: " + (waves[thisWave].waveNumber + 1));
             } else {
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, waves[thisWave].duckCount * 2, waves[thisWave].rate * 1.05f, waves[thisWave].waveTime + (5f * waves[thisWave].duckCount), waves[thisWave].ducksHitThisWave = 0));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, waves[thisWave].duckCount * 2, waves[thisWave].rate * 1.05f, waves[thisWave].waveTime + (5f * waves[thisWave].duckCount), 0));
 
                 Debug.Log("infinitewave #: " + (waves[thisWave].waveNumber + 1));
             }
