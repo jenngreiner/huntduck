@@ -14,7 +14,7 @@ public class DuckLauncher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LaunchObj();
+            LaunchObj(launchObject);
         }
     }
 
