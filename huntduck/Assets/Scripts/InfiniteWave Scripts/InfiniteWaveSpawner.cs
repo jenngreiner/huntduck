@@ -252,14 +252,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
             if (nextWaveNumber == 5) {
                 // first bonus wave
                 bonusWaveNumber = 1;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber, 15f, 0, true));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, waves[thisWave].rate * 1.05f, 15f, 0, true));
 
                 Debug.Log("starting first bonus wave");
                 //waves.Add(new BonusWave(1, 1, waves[thisWave].waveNumber + 1, 0, 1.05f,15f, waves[thisWave].ducksHitThisWave = 0, waves[thisWave].duckTotal));
             } else if ((nextWaveNumber % 5) == 0) { // multiples of 5 
                 // bonus wave
                 bonusWaveNumber++;
-                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, bonusWaveNumber * 1.05f, 15f, 0, true));
+                waves.Add(new InfiniteWave(waves[thisWave].waveNumber + 1, bonusWaveNumber, waves[thisWave].rate * 1.05f, 15f, 0, true));
 
                 Debug.Log("bonuswave: " + bonusWaveNumber);
 
