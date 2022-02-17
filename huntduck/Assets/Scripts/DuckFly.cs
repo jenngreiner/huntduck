@@ -36,8 +36,20 @@ public class DuckFly : MonoBehaviour
         body = GetComponent<Rigidbody>();
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
 
+        // non-Boss geese should follow Boss Goose
+        if (transform.tag == TagManager.GOOSE_TAG && transform.name != "BossGoose")
+        {
+            flyingTarget = GameObject.Find("BossGoose").transform;
+            Debug.Log("MORNING!: my name is " + transform.name + "and I'm following" + flyingTarget.transform.name);
+        }
+        else
+        {
+            // target the PlayerStand
+            flyingTarget = GameObject.Find("PlayerGuard").transform;
+            Debug.Log("MORNING!: my name is " + transform.name + "and I'm following" + flyingTarget.transform.name);
+        }
+
         homeTarget = GameObject.Find("HomeBase").transform;
-        flyingTarget = GameObject.Find("PlayerGuard").transform;
         centerZone = GameObject.Find("CenterZone").transform.position;
         oldyMin = yMinMax.x;
 
