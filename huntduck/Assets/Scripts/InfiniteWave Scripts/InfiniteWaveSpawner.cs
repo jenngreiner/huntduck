@@ -246,7 +246,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log("thisWave: " + thisWave);
+            Debug.Log("thisWave: " + waves[thisWave].waveNumber);
             int nextWaveNumber = waves[thisWave].waveNumber + 1;
             Debug.Log("nextWave: " + nextWaveNumber);
             if (nextWaveNumber == 5) {
