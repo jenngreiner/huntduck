@@ -123,6 +123,7 @@ public class DuckFly : MonoBehaviour
         if (changeTarget < 0f && !isSwerving)
         {
             ChangeTarget();
+            Debug.Log("Changed target");
         }
 
         // Force Duck to turn up or down when reaching top or bottom of allowable height

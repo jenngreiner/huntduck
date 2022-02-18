@@ -5465,7 +5465,6 @@ GameObject:
   - component: {fileID: 5321008479419601369}
   - component: {fileID: 5321008479419601371}
   - component: {fileID: 5832292282916613362}
-  - component: {fileID: 7708368080132536046}
   m_Layer: 7
   m_Name: FlyGoose
   m_TagString: Goose
@@ -5621,35 +5620,6 @@ MonoBehaviour:
   duckPoints: 5
   pointsTextObj: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
     type: 3}
---- !u!114 &7708368080132536046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5321008479419601351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9e913772fc112c4bb0b30346599a282, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  idleSpeed: 1.25
-  turnSpeed: 10
-  switchSeconds: 2
-  idleRatio: 0.3
-  animSpeedMinMax: {x: 0.5, y: 2}
-  moveSpeedMinMax: {x: 2.5, y: 5}
-  changeAnimEveryFromTo: {x: 2, y: 4}
-  changeTargetEveryFromTo: {x: 0.5, y: 1}
-  homeTarget: {fileID: 0}
-  flyingTarget: {fileID: 0}
-  radiusMinMax: {x: 5, y: 20}
-  yMinMax: {x: 2.5, y: 20}
-  heightBuffer: 2
-  returnToBase: 0
-  randomBaseOffset: 0
-  delayStart: 0
-  isSwerving: 0
 --- !u!1 &5981692124151303494
 GameObject:
   m_ObjectHideFlags: 0

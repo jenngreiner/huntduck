@@ -33,6 +33,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6269279234619008243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691713456740436345}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e913772fc112c4bb0b30346599a282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleSpeed: 1.25
+  turnSpeed: 10
+  switchSeconds: 2
+  idleRatio: 0.3
+  animSpeedMinMax: {x: 0.5, y: 2}
+  moveSpeedMinMax: {x: 2.5, y: 5}
+  changeAnimEveryFromTo: {x: 2, y: 4}
+  changeTargetEveryFromTo: {x: 0.5, y: 1}
+  homeTarget: {fileID: 0}
+  flyingTarget: {fileID: 0}
+  radiusMinMax: {x: 5, y: 20}
+  yMinMax: {x: 2.5, y: 20}
+  heightBuffer: 2
+  returnToBase: 0
+  randomBaseOffset: 0
+  delayStart: 0
+  isSwerving: 0
+--- !u!114 &6315619903573793843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7691713456740436345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d4e92e04b1a475a83fe3bb6e1cac7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleSpeed: 1.25
+  turnSpeed: 10
+  switchSeconds: 2
+  idleRatio: 0.3
+  animSpeedMinMax: {x: 0.5, y: 2}
+  moveSpeedMinMax: {x: 2.5, y: 5}
+  changeAnimEveryFromTo: {x: 2, y: 4}
+  changeTargetEveryFromTo: {x: 0, y: 0}
+  homeTarget: {fileID: 0}
+  flyingTarget: {fileID: 0}
+  radiusMinMax: {x: 0, y: 0}
+  yMinMax: {x: 2.5, y: 20}
+  heightBuffer: 2
+  returnToBase: 0
+  randomBaseOffset: 0
+  delayStart: 0
+  isSwerving: 0
 --- !u!1001 &2550851203470720603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,6 +162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hunt Goose (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321008479419601351, guid: 619dabc4b12624da5a45cf471b67a977,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 619dabc4b12624da5a45cf471b67a977, type: 3}
@@ -187,6 +250,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 619dabc4b12624da5a45cf471b67a977, type: 3}
+--- !u!1 &7691713456740436345 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5321008479419601351, guid: 619dabc4b12624da5a45cf471b67a977,
+    type: 3}
+  m_PrefabInstance: {fileID: 2550851204410153150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7691713456740436344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5321008479419601350, guid: 619dabc4b12624da5a45cf471b67a977,
@@ -264,6 +333,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hunt Goose (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321008479419601351, guid: 619dabc4b12624da5a45cf471b67a977,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 619dabc4b12624da5a45cf471b67a977, type: 3}
