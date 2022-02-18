@@ -70,6 +70,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     public int bonusWaveNumber;
 
     public GameObject[] spawnPoints;
+    public GameObject[] bonusSpawnPoints;
 
     public delegate void OnTimeChange();
     public static event OnTimeChange onTimeChange;
@@ -343,7 +344,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
 
     void SpawnBonusDucks()
     {
-        GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        GameObject activeSpawnPoint = bonusSpawnPoints[UnityEngine.Random.Range(0, bonusSpawnPoints.Length)];
         DuckLauncher duckLauncher = activeSpawnPoint.GetComponent<DuckLauncher>();
         duckLauncher.LaunchObj(duckLauncher.bonusObject);
     }
