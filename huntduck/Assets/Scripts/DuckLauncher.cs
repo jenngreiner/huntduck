@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class DuckLauncher : MonoBehaviour
 {
-    public GameObject launchObject;
-    public GameObject bonusObject;
+    //public GameObject launchObject;
+    //public GameObject bonusObject;
+
     public float launchForce = 15f;
 
     /// Where the projectile will launch from
@@ -14,7 +15,7 @@ public class DuckLauncher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LaunchObj(launchObject);
+            LaunchObj(DuckManager.instance.normDuck);
         }
     }
 
