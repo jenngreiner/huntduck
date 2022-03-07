@@ -5118,7 +5118,7 @@ GameObject:
   - component: {fileID: 4337121773751678985}
   m_Layer: 7
   m_Name: GoldenGoose
-  m_TagString: Goose
+  m_TagString: Duck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
