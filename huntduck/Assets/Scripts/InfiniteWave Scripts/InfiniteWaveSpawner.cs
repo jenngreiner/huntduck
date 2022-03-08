@@ -198,19 +198,20 @@ public class InfiniteWaveSpawner : MonoBehaviour
             for (int i = 0; i < _thisWave.ducksThisWave; i++) // loop through the amount of ducks you want to spawn
             {
                 ChooseDuckToSpawn();
+                Debug.Log("Spawned a duck in a non bonus wave " + DateTime.Now);
                 yield return new WaitForSeconds(1 / _thisWave.rate);
-            }
-            if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
-            {
-                for (int i = 0; i < waveSetNumber; i++) // spawn "i" golden geese based on how many waveSets
+
+                if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
                 {
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
-                    SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
+                    for (int g = 0; g < waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
+                    {
+                        yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
+                        SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
+                        Debug.Log("Spawned a golden goose in non bonus wave " + DateTime.Now);
+                    }
                 }
             }
-
         }
-
         yield break;
     }
 
@@ -249,16 +250,20 @@ public class InfiniteWaveSpawner : MonoBehaviour
             // set up next wave
             int nextWaveNumber = waves[thisWave].waveNumber + 1;
             duckSpeed = waves[thisWave].rate * 1.05f;
-            waveTime = waves[thisWave].waveTime + (5f * waves[thisWave].ducksThisWave); // TODO: remove time element
+            waveTime = waves[thisWave].waveTime + (2f* waves[thisWave].ducksThisWave); // TODO: remove time element
 
             // Calculate wave type & ducks
             if (nextWaveNumber <= 5) // if first five waves
             {
                 RunFirstFiveWaveLogic(nextWaveNumber);
             }
-            else // for all remaining waves
+            else // for 6-10+ all remaining waves
             {
-                waveSetNumber++;
+                if (nextWaveNumber % 5 == 1) // i think this is each "6th" wave
+                {
+                    waveSetNumber++;
+                    Debug.Log("Increased wavesetnumber to " + waveSetNumber);
+                }
                 RunInfiniteWaveLogic(nextWaveNumber, waveSetNumber);
             }
 
@@ -276,13 +281,14 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void RunFirstFiveWaveLogic(int _nextWaveNumber)
     {
         #region logic: first 5 waves (Ducks)
-        // 1 - Normal (3)
-        // 2 - Survival (4)
-        // 3 - Normal (9)
-        // 4 - Normal (12)
+        // 1 - Normal (3 norm)
+        // 2 - Survival (4 norm) // TODO: create survival bonus
+        // 3 - Normal (6 norm)
+        // 4 - Normal (3 - norm, 3 - fast)
         // 5 - Bonus Geese (1v)
         #endregion
 
+        // TODO: make switch case
         // wave 1 was set up in OnEnable, so start on wave 2
         if (_nextWaveNumber == 2)
         {
@@ -311,7 +317,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
     void RunInfiniteWaveLogic(int _nextWaveNumber, int _repeatSetCount)
     {
         #region logic: repeats for remaining waves
-        // 6 - 10: 1/2 normies, fast
+        // 6 - 10: 1/2: normies, fast
         // 10-15: 1/3: normie, fast, angry (*1.5)
         // 15-20: 1/2 fast, angry (*2)
         // 20-25: 1/3 fast, 2/3 angry (*3)
@@ -325,6 +331,7 @@ public class InfiniteWaveSpawner : MonoBehaviour
         #endregion
 
         // Set Wave Multipliers & Base Duck Counts
+        // TODO: tweak duckmultipliers, likely too high
         switch (_repeatSetCount)
         {
             case 1: // waves 6-10: 1/2 normies, fast
