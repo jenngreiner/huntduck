@@ -26,7 +26,7 @@ public class DuckFly : MonoBehaviour
     public bool isSwerving;
     private float swerveDelay;
     private Vector3 centerZone;
-    private InfiniteWaveSpawner infiniteWaveSpawner;
+    private SurvivalWaveSpawner infiniteWaveSpawner;
     private float speedMultiplier;
 
     void Start()
@@ -53,7 +53,7 @@ public class DuckFly : MonoBehaviour
         centerZone = GameObject.Find("CenterZone").transform.position;
         oldyMin = yMinMax.x;
 
-        infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();
+        infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<SurvivalWaveSpawner>();
         speedMultiplier = infiniteWaveSpawner.duckSpeed;
 
         // adjust speed of ducks based on wave speed
@@ -155,13 +155,13 @@ public class DuckFly : MonoBehaviour
 
     void OnEnable()
     {
-        InfiniteWaveSpawner.onGameOver += FlyAway;
+        SurvivalWaveSpawner.onGameOver += FlyAway;
         StopBumps.onBump += SwerveToCenter;
     }
 
     void OnDisable()
     {
-        InfiniteWaveSpawner.onGameOver -= FlyAway;
+        SurvivalWaveSpawner.onGameOver -= FlyAway;
         StopBumps.onBump -= SwerveToCenter;
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class WaveUI : MonoBehaviour
 {
-    private InfiniteWaveSpawner iWS;
+    private SurvivalWaveSpawner iWS;
 
     public Text waveCountText;
     public static string waveCount;
@@ -14,19 +14,19 @@ public class WaveUI : MonoBehaviour
 
     void Start()
     {
-        iWS = FindObjectOfType<InfiniteWaveSpawner>();
+        iWS = FindObjectOfType<SurvivalWaveSpawner>();
     }
 
     private void OnEnable()
     {
-        InfiniteWaveSpawner.onTimeChange += UpdateWaveUI;
-        InfiniteWaveSpawner.onWaveChange += UpdateWaveUI;
+        SurvivalWaveSpawner.onTimeChange += UpdateWaveUI;
+        SurvivalWaveSpawner.onWaveChange += UpdateWaveUI;
     }
 
     private void OnDisable()
     {
-        InfiniteWaveSpawner.onTimeChange -= UpdateWaveUI;
-        InfiniteWaveSpawner.onWaveChange -= UpdateWaveUI;
+        SurvivalWaveSpawner.onTimeChange -= UpdateWaveUI;
+        SurvivalWaveSpawner.onWaveChange -= UpdateWaveUI;
     }
 
     void UpdateWaveUI()

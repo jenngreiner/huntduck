@@ -22,7 +22,7 @@ public class InfiniteLevelManager : MonoBehaviour
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
 
-    public InfiniteWaveSpawner infiniteWaveSpawner;
+    public SurvivalWaveSpawner infiniteWaveSpawner;
 
     public AudioSource levelupSound;
     private PlayerScore playerScoreScript;
@@ -56,14 +56,14 @@ public class InfiniteLevelManager : MonoBehaviour
 
         ChooseGameMode.onSwitchMode += StartInfiniteWave;
         RestartGameMode.onRestartMode += StartInfiniteWave;
-        InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
+        SurvivalWaveSpawner.onGameOver += EndInfiniteWave;
     }
 
     void OnDisable()
     {
         ChooseGameMode.onSwitchMode -= StartInfiniteWave;
         RestartGameMode.onRestartMode -= StartInfiniteWave;
-        InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
+        SurvivalWaveSpawner.onGameOver -= EndInfiniteWave;
 
         // SINGLESCENE: hide scoreboards on "Play Again"
         leaderboard.SetActive(false);

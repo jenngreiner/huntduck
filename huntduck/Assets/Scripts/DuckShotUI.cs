@@ -5,26 +5,26 @@ using UnityEngine.UI;
 
 public class DuckShotUI : MonoBehaviour
 {
-    private InfiniteWaveSpawner infiniteWaveSpawnerScript;
+    private SurvivalWaveSpawner infiniteWaveSpawnerScript;
 
     public Text waveDucksLeftText;
     public static string waveDucksLeft;
 
     void Start()
     {
-        infiniteWaveSpawnerScript = FindObjectOfType<InfiniteWaveSpawner>();
+        infiniteWaveSpawnerScript = FindObjectOfType<SurvivalWaveSpawner>();
     }
 
     void OnEnable()
     {
-        InfiniteWaveSpawner.onWaveChange += UpdateDucksUI;
-        InfiniteWaveSpawner.onDuckHit += UpdateDucksUI;
+        SurvivalWaveSpawner.onWaveChange += UpdateDucksUI;
+        SurvivalWaveSpawner.onDuckHit += UpdateDucksUI;
     }
 
     void OnDisable()
     {
-        InfiniteWaveSpawner.onWaveChange -= UpdateDucksUI;
-        InfiniteWaveSpawner.onDuckHit -= UpdateDucksUI;
+        SurvivalWaveSpawner.onWaveChange -= UpdateDucksUI;
+        SurvivalWaveSpawner.onDuckHit -= UpdateDucksUI;
     }
 
     void UpdateDucksUI()

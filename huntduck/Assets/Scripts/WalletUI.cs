@@ -18,13 +18,13 @@ public class WalletUI : MonoBehaviour
     {
         // update score ui when the player's score changes
         PlayerScore.onScoreUpdate += UpdateScoreUI;
-        InfiniteWaveSpawner.onDuckHit +=  UpdateScoreUI;
+        SurvivalWaveSpawner.onDuckHit +=  UpdateScoreUI;
     }
 
     void OnDisable()
     {
         PlayerScore.onScoreUpdate -= UpdateScoreUI;
-        InfiniteWaveSpawner.onDuckHit -= UpdateScoreUI;
+        SurvivalWaveSpawner.onDuckHit -= UpdateScoreUI;
     }
 
     void UpdateScoreUI()
