@@ -195,24 +195,31 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < _thisWave.ducksThisWave; i++) // loop through the amount of ducks you want to spawn
-            {
-                ChooseDuckToSpawn();
-                Debug.Log("Spawned a duck in a non bonus wave " + DateTime.Now);
-                yield return new WaitForSeconds(1 / _thisWave.rate);
-
-                if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
-                {
-                    for (int g = 0; g < waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
-                    {
-                        yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
-                        SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
-                        Debug.Log("Spawned a golden goose in non bonus wave " + DateTime.Now);
-                    }
-                }
-            }
+            // use two coroutines to spawn wave ducks & golden goose in parallel
+            StartCoroutine(SpawnWaveDucks(_thisWave));
+            StartCoroutine(SpawnGoldenGoose(waveSetNumber));
         }
         yield break;
+    }
+
+    IEnumerator SpawnWaveDucks(InfiniteWave _thisWave)
+    {
+        for (int i = 0; i < _thisWave.ducksThisWave; i++) // loop through the amount of ducks you want to spawn
+        {
+            ChooseDuckToSpawn();
+            yield return new WaitForSeconds(1 / _thisWave.rate);
+        }
+    }
+    IEnumerator SpawnGoldenGoose(int _waveSetNumber)
+    {
+        if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
+        {
+            for (int g = 0; g < _waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
+            {
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
+                SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
+            }
+        }
     }
 
     void SetGetReadyText(InfiniteWave _thisWave)
@@ -259,12 +266,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
             }
             else // for 6-10+ all remaining waves
             {
-                RunInfiniteWaveLogic(nextWaveNumber, waveSetNumber);
                 if (nextWaveNumber % 5 == 1) // i think this is each "6th" wave
                 {
                     waveSetNumber++;
                     Debug.Log("Increased wavesetnumber to " + waveSetNumber);
                 }
+                RunInfiniteWaveLogic(nextWaveNumber, waveSetNumber);
             }
 
             //finally, add wave to the list of waves
@@ -364,9 +371,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         // Set this wave's ducks before adding
         ducksThisWave = (int)(duckMultiplier * duckBase);
-        waves[thisWave].normieDucks = (int)(normieMultiplier * ducksThisWave);
-        waves[thisWave].fastDucks = (int)(fastMultiplier * ducksThisWave);
-        waves[thisWave].angryDucks = (int)(angryMultiplier * ducksThisWave);
+        //waves[thisWave].normieDucks = (int)(normieMultiplier * ducksThisWave);
+        //waves[thisWave].fastDucks = (int)(fastMultiplier * ducksThisWave);
+        //waves[thisWave].angryDucks = (int)(angryMultiplier * ducksThisWave);
 
         // assign wave type by wave number
         if ((_nextWaveNumber % 5) == 2) // TODO: make survival give extra bonus if no damage taken by player
@@ -444,18 +451,22 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void ChooseDuckToSpawn()
     {
+        float randomNum = UnityEngine.Random.value;
         // logic to select duck from possible ducks, remove that entry
-        if (UnityEngine.Random.value < angryMultiplier)
+        if (randomNum < angryMultiplier)
         {
             SpawnDuck(spawnPoints, DuckManager.instance.angryDuck);
+            Debug.Log("Spawning angry duck with random number " + randomNum + " and angry multiplier of " + angryMultiplier);
         }
-        else if (UnityEngine.Random.value < (angryMultiplier + fastMultiplier))
+        else if (randomNum < (angryMultiplier + fastMultiplier))
         {
             SpawnDuck(spawnPoints, DuckManager.instance.fastDuck);
+            Debug.Log("Spawning fast duck with random number " + randomNum + " and fast multiplier of " + fastMultiplier + " and angry multiplier " + angryMultiplier);
         }
         else
         {
             SpawnDuck(spawnPoints, DuckManager.instance.normDuck);
+            Debug.Log("Spawning norm duck with norm multiplier: " + normieMultiplier + "fast multiplier: " + fastMultiplier + "angry multiplier: " + angryMultiplier);
         }
     }
     

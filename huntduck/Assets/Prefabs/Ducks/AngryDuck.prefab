@@ -5431,6 +5431,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &7941181364142266057
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795987407628395979}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ede001b231da44ad4acbdc61a584be96, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5321008479419601351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5564,12 +5583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 5
+  Health: 50
   SpawnOnDeath: {fileID: 0}
   ActivateGameObjectsOnDeath:
   - {fileID: 3115208149493987184}
   DeactivateGameObjectsOnDeath:
-  - {fileID: 2948575282746166436}
+  - {fileID: 4795987407628395979}
   DeactivateCollidersOnDeath:
   - {fileID: 5321008479419601368}
   DestroyOnDeath: 1
@@ -14292,6 +14311,12 @@ PrefabInstance:
 --- !u!4 &5315678641393221489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4f29613d5577640098499ca400d8f7ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 5642919017642645658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4795987407628395979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4f29613d5577640098499ca400d8f7ff,
     type: 3}
   m_PrefabInstance: {fileID: 5642919017642645658}
   m_PrefabAsset: {fileID: 0}
