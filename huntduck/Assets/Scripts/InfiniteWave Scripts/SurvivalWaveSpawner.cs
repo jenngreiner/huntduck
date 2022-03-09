@@ -210,6 +210,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(1 / _thisWave.rate);
         }
     }
+
     IEnumerator SpawnGoldenGoose(int _waveSetNumber)
     {
         if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
