@@ -197,7 +197,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             // use two coroutines to spawn wave ducks & golden goose in parallel
             StartCoroutine(SpawnWaveDucks(_thisWave));
-            StartCoroutine(SpawnGoldenGoose(waveSetNumber));
+            if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
+            {
+                StartCoroutine(SpawnGoldenGoose(waveSetNumber));
+            }
         }
         yield break;
     }
@@ -213,13 +216,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     IEnumerator SpawnGoldenGoose(int _waveSetNumber)
     {
-        if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
+        for (int g = 0; g < _waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
         {
-            for (int g = 0; g < _waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
-            {
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
-                SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
-            }
+            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
+            SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
         }
     }
 
@@ -457,17 +457,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
         if (randomNum < angryMultiplier)
         {
             SpawnDuck(spawnPoints, DuckManager.instance.angryDuck);
-            Debug.Log("Spawning angry duck with random number " + randomNum + " and angry multiplier of " + angryMultiplier);
         }
         else if (randomNum < (angryMultiplier + fastMultiplier))
         {
             SpawnDuck(spawnPoints, DuckManager.instance.fastDuck);
-            Debug.Log("Spawning fast duck with random number " + randomNum + " and fast multiplier of " + fastMultiplier + " and angry multiplier " + angryMultiplier);
         }
         else
         {
             SpawnDuck(spawnPoints, DuckManager.instance.normDuck);
-            Debug.Log("Spawning norm duck with norm multiplier: " + normieMultiplier + "fast multiplier: " + fastMultiplier + "angry multiplier: " + angryMultiplier);
         }
     }
     

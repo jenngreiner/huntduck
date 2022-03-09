@@ -46,7 +46,7 @@ public class DuckFly : MonoBehaviour
         {
             // target the PlayerStand
             flyingTarget = GameObject.Find("PlayerGuard").transform;
-            Debug.Log("MORNING!: my name is " + transform.name + "and I'm following" + flyingTarget.transform.name);
+            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following" + flyingTarget.transform.name);
         }
 
         homeTarget = GameObject.Find("HomeBase").transform;
@@ -61,11 +61,6 @@ public class DuckFly : MonoBehaviour
         turnSpeed *= speedMultiplier;
         moveSpeedMinMax.x *= speedMultiplier;
         moveSpeedMinMax.y *= speedMultiplier;
-
-        Debug.Log("idlespeed is " + idleSpeed);
-        Debug.Log("turnSpeed is " + turnSpeed);
-        Debug.Log("moveSpeedMinMax.x is " + moveSpeedMinMax.x);
-        Debug.Log("moveSpeedMinMax.y is " + moveSpeedMinMax.y);
 
         turnSpeedBackup = turnSpeed;
 
@@ -123,7 +118,6 @@ public class DuckFly : MonoBehaviour
         if (changeTarget < 0f && !isSwerving)
         {
             ChangeTarget();
-            Debug.Log("Changed target");
         }
 
         // Force Duck to turn up or down when reaching top or bottom of allowable height
