@@ -12,6 +12,7 @@ public class DuckManager : MonoBehaviour
     public GameObject angryDuck;
     public GameObject bonusGeese;
     public GameObject goldenGoose;
+    public GameObject egg;
 
     void Awake()
     {
