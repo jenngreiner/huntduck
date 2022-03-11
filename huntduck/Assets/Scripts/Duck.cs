@@ -12,6 +12,8 @@ public class Duck : MonoBehaviour
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
 
+    public bool dropsEggs;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
@@ -35,6 +37,11 @@ public class Duck : MonoBehaviour
 
             CreatePointsText(duckPoints);
         }
+    }
+
+    public static void dropThaEgg()
+    {
+        Instantiate(DuckManager.instance.egg);
     }
 
     public void CreatePointsText(int duckPoints)

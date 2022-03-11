@@ -31,7 +31,7 @@ public class DuckFly : MonoBehaviour
 
     void Start()
     {
-        // TODO: add animation
+
         animator = GetComponentInChildren<Animator>(); 
         body = GetComponent<Rigidbody>();
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
@@ -40,13 +40,13 @@ public class DuckFly : MonoBehaviour
         if (transform.tag == TagManager.GOOSE_TAG && transform.name != "BossGoose")
         {
             flyingTarget = GameObject.Find("BossGoose").transform;
-            Debug.Log("MORNING!: my name is " + transform.name + "and I'm following" + flyingTarget.transform.name);
+            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following " + flyingTarget.transform.name);
         }
         else
         {
             // target the PlayerStand
             flyingTarget = GameObject.Find("PlayerGuard").transform;
-            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following" + flyingTarget.transform.name);
+            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following " + flyingTarget.transform.name);
         }
 
         homeTarget = GameObject.Find("HomeBase").transform;
