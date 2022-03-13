@@ -16,7 +16,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         public int waveNumber = 1;
         public int ducksThisWave = 3;
         public float rate = 1;
-        public float waveTime = 30f;
+        public float waveTime = 300f;
         public int ducksHitThisWave = 0; // "reset" when wave constructed
 
         public enum WaveType { NORMAL, SURVIVAL, BONUS, GOLDEN }
@@ -157,7 +157,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
             case InfiniteWave.WaveType.BONUS:
                 for (int i = 0; i < _thisWave.ducksThisWave; i++)
                 {
-                    SpawnDuck(bonusSpawnPoints, DuckManager.instance.bonusGeese);
+                    SpawnDuck(bonusSpawnPoints, ObjectManager.instance.bonusGeese);
                     yield return new WaitForSeconds(1 / _thisWave.rate);
                 }
                 break;
@@ -350,15 +350,15 @@ public class SurvivalWaveSpawner : MonoBehaviour
             float randomNum = UnityEngine.Random.value;
             if (randomNum < angryMultiplier)
             {
-                SpawnDuck(spawnPoints, DuckManager.instance.angryDuck);
+                SpawnDuck(spawnPoints, ObjectManager.instance.angryDuck);
             }
             else if (randomNum < (angryMultiplier + fastMultiplier))
             {
-                SpawnDuck(spawnPoints, DuckManager.instance.fastDuck);
+                SpawnDuck(spawnPoints, ObjectManager.instance.fastDuck);
             }
             else
             {
-                SpawnDuck(spawnPoints, DuckManager.instance.normDuck);
+                SpawnDuck(spawnPoints, ObjectManager.instance.normDuck);
             }
             //ChooseDuckToSpawn();
             yield return new WaitForSeconds(1 / _thisWave.rate);
@@ -370,7 +370,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         for (int g = 0; g < _waveSetNumber; g++) // spawn "i" golden geese based on how many waveSets
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 30f)); // wait a random amount before spawning
-            SpawnDuck(bonusSpawnPoints, DuckManager.instance.goldenGoose); // spawn one golden goose 
+            SpawnDuck(bonusSpawnPoints, ObjectManager.instance.goldenGoose); // spawn one golden goose 
         }
     }
 

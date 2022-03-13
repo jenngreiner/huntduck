@@ -6,27 +6,36 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
-
+    public bool dropsEggs;
     private GameObject player;
 
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
 
-    public bool dropsEggs;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
+        player = ObjectManager.instance.player;
     }
 
     void OnEnable()
     {
+        StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
     }
 
     void OnDisable()
     {
+        StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
+    }
+
+    public void dropThaEgg(Transform duck)
+    {
+        if (duck == transform && dropsEggs)
+        {
+            Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
+        }
     }
 
     public void Die(GameObject deadDuck)
@@ -37,11 +46,6 @@ public class Duck : MonoBehaviour
 
             CreatePointsText(duckPoints);
         }
-    }
-
-    public static void dropThaEgg()
-    {
-        Instantiate(DuckManager.instance.egg);
     }
 
     public void CreatePointsText(int duckPoints)

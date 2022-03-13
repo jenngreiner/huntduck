@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))] // Requires Rigidbody to move around
@@ -53,6 +51,7 @@ public class DuckFly : MonoBehaviour
         centerZone = GameObject.Find("CenterZone").transform.position;
         oldyMin = yMinMax.x;
 
+        //TODO: make this is singleton so don't have to find by name
         infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<SurvivalWaveSpawner>();
         speedMultiplier = infiniteWaveSpawner.duckSpeed;
 

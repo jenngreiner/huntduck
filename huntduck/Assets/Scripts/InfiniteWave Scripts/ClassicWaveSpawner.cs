@@ -248,6 +248,6 @@ public class ClassicWaveSpawner : MonoBehaviour
     void SpawnDuck()
     {
         GameObject activeSpawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
-        activeSpawnPoint.GetComponent<DuckLauncher>().LaunchObj(DuckManager.instance.normDuck);
+        activeSpawnPoint.GetComponent<DuckLauncher>().LaunchObj(ObjectManager.instance.normDuck);
     }
 }
