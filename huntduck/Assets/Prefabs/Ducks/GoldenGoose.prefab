@@ -5269,6 +5269,8 @@ MonoBehaviour:
   duckPoints: 200
   pointsTextObj: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
     type: 3}
+  duckEggDamage: 200
+  dropsEggs: 1
 --- !u!114 &4337121773751678985
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,8 +6,11 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
+    public float duckEggDamage = 34f;
     public bool dropsEggs;
+
     private GameObject player;
+    private GameObject egg;
 
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
@@ -34,7 +37,8 @@ public class Duck : MonoBehaviour
     {
         if (duck == transform && dropsEggs)
         {
-            Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
+            egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
+            egg.GetComponent<Egg>().eggDamage = duckEggDamage;
         }
     }
 

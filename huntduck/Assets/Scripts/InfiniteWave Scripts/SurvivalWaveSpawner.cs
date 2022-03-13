@@ -16,7 +16,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         public int waveNumber = 1;
         public int ducksThisWave = 3;
         public float rate = 1;
-        public float waveTime = 300f;
+        public float waveTime = 30f;
         public int ducksHitThisWave = 0; // "reset" when wave constructed
 
         public enum WaveType { NORMAL, SURVIVAL, BONUS, GOLDEN }
