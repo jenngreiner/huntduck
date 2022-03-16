@@ -24,7 +24,7 @@ public class DuckFly : MonoBehaviour
     public bool isSwerving;
     private float swerveDelay;
     private Vector3 centerZone;
-    private SurvivalWaveSpawner infiniteWaveSpawner;
+    //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
 
     void Start()
@@ -38,13 +38,11 @@ public class DuckFly : MonoBehaviour
         if (transform.tag == TagManager.GOOSE_TAG && transform.name != "BossGoose")
         {
             flyingTarget = GameObject.Find("BossGoose").transform;
-            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following " + flyingTarget.transform.name);
         }
         else
         {
             // target the PlayerStand
-            flyingTarget = GameObject.Find("PlayerGuard").transform;
-            Debug.Log("MORNING!: my name is " + transform.name + " and I'm following " + flyingTarget.transform.name);
+            flyingTarget = ObjectManager.instance.playerArea.transform;
         }
 
         homeTarget = GameObject.Find("HomeBase").transform;
@@ -52,8 +50,8 @@ public class DuckFly : MonoBehaviour
         oldyMin = yMinMax.x;
 
         //TODO: make this is singleton so don't have to find by name
-        infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<SurvivalWaveSpawner>();
-        speedMultiplier = infiniteWaveSpawner.duckSpeed;
+        //infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<SurvivalWaveSpawner>();
+        speedMultiplier = InfiniteLevelManager.instance.survivalWaveSpawner.duckSpeed;
 
         // adjust speed of ducks based on wave speed
         idleSpeed *= speedMultiplier;

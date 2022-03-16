@@ -8,4 +8,5 @@ public class TagManager
     public const string PLAYER_TAG = "Player";
     public const string GOOSE_TAG = "Goose";
     public const string EGG_TAG = "Egg";
+    public const string SHOOTINGSTAND_TAG = "ShootingStand";
 }

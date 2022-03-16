@@ -6,6 +6,10 @@ using TMPro;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
+    // Singleton
+    public static InfiniteLevelManager instance { get; private set; }
+
+    [Header("Gameplay UI")]
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
@@ -17,24 +21,42 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject replayExitUI;
 
+    [Header("Leaderboard")]
     public GameObject leaderboard;
     public TextMeshProUGUI finalWavesText;
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
 
-    public SurvivalWaveSpawner infiniteWaveSpawner;
-
+    [Header("Audio")]
     public AudioSource levelupSound;
+
+    [Header("Wave Spawner")]
+    public SurvivalWaveSpawner survivalWaveSpawner;
+
+    // TODO: make player globablly accessible
+    [SerializeField]
     private PlayerScore playerScoreScript;
 
     public delegate void StartInfinite();
     public static event StartInfinite onStartInfinite;
 
 
+    void Awake()
+    {
+        // if there is an instance, and it isn't me, delete me
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).GetComponent<PlayerScore>();
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();
@@ -94,7 +116,7 @@ public class InfiniteLevelManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
 
-        infiniteWaveSpawner.enabled = true;
+        survivalWaveSpawner.enabled = true;
         gameplayUI.SetActive(true);
         yield return null;
     }
@@ -117,8 +139,8 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // show final UI with score rollup
         huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
-        finalWavesText.text = infiniteWaveSpawner.waves.Count.ToString();
-        finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
+        finalWavesText.text = survivalWaveSpawner.waves.Count.ToString();
+        finalDucksText.text = survivalWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
 
         // query for latest scores - this doesnt seem to be working yet

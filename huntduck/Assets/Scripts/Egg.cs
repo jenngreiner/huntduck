@@ -9,13 +9,13 @@ public class Egg : MonoBehaviour
 
     private PlayerHealth playerHealth;
     private GameObject playerController;
-    private BNG.Damageable damageable;
+    private BNG.Damageable thisDamageable;
 
     void Start()
     {
         playerHealth = ObjectManager.instance.player.GetComponent<PlayerHealth>();
-        playerController = ObjectManager.instance.playerController; // child of player. this is the transform that moves when the player moves.
-        damageable = transform.GetComponent<BNG.Damageable>();
+        playerController = ObjectManager.instance.playerController; ; // child of player. this is the transform that moves when the player moves.
+        thisDamageable = transform.GetComponent<BNG.Damageable>();
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class Egg : MonoBehaviour
             {
                 eggHitPlayer = true;
                 playerHealth.playerHealth -= eggDamage;
-                damageable.DestroyThis();
+                thisDamageable.DestroyThis();
                 Debug.Log("Did " + eggDamage + " eggDamage to player");
                 Debug.Log("PlayerHealth is now " + playerHealth.playerHealth);
             }
@@ -41,6 +41,10 @@ public class Egg : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("egg collided with " + other.name);
-        damageable.DestroyThis();
+        if (other.tag == TagManager.SHOOTINGSTAND_TAG)
+        {
+            Destroy(other.gameObject);
+        }
+        thisDamageable.DestroyThis();
     }
 }
