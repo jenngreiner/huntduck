@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using huntduck;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
@@ -33,9 +34,7 @@ public class InfiniteLevelManager : MonoBehaviour
     [Header("Wave Spawner")]
     public SurvivalWaveSpawner survivalWaveSpawner;
 
-    // TODO: make player globablly accessible
-    [SerializeField]
-    private PlayerScore playerScoreScript;
+    private int playerScore;
 
     public delegate void StartInfinite();
     public static event StartInfinite onStartInfinite;
@@ -57,6 +56,8 @@ public class InfiniteLevelManager : MonoBehaviour
     void Start()
     {
         // get the playerscore script on player object
+        Player player = ObjectManager.instance.player;
+        playerScore = player.PlayerScore.playerScore;
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();
@@ -124,8 +125,8 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator InfiniteWaveOutro()
     {
         string finalScore = WalletUI.walletScore;
-        int finalScoreInt = playerScoreScript.playerScore;
-        uint finalScoreUInt = (uint)playerScoreScript.playerScore;
+        int finalScoreInt = playerScore;
+        uint finalScoreUInt = (uint)playerScore;
 
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores

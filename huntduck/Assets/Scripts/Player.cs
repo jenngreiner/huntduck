@@ -2,15 +2,22 @@ using UnityEngine;
 
 namespace huntduck
 {
-    // store player properties to make accessible to other scripts
+    // store specialized player scripts to make their properties accessible to other scripts
+    // since these values are simply script references, store as read-only (don't want other scripts changing)
     public class Player : MonoBehaviour
     {
-        // TODO: replicate this readonly pattern for variables above OR replace values with scriptable objects throughout game
+        // since the scripts are reference
         public PlayerHealth PlayerHealth { get { return playerHealth; } private set { playerHealth = value; } }
+
+        public PlayerScore PlayerScore { get { return playerScore; } private set { playerScore = value; } }
+
+        public Transform PlayerController {  get { return playerController; } private set { playerController = value; } }
+
         [SerializeField]
         private PlayerHealth playerHealth;
-
-        public PlayerScore playerScore;
-        public Transform playerController;
+        [SerializeField]
+        private PlayerScore playerScore;
+        [SerializeField]
+        private Transform playerController;
     }
 }

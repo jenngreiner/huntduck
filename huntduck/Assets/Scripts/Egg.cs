@@ -16,7 +16,7 @@ public class Egg : MonoBehaviour
     {
         Player player = ObjectManager.instance.player;
         playerHealth = player.PlayerHealth;
-        playerPosition = player.playerController.position;
+        playerPosition = player.PlayerController.position;
         thisDamageable = GetComponent<BNG.Damageable>();
     }
 
