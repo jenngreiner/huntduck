@@ -1,4 +1,5 @@
 using UnityEngine;
+using huntduck;
 
 [RequireComponent(typeof(BNG.Damageable))]
 public class Egg : MonoBehaviour
@@ -8,19 +9,20 @@ public class Egg : MonoBehaviour
     private bool eggHitPlayer = false;
 
     private PlayerHealth playerHealth;
-    private GameObject playerController;
+    private Vector3 playerPosition;
     private BNG.Damageable thisDamageable;
 
     void Start()
     {
-        playerHealth = ObjectManager.instance.player.GetComponent<PlayerHealth>();
-        playerController = ObjectManager.instance.playerController; ; // child of player. this is the transform that moves when the player moves.
-        thisDamageable = transform.GetComponent<BNG.Damageable>();
+        Player player = ObjectManager.instance.player;
+        playerHealth = player.PlayerHealth;
+        playerPosition = player.playerController.position;
+        thisDamageable = GetComponent<BNG.Damageable>();
     }
 
     void Update()
     {       
-        if (transform.position == playerController.transform.position)
+        if (transform.position == playerPosition)
         {
             if (!eggHitPlayer)
             {
@@ -33,7 +35,7 @@ public class Egg : MonoBehaviour
         }
         else
         {
-            Vector3 newPos = Vector3.MoveTowards(transform.position, playerController.transform.position, eggSpeed * Time.deltaTime);
+            Vector3 newPos = Vector3.MoveTowards(transform.position, playerPosition, eggSpeed * Time.deltaTime);
             transform.position = newPos;
         }
     }

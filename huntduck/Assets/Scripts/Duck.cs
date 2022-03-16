@@ -9,7 +9,7 @@ public class Duck : MonoBehaviour
     public float duckEggDamage = 34f;
     public bool dropsEggs;
 
-    private GameObject player;
+    private Transform player;
     private GameObject egg;
 
     public delegate void DuckDied(int points);
@@ -18,7 +18,7 @@ public class Duck : MonoBehaviour
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        player = ObjectManager.instance.player.transform;
     }
 
     void OnEnable()
@@ -55,7 +55,7 @@ public class Duck : MonoBehaviour
     public void CreatePointsText(int duckPoints)
     {
         GameObject pointsObj = Instantiate(pointsTextObj, transform.position, Quaternion.identity);
-        pointsObj.transform.LookAt(player.transform);
+        pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
     }
