@@ -23,13 +23,13 @@ public class ObjectManager : MonoBehaviour
     public GameObject playerArea;
 
     [Header("Player")]
-    // TODO: extend player properties through Scriptable Objects
     public Player player;
 
 
     // TODO: THINK THROUGH MULTIPLAYER PLAYERS
     // 1) switch to list of players for multiplayer:
         // public List<GameObject> players = new List<GameObject>()
+    // 2) use a dictionary as second layer of abstraction
 
 
 

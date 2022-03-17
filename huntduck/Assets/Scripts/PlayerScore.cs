@@ -1,6 +1,7 @@
 using UnityEngine;
 using huntduck;
 
+[RequireComponent(typeof(Player))]
 public class PlayerScore : MonoBehaviour
 {
     private Player player;
@@ -10,7 +11,7 @@ public class PlayerScore : MonoBehaviour
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        player = GetComponent<Player>();
     }
 
     void OnEnable()

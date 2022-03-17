@@ -1,10 +1,9 @@
 using UnityEngine;
 using huntduck;
 
+[RequireComponent(typeof(Player))]
 public class PlayerHealth : MonoBehaviour
 {
-    //private float playerHealth;
-    //private bool isPlayerDead;
     private Player player;
     private float startingHealth;
 
@@ -19,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
         if (player.health <= 0f && !player.isDead)
         {
             player.isDead = true;
+            // TODO: hook in GAMEOVER screen
             Debug.Log("GAMEOVER: Player is dead!");
         }
     }
