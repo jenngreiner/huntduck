@@ -8,34 +8,31 @@ public class Egg : MonoBehaviour
     public float eggDamage = 34f;
     private bool eggHitPlayer = false;
 
-    private PlayerHealth playerHealth;
-    private Vector3 playerPosition;
     private BNG.Damageable thisDamageable;
+    private Player player;
 
     void Start()
     {
-        Player player = ObjectManager.instance.player;
-        playerHealth = player.PlayerHealth;
-        playerPosition = player.PlayerController.position;
+        player = ObjectManager.instance.player;
         thisDamageable = GetComponent<BNG.Damageable>();
     }
 
     void Update()
     {       
-        if (transform.position == playerPosition)
+        if (transform.position == player.controller.position)
         {
             if (!eggHitPlayer)
             {
                 eggHitPlayer = true;
-                playerHealth.playerHealth -= eggDamage;
+                player.health -= eggDamage;
                 thisDamageable.DestroyThis();
                 Debug.Log("Did " + eggDamage + " eggDamage to player");
-                Debug.Log("PlayerHealth is now " + playerHealth.playerHealth);
+                Debug.Log("PlayerHealth is now " + player.health);
             }
         }
         else
         {
-            Vector3 newPos = Vector3.MoveTowards(transform.position, playerPosition, eggSpeed * Time.deltaTime);
+            Vector3 newPos = Vector3.MoveTowards(transform.position, player.controller.position, eggSpeed * Time.deltaTime);
             transform.position = newPos;
         }
     }

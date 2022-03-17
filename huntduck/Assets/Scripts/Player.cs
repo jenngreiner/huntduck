@@ -6,18 +6,27 @@ namespace huntduck
     // since these values are simply script references, store as read-only (don't want other scripts changing)
     public class Player : MonoBehaviour
     {
-        // since the scripts are reference
-        public PlayerHealth PlayerHealth { get { return playerHealth; } private set { playerHealth = value; } }
+        public int score = 0;
+        public int duckKills = 0;
+        public float health = 100f;
+        public bool isDead = false;
+        public Transform controller;
 
-        public PlayerScore PlayerScore { get { return playerScore; } private set { playerScore = value; } }
+        //public PlayerHealth playerHealth;
 
-        public Transform PlayerController {  get { return playerController; } private set { playerController = value; } }
 
-        [SerializeField]
-        private PlayerHealth playerHealth;
-        [SerializeField]
-        private PlayerScore playerScore;
-        [SerializeField]
-        private Transform playerController;
+        //// since the scripts are reference
+        //public PlayerHealth PlayerHealthScript { get { return playerHealth; } private set { playerHealth = value; } }
+
+        //public PlayerScore PlayerScoreScript { get { return playerScore; } private set { playerScore = value; } }
+
+        //public Transform PlayerControllerScript {  get { return playerController; } private set { playerController = value; } }
+
+        //[SerializeField]
+        //private PlayerHealth playerHealth;
+        //[SerializeField]
+        //private PlayerScore playerScore;
+        //[SerializeField]
+        //private Transform playerController;
     }
 }

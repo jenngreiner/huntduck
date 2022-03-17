@@ -1,21 +1,24 @@
 using UnityEngine;
+using huntduck;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float playerHealth = 100f;
-    public bool isPlayerDead = false;
+    //private float playerHealth;
+    //private bool isPlayerDead;
+    private Player player;
     private float startingHealth;
 
     void Start()
     {
-        startingHealth = playerHealth;
+        player = GetComponent<Player>();
+        startingHealth = player.health;
     }
 
     void Update()
     {
-        if (playerHealth <= 0f && !isPlayerDead)
+        if (player.health <= 0f && !player.isDead)
         {
-            isPlayerDead = true;
+            player.isDead = true;
             Debug.Log("GAMEOVER: Player is dead!");
         }
     }
@@ -32,7 +35,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void ResetPlayerHealth()
     {
-        playerHealth = startingHealth;
-        isPlayerDead = false;
+        player.health = startingHealth;
+        player.isDead = false;
     }
 }

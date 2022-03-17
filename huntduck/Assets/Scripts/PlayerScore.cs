@@ -1,12 +1,17 @@
 using UnityEngine;
+using huntduck;
 
 public class PlayerScore : MonoBehaviour
 {
-    public int playerScore = 0;
-    public int duckKills = 0;
+    private Player player;
 
     public delegate void ScoreUpdate();
     public static event ScoreUpdate onScoreUpdate;
+
+    void Start()
+    {
+        player = ObjectManager.instance.player;
+    }
 
     void OnEnable()
     {
@@ -22,11 +27,11 @@ public class PlayerScore : MonoBehaviour
 
     public void UpdatePlayerScore(int points)
     {
-        playerScore += points;
-        Debug.Log("Player just gained " + points + " points! Player score is now " + playerScore);
+        player.score += points;
+        Debug.Log("Player just gained " + points + " points! Player score is now " + player.score);
 
-        duckKills++;
-        Debug.Log("Player killed another duck! Player duck kill total is " + duckKills);
+        player.duckKills++;
+        Debug.Log("Player killed another duck! Player duck kill total is " + player.duckKills);
         
         onScoreUpdate?.Invoke(); // update score in ScoreUI.cs & WalletUI
     }
@@ -34,8 +39,8 @@ public class PlayerScore : MonoBehaviour
     // SINGLESCENE: reset the player score via "Play Again" or "Quit" buttons in Hunt Mode
     public void ResetPlayerScore()
     {
-        playerScore = 0;
-        duckKills = 0;
+        player.score = 0;
+        player.duckKills = 0;
         onScoreUpdate?.Invoke();
     }
 }

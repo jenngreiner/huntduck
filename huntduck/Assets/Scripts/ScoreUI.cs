@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using huntduck;
 
 // this is a single player score implementation
 public class ScoreUI : MonoBehaviour
 {
-    private PlayerScore playerScoreScript;
+    private Player player;
 
     public Text scoreText;
     private int scoreLength = 6;
@@ -13,7 +14,7 @@ public class ScoreUI : MonoBehaviour
     void Start()
     {
         //// find player in the scene, grab its PlayerScore script
-        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).GetComponent<PlayerScore>();
+        player = ObjectManager.instance.player;
 
         // reset score when game starts
         CreateArcadeScore();
@@ -41,7 +42,7 @@ public class ScoreUI : MonoBehaviour
 
     void CreateArcadeScore()
     {
-        string _scoreAsString = playerScoreScript.playerScore.ToString();
+        string _scoreAsString = player.score.ToString();
         int numZeros = scoreLength - _scoreAsString.Length;
 
         arcadeScore = "";
