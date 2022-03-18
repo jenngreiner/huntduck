@@ -206,15 +206,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
             {
-                Debug.Log("(2) STARTING health surival is: " + startHealthSurvival);
                 endHealthSurvival = player.health;
-                Debug.Log("ENDING health surival is: " + endHealthSurvival);
-                Debug.Log("Player health after survival is " + player.health);
-                if (startHealthSurvival == endHealthSurvival){
-                    // TODO: give bonus points
-                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber);
-                    //player.score += 100;
-                    Debug.Log("Added 100 to player score. Score is now " + player.score);
+                if (startHealthSurvival == endHealthSurvival)
+                {
+                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); // give bonus points
                 }
             }
 
