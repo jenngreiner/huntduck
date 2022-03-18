@@ -34,7 +34,6 @@ public class InfiniteLevelManager : MonoBehaviour
     [Header("Wave Spawner")]
     public SurvivalWaveSpawner survivalWaveSpawner;
 
-    //private int playerScore;
     private Player player;
 
     public delegate void StartInfinite();

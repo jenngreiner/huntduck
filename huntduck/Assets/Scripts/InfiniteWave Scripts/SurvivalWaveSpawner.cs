@@ -92,10 +92,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     private Player player;
     private float startHealthSurvival;
-    private float endHealthSurvival;
 
     // TODO: remove wavetime by making ducks dangerous, player has to survive
-    // TODO: create bonus points for survival wave
 
     void Start()
     {
@@ -165,7 +163,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
         {
             startHealthSurvival = player.health;
-            Debug.Log("(1) STARTING health surival is: " + startHealthSurvival);
         }
 
         state = WaveState.WAVING;
@@ -192,7 +189,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void WaveCompleted()
+    public void WaveCompleted()
     {
         state = WaveState.ENDING;
 
@@ -206,8 +203,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
             {
-                endHealthSurvival = player.health;
-                if (startHealthSurvival == endHealthSurvival)
+                if (startHealthSurvival == player.health)
                 {
                     onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); // give bonus points
                 }
@@ -236,6 +232,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     {
         switch (_nextWaveNumber % 5)
         {
+            // TODO: consider adding case 1 with nextWaveTime = 30f * waveSetBonus
+            // concern is as waves increase not enough time at outset, coming off bonus of 30f
             case 2:
                 nextWaveType = InfiniteWave.WaveType.SURVIVAL;
                 //startHealthSurvival = player.health;
@@ -434,7 +432,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     bool playerBeatWave()
     {
-        if (ducksLeft <= 0)
+        if (player.health > 0 && ducksLeft <= 0)
         {
             StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of original "flight"
             return true;
