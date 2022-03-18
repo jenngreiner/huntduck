@@ -17,12 +17,14 @@ public class PlayerScore : MonoBehaviour
     void OnEnable()
     {
         Duck.onDuckDied += UpdatePlayerScore;
+        SurvivalWaveSpawner.onSurvivalWaveNoDamage += UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite += ResetPlayerScore; // SINGLESCENE: ResetScore subscribe
     }
 
     void OnDisable()
     {
         Duck.onDuckDied -= UpdatePlayerScore;
+        SurvivalWaveSpawner.onSurvivalWaveNoDamage -= UpdatePlayerScore;
         InfiniteLevelManager.onStartInfinite -= ResetPlayerScore; // SINGLESCENE: ResetScore unsubscribe
     }
 
