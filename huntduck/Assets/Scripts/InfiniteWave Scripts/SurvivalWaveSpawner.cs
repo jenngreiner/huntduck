@@ -434,7 +434,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     {
         if (player.health > 0 && ducksLeft <= 0)
         {
-            StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of original "flight"
+            StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of og"flight"
             return true;
         }
         return false;

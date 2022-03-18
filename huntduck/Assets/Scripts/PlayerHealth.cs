@@ -18,7 +18,6 @@ public class PlayerHealth : MonoBehaviour
         if (player.health <= 0f && !player.isDead)
         {
             player.isDead = true;
-            // TODO: hook in GAMEOVER screen
             InfiniteLevelManager.instance.survivalWaveSpawner.WaveCompleted();
             Debug.Log("GAMEOVER: Player is dead!");
         }
