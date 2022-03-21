@@ -238,7 +238,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 nextWaveType = InfiniteWave.WaveType.SURVIVAL;
                 //startHealthSurvival = player.health;
                 break;
-            case 4: // Golden Wave after first 5
+            case 3: // Golden Wave after first 5
                 if (_nextWaveNumber <= 5)
                 {
                     nextWaveType = InfiniteWave.WaveType.NORMAL;
@@ -252,7 +252,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 nextWaveType = InfiniteWave.WaveType.BONUS;
                 nextWaveTime = 30f;
                 break;
-            default: // Waves 1 & 3 out of 5
+            default: // Waves 1 & 4 out of 5
                 nextWaveType = InfiniteWave.WaveType.NORMAL;
                 break;
         }
