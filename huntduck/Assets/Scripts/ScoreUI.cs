@@ -5,7 +5,7 @@ using huntduck;
 // this is a single player score implementation
 public class ScoreUI : MonoBehaviour
 {
-    private Player player;
+    private PlayerData player;
 
     public Text scoreText;
     private int scoreLength = 6;

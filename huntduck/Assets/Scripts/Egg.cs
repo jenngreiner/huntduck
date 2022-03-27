@@ -9,30 +9,30 @@ public class Egg : MonoBehaviour
     private bool eggHitPlayer = false;
 
     private BNG.Damageable thisDamageable;
-    private Player player;
+    private PlayerData playerData;
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player;
         thisDamageable = GetComponent<BNG.Damageable>();
     }
 
     void Update()
     {       
-        if (transform.position == player.controller.position)
+        if (transform.position == playerData.controller.position)
         {
             if (!eggHitPlayer)
             {
                 eggHitPlayer = true;
-                player.health -= eggDamage;
+                playerData.health -= eggDamage;
                 thisDamageable.DestroyThis();
                 Debug.Log("Did " + eggDamage + " eggDamage to player");
-                Debug.Log("PlayerHealth is now " + player.health);
+                Debug.Log("PlayerHealth is now " + playerData.health);
             }
         }
         else
         {
-            Vector3 newPos = Vector3.MoveTowards(transform.position, player.controller.position, eggSpeed * Time.deltaTime);
+            Vector3 newPos = Vector3.MoveTowards(transform.position, playerData.controller.position, eggSpeed * Time.deltaTime);
             transform.position = newPos;
         }
     }

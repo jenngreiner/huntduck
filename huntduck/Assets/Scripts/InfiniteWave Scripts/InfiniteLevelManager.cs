@@ -34,7 +34,7 @@ public class InfiniteLevelManager : MonoBehaviour
     [Header("Wave Spawner")]
     public SurvivalWaveSpawner survivalWaveSpawner;
 
-    private Player player;
+    private PlayerData playerData;
 
     public delegate void StartInfinite();
     public static event StartInfinite onStartInfinite;
@@ -56,7 +56,7 @@ public class InfiniteLevelManager : MonoBehaviour
     void Start()
     {
         // get the playerscore script on player object
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player;
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();
@@ -124,8 +124,8 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator InfiniteWaveOutro()
     {
         string finalScore = WalletUI.walletScore;
-        int finalScoreInt = player.score;
-        uint finalScoreUInt = (uint)player.score;
+        int finalScoreInt = playerData.score;
+        uint finalScoreUInt = (uint)playerData.score;
 
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores

@@ -23,7 +23,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject playerArea;
 
     [Header("Player")]
-    public Player player;
+    public PlayerData player;
 
 
     // TODO: THINK THROUGH MULTIPLAYER PLAYERS

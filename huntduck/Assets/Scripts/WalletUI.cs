@@ -4,7 +4,7 @@ using huntduck;
 
 public class WalletUI : MonoBehaviour
 {
-    private Player player;
+    private PlayerData player;
 
     public Text dollarsText;
     public static string walletScore;

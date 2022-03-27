@@ -90,14 +90,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public static event SurvivalWaveNoDamage onSurvivalWaveNoDamage;
     #endregion
 
-    private Player player;
+    private PlayerData playerData;
     private float startHealthSurvival;
 
     // TODO: remove wavetime by making ducks dangerous, player has to survive
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player;
     }
 
     void OnEnable()
@@ -162,7 +162,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
         {
-            startHealthSurvival = player.health;
+            startHealthSurvival = playerData.health;
         }
 
         state = WaveState.WAVING;
@@ -201,11 +201,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
         else
         {
+            // If completed Survival Wave without taking damage, give bonus points
             if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
             {
-                if (startHealthSurvival == player.health)
+                if (startHealthSurvival == playerData.health)
                 {
-                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); // give bonus points
+                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); 
                 }
             }
 
@@ -432,7 +433,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     bool playerBeatWave()
     {
-        if (player.health > 0 && ducksLeft <= 0)
+        if (playerData.health > 0 && ducksLeft <= 0)
         {
             StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of og"flight"
             return true;

@@ -1,23 +1,23 @@
 using UnityEngine;
 using huntduck;
 
-[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerData))]
 public class PlayerHealth : MonoBehaviour
 {
-    private Player player;
+    private PlayerData playerData;
     private float startingHealth;
 
     void Start()
     {
-        player = GetComponent<Player>();
-        startingHealth = player.health;
+        playerData = GetComponent<PlayerData>();
+        startingHealth = playerData.health;
     }
 
     void Update()
     {
-        if (player.health <= 0f && !player.isDead)
+        if (playerData.health <= 0f && !playerData.isDead)
         {
-            player.isDead = true;
+            playerData.isDead = true;
             InfiniteLevelManager.instance.survivalWaveSpawner.WaveCompleted();
             Debug.Log("GAMEOVER: Player is dead!");
         }
@@ -35,7 +35,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void ResetPlayerHealth()
     {
-        player.health = startingHealth;
-        player.isDead = false;
+        playerData.health = startingHealth;
+        playerData.isDead = false;
     }
 }
