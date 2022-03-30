@@ -193,7 +193,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     {
         state = WaveState.ENDING;
 
-        if (!playerBeatWave())
+        // if the player didn't shoot enough ducks, and its not a bonus wave, end game
+        if (!playerBeatWave() && waves[thisWave].waveType != InfiniteWave.WaveType.BONUS)
         {
             onGameOver?.Invoke();
             StopAllCoroutines(); // stop ducks flying
@@ -237,7 +238,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
             // concern is as waves increase not enough time at outset, coming off bonus of 30f
             case 2:
                 //nextWaveType = InfiniteWave.WaveType.SURVIVAL;
-                //startHealthSurvival = player.health;
                 if (_nextWaveNumber <= 5)
                 {
                     nextWaveType = InfiniteWave.WaveType.NORMAL;
