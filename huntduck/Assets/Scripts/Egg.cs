@@ -17,6 +17,16 @@ public class Egg : MonoBehaviour
         thisDamageable = GetComponent<BNG.Damageable>();
     }
 
+    void OnEnable()
+    {
+        BNG.Damageable.onEggHit += eggDie();
+    }
+
+    void OnDisable()
+    {
+        BNG.Damageable.onEggHit -= eggDie();
+    }
+
     void Update()
     {       
         if (transform.position == playerData.controller.position)
@@ -24,10 +34,7 @@ public class Egg : MonoBehaviour
             if (!eggHitPlayer)
             {
                 eggHitPlayer = true;
-                playerData.health -= eggDamage;
-                thisDamageable.DestroyThis();
-                Debug.Log("Did " + eggDamage + " eggDamage to player");
-                Debug.Log("PlayerHealth is now " + playerData.health);
+                eggDie();
             }
         }
         else
@@ -35,6 +42,14 @@ public class Egg : MonoBehaviour
             Vector3 newPos = Vector3.MoveTowards(transform.position, playerData.controller.position, eggSpeed * Time.deltaTime);
             transform.position = newPos;
         }
+    }
+
+    void eggDie()
+    {
+        playerData.health -= eggDamage;
+        thisDamageable.DestroyThis();
+        Debug.Log("Did " + eggDamage + " eggDamage to player");
+        Debug.Log("PlayerHealth is now " + playerData.health);
     }
 
     void OnTriggerEnter(Collider other)
