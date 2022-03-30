@@ -19,12 +19,12 @@ public class Egg : MonoBehaviour
 
     void OnEnable()
     {
-        BNG.Damageable.onEggHit += eggDie();
+        BNG.Damageable.onEggHit += eggDie;
     }
 
     void OnDisable()
     {
-        BNG.Damageable.onEggHit -= eggDie();
+        BNG.Damageable.onEggHit -= eggDie;
     }
 
     void Update()

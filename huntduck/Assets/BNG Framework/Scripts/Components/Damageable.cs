@@ -331,6 +331,7 @@ namespace BNG {
                     break;
                 case TagManager.EGG_TAG:
                     onEggHit?.Invoke();
+                    break;
                 default:
                     break;
             }
