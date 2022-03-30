@@ -6,7 +6,10 @@ public class Egg : MonoBehaviour
 {
     public float eggSpeed = 2f;
     public float eggDamage = 34f;
+    public bool isHeatSeeking = false; // not heat seaking by default, but can flip on in inspector
+    public bool isFrozen = false; // just for testing right now, although interesting to think through how we use in gameplay
     private bool eggHitPlayer = false;
+    private Vector3 playerPositionAtLaunch;
 
     private BNG.Damageable thisDamageable;
     private PlayerData playerData;
@@ -15,6 +18,7 @@ public class Egg : MonoBehaviour
     {
         playerData = ObjectManager.instance.player;
         thisDamageable = GetComponent<BNG.Damageable>();
+        playerPositionAtLaunch = playerData.controller.position;
     }
 
     void OnEnable()
@@ -37,11 +41,20 @@ public class Egg : MonoBehaviour
                 eggDie();
             }
         }
-        else
+        else if (isHeatSeeking)
         {
-            Vector3 newPos = Vector3.MoveTowards(transform.position, playerData.controller.position, eggSpeed * Time.deltaTime);
-            transform.position = newPos;
+            moveTowards(playerData.controller.position);
         }
+        else if (!isFrozen)
+        {
+            moveTowards(playerPositionAtLaunch);
+        }
+    }
+
+    void moveTowards(Vector3 target)
+    {
+        Vector3 newPos = Vector3.MoveTowards(transform.position, target, eggSpeed * Time.deltaTime);
+        transform.position = newPos;
     }
 
     void eggDie()

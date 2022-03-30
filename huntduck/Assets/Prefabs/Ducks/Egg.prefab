@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 1952841970752202299}
   - component: {fileID: 4681676708064325679}
   - component: {fileID: 3177690650145736237}
-  m_Layer: 7
+  - component: {fileID: 1956081764687376614}
+  m_Layer: 6
   m_Name: Egg
   m_TagString: Egg
   m_Icon: {fileID: 0}
@@ -153,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eggSpeed: 2
   eggDamage: 34
+  isHeatSeeking: 0
+  isFrozen: 0
 --- !u!136 &3177690650145736237
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -162,6 +165,20 @@ CapsuleCollider:
   m_GameObject: {fileID: 1952841970752202279}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 0.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &1956081764687376614
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952841970752202279}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2
   m_Height: 0.4
@@ -178,7 +195,7 @@ GameObject:
   - component: {fileID: 2762650922714687742}
   - component: {fileID: 1788496644218979726}
   - component: {fileID: 7792963676604637189}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: OnHitFX2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5053,7 +5070,7 @@ GameObject:
   - component: {fileID: 267951502745979824}
   - component: {fileID: 1479620648861968541}
   - component: {fileID: 1009457143953078805}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10048,7 +10065,7 @@ PrefabInstance:
     - target: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
         type: 3}
@@ -10058,7 +10075,7 @@ PrefabInstance:
     - target: {fileID: 1478445219807715713, guid: 29109496cd1d3f048b52a021ef7bba2e,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2988833073551449394, guid: 29109496cd1d3f048b52a021ef7bba2e,
         type: 3}
@@ -10118,7 +10135,7 @@ PrefabInstance:
     - target: {fileID: 9114583138301158355, guid: 29109496cd1d3f048b52a021ef7bba2e,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29109496cd1d3f048b52a021ef7bba2e, type: 3}
@@ -10213,7 +10230,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ae7fc9ed65204496e8bb66febdf91ef5,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae7fc9ed65204496e8bb66febdf91ef5, type: 3}
@@ -10294,12 +10311,12 @@ PrefabInstance:
     - target: {fileID: -3168758601224725434, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 635547659545568360, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
@@ -10309,7 +10326,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
@@ -10319,7 +10336,7 @@ PrefabInstance:
     - target: {fileID: 2372673929480898644, guid: 02776cdc14b5145a28279ee1f6036385,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02776cdc14b5145a28279ee1f6036385, type: 3}
