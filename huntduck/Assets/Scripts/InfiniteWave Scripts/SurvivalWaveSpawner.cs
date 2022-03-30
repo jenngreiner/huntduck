@@ -236,8 +236,16 @@ public class SurvivalWaveSpawner : MonoBehaviour
             // TODO: consider adding case 1 with nextWaveTime = 30f * waveSetBonus
             // concern is as waves increase not enough time at outset, coming off bonus of 30f
             case 2:
-                nextWaveType = InfiniteWave.WaveType.SURVIVAL;
+                //nextWaveType = InfiniteWave.WaveType.SURVIVAL;
                 //startHealthSurvival = player.health;
+                if (_nextWaveNumber <= 5)
+                {
+                    nextWaveType = InfiniteWave.WaveType.NORMAL;
+                }
+                else
+                {
+                    nextWaveType = InfiniteWave.WaveType.SURVIVAL;
+                }
                 break;
             case 3: // Golden Wave after first 5
                 if (_nextWaveNumber <= 5)
