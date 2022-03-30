@@ -38,7 +38,14 @@ public class Duck : MonoBehaviour
         if (duck == transform && dropsEggs)
         {
             egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
-            egg.GetComponent<Egg>().eggDamage = duckEggDamage;
+            Egg eggScript = egg.GetComponent<Egg>();
+            eggScript.eggDamage = duckEggDamage;
+
+            // if this is an Angry Duck, make eggs heat seeking
+            if (transform.tag == TagManager.ANGRYDUCK_TAG)
+            {
+                eggScript.isHeatSeeking = true;
+            }
         }
     }
 
