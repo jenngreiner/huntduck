@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using huntduck;
 
 public class InfiniteLevelManager : MonoBehaviour
 {
+    // Singleton
+    public static InfiniteLevelManager instance { get; private set; }
+
+    [Header("Gameplay UI")]
     public GameObject helperUI;
     public Text helperText;
     public GameObject congratsUI;
@@ -17,24 +22,41 @@ public class InfiniteLevelManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject replayExitUI;
 
+    [Header("Leaderboard")]
     public GameObject leaderboard;
     public TextMeshProUGUI finalWavesText;
     public TextMeshProUGUI finalDucksText;
     public TextMeshProUGUI finalBucksText;
 
-    public InfiniteWaveSpawner infiniteWaveSpawner;
-
+    [Header("Audio")]
     public AudioSource levelupSound;
-    private PlayerScore playerScoreScript;
+
+    [Header("Wave Spawner")]
+    public SurvivalWaveSpawner survivalWaveSpawner;
+
+    private PlayerData playerData;
 
     public delegate void StartInfinite();
     public static event StartInfinite onStartInfinite;
 
 
+    void Awake()
+    {
+        // if there is an instance, and it isn't me, delete me
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         // get the playerscore script on player object
-        playerScoreScript = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG).GetComponent<PlayerScore>();
+        playerData = ObjectManager.instance.player;
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();
@@ -56,14 +78,14 @@ public class InfiniteLevelManager : MonoBehaviour
 
         ChooseGameMode.onSwitchMode += StartInfiniteWave;
         RestartGameMode.onRestartMode += StartInfiniteWave;
-        InfiniteWaveSpawner.onGameOver += EndInfiniteWave;
+        SurvivalWaveSpawner.onGameOver += EndInfiniteWave;
     }
 
     void OnDisable()
     {
         ChooseGameMode.onSwitchMode -= StartInfiniteWave;
         RestartGameMode.onRestartMode -= StartInfiniteWave;
-        InfiniteWaveSpawner.onGameOver -= EndInfiniteWave;
+        SurvivalWaveSpawner.onGameOver -= EndInfiniteWave;
 
         // SINGLESCENE: hide scoreboards on "Play Again"
         leaderboard.SetActive(false);
@@ -94,7 +116,7 @@ public class InfiniteLevelManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
 
-        infiniteWaveSpawner.enabled = true;
+        survivalWaveSpawner.enabled = true;
         gameplayUI.SetActive(true);
         yield return null;
     }
@@ -102,8 +124,8 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator InfiniteWaveOutro()
     {
         string finalScore = WalletUI.walletScore;
-        int finalScoreInt = playerScoreScript.playerScore;
-        uint finalScoreUInt = (uint)playerScoreScript.playerScore;
+        int finalScoreInt = playerData.score;
+        uint finalScoreUInt = (uint)playerData.score;
 
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores
@@ -117,8 +139,8 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // show final UI with score rollup
         huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
-        finalWavesText.text = infiniteWaveSpawner.waves.Count.ToString();
-        finalDucksText.text = infiniteWaveSpawner.ducksHitTotal.ToString();
+        finalWavesText.text = survivalWaveSpawner.waves.Count.ToString();
+        finalDucksText.text = survivalWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
 
         // query for latest scores - this doesnt seem to be working yet

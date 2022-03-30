@@ -6,25 +6,40 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
+    public float duckEggDamage = 34f;
+    public bool dropsEggs;
 
-    private GameObject player;
+    private Transform player;
+    private GameObject egg;
 
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
 
+
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
+        player = ObjectManager.instance.player.transform;
     }
 
     void OnEnable()
     {
+        StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
     }
 
     void OnDisable()
     {
+        StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
+    }
+
+    public void dropThaEgg(Transform duck)
+    {
+        if (duck == transform && dropsEggs)
+        {
+            egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
+            egg.GetComponent<Egg>().eggDamage = duckEggDamage;
+        }
     }
 
     public void Die(GameObject deadDuck)
@@ -40,7 +55,7 @@ public class Duck : MonoBehaviour
     public void CreatePointsText(int duckPoints)
     {
         GameObject pointsObj = Instantiate(pointsTextObj, transform.position, Quaternion.identity);
-        pointsObj.transform.LookAt(player.transform);
+        pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
     }

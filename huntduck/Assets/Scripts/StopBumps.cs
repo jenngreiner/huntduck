@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StopBumps : MonoBehaviour
@@ -9,8 +7,8 @@ public class StopBumps : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(transform.name + " collided with " + other.name);
+        Debug.Log(transform.name + " collided with root: " + other.transform.root.name);
 
-        onBump?.Invoke(other.transform.parent.transform);
+        onBump?.Invoke(other.transform.root);
     }
 }

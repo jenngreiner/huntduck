@@ -28,6 +28,12 @@ namespace BNG {
         public delegate void InfiniteDuckHit();
         public static event InfiniteDuckHit onInfiniteDuckHit;
 
+        public delegate void BonusGooseHit();
+        public static event BonusGooseHit onBonusGooseHit;
+
+        public delegate void EggHit();
+        public static event EggHit onEggHit;
+
         public delegate void DuckDie(GameObject deadDuck);
         public static event DuckDie onDuckDie;
 
@@ -318,6 +324,13 @@ namespace BNG {
                 case TagManager.INFINITEDUCK_TAG:
                     onInfiniteDuckHit?.Invoke();
                     onDuckDie?.Invoke(gameObject);
+                    break;
+                case TagManager.GOOSE_TAG:
+                    onBonusGooseHit?.Invoke();
+                    onDuckDie?.Invoke(gameObject);
+                    break;
+                case TagManager.EGG_TAG:
+                    onEggHit?.Invoke();
                     break;
                 default:
                     break;

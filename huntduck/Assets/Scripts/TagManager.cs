@@ -6,4 +6,7 @@ public class TagManager
     public const string INFINITEDUCK_TAG = "InfiniteDuck";
     public const string DUCK_TAG = "Duck";
     public const string PLAYER_TAG = "Player";
+    public const string GOOSE_TAG = "Goose";
+    public const string EGG_TAG = "Egg";
+    public const string SHOOTINGSTAND_TAG = "ShootingStand";
 }

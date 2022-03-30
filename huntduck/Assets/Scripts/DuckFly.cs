@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))] // Requires Rigidbody to move around
@@ -26,34 +24,40 @@ public class DuckFly : MonoBehaviour
     public bool isSwerving;
     private float swerveDelay;
     private Vector3 centerZone;
-    private InfiniteWaveSpawner infiniteWaveSpawner;
+    //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
 
     void Start()
     {
-        // TODO: add animation
+
         animator = GetComponentInChildren<Animator>(); 
         body = GetComponent<Rigidbody>();
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
 
+        // non-Boss geese should follow Boss Goose
+        if (transform.tag == TagManager.GOOSE_TAG && transform.name != "BossGoose")
+        {
+            flyingTarget = GameObject.Find("BossGoose").transform;
+        }
+        else
+        {
+            // target the PlayerStand
+            flyingTarget = ObjectManager.instance.playerArea.transform;
+        }
+
         homeTarget = GameObject.Find("HomeBase").transform;
-        flyingTarget = GameObject.Find("PlayerGuard").transform;
         centerZone = GameObject.Find("CenterZone").transform.position;
         oldyMin = yMinMax.x;
 
-        infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<InfiniteWaveSpawner>();
-        speedMultiplier = infiniteWaveSpawner.duckSpeed;
+        //TODO: make this is singleton so don't have to find by name
+        //infiniteWaveSpawner = GameObject.Find("InfiniteWaveManager").GetComponent<SurvivalWaveSpawner>();
+        speedMultiplier = InfiniteLevelManager.instance.survivalWaveSpawner.duckSpeed;
 
         // adjust speed of ducks based on wave speed
         idleSpeed *= speedMultiplier;
         turnSpeed *= speedMultiplier;
         moveSpeedMinMax.x *= speedMultiplier;
         moveSpeedMinMax.y *= speedMultiplier;
-
-        Debug.Log("idlespeed is " + idleSpeed);
-        Debug.Log("turnSpeed is " + turnSpeed);
-        Debug.Log("moveSpeedMinMax.x is " + moveSpeedMinMax.x);
-        Debug.Log("moveSpeedMinMax.y is " + moveSpeedMinMax.y);
 
         turnSpeedBackup = turnSpeed;
 
@@ -142,13 +146,13 @@ public class DuckFly : MonoBehaviour
 
     void OnEnable()
     {
-        InfiniteWaveSpawner.onGameOver += FlyAway;
+        SurvivalWaveSpawner.onGameOver += FlyAway;
         StopBumps.onBump += SwerveToCenter;
     }
 
     void OnDisable()
     {
-        InfiniteWaveSpawner.onGameOver -= FlyAway;
+        SurvivalWaveSpawner.onGameOver -= FlyAway;
         StopBumps.onBump -= SwerveToCenter;
     }
 

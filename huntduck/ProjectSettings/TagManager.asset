@@ -10,6 +10,8 @@ TagManager:
   - Target
   - PracticeDuck
   - InfiniteDuck
+  - Goose
+  - Egg
   layers:
   - Default
   - TransparentFX

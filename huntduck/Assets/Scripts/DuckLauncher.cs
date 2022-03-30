@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class DuckLauncher : MonoBehaviour
 {
-    public GameObject launchObject;
+    //public GameObject launchObject;
+    //public GameObject bonusObject;
+
     public float launchForce = 15f;
 
     /// Where the projectile will launch from
@@ -13,15 +15,15 @@ public class DuckLauncher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LaunchObj();
+            LaunchObj(ObjectManager.instance.normDuck);
         }
     }
 
-    public void LaunchObj()
+    public void LaunchObj(GameObject _projectile)
     {
-        if (launchTransform && launchObject)
+        if (launchTransform && _projectile)
         {
-            GameObject launched = Instantiate(launchObject, launchTransform.transform.position, launchTransform.transform.rotation);
+            GameObject launched = Instantiate(_projectile, launchTransform.transform.position, launchTransform.transform.rotation);
 
             // reset position and rotation so ducks fly out correctly
             launched.transform.position = launchTransform.transform.position;

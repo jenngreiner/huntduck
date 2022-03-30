@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using huntduck;
 
 public class WalletUI : MonoBehaviour
 {
-    public PlayerScore playerScoreScript;
+    private PlayerData player;
 
     public Text dollarsText;
     public static string walletScore;
 
     void Start()
     {
+        player = ObjectManager.instance.player;
         // reset score when game starts
         UpdateScoreUI();
     }
@@ -18,13 +20,13 @@ public class WalletUI : MonoBehaviour
     {
         // update score ui when the player's score changes
         PlayerScore.onScoreUpdate += UpdateScoreUI;
-        InfiniteWaveSpawner.onDuckHit +=  UpdateScoreUI;
+        SurvivalWaveSpawner.onDuckHit +=  UpdateScoreUI;
     }
 
     void OnDisable()
     {
         PlayerScore.onScoreUpdate -= UpdateScoreUI;
-        InfiniteWaveSpawner.onDuckHit -= UpdateScoreUI;
+        SurvivalWaveSpawner.onDuckHit -= UpdateScoreUI;
     }
 
     void UpdateScoreUI()
@@ -35,7 +37,7 @@ public class WalletUI : MonoBehaviour
 
     void CreateWalletScore()
     {
-        string _scoreAsString = playerScoreScript.playerScore.ToString();
+        string _scoreAsString = ObjectManager.instance.player.score.ToString();
         walletScore = "$";
         walletScore += _scoreAsString;
     }
