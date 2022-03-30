@@ -31,6 +31,9 @@ namespace BNG {
         public delegate void BonusGooseHit();
         public static event BonusGooseHit onBonusGooseHit;
 
+        public delegate void EggHit();
+        public static event EggHit onEggHit;
+
         public delegate void DuckDie(GameObject deadDuck);
         public static event DuckDie onDuckDie;
 
@@ -326,6 +329,8 @@ namespace BNG {
                     onBonusGooseHit?.Invoke();
                     onDuckDie?.Invoke(gameObject);
                     break;
+                case TagManager.EGG_TAG:
+                    onEggHit?.Invoke();
                 default:
                     break;
             }
