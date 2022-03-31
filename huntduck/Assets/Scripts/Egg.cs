@@ -6,21 +6,21 @@ public class Egg : MonoBehaviour
 {
     public float eggSpeed = 2f;
     public float eggDamage = 34f;
-    public Vector3 target;
+
     public bool isHeatSeeking = false; 
-    public bool isFrozen = false; 
+    private bool isFrozen = false; 
 
     private BNG.Damageable thisDamageable;
     private PlayerData playerData;
     private Vector3 playerPosition;
+    private Vector3 target;
 
     void Awake()
     {
         playerData = ObjectManager.instance.player;
         playerPosition = playerData.controller.position;
         thisDamageable = GetComponent<BNG.Damageable>();
-        target = playerPosition + (playerPosition - transform.position);
-        // by default, target overshoots player position
+        target = playerPosition + (playerPosition - transform.position); // by default, target overshoots player position so egg flies past player
     }
 
     void OnEnable()
