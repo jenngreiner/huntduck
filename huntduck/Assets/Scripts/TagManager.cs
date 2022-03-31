@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class TagManager
 {
-    // Tags
     public const string PLAYER_TAG = "Player";
     public const string SHOOTINGSTAND_TAG = "ShootingStand";
 
@@ -16,7 +15,4 @@ public class TagManager
     public const string GOOSE_TAG = "Goose";
 
     public const string EGG_TAG = "Egg";
-
-    //// Layers
-    //public static LayerMask INFINITEDUCK_LAYER = LayerMask.NameToLayer("InfiniteDuck");
 }

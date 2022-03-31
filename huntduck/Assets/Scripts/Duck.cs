@@ -6,7 +6,7 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
-    public float duckEggDamage = 34f;
+    public float duckEggDamage = 34f; // egg damage overridden on per duck type basis
     public bool dropsEggs;
 
     private Transform player;
@@ -41,7 +41,6 @@ public class Duck : MonoBehaviour
             Egg eggScript = egg.GetComponent<Egg>();
             eggScript.eggDamage = duckEggDamage;
 
-            // if this is an Angry Duck, make eggs heat seeking
             if (transform.tag == TagManager.ANGRYDUCK_TAG)
             {
                 eggScript.isHeatSeeking = true;

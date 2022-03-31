@@ -6,72 +6,73 @@ public class Egg : MonoBehaviour
 {
     public float eggSpeed = 2f;
     public float eggDamage = 34f;
+    public Vector3 target;
     public bool isHeatSeeking = false; // not heat seaking by default, but can flip on in inspector
     public bool isFrozen = false; // just for testing right now, although interesting to think through how we use in gameplay
-    private bool eggHitPlayer = false;
-    private Vector3 playerPositionAtLaunch;
 
     private BNG.Damageable thisDamageable;
     private PlayerData playerData;
+    private Vector3 playerPosition;
 
-    void Start()
+    void Awake()
     {
         playerData = ObjectManager.instance.player;
+        playerPosition = playerData.controller.position;
         thisDamageable = GetComponent<BNG.Damageable>();
-        playerPositionAtLaunch = playerData.controller.position;
+        target = playerPosition + (playerPosition - transform.position);
+        // by default, target = player position at launch
     }
 
     void OnEnable()
     {
-        BNG.Damageable.onEggHit += eggDie;
+        BNG.Damageable.onEggShot += EggSplode;
     }
 
     void OnDisable()
     {
-        BNG.Damageable.onEggHit -= eggDie;
+        BNG.Damageable.onEggShot -= EggSplode;
     }
 
     void Update()
-    {       
-        if (transform.position == playerData.controller.position)
+    {
+        if (isHeatSeeking)
         {
-            if (!eggHitPlayer)
-            {
-                eggHitPlayer = true;
-                eggDie();
-            }
+            // when heat seeking, update position each frame to track player
+            target = playerData.controller.position; 
         }
-        else if (isHeatSeeking)
+        if (!isFrozen)
         {
-            moveTowards(playerData.controller.position);
-        }
-        else if (!isFrozen)
-        {
-            moveTowards(playerPositionAtLaunch);
+            MoveTowards(target);
         }
     }
 
-    void moveTowards(Vector3 target)
+    void MoveTowards(Vector3 target)
     {
         Vector3 newPos = Vector3.MoveTowards(transform.position, target, eggSpeed * Time.deltaTime);
         transform.position = newPos;
     }
 
-    void eggDie()
+    void EggSplode()
     {
-        playerData.health -= eggDamage;
         thisDamageable.DestroyThis();
-        Debug.Log("Did " + eggDamage + " eggDamage to player");
-        Debug.Log("PlayerHealth is now " + playerData.health);
+        isFrozen = true; // egg has 2s destroy delay for particle effect, freeze its position once hits something so doesn't keep moving & double hit
     }
 
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("egg collided with " + other.name);
+
         if (other.tag == TagManager.SHOOTINGSTAND_TAG)
         {
             Destroy(other.gameObject);
         }
-        thisDamageable.DestroyThis();
+        else if (other.tag == TagManager.PLAYER_TAG)
+        {
+            playerData.health -= eggDamage;
+            Debug.Log("Did " + eggDamage + " eggDamage to player");
+            Debug.Log("PlayerHealth is now " + playerData.health);
+        }
+
+        EggSplode(); // destroy egg any time it hits anything
     }
 }
