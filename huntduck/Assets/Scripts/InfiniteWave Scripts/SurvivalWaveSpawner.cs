@@ -130,14 +130,18 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (state == WaveState.WAVING)
         {
-            if (playerBeatWave() || !isTimeLeft())
+            if (playerBeatWave())
             {
                 WaveCompleted(); // we hit all ducks this wave, or ran out of time
             }
-            else
-            {
-                RunTimer();
-            }
+            //if (playerBeatWave() || !isTimeLeft())
+            //{
+            //    WaveCompleted(); // we hit all ducks this wave, or ran out of time
+            //}
+            //else
+            //{
+            //    RunTimer();
+            //}
         }
     }
 
