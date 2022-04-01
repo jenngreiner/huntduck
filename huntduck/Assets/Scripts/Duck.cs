@@ -44,6 +44,7 @@ public class Duck : MonoBehaviour
             if (transform.tag == TagManager.ANGRYDUCK_TAG)
             {
                 eggScript.isHeatSeeking = true;
+                egg.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(241f/255f, 106/255f, 106/255f);
             }
         }
     }
