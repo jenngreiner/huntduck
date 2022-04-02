@@ -7,6 +7,9 @@ public class PlayerHealth : MonoBehaviour
     private PlayerData playerData;
     private float startingHealth;
 
+    public delegate void PlayerDied();
+    public static event PlayerDied onPlayerDied;
+
     void Start()
     {
         playerData = GetComponent<PlayerData>();
@@ -18,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
         if (playerData.health <= 0f && !playerData.isDead)
         {
             playerData.isDead = true;
+            onPlayerDied?.Invoke();
             InfiniteLevelManager.instance.survivalWaveSpawner.WaveCompleted();
             Debug.Log("GAMEOVER: Player is dead!");
         }

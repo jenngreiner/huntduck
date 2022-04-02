@@ -15,6 +15,9 @@ public class Egg : MonoBehaviour
     private Vector3 playerPosition;
     private Vector3 target;
 
+    public delegate void EggHitPlayer();
+    public static event EggHitPlayer onEggHitPlayer;
+
     void Awake()
     {
         playerData = ObjectManager.instance.player;
@@ -69,6 +72,7 @@ public class Egg : MonoBehaviour
         else if (other.tag == TagManager.PLAYER_TAG)
         {
             playerData.health -= eggDamage;
+            onEggHitPlayer?.Invoke();
             Debug.Log("Did " + eggDamage + " eggDamage to player");
             Debug.Log("PlayerHealth is now " + playerData.health);
         }

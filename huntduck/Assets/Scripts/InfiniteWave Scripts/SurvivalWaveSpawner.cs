@@ -17,7 +17,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         public int waveNumber = 1;
         public int ducksThisWave = 3;
         public float rate = 1;
-        public float waveTime = 30f;
+        public float waveTime = 60f;
         public int ducksHitThisWave = 0; // "reset" when wave constructed
 
         public enum WaveType { NORMAL, SURVIVAL, BONUS, GOLDEN }
@@ -74,14 +74,17 @@ public class SurvivalWaveSpawner : MonoBehaviour
     #endregion
 
     #region events
-    public delegate void OnTimeChange();
-    public static event OnTimeChange onTimeChange;
+    public delegate void TimeChange();
+    public static event TimeChange onTimeChange;
 
-    public delegate void OnDuckHit();
-    public static event OnDuckHit onDuckHit;
+    public delegate void DuckHit();
+    public static event DuckHit onDuckHit;
 
-    public delegate void OnWaveChange();
-    public static event OnWaveChange onWaveChange;
+    public delegate void WaveChange();
+    public static event WaveChange onWaveChange;
+
+    public delegate void FirstWaveStart();
+    public static event FirstWaveStart onFirstWaveStart;
 
     public delegate void GameOver();
     public static event GameOver onGameOver;
@@ -130,18 +133,18 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (state == WaveState.WAVING)
         {
-            if (playerBeatWave())
+            //if (playerBeatWave())
+            //{
+            //    WaveCompleted(); // removes time element
+            //}
+            if (playerBeatWave() || !isTimeLeft())
             {
                 WaveCompleted(); // we hit all ducks this wave, or ran out of time
             }
-            //if (playerBeatWave() || !isTimeLeft())
-            //{
-            //    WaveCompleted(); // we hit all ducks this wave, or ran out of time
-            //}
-            //else
-            //{
-            //    RunTimer();
-            //}
+            else
+            {
+                RunTimer();
+            }
         }
     }
 
@@ -240,6 +243,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             // TODO: consider adding case 1 with nextWaveTime = 30f * waveSetBonus
             // concern is as waves increase not enough time at outset, coming off bonus of 30f
+            case 1:
+                nextWaveType = InfiniteWave.WaveType.NORMAL;
+                nextWaveTime = 60f * waveSetNumber;
+                break;
             case 2:
                 //nextWaveType = InfiniteWave.WaveType.SURVIVAL;
                 if (_nextWaveNumber <= 5)
@@ -351,6 +358,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         ducksHitTotal = 0;
         SetupWave();
         state = WaveState.READY;
+        onFirstWaveStart?.Invoke();
     }
 
     void SetupWave()
