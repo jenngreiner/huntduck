@@ -55,10 +55,13 @@ public class Egg : MonoBehaviour
         transform.position = newPos;
     }
 
-    void EggSplode()
+    void EggSplode(GameObject thisEgg)
     {
-        thisDamageable.DestroyThis();
-        isFrozen = true; // egg has 2s destroy delay for particle effect, freeze its position once hits something so doesn't keep moving & double hit
+        if (thisEgg == gameObject)
+        {
+            thisDamageable.DestroyThis();
+            isFrozen = true; // egg has 2s destroy delay for particle effect, freeze its position once hits something so doesn't keep moving & double hit
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -77,6 +80,6 @@ public class Egg : MonoBehaviour
             Debug.Log("PlayerHealth is now " + playerData.health);
         }
 
-        EggSplode(); // destroy egg any time it hits anything
+        EggSplode(gameObject); // destroy egg any time it hits anything
     }
 }

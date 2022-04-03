@@ -65,5 +65,6 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
+        Debug.Log("Creating duck points for " + transform.name);
     }
 }
