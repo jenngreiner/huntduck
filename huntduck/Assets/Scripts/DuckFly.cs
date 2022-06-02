@@ -82,7 +82,6 @@ public class DuckFly : MonoBehaviour
         {
             turnSpeed = turnSpeedBackup;
             isSwerving = false;
-            Debug.Log(transform.name + " STOPPED swerving!");
         }
     }
 
@@ -298,8 +297,6 @@ public class DuckFly : MonoBehaviour
 
             rotateTarget = centerZone;
             turnSpeed = turnSpeedBackup * 8;
-
-            Debug.Log(transform.name + " back to center!");
         }
     }
 

@@ -12,6 +12,8 @@ TagManager:
   - InfiniteDuck
   - Goose
   - Egg
+  - ShootingStand
+  - AngryDuck
   layers:
   - Default
   - TransparentFX

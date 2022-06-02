@@ -6,7 +6,7 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
-    public float duckEggDamage = 34f;
+    public float duckEggDamage = 34f; // egg damage overridden on per duck type basis
     public bool dropsEggs;
 
     private Transform player;
@@ -38,7 +38,14 @@ public class Duck : MonoBehaviour
         if (duck == transform && dropsEggs)
         {
             egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
-            egg.GetComponent<Egg>().eggDamage = duckEggDamage;
+            Egg eggScript = egg.GetComponent<Egg>();
+            eggScript.eggDamage = duckEggDamage;
+
+            if (transform.tag == TagManager.ANGRYDUCK_TAG)
+            {
+                eggScript.isHeatSeeking = true;
+                egg.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(246 / 255f, 156 / 255f, 156 / 255f);
+            }
         }
     }
 
@@ -58,5 +65,6 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
+        Debug.Log("Creating duck points for " + transform.name);
     }
 }
