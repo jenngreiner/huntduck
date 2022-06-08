@@ -436,6 +436,13 @@ namespace huntduck
 				texts[0].text = entry.Rank.ToString();
 				texts[1].text = entry.User.OculusID;
 				texts[2].text = entry.Score.ToString();
+				
+				// create event to turn on CurrentPlayerHighlight when entry.User.ID == huntduck.PlatformManager.MyID
+				if (entry.User.ID == huntduck.PlatformManager.MyID)
+				{
+					transform.Find("CurrentPlayerHighlight").gameObject.SetActive;
+					Debug.Log("Find: " + transform.Find("CurrentPlayerHighlight").gameObject.SetActive;)
+				}
 
 				//Debug.Log("texts[0].text is " + texts[0].text);
 				//Debug.Log("texts[1].text is " + texts[1].text);
