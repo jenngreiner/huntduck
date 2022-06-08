@@ -64,10 +64,10 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             EndInfiniteWave();
-            Debug.Log("This shi is ova!");
+            Debug.Log("KeyDown.O: End game");
         }
     }
 

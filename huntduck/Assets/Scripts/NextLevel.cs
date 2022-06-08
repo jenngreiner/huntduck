@@ -14,8 +14,9 @@ public class NextLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.G))
         {
+            Debug.Log("KeyDown.G: Go to next level")
             StartCoroutine(GoToLevelAsync(nextLevel));
             // SceneManager.LoadScene(nextLevel);
         }
