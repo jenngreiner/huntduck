@@ -15,7 +15,7 @@ public class ChooseGameMode : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Debug.Log("Pressed H Key");
+            Debug.Log("KeyDown.H: Go to Hunt Mode");
             if(gameMode.name == "HuntMode")
             {
                 changeGameMode();
