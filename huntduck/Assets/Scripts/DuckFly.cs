@@ -69,8 +69,9 @@ public class DuckFly : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log("KeyDown.R: toggle return to base")
             returnToBase = !returnToBase;
         }
 
