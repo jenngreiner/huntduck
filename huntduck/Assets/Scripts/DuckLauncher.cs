@@ -15,7 +15,7 @@ public class DuckLauncher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("KeyDown.D: Launch Duck")
+            Debug.Log("KeyDown.D: Launch Duck");
             LaunchObj(ObjectManager.instance.normDuck);
         }
     }

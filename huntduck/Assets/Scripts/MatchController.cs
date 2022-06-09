@@ -440,8 +440,8 @@ namespace huntduck
 				// create event to turn on CurrentPlayerHighlight when entry.User.ID == huntduck.PlatformManager.MyID
 				if (entry.User.ID == huntduck.PlatformManager.MyID)
 				{
-					transform.Find("CurrentPlayerHighlight").gameObject.SetActive;
-					Debug.Log("Find: " + transform.Find("CurrentPlayerHighlight").gameObject.SetActive;)
+					transform.Find("CurrentPlayerHighlight").gameObject.SetActive(true);
+					Debug.Log("Find: " + transform.Find("CurrentPlayerHighlight").gameObject.name);
 				}
 
 				//Debug.Log("texts[0].text is " + texts[0].text);
