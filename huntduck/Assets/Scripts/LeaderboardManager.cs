@@ -76,12 +76,13 @@ public class LeaderboardManager : MonoBehaviour
                 }
             }
 
-			// results might be paged for large requests
+			//THIS IS WHAT FIXED LEADERBOARDS FROM BEING FULL LENGTH OF ENTRIES SHOULD BE 10 NOW IN UI
+/*			// results might be paged for large requests
 			if (msg.Data.HasNextPage)
 			{
 				Leaderboards.GetNextEntries(msg.Data).OnComplete(HighestScoreGetEntriesCallback); ;
 				return;
-			}
+			}*/
 
 			// if local user not in the top, get their position specifically
 			if (!m_foundLocalUserHighScore)
