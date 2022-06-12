@@ -265,7 +265,7 @@ namespace BNG {
             // Call events
             if (onRespawn != null)
             {
-                onRespawn.Invoke();
+                onRespawn?.Invoke();
             }
         }
 
@@ -303,7 +303,7 @@ namespace BNG {
 
             // Call events
             if (onRespawn != null) {
-                onRespawn.Invoke();
+                onRespawn?.Invoke();
             }
         }
 
