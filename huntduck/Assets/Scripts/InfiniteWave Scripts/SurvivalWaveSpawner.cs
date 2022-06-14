@@ -116,12 +116,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
         VFly.onFlyingVHit += increaseDuckHitCount;
+        RestartGameMode.onRestartMode += ResetWaves;
     }
 
     void OnDisable()
     {
         BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
         VFly.onFlyingVHit -= increaseDuckHitCount;
+        RestartGameMode.onRestartMode -= ResetWaves;
     }
 
     void Update()
@@ -205,6 +207,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             onGameOver?.Invoke();
             StopAllCoroutines(); // stop ducks flying
+            ResetWaves();
             enabled = false;
         }
         else
@@ -353,12 +356,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void InitialWaveSetup()
     {
-        waves.Add(new InfiniteWave()); // add first wave with default values
+        // create empty waves list, add first wave with default values
+        waves = new List<InfiniteWave> { new InfiniteWave() };
         thisWave = 0;
         ducksHitTotal = 0;
         SetupWave();
         state = WaveState.READY;
         onFirstWaveStart?.Invoke();
+        Debug.Log("Setting up initial wave with " + waves.Count + " waves");
     }
 
     void SetupWave()
@@ -481,12 +486,16 @@ public class SurvivalWaveSpawner : MonoBehaviour
         currentWaveSeconds = string.Format("{0:00}", mathSeconds);
     }
 
-    public void ResetWaves()
+    private void ResetWaves()
     {
         // SINGLESCENE: used on "Play Again"
-        if (waves.Count > 1)
-        {
-            waves.RemoveRange(1, waves.Count - 1);
-        }
+        // reset all variables to initial state
+        duckSpeed = 1f;
+        survivalBonusPoints = 100;
+        duckMultiplier = 1f;
+        waveSetNumber = 1;
+        normieMultiplier = 0f;
+        fastMultiplier = 0f;
+        angryMultiplier = 0f;
     }
 }
