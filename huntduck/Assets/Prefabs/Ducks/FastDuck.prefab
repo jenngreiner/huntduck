@@ -5236,7 +5236,7 @@ MonoBehaviour:
   ActivateGameObjectsOnDeath:
   - {fileID: 3115208149493987184}
   DeactivateGameObjectsOnDeath:
-  - {fileID: 5321008479419601351}
+  - {fileID: 3894890212169722158}
   DeactivateCollidersOnDeath:
   - {fileID: 5321008479419601368}
   DestroyOnDeath: 1
