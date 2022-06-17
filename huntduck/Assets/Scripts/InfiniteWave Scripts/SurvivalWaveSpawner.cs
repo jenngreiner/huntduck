@@ -115,14 +115,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
         #endregion
 
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
-        VFly.onFlyingVHit += increaseDuckHitCount;
         RestartGameMode.onRestartMode += ResetWaves;
     }
 
     void OnDisable()
     {
         BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
-        VFly.onFlyingVHit -= increaseDuckHitCount;
         RestartGameMode.onRestartMode -= ResetWaves;
     }
 
@@ -378,7 +376,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetCurrentWaveSeconds();
         currentWaveNumber = waves[thisWave].waveNumber;
         waves[thisWave].ducksHitThisWave = 0;
-        ducksLeft = waves[thisWave].ducksThisWave;
+        if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
+        {
+            ducksLeft = ObjectManager.instance.bonusGeese.transform.childCount;
+        }
+        else
+        {
+            ducksLeft = waves[thisWave].ducksThisWave;
+        }
 
         onWaveChange?.Invoke();
     }
@@ -391,10 +396,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 getReadyText.text = "SURVIVAL WAVE";
                 break;
             case InfiniteWave.WaveType.BONUS:
-                getReadyText.text = "GEESE";
+                getReadyText.text = "BONUS GEESE";
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                getReadyText.text = "BEWARE THE GOLDEN GOOSE";
+                getReadyText.text = "FIND THE GOLDEN GOOSE";
                 break;
             default:
                 getReadyText.text = "GET READY";
@@ -503,5 +508,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         normieMultiplier = 0f;
         fastMultiplier = 0f;
         angryMultiplier = 0f;
+        onWaveChange();
     }
 }
