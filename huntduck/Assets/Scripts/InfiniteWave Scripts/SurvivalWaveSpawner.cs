@@ -148,6 +148,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 RunTimer();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            waveTimeRemaining = 0;
+            Debug.Log("KeyDown.O: Times up, End game");
+        }
     }
 
     IEnumerator StartWave(InfiniteWave _thisWave)

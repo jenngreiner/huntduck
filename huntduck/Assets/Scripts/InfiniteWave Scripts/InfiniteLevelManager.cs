@@ -62,15 +62,6 @@ public class InfiniteLevelManager : MonoBehaviour
         //StartInfiniteWave();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            EndInfiniteWave();
-            Debug.Log("KeyDown.O: End game");
-        }
-    }
-
     void OnEnable()
     {
         // SINGLESCENE: reset the gameplay UIs and start
