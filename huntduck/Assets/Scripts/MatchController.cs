@@ -79,7 +79,7 @@ namespace huntduck
 			//TransitionToState(State.NONE);
 		}
 
-		// commented out
+		// MATCH TIMER
 		//void Update()
 		//{
 		//	UpdateCheckForNextTimedTransition();
@@ -103,6 +103,7 @@ namespace huntduck
 		//}
 
 		// commented out
+
 		#region State Management
 
 		//private enum State
@@ -440,8 +441,8 @@ namespace huntduck
 				// create event to turn on CurrentPlayerHighlight when entry.User.ID == huntduck.PlatformManager.MyID
 				if (entry.User.ID == huntduck.PlatformManager.MyID)
 				{
-					transform.Find("CurrentPlayerHighlight").gameObject.SetActive(true);
-					Debug.Log("Find: " + transform.Find("CurrentPlayerHighlight").gameObject.name);
+					label.transform.Find("CurrentPlayerHighlight").gameObject.SetActive(true);
+					Debug.Log("Turning on highlight");
 				}
 
 				//Debug.Log("texts[0].text is " + texts[0].text);

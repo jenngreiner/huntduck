@@ -74,6 +74,7 @@ public class LeaderboardManager : MonoBehaviour
                 {
                     m_foundLocalUserHighScore = true;
                 }
+                Debug.Log("m_highScores: " + m_highScores);
             }
 
 			//THIS IS WHAT FIXED LEADERBOARDS FROM BEING FULL LENGTH OF ENTRIES SHOULD BE 10 NOW IN UI
@@ -100,7 +101,6 @@ public class LeaderboardManager : MonoBehaviour
 		}
 		m_highScores = null;
 	}
-
 	#endregion
 
 	// submit the local player's match score to the leaderboard service
