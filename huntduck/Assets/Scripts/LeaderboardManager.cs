@@ -74,6 +74,7 @@ public class LeaderboardManager : MonoBehaviour
                 {
                     m_foundLocalUserHighScore = true;
                 }
+                Debug.Log("m_highScores: " + m_highScores);
             }
 
 			// results might be paged for large requests
@@ -99,7 +100,6 @@ public class LeaderboardManager : MonoBehaviour
 		}
 		m_highScores = null;
 	}
-
 	#endregion
 
 	// submit the local player's match score to the leaderboard service

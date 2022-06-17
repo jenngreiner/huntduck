@@ -138,13 +138,13 @@ public class InfiniteLevelManager : MonoBehaviour
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
-        huntduck.PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
+        PlatformManager.Leaderboards.SubmitMatchScores(finalScoreUInt);
         finalWavesText.text = survivalWaveSpawner.waves.Count.ToString();
         finalDucksText.text = survivalWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
 
         // query for latest scores - this doesnt seem to be working yet
-        huntduck.PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
+        PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
 
         // set leaderboard & buttons active
         leaderboard.SetActive(true);
