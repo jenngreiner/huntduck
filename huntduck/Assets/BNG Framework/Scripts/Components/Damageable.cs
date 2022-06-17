@@ -322,15 +322,12 @@ namespace BNG {
                     onDuckDie?.Invoke(gameObject);
                     break;
                 case TagManager.INFINITEDUCK_TAG:
-                case TagManager.GOOSE_TAG:
                 case TagManager.ANGRYDUCK_TAG:
+                case TagManager.GOOSE_TAG:
+                case TagManager.GOLDENGOOSE_TAG:
                     onInfiniteDuckHit?.Invoke();
                     onDuckDie?.Invoke(gameObject);
                     break;
-                //case TagManager.GOOSE_TAG:
-                //    onBonusGooseHit?.Invoke();
-                //    onDuckDie?.Invoke(gameObject);
-                //    break;
                 case TagManager.EGG_TAG:
                     onEggShot?.Invoke(gameObject);
                     break;

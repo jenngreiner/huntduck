@@ -13,6 +13,7 @@ public class TagManager
     public const string ANGRYDUCK_TAG = "AngryDuck";
     public const string DUCK_TAG = "Duck";
     public const string GOOSE_TAG = "Goose";
+    public const string GOLDENGOOSE_TAG = "GoldenGoose";
 
     public const string EGG_TAG = "Egg";
 }

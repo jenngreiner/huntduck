@@ -41,12 +41,11 @@ public class Duck : MonoBehaviour
             Egg eggScript = egg.GetComponent<Egg>();
             eggScript.eggDamage = duckEggDamage;
 
-            // CHANGE transform.tag to GOLDEN GOOSE for heat seeking
-            //if (transform.tag == TagManager.ANGRYDUCK_TAG)
-            //{
-            //    eggScript.isHeatSeeking = true;
-            //    egg.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(246 / 255f, 156 / 255f, 156 / 255f);
-            //}
+            if (transform.tag == TagManager.GOLDENGOOSE_TAG)
+            {
+                eggScript.isHeatSeeking = true;
+                egg.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(246 / 255f, 156 / 255f, 156 / 255f);
+            }
         }
     }
 
@@ -57,6 +56,7 @@ public class Duck : MonoBehaviour
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
 
             CreatePointsText(duckPoints);
+            Debug.Log("This duck " + transform.name + " is dead");
         }
     }
 
