@@ -9,7 +9,9 @@ public class Duck : MonoBehaviour
     public GameObject pointsTextObj;
     public float duckEggDamage = 34f; // egg damage overridden on per duck type basis
     public bool dropsEggs;
+    public AudioClip quackSound;
     public AudioClip pointsSound;
+    private bool keepPlaying = true;
 
     private Transform player;
     private GameObject egg;
@@ -21,6 +23,7 @@ public class Duck : MonoBehaviour
     void Start()
     {
         player = ObjectManager.instance.player.transform;
+        StartCoroutine(Quack());
     }
 
     void OnEnable()
@@ -51,12 +54,21 @@ public class Duck : MonoBehaviour
         }
     }
 
+    IEnumerator Quack()
+    {
+        while (keepPlaying)
+        {
+            BNG.VRUtils.Instance.PlaySpatialClipAt(quackSound, transform.position, 1f, 1f);
+            yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
+        }
+    }
+
     public void Die(GameObject deadDuck)
     {
         if (deadDuck == gameObject)
         {
+            keepPlaying = false;
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
-
             CreatePointsText(duckPoints);
         }
     }

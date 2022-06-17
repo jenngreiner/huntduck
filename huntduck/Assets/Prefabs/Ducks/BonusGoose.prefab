@@ -5153,6 +5153,7 @@ MonoBehaviour:
     type: 3}
   duckEggDamage: 34
   dropsEggs: 0
+  quackSound: {fileID: 8300000, guid: bd683018954734f30806005e83f1c3a6, type: 3}
   pointsSound: {fileID: 8300000, guid: b671775769fcd42b4845c038013e72fe, type: 3}
 --- !u!82 &3990589229114921844
 AudioSource:
@@ -5168,7 +5169,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

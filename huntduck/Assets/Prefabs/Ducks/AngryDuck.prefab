@@ -4998,7 +4998,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5199,8 +5199,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.2, z: 1.5}
-  m_Center: {x: -0.1, y: 0.25, z: 0}
+  m_Size: {x: 1.5, y: 0.78, z: 1.5}
+  m_Center: {x: 0, y: 0.02, z: 0.25}
 --- !u!54 &5321008479419601369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5269,6 +5269,7 @@ MonoBehaviour:
     type: 3}
   duckEggDamage: 34
   dropsEggs: 1
+  quackSound: {fileID: 8300000, guid: f9c5489bae561487faeee18783e27dab, type: 3}
   pointsSound: {fileID: 8300000, guid: b671775769fcd42b4845c038013e72fe, type: 3}
 --- !u!114 &7708368080132536046
 MonoBehaviour:
