@@ -56,7 +56,6 @@ public class Duck : MonoBehaviour
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
 
             CreatePointsText(duckPoints);
-            Debug.Log("This duck " + transform.name + " is dead");
         }
     }
 
@@ -66,6 +65,5 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
-        Debug.Log("Creating duck points for " + transform.name);
     }
 }
