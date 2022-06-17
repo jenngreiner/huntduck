@@ -49,7 +49,7 @@ public class ScorePopup : MonoBehaviour
                 effectMethod = ScaleAndShrink;
                 break;
             case EffectType.ScaleAndFade:
-                effectMethod = ScalePauseFade;
+                effectMethod = ScaleAndFade;
                 break;
             case EffectType.FloatAndFade:
                 effectMethod = FloatAndFade;
@@ -59,7 +59,7 @@ public class ScorePopup : MonoBehaviour
         }
     }
 
-    void ScalePauseFade()
+    void ScaleAndFade()
     {
         if (effectTimerLeft > effectTimer / 2) // first half of popup lifetime
         {

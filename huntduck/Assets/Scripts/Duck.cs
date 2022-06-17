@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class Duck : MonoBehaviour
     public GameObject pointsTextObj;
     public float duckEggDamage = 34f; // egg damage overridden on per duck type basis
     public bool dropsEggs;
+    public AudioClip pointsSound;
 
     private Transform player;
     private GameObject egg;
@@ -65,5 +67,6 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
+        BNG.VRUtils.Instance.PlaySpatialClipAt(pointsSound, transform.position, 1f, 1f);
     }
 }
