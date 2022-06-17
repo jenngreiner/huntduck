@@ -18,6 +18,11 @@ public class DuckLauncher : MonoBehaviour
             Debug.Log("KeyDown.L: Launch Duck");
             LaunchObj(ObjectManager.instance.normDuck);
         }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("KeyDown.G: Launch Golden Goose");
+            LaunchObj(ObjectManager.instance.goldenGoose);
+        }
     }
 
     public void LaunchObj(GameObject _projectile)
