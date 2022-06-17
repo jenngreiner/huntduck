@@ -411,7 +411,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 getReadyText.text = "BONUS GEESE";
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                getReadyText.text = "FIND THE GOLDEN GOOSE";
+                getReadyText.text = "BEWARE THE GOLDEN GOOSE";
                 break;
             default:
                 getReadyText.text = "GET READY";
