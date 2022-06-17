@@ -125,7 +125,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSecondsRealtime(3f);
         gameOverUI.SetActive(false);
 
         // show final UI with score rollup
@@ -142,6 +142,6 @@ public class InfiniteLevelManager : MonoBehaviour
         replayExitUI.SetActive(true);
 
         levelupSound.Play();
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(3f);
     }
 }

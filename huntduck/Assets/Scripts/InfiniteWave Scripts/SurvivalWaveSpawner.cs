@@ -42,6 +42,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public Text waveCountText;
     public GameObject getReadyUI;
     public Text getReadyText;
+    public GameObject helperUI;
+    public Text helperText;
     
     public TimeSpan timerSeconds;
 
@@ -221,7 +223,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
             {
                 if (startHealthSurvival == playerData.health)
                 {
-                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); 
+                    int survivalBonus = survivalBonusPoints * waveSetNumber;
+                    onSurvivalWaveNoDamage(survivalBonus);
+                    StartCoroutine(SurvivalUIController(survivalBonus));
                 }
             }
 
@@ -242,6 +246,15 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
             state = WaveState.READY; // Begin Wave next Frame in Update()
         }
+    }
+
+    IEnumerator SurvivalUIController(int survivalBonus)
+    {
+        helperUI.SetActive(true);
+        helperText.text = "YOU SURVIVED \n + $" + survivalBonus.ToString();
+        yield return new WaitForSecondsRealtime(3f);
+        helperUI.SetActive(false);
+        // right now this flashes but the next UI overrides it, gotta figure out how to pause instead of yeild here
     }
 
     void SetWaveType(int _nextWaveNumber)
