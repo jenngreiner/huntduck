@@ -219,42 +219,42 @@ public class SurvivalWaveSpawner : MonoBehaviour
         else
         {
             // If completed Survival Wave without taking damage, give bonus points
-            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
+            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && startHealthSurvival == playerData.health)
             {
-                if (startHealthSurvival == playerData.health)
-                {
-                    int survivalBonus = survivalBonusPoints * waveSetNumber;
-                    onSurvivalWaveNoDamage(survivalBonus);
-                    StartCoroutine(SurvivalUIController(survivalBonus));
-                }
+                int survivalBonus = survivalBonusPoints * (waveSetNumber-1);
+                onSurvivalWaveNoDamage(survivalBonus);
+                StartCoroutine(SurvivalUIController(survivalBonus));
             }
-
-            #region Configure Next Wave
-            int nextWaveNumber = waves[thisWave].waveNumber + 1;
-            duckSpeed = waves[thisWave].rate * 1.05f;
-            nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
-            SetWaveType(nextWaveNumber);
-            SetWaveDucks(nextWaveNumber, waveSetNumber); 
-
-            // TODO: remove time element
-            waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
-            Debug.Log("next wave #: " + nextWaveNumber + " wave set #: " + waveSetNumber);
-
-            thisWave++;
-            SetupWave();
-            #endregion
-
-            state = WaveState.READY; // Begin Wave next Frame in Update()
+            else { ConfigureNextWave(); }
         }
     }
 
     IEnumerator SurvivalUIController(int survivalBonus)
     {
         helperUI.SetActive(true);
-        helperText.text = "YOU SURVIVED \n + $" + survivalBonus.ToString();
+        helperText.text = "YOU SURVIVED";
+        yield return new WaitForSecondsRealtime(3f);
+        helperText.text = "+ $" + survivalBonus.ToString();
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
-        // right now this flashes but the next UI overrides it, gotta figure out how to pause instead of yeild here
+        ConfigureNextWave();
+    }
+
+    private void ConfigureNextWave()
+    {
+        int nextWaveNumber = waves[thisWave].waveNumber + 1;
+        duckSpeed = waves[thisWave].rate * 1.05f;
+        nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
+        SetWaveType(nextWaveNumber);
+        SetWaveDucks(nextWaveNumber, waveSetNumber);
+
+        // TODO: remove time element
+        waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
+
+        thisWave++;
+        SetupWave();
+
+        state = WaveState.READY; // Begin Wave next Frame in Update()
     }
 
     void SetWaveType(int _nextWaveNumber)
@@ -380,7 +380,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetupWave();
         state = WaveState.READY;
         onFirstWaveStart?.Invoke();
-        Debug.Log("Setting up initial wave with " + waves.Count + " waves");
     }
 
     void SetupWave()
