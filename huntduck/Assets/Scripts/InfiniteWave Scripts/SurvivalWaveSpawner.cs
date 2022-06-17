@@ -186,10 +186,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
         switch (waves[thisWave].waveType)
         {
             case InfiniteWave.WaveType.BONUS:
-                for (int i = 0; i < _thisWave.ducksThisWave; i++)
+                for (int i = 0; i < (waveSetNumber-1); i++)
                 {
                     SpawnDuck(bonusSpawnPoints, ObjectManager.instance.bonusGeese);
-                    yield return new WaitForSeconds(1 / _thisWave.rate);
+                    yield return new WaitForSeconds(3f);
                 }
                 break;
             case InfiniteWave.WaveType.GOLDEN:
@@ -391,7 +391,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         waves[thisWave].ducksHitThisWave = 0;
         if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
         {
-            ducksLeft = ObjectManager.instance.bonusGeese.transform.childCount;
+            ducksLeft = (waveSetNumber-1) * ObjectManager.instance.bonusGeese.transform.childCount;
         }
         else
         {
