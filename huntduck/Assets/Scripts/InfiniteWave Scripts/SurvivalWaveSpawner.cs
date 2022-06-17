@@ -42,6 +42,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public Text waveCountText;
     public GameObject getReadyUI;
     public Text getReadyText;
+    public GameObject helperUI;
+    public Text helperText;
     
     public TimeSpan timerSeconds;
 
@@ -115,14 +117,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
         #endregion
 
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
-        VFly.onFlyingVHit += increaseDuckHitCount;
         RestartGameMode.onRestartMode += ResetWaves;
     }
 
     void OnDisable()
     {
         BNG.Damageable.onInfiniteDuckHit -= increaseDuckHitCount;
-        VFly.onFlyingVHit -= increaseDuckHitCount;
         RestartGameMode.onRestartMode -= ResetWaves;
     }
 
@@ -223,7 +223,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
             {
                 if (startHealthSurvival == playerData.health)
                 {
-                    onSurvivalWaveNoDamage(survivalBonusPoints * waveSetNumber); 
+                    int survivalBonus = survivalBonusPoints * waveSetNumber;
+                    onSurvivalWaveNoDamage(survivalBonus);
+                    StartCoroutine(SurvivalUIController(survivalBonus));
                 }
             }
 
@@ -244,6 +246,15 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
             state = WaveState.READY; // Begin Wave next Frame in Update()
         }
+    }
+
+    IEnumerator SurvivalUIController(int survivalBonus)
+    {
+        helperUI.SetActive(true);
+        helperText.text = "YOU SURVIVED \n + $" + survivalBonus.ToString();
+        yield return new WaitForSecondsRealtime(3f);
+        helperUI.SetActive(false);
+        // right now this flashes but the next UI overrides it, gotta figure out how to pause instead of yeild here
     }
 
     void SetWaveType(int _nextWaveNumber)
@@ -378,7 +389,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetCurrentWaveSeconds();
         currentWaveNumber = waves[thisWave].waveNumber;
         waves[thisWave].ducksHitThisWave = 0;
-        ducksLeft = waves[thisWave].ducksThisWave;
+        if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
+        {
+            ducksLeft = ObjectManager.instance.bonusGeese.transform.childCount;
+        }
+        else
+        {
+            ducksLeft = waves[thisWave].ducksThisWave;
+        }
 
         onWaveChange?.Invoke();
     }
@@ -391,10 +409,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 getReadyText.text = "SURVIVAL WAVE";
                 break;
             case InfiniteWave.WaveType.BONUS:
-                getReadyText.text = "GEESE";
+                getReadyText.text = "BONUS GEESE";
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                getReadyText.text = "BEWARE THE GOLDEN GOOSE";
+                getReadyText.text = "FIND THE GOLDEN GOOSE";
                 break;
             default:
                 getReadyText.text = "GET READY";
@@ -503,5 +521,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         normieMultiplier = 0f;
         fastMultiplier = 0f;
         angryMultiplier = 0f;
+        onWaveChange();
     }
 }

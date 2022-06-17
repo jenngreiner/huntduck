@@ -7,9 +7,6 @@ public class VFly : MonoBehaviour
     public List<GameObject> kids;
     public float speed;
 
-    public delegate void FlyingVHit();
-    public static event FlyingVHit onFlyingVHit;
-
     void Start()
     {
         kids = new List<GameObject>();
@@ -24,7 +21,6 @@ public class VFly : MonoBehaviour
     {
         if (kids.Count <= 0)
         {
-            onFlyingVHit.Invoke();
             Destroy(gameObject);
         }
         else
