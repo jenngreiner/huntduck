@@ -29,7 +29,9 @@ public class InfiniteLevelManager : MonoBehaviour
     public TextMeshProUGUI finalBucksText;
 
     [Header("Audio")]
-    public AudioSource levelupSound;
+    public AudioClip beginGameSound;
+    public AudioClip gameOverSound;
+    public AudioClip scoreBoardSound;
 
     [Header("Wave Spawner")]
     public SurvivalWaveSpawner survivalWaveSpawner;
@@ -64,9 +66,6 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void OnEnable()
     {
-        // SINGLESCENE: reset the gameplay UIs and start
-        ResetText();
-
         ChooseGameMode.onSwitchMode += StartInfiniteWave;
         RestartGameMode.onRestartMode += StartInfiniteWave;
         SurvivalWaveSpawner.onGameOver += EndInfiniteWave;
@@ -91,6 +90,8 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void StartInfiniteWave()
     {
+        Debug.Log("StartInfiniteWave");
+        ResetText();
         onStartInfinite?.Invoke();
         StartCoroutine(BeginInfiniteWave());
     }
@@ -102,11 +103,16 @@ public class InfiniteLevelManager : MonoBehaviour
 
     IEnumerator BeginInfiniteWave()
     {
+        yield return new WaitForSecondsRealtime(0.1f); // give time for world to load
+        Debug.Log("BeginInfiniteWave");
         helperUI.SetActive(true);
         helperText.text = "PREPARE TO HUNT";
+        Debug.Log("Showed PREPARE TO HUNT");
+        BNG.VRUtils.Instance.PlaySpatialClipAt(beginGameSound, transform.position, 1f, 1f);
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
 
+        Debug.Log("Starting SurvivalWaveSpawner");
         survivalWaveSpawner.enabled = true;
         gameplayUI.SetActive(true);
         yield return null;
@@ -125,6 +131,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(gameOverSound, transform.position, 1f, 1f);
         yield return new WaitForSecondsRealtime(3f);
         gameOverUI.SetActive(false);
 
@@ -141,7 +148,7 @@ public class InfiniteLevelManager : MonoBehaviour
         leaderboard.SetActive(true);
         replayExitUI.SetActive(true);
 
-        levelupSound.Play();
+        BNG.VRUtils.Instance.PlaySpatialClipAt(scoreBoardSound, transform.position, 1f, 1f);
         yield return new WaitForSecondsRealtime(3f);
     }
 }

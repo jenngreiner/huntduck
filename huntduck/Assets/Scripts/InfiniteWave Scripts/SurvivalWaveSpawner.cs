@@ -44,7 +44,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public Text getReadyText;
     public GameObject helperUI;
     public Text helperText;
-    
+    public AudioClip bonusSound;
+
+
     public TimeSpan timerSeconds;
 
     #region wave variables
@@ -96,7 +98,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     #endregion
 
     private PlayerData playerData;
-    private float startHealthSurvival;
+    private float survivalStartingHealth;
 
     // TODO: remove wavetime by making ducks dangerous, player has to survive
 
@@ -177,7 +179,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
         {
-            startHealthSurvival = playerData.health;
+            survivalStartingHealth = playerData.health;
         }
 
         state = WaveState.WAVING;
@@ -219,7 +221,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         else
         {
             // If completed Survival Wave without taking damage, give bonus points
-            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && startHealthSurvival == playerData.health)
+            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && survivalStartingHealth == playerData.health)
             {
                 int survivalBonus = survivalBonusPoints * (waveSetNumber-1);
                 onSurvivalWaveNoDamage(survivalBonus);
@@ -235,6 +237,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         helperText.text = "YOU SURVIVED";
         yield return new WaitForSecondsRealtime(3f);
         helperText.text = "+ $" + survivalBonus.ToString();
+        BNG.VRUtils.Instance.PlaySpatialClipAt(bonusSound, transform.position, 1f, 1f);
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
         ConfigureNextWave();
