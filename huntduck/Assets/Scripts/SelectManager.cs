@@ -14,16 +14,11 @@ public class SelectManager : MonoBehaviour
     [Header("Weapons")]
     public GameObject weaponsWall;
 
-    [Header("Sounds")]
-    public AudioClip backgroundSound;
-
     private void OnEnable()
     {
         SelectModeTrigger.onSelectModeTriggered += StartSelectMode;
         WallSlider.onPosition1Reached += ShowWeaponsWall;
         WeaponsManager.onWeaponSelected += ShowButtons;
-
-        BNG.VRUtils.Instance.PlaySpatialClipAt(backgroundSound, transform.position, 1f, 1f);
     }
 
     private void OnDisable()
