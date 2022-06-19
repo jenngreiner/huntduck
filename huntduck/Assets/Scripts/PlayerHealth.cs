@@ -4,6 +4,7 @@ using huntduck;
 [RequireComponent(typeof(PlayerData))]
 public class PlayerHealth : MonoBehaviour
 {
+    public AudioClip playerDiesSound;
     private PlayerData playerData;
     private float startingHealth;
 
@@ -21,7 +22,8 @@ public class PlayerHealth : MonoBehaviour
         if (playerData.health <= 0f && !playerData.isDead)
         {
             playerData.isDead = true;
-            onPlayerDied?.Invoke();
+            BNG.VRUtils.Instance.PlaySpatialClipAt(playerDiesSound, transform.position, 1f, 1f);
+            onPlayerDied?.Invoke(); // updates PlayerHealthUI.cs
             InfiniteLevelManager.instance.survivalWaveSpawner.WaveCompleted();
             Debug.Log("GAMEOVER: Player is dead!");
         }

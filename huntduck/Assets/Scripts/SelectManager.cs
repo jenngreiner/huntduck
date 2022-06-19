@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class SelectManager : MonoBehaviour
 {
+    [Header("UI")]
     public GameObject welcomeUI;
     public GameObject helperUI;
     public Text helperText;
-
     public GameObject buttons;
+
+    [Header("Weapons")]
     public GameObject weaponsWall;
 
     private void OnEnable()
@@ -45,11 +47,6 @@ public class SelectManager : MonoBehaviour
 
     IEnumerator SelectModeIntro()
     {
-        //helperUI.SetActive(true);
-        //helperText.text = "WELCOME TO\nHUNT DUCK";
-        //yield return new WaitForSeconds(3f);
-        //helperText.text = "Select your weapon behind you to begin";
-
         welcomeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
         welcomeUI.SetActive(false);

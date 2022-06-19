@@ -6,6 +6,7 @@ public class Egg : MonoBehaviour
 {
     public float eggSpeed = 2f;
     public float eggDamage = 34f;
+    public AudioClip hitPlayerSound;
 
     public bool isHeatSeeking = false; 
     private bool isFrozen = false; 
@@ -76,8 +77,12 @@ public class Egg : MonoBehaviour
         {
             playerData.health -= eggDamage;
             onEggHitPlayer?.Invoke();
-            Debug.Log("Did " + eggDamage + " eggDamage to player");
-            Debug.Log("PlayerHealth is now " + playerData.health);
+            if (playerData.health > 0)
+            {
+                BNG.VRUtils.Instance.PlaySpatialClipAt(hitPlayerSound, transform.position, 1f, 1f);
+            }
+            //Debug.Log("Did " + eggDamage + " eggDamage to player");
+            //Debug.Log("PlayerHealth is now " + playerData.health);
         }
 
         EggSplode(gameObject); // destroy egg any time it hits anything
