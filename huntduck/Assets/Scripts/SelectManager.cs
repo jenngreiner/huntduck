@@ -5,18 +5,25 @@ using UnityEngine.UI;
 
 public class SelectManager : MonoBehaviour
 {
+    [Header("UI")]
     public GameObject welcomeUI;
     public GameObject helperUI;
     public Text helperText;
-
     public GameObject buttons;
+
+    [Header("Weapons")]
     public GameObject weaponsWall;
+
+    [Header("Sounds")]
+    public AudioClip backgroundSound;
 
     private void OnEnable()
     {
         SelectModeTrigger.onSelectModeTriggered += StartSelectMode;
         WallSlider.onPosition1Reached += ShowWeaponsWall;
         WeaponsManager.onWeaponSelected += ShowButtons;
+
+        BNG.VRUtils.Instance.PlaySpatialClipAt(backgroundSound, transform.position, 1f, 1f);
     }
 
     private void OnDisable()
@@ -45,11 +52,6 @@ public class SelectManager : MonoBehaviour
 
     IEnumerator SelectModeIntro()
     {
-        //helperUI.SetActive(true);
-        //helperText.text = "WELCOME TO\nHUNT DUCK";
-        //yield return new WaitForSeconds(3f);
-        //helperText.text = "Select your weapon behind you to begin";
-
         welcomeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
         welcomeUI.SetActive(false);

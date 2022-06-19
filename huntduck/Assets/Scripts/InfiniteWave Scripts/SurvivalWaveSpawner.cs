@@ -35,47 +35,37 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
     }
 
-    public GameObject[] spawnPoints;
-    public GameObject[] bonusSpawnPoints;
+    // Wave Variables
+    public List<InfiniteWave> waves;
+    private InfiniteWave.WaveType nextWaveType;
 
+    // Spawn Points
+    public GameObject[] spawnPoints, bonusSpawnPoints;
+
+    [HideInInspector]
+    public int ducksHitTotal, ducksLeft, currentWaveNumber, currentWaveTime;
+    [HideInInspector]
+    public float duckSpeed = 1f;
+    [HideInInspector]
+    public string currentWaveMinutes, currentWaveSeconds;
+
+    private int thisWave, waveSetNumber = 1, survivalBonusPoints = 100, duckBase, ducksThisWave;
+    private float waveTimeRemaining, timeDelay = 1f, nextWaveTime, duckMultiplier = 1f, normieMultiplier = 0f,  fastMultiplier = 0f, angryMultiplier = 0f;
+
+    [Header("UI")]
     public GameObject waveCountUI;
     public Text waveCountText;
     public GameObject getReadyUI;
     public Text getReadyText;
     public GameObject helperUI;
     public Text helperText;
-    public AudioClip bonusSound;
 
+    [Header("Sounds")]
+    public AudioClip survivalBonusSound;
 
-    public TimeSpan timerSeconds;
-
-    #region wave variables
-    public List<InfiniteWave> waves;
-    private int thisWave;
-    public int ducksHitTotal;
-    public int ducksLeft;
-    public float duckSpeed = 1f;
-
-    public int currentWaveNumber;
-    public int currentWaveTime;
-    private float waveTimeRemaining;
-    public float timeDelay = 1f;
-    public string currentWaveMinutes;
-    public string currentWaveSeconds;
-    public int bonusWaveNumber;
-    private int waveSetNumber = 1;
-
-    private int survivalBonusPoints = 100;
-
-    private int duckBase;
-    private float duckMultiplier = 1f;
-    private int ducksThisWave;
-    private InfiniteWave.WaveType nextWaveType;
-    private float nextWaveTime;
-    private float normieMultiplier = 0f;
-    private float fastMultiplier = 0f;
-    private float angryMultiplier = 0f;
-    #endregion
+    private TimeSpan timerSeconds;
+    private PlayerData playerData;
+    private float survivalStartingHealth;
 
     #region events
     public delegate void TimeChange();
@@ -97,10 +87,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public static event SurvivalWaveNoDamage onSurvivalWaveNoDamage;
     #endregion
 
-    private PlayerData playerData;
-    private float survivalStartingHealth;
-
-    // TODO: remove wavetime by making ducks dangerous, player has to survive
 
     void Start()
     {
@@ -237,7 +223,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         helperText.text = "YOU SURVIVED";
         yield return new WaitForSecondsRealtime(3f);
         helperText.text = "+ $" + survivalBonus.ToString();
-        BNG.VRUtils.Instance.PlaySpatialClipAt(bonusSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(survivalBonusSound, transform.position, 1f, 1f);
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
         ConfigureNextWave();

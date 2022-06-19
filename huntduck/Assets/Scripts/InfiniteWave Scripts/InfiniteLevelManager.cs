@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -104,15 +103,12 @@ public class InfiniteLevelManager : MonoBehaviour
     IEnumerator BeginInfiniteWave()
     {
         yield return new WaitForSecondsRealtime(0.1f); // give time for world to load
-        Debug.Log("BeginInfiniteWave");
         helperUI.SetActive(true);
         helperText.text = "PREPARE TO HUNT";
-        Debug.Log("Showed PREPARE TO HUNT");
         BNG.VRUtils.Instance.PlaySpatialClipAt(beginGameSound, transform.position, 1f, 1f);
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(4f);
         helperUI.SetActive(false);
 
-        Debug.Log("Starting SurvivalWaveSpawner");
         survivalWaveSpawner.enabled = true;
         gameplayUI.SetActive(true);
         yield return null;
