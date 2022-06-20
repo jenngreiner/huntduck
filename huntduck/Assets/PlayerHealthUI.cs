@@ -4,79 +4,63 @@ using huntduck;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    private PlayerData playerData;
-
     public GameObject healthLabelObj;
     public GameObject healthCountObj;
+    public GameObject healthBarObj;
     public Text healthCountText;
+    public GameObject playerDeadImage;
 
-    public GameObject tvScreen;
-    public GameObject healthZeroImage;
+    private PlayerData player;
 
     void Start()
     {
-        playerData = ObjectManager.instance.player;
-
-        TurnTVOff();
+        player = ObjectManager.instance.player;
     }
 
     void OnEnable()
     {
-        SurvivalWaveSpawner.onFirstWaveStart += TurnTVOn;
-        Egg.onEggHitPlayer += UpdateHealthUI;
-        PlayerHealth.onPlayerDied += ShowHealthZeroImage;
+        //SurvivalWaveSpawner.onFirstWaveStart += TurnTVOn;
+        PlayerHealth.onPlayerTookDamage += UpdateHealthUI;
+        PlayerHealth.onPlayerDied += ShowPlayerDeadImage;
 
         // SINGLESCENE: reset health UI on restart or quit
-        RestartGameMode.onRestartMode += TurnTVOff;
-        ExitGameMode.onExitMode += TurnTVOff;
+        RestartGameMode.onRestartMode += ShowHealthUI;
+        ExitGameMode.onExitMode += ShowHealthUI;
     }
 
     void OnDisable()
     {
-        SurvivalWaveSpawner.onFirstWaveStart -= TurnTVOn;
-        Egg.onEggHitPlayer -= UpdateHealthUI;
-        PlayerHealth.onPlayerDied -= ShowHealthZeroImage;
+        //SurvivalWaveSpawner.onFirstWaveStart -= TurnTVOn;
+        PlayerHealth.onPlayerTookDamage -= UpdateHealthUI;
+        PlayerHealth.onPlayerDied -= ShowPlayerDeadImage;
 
         // SINGLESCENE: reset health UI on restart or quit
-        RestartGameMode.onRestartMode += TurnTVOff;
-        ExitGameMode.onExitMode -= TurnTVOff;
-    }
-
-    void HideHealthUI()
-    {
-        // hide label and health UI (by shrinking), while keeping active
-        healthLabelObj.transform.localScale = new Vector3(0, 0, 0);
-        healthCountObj.transform.localScale = new Vector3(0, 0, 0);
-    }
-
-    void ShowHealthUI()
-    {
-        healthLabelObj.transform.localScale = new Vector3(1, 1, 1);
-        healthCountObj.transform.localScale = new Vector3(1, 1, 1);
-    }
-
-    void TurnTVOff()
-    {
-        HideHealthUI();
-        tvScreen.SetActive(false);
-        healthZeroImage.SetActive(false);
-    }
-
-    void TurnTVOn()
-    {
-        tvScreen.SetActive(true);
-        ShowHealthUI();
-        UpdateHealthUI();
+        RestartGameMode.onRestartMode += ShowHealthUI;
+        ExitGameMode.onExitMode -= ShowHealthUI;
     }
 
     void UpdateHealthUI()
     {
-        healthCountText.text = playerData.health.ToString();
+        healthCountText.text = player.currenthealth.ToString();
     }
 
-    void ShowHealthZeroImage()
+    void ShowPlayerDeadImage()
     {
-        healthZeroImage.SetActive(true);
+        playerDeadImage.SetActive(true);
         HideHealthUI();
+    }
+
+    void HideHealthUI()
+    {
+        // hide label and bar by shrinking, while keeping active
+        healthLabelObj.transform.localScale = new Vector3(0, 0, 0);
+        healthBarObj.transform.localScale = new Vector3(0, 0, 0);
+    }
+
+    void ShowHealthUI()
+    {
+        // show label and bar by scaling up
+        healthLabelObj.transform.localScale = new Vector3(1, 1, 1);
+        healthBarObj.transform.localScale = new Vector3(1, 1, 1);
     }
 }

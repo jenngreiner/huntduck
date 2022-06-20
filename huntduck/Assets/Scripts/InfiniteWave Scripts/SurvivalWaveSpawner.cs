@@ -165,7 +165,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
         {
-            survivalStartingHealth = playerData.health;
+            survivalStartingHealth = playerData.maxHealth;
         }
 
         state = WaveState.WAVING;
@@ -207,7 +207,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         else
         {
             // If completed Survival Wave without taking damage, give bonus points
-            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && survivalStartingHealth == playerData.health)
+            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && survivalStartingHealth == playerData.maxHealth)
             {
                 int survivalBonus = survivalBonusPoints * (waveSetNumber-1);
                 onSurvivalWaveNoDamage(survivalBonus);
@@ -470,7 +470,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     bool playerBeatWave()
     {
-        if (playerData.health > 0 && ducksLeft <= 0)
+        if (playerData.maxHealth > 0 && ducksLeft <= 0)
         {
             StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of og"flight"
             return true;

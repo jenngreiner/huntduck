@@ -7,7 +7,7 @@ public class Duck : MonoBehaviour
 {
     public int duckPoints = 500;
     public GameObject pointsTextObj;
-    public float duckEggDamage = 34f; // egg damage overridden on per duck type basis
+    public int duckEggDamage = 34; // egg damage overridden on per duck type basis
     public bool dropsEggs;
     public AudioClip quackSound;
     public AudioClip pointsSound;
