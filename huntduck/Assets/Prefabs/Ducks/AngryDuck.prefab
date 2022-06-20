@@ -5229,7 +5229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 25
+  Health: 1
   SpawnOnDeath: {fileID: 0}
   ActivateGameObjectsOnDeath:
   - {fileID: 3115208149493987184}
@@ -5267,7 +5267,7 @@ MonoBehaviour:
   duckPoints: 15
   pointsTextObj: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
     type: 3}
-  duckEggDamage: 34
+  duckEggDamage: 1
   dropsEggs: 1
   quackSound: {fileID: 8300000, guid: f9c5489bae561487faeee18783e27dab, type: 3}
   pointsSound: {fileID: 8300000, guid: b671775769fcd42b4845c038013e72fe, type: 3}

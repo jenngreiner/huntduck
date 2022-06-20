@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6de38f13d6b1443b2c5a5a20ac08d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 10
+  Health: 1
   SpawnOnDeath: {fileID: 0}
   ActivateGameObjectsOnDeath:
   - {fileID: 8789503815057440912}
@@ -125,7 +125,7 @@ MonoBehaviour:
   - {fileID: 0}
   DestroyOnDeath: 1
   DropOnDeath: 1
-  DestroyDelay: 2
+  DestroyDelay: 0
   Respawn: 0
   RespawnTime: 10
   RemoveBulletHolesOnDeath: 1
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eggSpeed: 2
-  eggDamage: 34
+  eggDamage: 1
   hitPlayerSound: {fileID: 8300000, guid: 6c270f33c8f39489cb1eb6bd69ce8325, type: 3}
   isHeatSeeking: 0
 --- !u!82 &3486053603306160151

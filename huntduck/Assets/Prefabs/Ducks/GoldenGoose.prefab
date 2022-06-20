@@ -5171,7 +5171,7 @@ MonoBehaviour:
   duckPoints: 200
   pointsTextObj: {fileID: 407571069154332473, guid: 29109496cd1d3f048b52a021ef7bba2e,
     type: 3}
-  duckEggDamage: 200
+  duckEggDamage: 3
   dropsEggs: 1
   quackSound: {fileID: 8300000, guid: bd683018954734f30806005e83f1c3a6, type: 3}
   pointsSound: {fileID: 8300000, guid: b671775769fcd42b4845c038013e72fe, type: 3}
