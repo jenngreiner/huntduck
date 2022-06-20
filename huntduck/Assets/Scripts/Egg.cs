@@ -24,7 +24,7 @@ public class Egg : MonoBehaviour
         player = ObjectManager.instance.player;
         playerPosition = player.controller.position;
         thisDamageable = GetComponent<BNG.Damageable>();
-        target = playerPosition + (playerPosition - transform.position); // by default, target overshoots player position so egg flies past player
+        target = playerPosition + (playerPosition - transform.position); // egg overshoots player
     }
 
     void OnEnable()
