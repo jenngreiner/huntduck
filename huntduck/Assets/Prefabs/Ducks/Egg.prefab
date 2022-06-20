@@ -122,10 +122,10 @@ MonoBehaviour:
   DeactivateGameObjectsOnDeath:
   - {fileID: 7901330517798401250}
   DeactivateCollidersOnDeath:
-  - {fileID: 0}
+  - {fileID: 7131008448377441943}
   DestroyOnDeath: 1
   DropOnDeath: 1
-  DestroyDelay: 0
+  DestroyDelay: 1
   Respawn: 0
   RespawnTime: 10
   RemoveBulletHolesOnDeath: 1
@@ -5124,20 +5124,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!136 &1634369612517442146
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7901330517798401250}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 1.3311282
-  m_Height: 0
-  m_Direction: 1
-  m_Center: {x: -9.335648e-12, y: 4.0055987e-13, z: 0.013092601}
 --- !u!64 &7131008448377441943
 MeshCollider:
   m_ObjectHideFlags: 0

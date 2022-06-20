@@ -60,8 +60,6 @@ public class Egg : MonoBehaviour
         if (thisEgg == gameObject)
         {
             thisDamageable.DestroyThis();
-
-            //isFrozen = true; // egg has 2s destroy delay for particle effect, freeze its position once hits something so doesn't keep moving & double hit
         }
     }
 
