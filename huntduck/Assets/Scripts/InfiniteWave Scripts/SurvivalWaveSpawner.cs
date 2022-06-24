@@ -142,10 +142,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (state == WaveState.WAVING)
         {
-            //if (playerBeatWave())
-            //{
-            //    WaveCompleted(); // removes time element
-            //}
             if (playerBeatWave() || !isTimeLeft())
             {
                 WaveCompleted(); // we hit all ducks this wave, or ran out of time
@@ -193,7 +189,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         switch (waves[thisWave].waveType)
         {
             case InfiniteWave.WaveType.BONUS:
-                // replace waveSetNumber -2 with BonusGeeseVNumber as parameter
                 for (int i = 0; i < (bonusGeeseVNumber); i++)
                 {
                     SpawnDuck(bonusSpawnPoints, ObjectManager.instance.bonusGeese);
@@ -201,7 +196,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 }
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                // replace waveSetNumber - 1 with GoldenGooseNumber as parameter
                 StartCoroutine(SpawnGoldenGoose(goldenGeeseNumber));
                 StartCoroutine(SpawnWaveDucks(_thisWave));
                 break;
