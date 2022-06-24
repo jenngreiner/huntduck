@@ -239,7 +239,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
             // TODO: remove time element
             waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
-            Debug.Log("next wave #: " + nextWaveNumber + " wave set #: " + waveSetNumber);
 
             thisWave++;
             SetupWave();
@@ -364,15 +363,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         // Set this wave's ducks before adding
         ducksThisWave = (int)(duckMultiplier * duckBase);
-
-        Debug.Log("waveSetNumber = " + _waveSetNumber);
-        Debug.Log("duck multiplier = " + duckMultiplier);
-        Debug.Log("duck base = " + duckBase);
-        Debug.Log("ducksThisWave = " + ducksThisWave);
-
-        Debug.Log("normieMultiplier is " + normalDuckChance);
-        Debug.Log("fastMultiplier is " + fastDuckChance);
-        Debug.Log("angryMultiplier is " + angryDuckChance);
     }
 
     void InitialWaveSetup()
@@ -404,7 +394,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         else if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
         {
             ducksLeft = waves[thisWave].ducksThisWave + goldenGeeseNumber; // ducks + golden ducks
-            Debug.Log("goldenGeeseNumber is " + goldenGeeseNumber);
         }
         else
         {
