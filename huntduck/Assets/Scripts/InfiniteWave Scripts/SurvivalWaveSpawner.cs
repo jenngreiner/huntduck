@@ -42,8 +42,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public Text waveCountText;
     public GameObject getReadyUI;
     public Text getReadyText;
-    public GameObject helperUI;
-    public Text helperText;
+
+    public AudioClip survivalBonusSound;
     
     public TimeSpan timerSeconds;
 
@@ -76,6 +76,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     private int bonusGeeseVNumber;
     private int goldenGeeseNumber;
+
+    private bool waitingToProceed;
     #endregion
 
     #region events
@@ -133,7 +135,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (state == WaveState.READY)
+        if (state == WaveState.READY && !waitingToProceed)
         {
             StartCoroutine(StartWave(waves[thisWave]));
         }
@@ -257,11 +259,19 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     IEnumerator SurvivalUIController(int survivalBonus)
     {
-        helperUI.SetActive(true);
-        helperText.text = "YOU SURVIVED \n + $" + survivalBonus.ToString();
-        yield return new WaitForSecondsRealtime(3f);
-        helperUI.SetActive(false);
-        // right now this flashes but the next UI overrides it, gotta figure out how to pause instead of yeild here
+        waitingToProceed = true; // this prevents next UI from showing until set false at end
+        getReadyUI.SetActive(true);
+
+        getReadyText.text = "YOU SURVIVED";
+        yield return new WaitForSecondsRealtime(timeDelay);
+
+        getReadyText.text = "+ $" + survivalBonus.ToString();
+        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
+        yield return new WaitForSecondsRealtime(timeDelay);
+
+        getReadyUI.SetActive(false);
+        getReadyText.text = "GET READY"; // reset text
+        waitingToProceed = false;
     }
 
     void SetWaveType(int _nextWaveNumber)

@@ -58,8 +58,8 @@ public class Duck : MonoBehaviour
     {
         while (keepPlaying)
         {
-            BNG.VRUtils.Instance.PlayLinearSpatialClipAt(quackSound, transform.position, 1f, 1f);
             yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
+            BNG.VRUtils.Instance.PlayLinearSpatialClipAt(quackSound, transform.position, 1f, 1f);
         }
     }
 
