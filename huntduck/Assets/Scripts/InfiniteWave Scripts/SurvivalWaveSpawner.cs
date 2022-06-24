@@ -61,7 +61,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public string currentWaveMinutes;
     public string currentWaveSeconds;
     public int bonusWaveNumber;
-    private int waveSetNumber = 2;
+    private int waveSetNumber = 1;
 
     private int survivalBonusPoints = 100;
 
@@ -70,9 +70,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
     private int ducksThisWave;
     private InfiniteWave.WaveType nextWaveType;
     private float nextWaveTime;
-    private float normieMultiplier = 0f;
-    private float fastMultiplier = 0f;
-    private float angryMultiplier = 0f;
+    private float normalDuckChance = 0f;
+    private float fastDuckChance = 0f;
+    private float angryDuckChance = 0f;
 
     private int bonusGeeseVNumber;
     private int goldenGeeseNumber;
@@ -108,8 +108,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
     void Start()
     {
         playerData = ObjectManager.instance.player;
-        bonusGeeseVNumber = waveSetNumber - 1;
-        goldenGeeseNumber = waveSetNumber - 1;
     }
 
     void OnEnable()
@@ -251,23 +249,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SurvivalUIController(int survivalBonus)
-    {
-        waitingToProceed = true; // this prevents next UI from showing until set false at end
-        getReadyUI.SetActive(true);
-
-        getReadyText.text = "YOU SURVIVED";
-        yield return new WaitForSecondsRealtime(timeDelay);
-
-        getReadyText.text = "+ $" + survivalBonus.ToString();
-        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
-        yield return new WaitForSecondsRealtime(timeDelay);
-
-        getReadyUI.SetActive(false);
-        getReadyText.text = "GET READY"; // reset text
-        waitingToProceed = false;
-    }
-
     void SetWaveType(int _nextWaveNumber)
     {
         switch (_nextWaveNumber % 5)
@@ -323,7 +304,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                     break;
                 case 4:
                     duckBase = 6;
-                    fastMultiplier = 0.5f;
+                    fastDuckChance = 0.5f;
                     break;
                 default:
                     break;
@@ -348,38 +329,50 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 case 0:
                     duckBase = waveSetNumber; // # of flying Vs
                     waveSetNumber++;
+                    Debug.Log("increasing waveSetNumber to " + waveSetNumber);
                     break;
             }
 
+
             switch (_waveSetNumber) // starts on Wave 6 (2nd wave set)
             {
-                case 1: // wave #s 6-10: 1/2 normies, fast
+                case 2: // wave #s 6-10: 1/2 normies, fast
                     duckMultiplier = 1f;
-                    normieMultiplier = fastMultiplier = (0.5f);
+                    normalDuckChance = fastDuckChance = (0.4f);
+                    angryDuckChance = 0.2f;
                     break;
-                case 2: // wave #s 10-15: 1/3: normie, fast, angry (*1.5)
+                case 3: // wave #s 10-15: 1/3: normie, fast, angry (*1.5)
                     duckMultiplier = 1.5f;
-                    normieMultiplier = fastMultiplier = angryMultiplier = (0.33f);
+                    normalDuckChance = fastDuckChance = angryDuckChance = (0.33f);
                     break;
-                case 3: // wave #s 15-20: 1/2 fast, angry (*2)
+                case 4: // wave #s 15-20: 1/2 fast, angry (*2)
                     duckMultiplier = 2f;
-                    fastMultiplier = angryMultiplier = (0.5f);
+                    fastDuckChance = angryDuckChance = (0.5f);
                     break;
-                case 4: // wave #s 20-25: 1/3 fast, 2/3 angry (*3)
+                case 5: // wave #s 20-25: 1/3 fast, 2/3 angry (*3)
                     duckMultiplier = 3f;
-                    fastMultiplier = (0.33f);
-                    angryMultiplier = (0.66f);
+                    fastDuckChance = (0.33f);
+                    angryDuckChance = (0.66f);
                     break;
                 default: // wave #s 25+: angry only 
                     duckMultiplier = 1f * _waveSetNumber;
                     duckBase = UnityEngine.Random.Range(17, 25);
-                    angryMultiplier = 1f;
+                    angryDuckChance = 1f;
                     break;
             }
         }
 
         // Set this wave's ducks before adding
         ducksThisWave = (int)(duckMultiplier * duckBase);
+
+        Debug.Log("waveSetNumber = " + _waveSetNumber);
+        Debug.Log("duck multiplier = " + duckMultiplier);
+        Debug.Log("duck base = " + duckBase);
+        Debug.Log("ducksThisWave = " + ducksThisWave);
+
+        Debug.Log("normieMultiplier is " + normalDuckChance);
+        Debug.Log("fastMultiplier is " + fastDuckChance);
+        Debug.Log("angryMultiplier is " + angryDuckChance);
     }
 
     void InitialWaveSetup()
@@ -400,14 +393,18 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetCurrentWaveSeconds();
         currentWaveNumber = waves[thisWave].waveNumber;
         waves[thisWave].ducksHitThisWave = 0;
+
+        bonusGeeseVNumber = waveSetNumber-1;
+        goldenGeeseNumber = waveSetNumber-1;
+
         if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
         {
-            ducksLeft = (bonusGeeseVNumber) * ObjectManager.instance.bonusGeese.transform.childCount;
+            ducksLeft = bonusGeeseVNumber * ObjectManager.instance.bonusGeese.transform.childCount;
         }
         else if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
         {
-
             ducksLeft = waves[thisWave].ducksThisWave + goldenGeeseNumber; // ducks + golden ducks
+            Debug.Log("goldenGeeseNumber is " + goldenGeeseNumber);
         }
         else
         {
@@ -428,7 +425,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 getReadyText.text = "BONUS GEESE";
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                getReadyText.text = "FIND THE GOLDEN GOOSE";
+                getReadyText.text = "BEWARE THE GOLDEN GOOSE";
                 break;
             default:
                 getReadyText.text = "GET READY";
@@ -436,16 +433,33 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
     }
 
+    IEnumerator SurvivalUIController(int survivalBonus)
+    {
+        waitingToProceed = true; // this prevents next UI from showing until set false at end
+        getReadyUI.SetActive(true);
+
+        getReadyText.text = "YOU SURVIVED";
+        yield return new WaitForSecondsRealtime(timeDelay);
+
+        getReadyText.text = "+$" + survivalBonus.ToString();
+        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
+        yield return new WaitForSecondsRealtime(timeDelay);
+
+        getReadyUI.SetActive(false);
+        getReadyText.text = "GET READY"; // reset text
+        waitingToProceed = false;
+    }
+
     IEnumerator SpawnWaveDucks(InfiniteWave _thisWave)
     {
         for (int i = 0; i < _thisWave.ducksThisWave; i++) // loop through the amount of ducks you want to spawn
         {
             float randomNum = UnityEngine.Random.value;
-            if (randomNum < angryMultiplier)
+            if (randomNum < angryDuckChance)
             {
                 SpawnDuck(spawnPoints, ObjectManager.instance.angryDuck);
             }
-            else if (randomNum < (angryMultiplier + fastMultiplier))
+            else if (randomNum < (angryDuckChance + fastDuckChance))
             {
                 SpawnDuck(spawnPoints, ObjectManager.instance.fastDuck);
             }
@@ -534,9 +548,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
         survivalBonusPoints = 100;
         duckMultiplier = 1f;
         waveSetNumber = 1;
-        normieMultiplier = 0f;
-        fastMultiplier = 0f;
-        angryMultiplier = 0f;
+        normalDuckChance = 0f;
+        fastDuckChance = 0f;
+        angryDuckChance = 0f;
         onWaveChange();
     }
 }

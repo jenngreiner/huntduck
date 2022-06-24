@@ -5173,7 +5173,7 @@ MonoBehaviour:
     type: 3}
   duckEggDamage: 3
   dropsEggs: 1
-  quackSound: {fileID: 8300000, guid: bd683018954734f30806005e83f1c3a6, type: 3}
+  quackSound: {fileID: 8300000, guid: e37c6d72e7fba4c1cab54d6892260114, type: 3}
   pointsSound: {fileID: 8300000, guid: b671775769fcd42b4845c038013e72fe, type: 3}
 --- !u!114 &4337121773751678985
 MonoBehaviour:
