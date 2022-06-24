@@ -73,6 +73,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
     private float normieMultiplier = 0f;
     private float fastMultiplier = 0f;
     private float angryMultiplier = 0f;
+
+    private int bonusGeeseVNumber;
+    private int goldenGeeseNumber;
     #endregion
 
     #region events
@@ -103,6 +106,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     void Start()
     {
         playerData = ObjectManager.instance.player;
+        bonusGeeseVNumber = waveSetNumber - 1;
+        goldenGeeseNumber = waveSetNumber - 1;
     }
 
     void OnEnable()
@@ -182,18 +187,20 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         state = WaveState.WAVING;
 
-        // Spawn Ducks
+        // Decide how many Ducks & Geese to spawn
         switch (waves[thisWave].waveType)
         {
             case InfiniteWave.WaveType.BONUS:
-                for (int i = 0; i < (waveSetNumber-1); i++)
+                // replace waveSetNumber -2 with BonusGeeseVNumber as parameter
+                for (int i = 0; i < (bonusGeeseVNumber); i++)
                 {
                     SpawnDuck(bonusSpawnPoints, ObjectManager.instance.bonusGeese);
                     yield return new WaitForSeconds(3f);
                 }
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                StartCoroutine(SpawnGoldenGoose(waveSetNumber));
+                // replace waveSetNumber - 1 with GoldenGooseNumber as parameter
+                StartCoroutine(SpawnGoldenGoose(goldenGeeseNumber));
                 StartCoroutine(SpawnWaveDucks(_thisWave));
                 break;
             default: // NORMAL, SURVIVAL
@@ -318,7 +325,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                     break;
             }
         }
-        else // run logic for waves 6-10, repeating
+        else // run logic for wave #s 6-10, 11-15, 16-20, so on
         {
             switch (_nextWaveNumber % 5)
             {
@@ -340,26 +347,26 @@ public class SurvivalWaveSpawner : MonoBehaviour
                     break;
             }
 
-            switch (_waveSetNumber)
+            switch (_waveSetNumber) // starts on Wave 6 (2nd wave set)
             {
-                case 1: // waves 6-10: 1/2 normies, fast
+                case 1: // wave #s 6-10: 1/2 normies, fast
                     duckMultiplier = 1f;
                     normieMultiplier = fastMultiplier = (0.5f);
                     break;
-                case 2: // waves 10-15: 1/3: normie, fast, angry (*1.5)
+                case 2: // wave #s 10-15: 1/3: normie, fast, angry (*1.5)
                     duckMultiplier = 1.5f;
                     normieMultiplier = fastMultiplier = angryMultiplier = (0.33f);
                     break;
-                case 3: // waves 15-20: 1/2 fast, angry (*2)
+                case 3: // wave #s 15-20: 1/2 fast, angry (*2)
                     duckMultiplier = 2f;
                     fastMultiplier = angryMultiplier = (0.5f);
                     break;
-                case 4: // waves 20-25: 1/3 fast, 2/3 angry (*3)
+                case 4: // wave #s 20-25: 1/3 fast, 2/3 angry (*3)
                     duckMultiplier = 3f;
                     fastMultiplier = (0.33f);
                     angryMultiplier = (0.66f);
                     break;
-                default: // waves 25+: angry only 
+                default: // wave #s 25+: angry only 
                     duckMultiplier = 1f * _waveSetNumber;
                     duckBase = UnityEngine.Random.Range(17, 25);
                     angryMultiplier = 1f;
@@ -391,12 +398,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
         waves[thisWave].ducksHitThisWave = 0;
         if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
         {
-            ducksLeft = (waveSetNumber-1) * ObjectManager.instance.bonusGeese.transform.childCount;
+            ducksLeft = (bonusGeeseVNumber) * ObjectManager.instance.bonusGeese.transform.childCount;
         }
         else if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
         {
 
-            ducksLeft = waves[thisWave].ducksThisWave + waveSetNumber; // normal ducks + golden ducks
+            ducksLeft = waves[thisWave].ducksThisWave + goldenGeeseNumber; // ducks + golden ducks
         }
         else
         {
