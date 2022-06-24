@@ -35,37 +35,45 @@ public class SurvivalWaveSpawner : MonoBehaviour
         }
     }
 
-    // Wave Variables
-    public List<InfiniteWave> waves;
-    private InfiniteWave.WaveType nextWaveType;
+    public GameObject[] spawnPoints;
+    public GameObject[] bonusSpawnPoints;
 
-    // Spawn Points
-    public GameObject[] spawnPoints, bonusSpawnPoints;
-
-    [HideInInspector]
-    public int ducksHitTotal, ducksLeft, currentWaveNumber, currentWaveTime;
-    [HideInInspector]
-    public float duckSpeed = 1f;
-    [HideInInspector]
-    public string currentWaveMinutes, currentWaveSeconds;
-
-    private int thisWave, waveSetNumber = 1, survivalBonusPoints = 100, duckBase, ducksThisWave;
-    private float waveTimeRemaining, timeDelay = 1f, nextWaveTime, duckMultiplier = 1f, normieMultiplier = 0f,  fastMultiplier = 0f, angryMultiplier = 0f;
-
-    [Header("UI")]
     public GameObject waveCountUI;
     public Text waveCountText;
     public GameObject getReadyUI;
     public Text getReadyText;
     public GameObject helperUI;
     public Text helperText;
+    
+    public TimeSpan timerSeconds;
 
-    [Header("Sounds")]
-    public AudioClip survivalBonusSound;
+    #region wave variables
+    public List<InfiniteWave> waves;
+    private int thisWave;
+    public int ducksHitTotal;
+    public int ducksLeft;
+    public float duckSpeed = 1f;
 
-    private TimeSpan timerSeconds;
-    private PlayerData playerData;
-    private float survivalStartingHealth;
+    public int currentWaveNumber;
+    public int currentWaveTime;
+    private float waveTimeRemaining;
+    public float timeDelay = 1f;
+    public string currentWaveMinutes;
+    public string currentWaveSeconds;
+    public int bonusWaveNumber;
+    private int waveSetNumber = 2;
+
+    private int survivalBonusPoints = 100;
+
+    private int duckBase;
+    private float duckMultiplier = 1f;
+    private int ducksThisWave;
+    private InfiniteWave.WaveType nextWaveType;
+    private float nextWaveTime;
+    private float normieMultiplier = 0f;
+    private float fastMultiplier = 0f;
+    private float angryMultiplier = 0f;
+    #endregion
 
     #region events
     public delegate void TimeChange();
@@ -87,6 +95,10 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public static event SurvivalWaveNoDamage onSurvivalWaveNoDamage;
     #endregion
 
+    private PlayerData playerData;
+    private float startHealthSurvival;
+
+    // TODO: remove wavetime by making ducks dangerous, player has to survive
 
     void Start()
     {
@@ -165,7 +177,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
         {
-            survivalStartingHealth = playerData.maxHealth;
+            startHealthSurvival = playerData.currenthealth;
         }
 
         state = WaveState.WAVING;
@@ -207,43 +219,42 @@ public class SurvivalWaveSpawner : MonoBehaviour
         else
         {
             // If completed Survival Wave without taking damage, give bonus points
-            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL && survivalStartingHealth == playerData.maxHealth)
+            if (waves[thisWave].waveType == InfiniteWave.WaveType.SURVIVAL)
             {
-                int survivalBonus = survivalBonusPoints * (waveSetNumber-1);
-                onSurvivalWaveNoDamage(survivalBonus);
-                StartCoroutine(SurvivalUIController(survivalBonus));
+                if (startHealthSurvival == playerData.currenthealth)
+                {
+                    int survivalBonus = survivalBonusPoints * waveSetNumber;
+                    onSurvivalWaveNoDamage(survivalBonus);
+                    StartCoroutine(SurvivalUIController(survivalBonus));
+                }
             }
-            else { ConfigureNextWave(); }
+
+            #region Configure Next Wave
+            int nextWaveNumber = waves[thisWave].waveNumber + 1;
+            duckSpeed = waves[thisWave].rate * 1.05f;
+            nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
+            SetWaveType(nextWaveNumber);
+            SetWaveDucks(nextWaveNumber, waveSetNumber); 
+
+            // TODO: remove time element
+            waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
+            Debug.Log("next wave #: " + nextWaveNumber + " wave set #: " + waveSetNumber);
+
+            thisWave++;
+            SetupWave();
+            #endregion
+
+            state = WaveState.READY; // Begin Wave next Frame in Update()
         }
     }
 
     IEnumerator SurvivalUIController(int survivalBonus)
     {
         helperUI.SetActive(true);
-        helperText.text = "YOU SURVIVED";
-        yield return new WaitForSecondsRealtime(3f);
-        helperText.text = "+ $" + survivalBonus.ToString();
-        BNG.VRUtils.Instance.PlaySpatialClipAt(survivalBonusSound, transform.position, 1f, 1f);
+        helperText.text = "YOU SURVIVED \n + $" + survivalBonus.ToString();
         yield return new WaitForSecondsRealtime(3f);
         helperUI.SetActive(false);
-        ConfigureNextWave();
-    }
-
-    private void ConfigureNextWave()
-    {
-        int nextWaveNumber = waves[thisWave].waveNumber + 1;
-        duckSpeed = waves[thisWave].rate * 1.05f;
-        nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
-        SetWaveType(nextWaveNumber);
-        SetWaveDucks(nextWaveNumber, waveSetNumber);
-
-        // TODO: remove time element
-        waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
-
-        thisWave++;
-        SetupWave();
-
-        state = WaveState.READY; // Begin Wave next Frame in Update()
+        // right now this flashes but the next UI overrides it, gotta figure out how to pause instead of yeild here
     }
 
     void SetWaveType(int _nextWaveNumber)
@@ -252,36 +263,36 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             // TODO: consider adding case 1 with nextWaveTime = 30f * waveSetBonus
             // concern is as waves increase not enough time at outset, coming off bonus of 30f
-            case 1:
+            case 1: // Wave 1,6,11, so on
                 nextWaveType = InfiniteWave.WaveType.NORMAL;
                 nextWaveTime = 60f * waveSetNumber;
                 break;
-            case 2:
+            case 2: // 2, 7, 12, so on
                 //nextWaveType = InfiniteWave.WaveType.SURVIVAL;
-                if (_nextWaveNumber <= 5)
+                if (_nextWaveNumber <= 5) // 2: no survival wave on 1st wave set
                 {
                     nextWaveType = InfiniteWave.WaveType.NORMAL;
                 }
-                else
+                else // 7, 12, so on: survival wave starts 2nd wave set
                 {
                     nextWaveType = InfiniteWave.WaveType.SURVIVAL;
                 }
                 break;
-            case 3: // Golden Wave after first 5
-                if (_nextWaveNumber <= 5)
+            case 3: // 3, 8, 13, so on:
+                if (_nextWaveNumber <= 5) // no golden wave on 1st wave set
                 {
                     nextWaveType = InfiniteWave.WaveType.NORMAL;
                 }
-                else 
+                else // 8, 13, so on: Golden Wave starts on 2nd wave set
                 {
                     nextWaveType = InfiniteWave.WaveType.GOLDEN;
                 }
                 break;
-            case 0:
+            case 0: // 5, 10, 15 so on: Bonus wave every 5th wave
                 nextWaveType = InfiniteWave.WaveType.BONUS;
                 nextWaveTime = 30f;
                 break;
-            default: // Waves 1 & 4 out of 5
+            default: // 1st & 4th wave out of every wave set are normal
                 nextWaveType = InfiniteWave.WaveType.NORMAL;
                 break;
         }
@@ -369,6 +380,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetupWave();
         state = WaveState.READY;
         onFirstWaveStart?.Invoke();
+        Debug.Log("Setting up initial wave with " + waves.Count + " waves");
     }
 
     void SetupWave()
@@ -381,9 +393,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
         {
             ducksLeft = (waveSetNumber-1) * ObjectManager.instance.bonusGeese.transform.childCount;
         }
+        else if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
+        {
+
+            ducksLeft = waves[thisWave].ducksThisWave + waveSetNumber; // normal ducks + golden ducks
+        }
         else
         {
-            ducksLeft = waves[thisWave].ducksThisWave;
+            ducksLeft = waves[thisWave].ducksThisWave; // its a normal wave, yo.
         }
 
         onWaveChange?.Invoke();
@@ -400,7 +417,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 getReadyText.text = "BONUS GEESE";
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                getReadyText.text = "BEWARE THE GOLDEN GOOSE";
+                getReadyText.text = "FIND THE GOLDEN GOOSE";
                 break;
             default:
                 getReadyText.text = "GET READY";
@@ -470,7 +487,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     bool playerBeatWave()
     {
-        if (playerData.maxHealth > 0 && ducksLeft <= 0)
+        if (playerData.currenthealth > 0 && ducksLeft <= 0)
         {
             StopAllCoroutines(); // stop launching ducks - TODO: check if this is still needed, might be relic of og"flight"
             return true;

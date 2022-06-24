@@ -101,6 +101,36 @@ namespace BNG {
             return source;
         }
 
+        // NOTE: Use this to play 3D sounds for ducks and eggs
+        public AudioSource PlayLinearSpatialClipAt(AudioClip clip, Vector3 pos, float volume, float spatialBlend = 1f, float randomizePitch = 0)
+        {
+
+            if (clip == null)
+            {
+                return null;
+            }
+
+            GameObject go = new GameObject("SpatialAudio - Temp");
+            go.transform.position = pos;
+
+            AudioSource source = go.AddComponent<AudioSource>();
+            source.clip = clip;
+
+            // Currently only Oculus Integration supports spatial audio
+#if OCULUS_INTEGRATION
+            source.spatialize = true;
+#endif
+            source.pitch = getRandomizedPitch(randomizePitch);
+            source.spatialBlend = spatialBlend;
+            source.volume = volume;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.Play();
+
+            Destroy(go, clip.length);
+
+            return source;
+        }
+
         float getRandomizedPitch(float randomAmount) {
 
             if(randomAmount != 0) {

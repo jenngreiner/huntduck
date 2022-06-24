@@ -84,7 +84,7 @@ public class Egg : MonoBehaviour
         // play this "ouch" sound as long as not dead (that's a dif sound)
         if (player.maxHealth > 0)
         {
-            BNG.VRUtils.Instance.PlaySpatialClipAt(hitPlayerSound, transform.position, 1f, 1f);
+            BNG.VRUtils.Instance.PlayLinearSpatialClipAt(hitPlayerSound, transform.position, 1f, 1f);
         }
     }
-}
+}  
