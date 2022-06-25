@@ -14,7 +14,7 @@ namespace BNG {
         public bool GravityEnabled = true;
 
         [Tooltip("Amount of Gravity to apply to the CharacterController or Rigidbody. Default is 'Physics.gravity'.")]
-        public Vector3 Gravity = Physics.gravity;
+        private Vector3 Gravity = Physics.gravity;
 
         CharacterController characterController;
         SmoothLocomotion smoothLocomotion;
