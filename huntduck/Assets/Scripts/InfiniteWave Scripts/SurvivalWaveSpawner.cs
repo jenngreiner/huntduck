@@ -74,8 +74,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
     private float fastDuckChance = 0f;
     private float angryDuckChance = 0f;
 
-    private int bonusGeeseVNumber;
-    private int goldenGeeseNumber;
+    private int bonusGeeseVsNum;
+    private int goldenGeeseNum;
 
     private bool waitingToProceed;
     #endregion
@@ -112,15 +112,15 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        #region InitialWaveSetup
+        // InitialWaveSetup
         // SINGLESCENE: Transfer this block to Start() for multi-scene
         InitialWaveSetup();
         if (spawnPoints.Length == 0) // make sure we have spawnPoints to spawn from
         {
             Debug.LogError("No spawnpoints referenced");
         }
-        #endregion
 
+        //Subscribe events
         BNG.Damageable.onInfiniteDuckHit += increaseDuckHitCount;
         RestartGameMode.onRestartMode += ResetWaves;
     }
@@ -187,14 +187,14 @@ public class SurvivalWaveSpawner : MonoBehaviour
         switch (waves[thisWave].waveType)
         {
             case InfiniteWave.WaveType.BONUS:
-                for (int i = 0; i < (bonusGeeseVNumber); i++)
+                for (int i = 0; i < (bonusGeeseVsNum); i++)
                 {
                     SpawnDuck(bonusSpawnPoints, ObjectManager.instance.bonusGeese);
                     yield return new WaitForSeconds(3f);
                 }
                 break;
             case InfiniteWave.WaveType.GOLDEN:
-                StartCoroutine(SpawnGoldenGoose(goldenGeeseNumber));
+                StartCoroutine(SpawnGoldenGoose(goldenGeeseNum));
                 StartCoroutine(SpawnWaveDucks(_thisWave));
                 break;
             default: // NORMAL, SURVIVAL
@@ -230,19 +230,15 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 }
             }
 
-            #region Configure Next Wave
+            // Configure & create next wave
             int nextWaveNumber = waves[thisWave].waveNumber + 1;
             duckSpeed = waves[thisWave].rate * 1.05f;
             nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
             SetWaveType(nextWaveNumber);
             SetWaveDucks(nextWaveNumber, waveSetNumber); 
-
-            // TODO: remove time element
             waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
-
             thisWave++;
             SetupWave();
-            #endregion
 
             state = WaveState.READY; // Begin Wave next Frame in Update()
         }
@@ -374,7 +370,6 @@ public class SurvivalWaveSpawner : MonoBehaviour
         SetupWave();
         state = WaveState.READY;
         onFirstWaveStart?.Invoke();
-        Debug.Log("Setting up initial wave with " + waves.Count + " waves");
     }
 
     void SetupWave()
@@ -384,16 +379,16 @@ public class SurvivalWaveSpawner : MonoBehaviour
         currentWaveNumber = waves[thisWave].waveNumber;
         waves[thisWave].ducksHitThisWave = 0;
 
-        bonusGeeseVNumber = waveSetNumber-1;
-        goldenGeeseNumber = waveSetNumber-1;
+        bonusGeeseVsNum = waveSetNumber-1;
+        goldenGeeseNum = waveSetNumber-1;
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
         {
-            ducksLeft = bonusGeeseVNumber * ObjectManager.instance.bonusGeese.transform.childCount;
+            ducksLeft = bonusGeeseVsNum * ObjectManager.instance.bonusGeese.transform.childCount;
         }
         else if (waves[thisWave].waveType == InfiniteWave.WaveType.GOLDEN)
         {
-            ducksLeft = waves[thisWave].ducksThisWave + goldenGeeseNumber; // ducks + golden ducks
+            ducksLeft = waves[thisWave].ducksThisWave + goldenGeeseNum; // ducks + golden geese
         }
         else
         {
@@ -425,17 +420,16 @@ public class SurvivalWaveSpawner : MonoBehaviour
     IEnumerator SurvivalUIController(int survivalBonus)
     {
         waitingToProceed = true; // this prevents next UI from showing until set false at end
-        getReadyUI.SetActive(true);
 
+        getReadyUI.SetActive(true);
         getReadyText.text = "YOU SURVIVED";
         yield return new WaitForSecondsRealtime(timeDelay);
-
         getReadyText.text = "+$" + survivalBonus.ToString();
         BNG.VRUtils.Instance.PlayLinearSpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
         yield return new WaitForSecondsRealtime(timeDelay);
-
         getReadyUI.SetActive(false);
         getReadyText.text = "GET READY"; // reset text
+
         waitingToProceed = false;
     }
 
