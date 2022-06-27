@@ -15,6 +15,7 @@ public class Duck : MonoBehaviour
 
     private Transform player;
     private GameObject egg;
+    private BNG.Damageable damageable;
 
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
@@ -23,6 +24,7 @@ public class Duck : MonoBehaviour
     void Start()
     {
         player = ObjectManager.instance.player.transform;
+        damageable = GetComponent<BNG.Damageable>();
         StartCoroutine(Quack());
     }
 
@@ -30,14 +32,14 @@ public class Duck : MonoBehaviour
     {
         StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
-        RestartGameMode.onRestartMode += StopQuacking;
+        RestartGameMode.onRestartMode += EnterFlyAwayMode;
     }
 
     void OnDisable()
     {
         StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
-        RestartGameMode.onRestartMode -= StopQuacking;
+        RestartGameMode.onRestartMode -= EnterFlyAwayMode;
     }
 
     public void dropThaEgg(Transform duck)
@@ -70,7 +72,7 @@ public class Duck : MonoBehaviour
         if (deadDuck == gameObject)
         {
             alive = false;
-            StopQuacking();
+            EnterFlyAwayMode();
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
             CreatePointsText(duckPoints);
         }
@@ -85,8 +87,9 @@ public class Duck : MonoBehaviour
         BNG.VRUtils.Instance.PlayLinearSpatialClipAt(pointsSound, transform.position, 1f, 1f);
     }
 
-    void StopQuacking()
+    void EnterFlyAwayMode()
     {
-        StopAllCoroutines();
+        StopAllCoroutines(); // stop quacking
+        damageable.enabled = false; // player can't shoot duck
     }
 }
