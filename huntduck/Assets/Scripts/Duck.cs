@@ -30,14 +30,14 @@ public class Duck : MonoBehaviour
     {
         StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
-        RestartGameMode.onRestartMode += stopQuacking;
+        RestartGameMode.onRestartMode += StopQuacking;
     }
 
     void OnDisable()
     {
         StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
-        RestartGameMode.onRestartMode -= stopQuacking;
+        RestartGameMode.onRestartMode -= StopQuacking;
     }
 
     public void dropThaEgg(Transform duck)
@@ -70,7 +70,7 @@ public class Duck : MonoBehaviour
         if (deadDuck == gameObject)
         {
             alive = false;
-            stopQuacking();
+            StopQuacking();
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
             CreatePointsText(duckPoints);
         }
@@ -85,8 +85,8 @@ public class Duck : MonoBehaviour
         BNG.VRUtils.Instance.PlayLinearSpatialClipAt(pointsSound, transform.position, 1f, 1f);
     }
 
-    void stopQuacking()
+    void StopQuacking()
     {
-        StopCoroutine(Quack());
+        StopAllCoroutines();
     }
 }
