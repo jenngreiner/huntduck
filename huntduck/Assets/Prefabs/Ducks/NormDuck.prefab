@@ -5157,7 +5157,7 @@ MonoBehaviour:
   homeTarget: {fileID: 0}
   flyingTarget: {fileID: 0}
   radiusMinMax: {x: 5, y: 20}
-  yMinMax: {x: 2.5, y: 20}
+  yMinMax: {x: 0.25, y: 20}
   heightBuffer: 2
   returnToBase: 0
   randomBaseOffset: 0

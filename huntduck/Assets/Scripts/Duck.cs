@@ -11,7 +11,7 @@ public class Duck : MonoBehaviour
     public bool dropsEggs;
     public AudioClip quackSound;
     public AudioClip pointsSound;
-    private bool keepPlaying = true;
+    private bool alive = true;
 
     private Transform player;
     private GameObject egg;
@@ -58,7 +58,7 @@ public class Duck : MonoBehaviour
 
     IEnumerator Quack()
     {
-        while (keepPlaying)
+        while (alive)
         {
             yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
             BNG.VRUtils.Instance.PlayLinearSpatialClipAt(quackSound, transform.position, 1f, 1f);
@@ -69,7 +69,8 @@ public class Duck : MonoBehaviour
     {
         if (deadDuck == gameObject)
         {
-            keepPlaying = false;
+            alive = false;
+            stopQuacking();
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
             CreatePointsText(duckPoints);
         }
@@ -86,6 +87,6 @@ public class Duck : MonoBehaviour
 
     void stopQuacking()
     {
-        keepPlaying = false;
+        StopCoroutine(Quack());
     }
 }
