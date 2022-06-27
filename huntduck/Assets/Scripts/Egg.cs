@@ -67,7 +67,7 @@ public class Egg : MonoBehaviour
     {
         if (other.tag == TagManager.SHOOTINGSTAND_TAG)
         {
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
         else if (other.tag == TagManager.PLAYER_TAG)
         {

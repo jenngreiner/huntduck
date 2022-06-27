@@ -14,22 +14,22 @@ public class SelectManager : MonoBehaviour
     public GameObject buttons;
     public GameObject downArrow;
 
-    [Header("Weapons")]
-    public GameObject weaponsWall;
+    //[Header("Weapons")]
+    //public GameObject weaponsWall;
 
     private void OnEnable()
     {
         StartSelectMode();
         WeaponsManager.onWeaponSelected += HideSelectUI;
         WeaponsManager.onWeaponSelected += ShowButtons;
-        WallSlider.onPosition1Reached += ShowWeaponsWall;
+        //WallSlider.onPosition1Reached += ShowWeaponsWall;
     }
 
     private void OnDisable()
     {
         WeaponsManager.onWeaponSelected -= HideSelectUI;
         WeaponsManager.onWeaponSelected -= ShowButtons;
-        WallSlider.onPosition1Reached -= ShowWeaponsWall;
+        //WallSlider.onPosition1Reached -= ShowWeaponsWall;
         downArrow.SetActive(false); // hide this arrow on sign, activate by script when needed
     }
 
@@ -61,8 +61,8 @@ public class SelectManager : MonoBehaviour
         buttons.SetActive(true);
     }
 
-    void ShowWeaponsWall()
-    {
-        weaponsWall.SetActive(true);
-    }
+    //void ShowWeaponsWall()
+    //{
+    //    weaponsWall.SetActive(true);
+    //}
 }

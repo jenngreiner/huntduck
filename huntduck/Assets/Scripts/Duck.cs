@@ -30,12 +30,14 @@ public class Duck : MonoBehaviour
     {
         StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
+        RestartGameMode.onRestartMode += stopQuacking;
     }
 
     void OnDisable()
     {
         StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
+        RestartGameMode.onRestartMode -= stopQuacking;
     }
 
     public void dropThaEgg(Transform duck)
@@ -80,5 +82,10 @@ public class Duck : MonoBehaviour
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
         BNG.VRUtils.Instance.PlayLinearSpatialClipAt(pointsSound, transform.position, 1f, 1f);
+    }
+
+    void stopQuacking()
+    {
+        keepPlaying = false;
     }
 }

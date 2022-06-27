@@ -19,24 +19,22 @@ public class PlayerHealthUI : MonoBehaviour
 
     void OnEnable()
     {
-        //SurvivalWaveSpawner.onFirstWaveStart += TurnTVOn;
         PlayerHealth.onPlayerTookDamage += UpdateHealthUI;
         PlayerHealth.onPlayerDied += ShowPlayerDeadImage;
 
         // SINGLESCENE: reset health UI on restart or quit
-        RestartGameMode.onRestartMode += ShowHealthUI;
-        ExitGameMode.onExitMode += ShowHealthUI;
+        RestartGameMode.onRestartMode += ShowHealthBar;
+        ExitGameMode.onExitMode += ShowHealthBar;
     }
 
     void OnDisable()
     {
-        //SurvivalWaveSpawner.onFirstWaveStart -= TurnTVOn;
         PlayerHealth.onPlayerTookDamage -= UpdateHealthUI;
         PlayerHealth.onPlayerDied -= ShowPlayerDeadImage;
 
         // SINGLESCENE: reset health UI on restart or quit
-        RestartGameMode.onRestartMode += ShowHealthUI;
-        ExitGameMode.onExitMode -= ShowHealthUI;
+        RestartGameMode.onRestartMode -= ShowHealthBar;
+        ExitGameMode.onExitMode -= ShowHealthBar;
     }
 
     void UpdateHealthUI()
@@ -46,21 +44,15 @@ public class PlayerHealthUI : MonoBehaviour
 
     void ShowPlayerDeadImage()
     {
+        healthLabelObj.SetActive(false);
+        healthBarObj.SetActive(false);
         playerDeadImage.SetActive(true);
-        HideHealthUI();
     }
 
-    void HideHealthUI()
+    void ShowHealthBar()
     {
-        // hide label and bar by shrinking, while keeping active
-        healthLabelObj.transform.localScale = new Vector3(0, 0, 0);
-        healthBarObj.transform.localScale = new Vector3(0, 0, 0);
-    }
-
-    void ShowHealthUI()
-    {
-        // show label and bar by scaling up
-        healthLabelObj.transform.localScale = new Vector3(1, 1, 1);
-        healthBarObj.transform.localScale = new Vector3(1, 1, 1);
+        healthLabelObj.SetActive(true);
+        healthBarObj.SetActive(true);
+        playerDeadImage.SetActive(false);
     }
 }

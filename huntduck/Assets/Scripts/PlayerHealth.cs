@@ -60,6 +60,7 @@ public class PlayerHealth : MonoBehaviour
     void ResetPlayerHealth()
     {
         player.currenthealth = player.maxHealth;
+        healthBar.SetMaxHealth(player.currenthealth);
         player.isDead = false;
     }
 }
