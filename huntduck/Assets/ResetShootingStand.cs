@@ -5,11 +5,13 @@ public class ResetShootingStand : MonoBehaviour
     void OnEnable()
     {
         RestartGameMode.onRestartMode += ResetStand;
+        ExitGameMode.onExitMode += ResetStand;
     }
 
     void OnDisable()
     {
         RestartGameMode.onRestartMode -= ResetStand;
+        ExitGameMode.onExitMode -= ResetStand;
     }
 
     void ResetStand()
