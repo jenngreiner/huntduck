@@ -43,6 +43,7 @@ public class SelectManager : MonoBehaviour
     {
         welcomeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
+        welcomeUI.SetActive(false);
 
         if (!gunSelected) // only show selectGunUI if we haven't grabbed gun yet
         {
