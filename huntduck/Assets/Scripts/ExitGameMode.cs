@@ -9,8 +9,8 @@ public class ExitGameMode : MonoBehaviour
     public GameObject hideThisUI;
     public GameObject hideThisMode;
 
-    public delegate void RestartMode();
-    public static event RestartMode onExitMode;
+    public delegate void ExitMode();
+    public static event ExitMode onExitMode;
 
     public void exitMode()
     {

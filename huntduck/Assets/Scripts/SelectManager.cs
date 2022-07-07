@@ -7,42 +7,36 @@ public class SelectManager : MonoBehaviour
 {
     [Header("UI")]
     public GameObject welcomeUI;
+    public GameObject selectGunUI;
+    public Text selectGunText;
     public GameObject helperUI;
     public Text helperText;
     public GameObject buttons;
+    public GameObject downArrow;
 
-    [Header("Weapons")]
-    public GameObject weaponsWall;
+    private bool gunSelected = false;
+
+    //[Header("Weapons")]
+    //public GameObject weaponsWall;
 
     private void OnEnable()
     {
-        SelectModeTrigger.onSelectModeTriggered += StartSelectMode;
-        WallSlider.onPosition1Reached += ShowWeaponsWall;
-        WeaponsManager.onWeaponSelected += ShowButtons;
+        StartSelectMode();
+        WeaponsManager.onWeaponSelected += ShowGameModeButtons;
+        //WallSlider.onPosition1Reached += ShowWeaponsWall;
     }
 
     private void OnDisable()
     {
-        WeaponsManager.onWeaponSelected -= ShowButtons;
-        WallSlider.onPosition1Reached -= ShowWeaponsWall;
-        SelectModeTrigger.onSelectModeTriggered -= StartSelectMode;
-    }
+        WeaponsManager.onWeaponSelected -= ShowGameModeButtons;
+        downArrow.SetActive(false); // hide this arrow on sign, activate by script when needed
 
-    void ShowButtons()
-    {
-        helperText.text = "SHOOT PRACTICE OR HUNT TO BEGIN";
-        // turn on button gameobject
-        buttons.SetActive(true);
+        //WallSlider.onPosition1Reached -= ShowWeaponsWall;
     }
 
     void StartSelectMode()
     {
         StartCoroutine(SelectModeIntro());
-    }
-
-    void ShowWeaponsWall()
-    {
-        weaponsWall.SetActive(true);
     }
 
     IEnumerator SelectModeIntro()
@@ -51,7 +45,27 @@ public class SelectManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         welcomeUI.SetActive(false);
 
-        helperUI.SetActive(true);
-        helperText.text = "SELECT YOUR WEAPON TO BEGIN";
+        if (!gunSelected) // only show selectGunUI if we haven't grabbed gun yet
+        {
+            selectGunUI.SetActive(true);
+            selectGunText.text = "SELECT YOUR WEAPON \n "; // give space for down arrow
+            downArrow.SetActive(true);
+        }
     }
+
+    void ShowGameModeButtons()
+    {
+        welcomeUI.SetActive(false);
+        selectGunUI.SetActive(false);
+        gunSelected = true;
+
+        helperUI.SetActive(true);
+        helperText.text = "SHOOT PRACTICE OR HUNT TO BEGIN";
+        buttons.SetActive(true);
+    }
+
+    //void ShowWeaponsWall()
+    //{
+    //    weaponsWall.SetActive(true);
+    //}
 }
