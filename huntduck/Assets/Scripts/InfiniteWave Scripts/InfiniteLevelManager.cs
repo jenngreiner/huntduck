@@ -105,7 +105,7 @@ public class InfiniteLevelManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f); // give time for world to load
         helperUI.SetActive(true);
         helperText.text = "PREPARE TO HUNT";
-        BNG.VRUtils.Instance.PlaySpatialClipAt(beginGameSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(beginGameSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
         yield return new WaitForSecondsRealtime(4f);
         helperUI.SetActive(false);
 
@@ -127,7 +127,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
         // GAME OVER UI
         gameOverUI.SetActive(true);
-        BNG.VRUtils.Instance.PlaySpatialClipAt(gameOverSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(gameOverSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
         yield return new WaitForSecondsRealtime(3f);
         gameOverUI.SetActive(false);
 
@@ -144,7 +144,7 @@ public class InfiniteLevelManager : MonoBehaviour
         leaderboard.SetActive(true);
         replayExitUI.SetActive(true);
 
-        BNG.VRUtils.Instance.PlaySpatialClipAt(scoreBoardSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(scoreBoardSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
         yield return new WaitForSecondsRealtime(3f);
     }
 }
