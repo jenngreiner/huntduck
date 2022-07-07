@@ -11,10 +11,11 @@ public class Duck : MonoBehaviour
     public bool dropsEggs;
     public AudioClip quackSound;
     public AudioClip pointsSound;
-    private bool keepPlaying = true;
+    private bool alive = true;
 
     private Transform player;
     private GameObject egg;
+    private BNG.Damageable damageable;
 
     public delegate void DuckDied(int points);
     public static event DuckDied onDuckDied;
@@ -23,6 +24,7 @@ public class Duck : MonoBehaviour
     void Start()
     {
         player = ObjectManager.instance.player.transform;
+        damageable = GetComponent<BNG.Damageable>();
         StartCoroutine(Quack());
     }
 
@@ -30,12 +32,14 @@ public class Duck : MonoBehaviour
     {
         StopBumps.onBump += dropThaEgg;
         BNG.Damageable.onDuckDie += Die;
+        RestartGameMode.onRestartMode += EnterFlyAwayMode;
     }
 
     void OnDisable()
     {
         StopBumps.onBump -= dropThaEgg;
         BNG.Damageable.onDuckDie -= Die;
+        RestartGameMode.onRestartMode -= EnterFlyAwayMode;
     }
 
     public void dropThaEgg(Transform duck)
@@ -56,10 +60,10 @@ public class Duck : MonoBehaviour
 
     IEnumerator Quack()
     {
-        while (keepPlaying)
+        while (alive)
         {
-            BNG.VRUtils.Instance.PlaySpatialClipAt(quackSound, transform.position, 1f, 1f);
             yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
+            BNG.VRUtils.Instance.PlayLinearSpatialClipAt(quackSound, transform.position, 1f, 1f);
         }
     }
 
@@ -67,7 +71,8 @@ public class Duck : MonoBehaviour
     {
         if (deadDuck == gameObject)
         {
-            keepPlaying = false;
+            alive = false;
+            EnterFlyAwayMode();
             onDuckDied?.Invoke(duckPoints); // subscribe in PlayerScore.cs
             CreatePointsText(duckPoints);
         }
@@ -79,6 +84,12 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
-        BNG.VRUtils.Instance.PlaySpatialClipAt(pointsSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(pointsSound, transform.position, 1f, 1f);
+    }
+
+    void EnterFlyAwayMode()
+    {
+        StopAllCoroutines(); // stop quacking
+        damageable.enabled = false; // player can't shoot duck
     }
 }

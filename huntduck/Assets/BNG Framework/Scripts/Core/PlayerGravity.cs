@@ -14,7 +14,7 @@ namespace BNG {
         public bool GravityEnabled = true;
 
         [Tooltip("Amount of Gravity to apply to the CharacterController or Rigidbody. Default is 'Physics.gravity'.")]
-        public Vector3 Gravity = Physics.gravity;
+        private Vector3 Gravity = Physics.gravity;
 
         CharacterController characterController;
         SmoothLocomotion smoothLocomotion;
@@ -41,20 +41,24 @@ namespace BNG {
         void LateUpdate() {
 
             // Apply Gravity to Character Controller
-            if (GravityEnabled && characterController != null && characterController.enabled) {
+            if (GravityEnabled && characterController != null && characterController.enabled)
+            {
                 _movementY += Gravity.y * Time.deltaTime;
 
                 // Default to smooth locomotion
-                if(smoothLocomotion) {
+                if (smoothLocomotion)
+                {
                     smoothLocomotion.MoveCharacter(new Vector3(0, _movementY, 0) * Time.deltaTime);
                 }
                 // Fallback to character controller
-                else if(characterController) {
+                else if (characterController)
+                {
                     characterController.Move(new Vector3(0, _movementY, 0) * Time.deltaTime);
                 }
-                
+
                 // Reset Y movement if we are grounded
-                if (characterController.isGrounded) {
+                if (characterController.isGrounded)
+                {
                     _movementY = 0;
                 }
             }

@@ -330,6 +330,9 @@ namespace BNG {
         public void GrabEquipped(Grabber grabber) {
                 if (grabber != null)
                 {
+                    // select weapon event
+                    WeaponsManager.SelectWeapon();
+
                     if (HeldItem)
                     {
 
@@ -374,9 +377,6 @@ namespace BNG {
                             // Do grab
                             grabber.GrabGrabbable(g);
                             Debug.Log("weapon grabbed");
-
-                            // select weapon event
-                            WeaponsManager.SelectWeapon();
                         }
                     }
                 }
