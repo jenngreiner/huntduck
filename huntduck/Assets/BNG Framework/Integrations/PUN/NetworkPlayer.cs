@@ -173,6 +173,7 @@ namespace BNG {
 
         public void AssignPlayerObjects() {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log("Found the player and its name is " + player.name);
 
             PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
 
