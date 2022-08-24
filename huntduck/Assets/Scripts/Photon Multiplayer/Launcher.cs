@@ -15,13 +15,13 @@ namespace Com.HuntDuck
         [SerializeField]
         private byte maxPlayersPerRoom = 4;
 
-
-        [Tooltip("The Ui panel to let the user enter name, connect, and play")]
-        [SerializeField]
-        private GameObject controlPanel;
-        [Tooltip("The UI Label to inform the user that the connection is in progress")]
-        [SerializeField]
-        private GameObject progressLabel;
+        // Used in original script, not using now
+        //[Tooltip("The Ui panel to let the user enter name, connect, and play")]
+        //[SerializeField]
+        //private GameObject controlPanel;
+        //[Tooltip("The UI Label to inform the user that the connection is in progress")]
+        //[SerializeField]
+        //private GameObject progressLabel;
 
         #endregion
 
@@ -48,11 +48,11 @@ namespace Com.HuntDuck
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 
-        void Start()
-        {
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
-        }
+        //void Start()
+        //{
+        //    progressLabel.SetActive(false);
+        //    controlPanel.SetActive(true);
+        //}
 
         #endregion
 
@@ -65,8 +65,8 @@ namespace Com.HuntDuck
         /// </summary>
         public void Connect()
         {
-            progressLabel.SetActive(true);
-            controlPanel.SetActive(false);
+            //progressLabel.SetActive(true);
+            //controlPanel.SetActive(false);
             
             if (PhotonNetwork.IsConnected)
             {
@@ -98,8 +98,8 @@ namespace Com.HuntDuck
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
+            //progressLabel.SetActive(false);
+            //controlPanel.SetActive(true);
             isConnecting = false;
 
             Debug.LogWarningFormat("Assets/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
