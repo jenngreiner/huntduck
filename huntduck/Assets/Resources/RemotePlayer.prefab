@@ -51219,7 +51219,6 @@ MonoBehaviour:
   PlayerLeftHandTransform: {fileID: 0}
   PlayerRightHandTransform: {fileID: 0}
   RemoteHeadTransform: {fileID: 4819839449216899009}
-  playerNameTag: {fileID: 689585506}
   RemoteLeftHandTransform: {fileID: 4819839449083230773}
   RemoteRightHandTransform: {fileID: 4819839448706854649}
   LeftHandController: {fileID: 0}
@@ -51241,8 +51240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56997bd1afbbda42b2ac3be7140dfb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 0
-  duckKills: 0
 --- !u!114 &4819839449620706730
 MonoBehaviour:
   m_ObjectHideFlags: 0
