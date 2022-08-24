@@ -62,8 +62,12 @@ namespace Com.HuntDuck
             {
                 Debug.LogError("PhotonNetwork: Trying to Load a level but we are not the master Client");
             }
+
+            string SceneName = SceneManager.GetActiveScene().name;
+
             Debug.LogFormat("PhotonNetwork: Loading Level: {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-            PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);
+
+            PhotonNetwork.LoadLevel(SceneName);
         }
 
         #endregion
