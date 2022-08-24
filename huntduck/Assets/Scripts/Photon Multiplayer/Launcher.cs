@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 
 namespace Com.HuntDuck
@@ -66,7 +67,7 @@ namespace Com.HuntDuck
         {
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
-
+            
             if (PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -115,12 +116,12 @@ namespace Com.HuntDuck
         public override void OnJoinedRoom()
         {
             Debug.Log("Assets/ Launcher: OnJoinedRoom() was called by PUN. Now this client was in a room.");
-
+            string sceneName = this.gameObject.name;
             // only load if first player, else use 'PhotonNetwork.AutomaticallySyncScene
-            Debug.Log("We load the 'Room for 1'");
+            Debug.Log("We load the " + sceneName + " scene");
 
             // Load the Room Level
-            PhotonNetwork.LoadLevel("Room for 1");
+            PhotonNetwork.LoadLevel(sceneName);
         }
         #endregion
 
