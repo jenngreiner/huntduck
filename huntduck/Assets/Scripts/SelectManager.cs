@@ -50,6 +50,12 @@ public class SelectManager : MonoBehaviour
             selectGunUI.SetActive(true);
             selectGunText.text = "SELECT YOUR WEAPON \n "; // give space for down arrow
             downArrow.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                Debug.Log("KeyDown.G: Grabbing gun");
+                gunSelected = true;
+
+            }
         }
     }
 

@@ -6,7 +6,7 @@ namespace huntduck
 
 	public class PlatformManager : MonoBehaviour
 	{
-		private static PlatformManager s_instance;
+		public static PlatformManager s_instance { get; private set; }
 		//private MatchmakingManager m_matchmaking;
 		//private P2PManager m_p2p;
 		private LeaderboardManager m_leaderboards;
@@ -17,7 +17,7 @@ namespace huntduck
 		private ulong m_myID;
 
 		// my Oculus user name
-		private string m_myOculusID;
+		public string m_myOculusID;
 
 		void Update()
 		{

@@ -21,6 +21,14 @@ public class ChooseGameMode : MonoBehaviour
                 changeGameMode();
             }
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log("KeyDown.M: Go to Multiplayer Mode");
+            if(gameMode.name == "SquadUp2")
+            {
+                changeGameMode();
+            }
+        }
     }
 
     public void changeGameMode()
