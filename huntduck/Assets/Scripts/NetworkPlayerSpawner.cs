@@ -37,7 +37,10 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 
             
             PhotonNetwork.NickName = playerNickName;
-            npTag.nameTag.text = PhotonNetwork.NickName;
+            Debug.Log("PhotonNetwork.NickName is " + PhotonNetwork.NickName);
+
+            npTag.nameTag.text = PhotonNetwork.LocalPlayer.NickName;
+            Debug.Log("npTag.nameTag.text is " + npTag.nameTag.text);
 
 
             // WHAT WE GOT YO
