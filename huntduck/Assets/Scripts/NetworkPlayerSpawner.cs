@@ -7,14 +7,14 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 {
     public string remotePlayerName;
     private GameObject spawnedPlayer;
-    private NameTag npTag;
+    //private NameTag npTag;
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         spawnedPlayer = PhotonNetwork.Instantiate(remotePlayerName, transform.position, transform.rotation);
         BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
-        npTag = spawnedPlayer.GetComponent<NameTag>();
+        //npTag = spawnedPlayer.GetComponent<NameTag>();
 
         if (np)
         {
@@ -22,7 +22,7 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
             np.AssignPlayerObjects();
 
 
-            photonView.RPC("SetNickName", RpcTarget.All);
+            //photonView.RPC("SetNickName", RpcTarget.All);
             
             
             // consider seeding scoreboard here
@@ -37,35 +37,35 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         PhotonNetwork.Destroy(spawnedPlayer);
     }
 
-    [PunRPC]
-    void SetNickName()
-    {
-        string playerNickName;
+    //[PunRPC]
+    //void SetNickName()
+    //{
+    //    string playerNickName;
 
-        if (Application.isEditor)
-        {
-            playerNickName = "Player " + PhotonNetwork.LocalPlayer.ActorNumber;
+    //    if (Application.isEditor)
+    //    {
+    //        playerNickName = "Player " + PhotonNetwork.LocalPlayer.ActorNumber;
 
-        }
-        else
-        {
-            // check OculusID
-            Debug.Log("Player Oculus ID = " + PlatformManager.s_instance.m_myOculusID);
+    //    }
+    //    else
+    //    {
+    //        // check OculusID
+    //        Debug.Log("Player Oculus ID = " + PlatformManager.s_instance.m_myOculusID);
 
-            playerNickName = PlatformManager.s_instance.m_myOculusID;
-        }
+    //        playerNickName = PlatformManager.s_instance.m_myOculusID;
+    //    }
 
-        PhotonNetwork.NickName = playerNickName;
-        Debug.Log("PhotonNetwork.NickName is " + PhotonNetwork.NickName);
+    //    PhotonNetwork.NickName = playerNickName;
+    //    Debug.Log("PhotonNetwork.NickName is " + PhotonNetwork.NickName);
 
-        npTag.nameTag.text = PhotonNetwork.NickName;
-        Debug.Log("npTag.nameTag.text is " + npTag.nameTag.text);
+    //    npTag.nameTag.text = PhotonNetwork.NickName;
+    //    Debug.Log("npTag.nameTag.text is " + npTag.nameTag.text);
 
 
-        //// WHAT WE GOT YO
-        //Debug.Log("This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
-        //Debug.Log("This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
-        //Debug.Log("This player's used ID is " + PhotonNetwork.LocalPlayer.UserId);
-        //Debug.Log("'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
-    }
+    //    //// WHAT WE GOT YO
+    //    //Debug.Log("This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
+    //    //Debug.Log("This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
+    //    //Debug.Log("This player's used ID is " + PhotonNetwork.LocalPlayer.UserId);
+    //    //Debug.Log("'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
+    //}
 }
