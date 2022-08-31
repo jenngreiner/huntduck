@@ -12,10 +12,11 @@ public class NameTag : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        photonView.RPC("SetNickName", RpcTarget.All);
+        //photonView.RPC("SetNickName", RpcTarget.OthersBuffered);
+        SetNickName();
     }
 
-    [PunRPC]
+    //[PunRPC]
     void SetNickName()
     {
         string playerNickName;
@@ -36,7 +37,8 @@ public class NameTag : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = playerNickName;
         Debug.Log("PhotonNetwork.NickName is " + PhotonNetwork.NickName);
 
-        nameTag.text = PhotonNetwork.NickName;
+
+        nameTag.text = photonView.Owner.NickName;
         Debug.Log("npTag.nameTag.text is " + nameTag.text);
 
 
