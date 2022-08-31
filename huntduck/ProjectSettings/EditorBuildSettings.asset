@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SquadUp2.unity
     guid: 2edeb64fc943649fcb2cf4cdf6fa4a5a
+  - enabled: 1
+    path: Assets/Scenes/MP_huntduck1.unity
+    guid: d9858876de6714aeabcbdc11f50a8dc5
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 77ef9e5d8ab73184cb8debcf4313cf25,
       type: 2}
