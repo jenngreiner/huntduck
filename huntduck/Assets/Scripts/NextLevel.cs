@@ -8,23 +8,11 @@ public class NextLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Debug.Log("KeyDown.H: Go to Hunt Mode");
-            StartCoroutine(GoToLevelAsync(nextLevel));
-
-        }
         if (Input.GetKeyDown(KeyCode.M))
         {
             Debug.Log("KeyDown.M: Go to Multiplayer Mode");
             StartCoroutine(GoToLevelAsync(nextLevel));
 
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(GoToLevelAsync(nextLevel));
-            // SceneManager.LoadScene(nextLevel);
-            Debug.Log("KeyDown.P: Go to Practice Mode: " + nextLevel);
         }
     }
 
