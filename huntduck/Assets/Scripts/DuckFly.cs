@@ -150,12 +150,14 @@ public class DuckFly : MonoBehaviour
     {
         SurvivalWaveSpawner.onGameOver += FlyAway;
         StopBumps.onBump += SwerveToCenter;
+        FlyWithGroundAngle.onGroundHit += FlyUp;
     }
 
     void OnDisable()
     {
         SurvivalWaveSpawner.onGameOver -= FlyAway;
         StopBumps.onBump -= SwerveToCenter;
+        FlyWithGroundAngle.onGroundHit -= FlyUp;
     }
 
     void ChangeTarget()
@@ -302,6 +304,38 @@ public class DuckFly : MonoBehaviour
 
             Debug.Log("Swerving to center");
         }
+    }
+
+    void FlyUp(Collider otherCollider)
+    {
+        // Adjust the rotation of this game object to face upward at the angle of the collided object at the point of collision
+
+        // Take 2
+        Vector3 normal = otherCollider.transform.up;
+        Vector3 up = Vector3.ProjectOnPlane(Vector3.up, normal).normalized;
+        //transform.up = up;
+
+        Debug.Log("Haven't flown up yet so my turnSpeed is " + turnSpeed);
+
+        rotateTarget = up;
+        turnSpeed = 100f;
+
+        Debug.Log("I'm TURNT UP YO, my turnSpeed is " + turnSpeed);
+
+        Debug.Log("Duck transform is named: " + transform.name + " and was told to fly up parallel to " + otherCollider.transform.name);
+
+        //Take 1
+        //// otherTransform is the object the duck forcefield collided with. we are setting direction from us to that object
+        //Vector3 direction = (otherTransform.position - transform.position).normalized;
+
+        //// rotating upwards from the direction towards the other object, that we move parallel to that object
+        //Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+
+        //// smooth out the rotation to move the duck from facing the ground, to be parallel to the ground
+        //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime);
+
+        // consider SwerveToCenter();
     }
 
     void UpdateTimersAndStopWatches()

@@ -5003,6 +5003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b066a79c5f5cee8499285ad39d7a2db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionLayerName: Guard
 --- !u!1 &5321008479419601351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5019,6 +5020,7 @@ GameObject:
   - component: {fileID: 5832292282916613362}
   - component: {fileID: 7708368080132536046}
   - component: {fileID: 5103595373357950205}
+  - component: {fileID: 7021740402179801913}
   m_Layer: 7
   m_Name: NormDuck
   m_TagString: InfiniteDuck
@@ -5259,6 +5261,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7021740402179801913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321008479419601351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66de8b268f104970a3ceb4e77796fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionLayerName: Ground
 --- !u!1 &8401199060112727830
 GameObject:
   m_ObjectHideFlags: 0
