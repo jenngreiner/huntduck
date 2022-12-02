@@ -5019,6 +5019,7 @@ GameObject:
   - component: {fileID: 5321008479419601371}
   - component: {fileID: 5832292282916613362}
   - component: {fileID: 7708368080132536046}
+  - component: {fileID: 4032267439396402126}
   m_Layer: 7
   m_Name: FastDuck
   m_TagString: InfiniteDuck
@@ -5101,10 +5102,10 @@ BoxCollider:
   m_GameObject: {fileID: 5321008479419601351}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.2, z: 1.5}
-  m_Center: {x: -0.1, y: 0.25, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5321008479419601369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5198,12 +5199,26 @@ MonoBehaviour:
   homeTarget: {fileID: 0}
   flyingTarget: {fileID: 0}
   radiusMinMax: {x: 5, y: 20}
-  yMinMax: {x: -15, y: 20}
+  yMinMax: {x: -3, y: 15}
   heightBuffer: 2
   returnToBase: 0
   randomBaseOffset: 0
   delayStart: 0
   isSwerving: 0
+--- !u!64 &4032267439396402126
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321008479419601351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8401199060112727830
 GameObject:
   m_ObjectHideFlags: 0

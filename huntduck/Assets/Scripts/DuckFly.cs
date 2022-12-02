@@ -22,7 +22,7 @@ public class DuckFly : MonoBehaviour
 
     private float oldyMin;
     public bool isSwerving;
-    private float swerveDelay = 0.1f;
+    private float swerveDelay = 1f;
     private Vector3 centerZone;
     //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
@@ -84,6 +84,8 @@ public class DuckFly : MonoBehaviour
             turnSpeed = turnSpeedBackup;
             isSwerving = false;
         }
+
+
     }
 
     void FixedUpdate()

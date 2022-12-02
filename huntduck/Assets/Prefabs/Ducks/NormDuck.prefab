@@ -4989,8 +4989,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.50000024
-  m_Center: {x: 0, y: 0.1, z: 0}
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0.04, z: 0}
 --- !u!114 &1460601812724152014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5157,7 +5157,7 @@ MonoBehaviour:
   homeTarget: {fileID: 0}
   flyingTarget: {fileID: 0}
   radiusMinMax: {x: 5, y: 20}
-  yMinMax: {x: -3, y: 20}
+  yMinMax: {x: -3, y: 15}
   heightBuffer: 2
   returnToBase: 0
   randomBaseOffset: 0
