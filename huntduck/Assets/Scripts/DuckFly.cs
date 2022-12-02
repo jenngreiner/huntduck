@@ -22,7 +22,7 @@ public class DuckFly : MonoBehaviour
 
     private float oldyMin;
     public bool isSwerving;
-    private float swerveDelay;
+    private float swerveDelay = 0.1f;
     private Vector3 centerZone;
     //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
@@ -294,10 +294,11 @@ public class DuckFly : MonoBehaviour
         if(otherTransform == transform)
         {
             isSwerving = true;
-            swerveDelay = 1f;
 
             rotateTarget = centerZone;
             turnSpeed = turnSpeedBackup * 8;
+
+            Debug.Log("Swerving to center");
         }
     }
 
