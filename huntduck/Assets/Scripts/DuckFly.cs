@@ -330,9 +330,9 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
-    public void SwerveToCenter(Transform objectThatBumped, Transform transformHit)
+    public void SwerveToCenter(Transform objectThatBumped, string transformHitName)
     {
-        if(objectThatBumped == transform && transformHit != ObjectManager.instance.playerGuard)
+        if(objectThatBumped == transform && transformHitName != ObjectManager.instance.playerGuard.name)
         {
             isSwerving = true;
 
