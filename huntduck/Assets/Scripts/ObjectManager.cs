@@ -21,6 +21,7 @@ public class ObjectManager : MonoBehaviour
 
     [Header("Environment")]
     public GameObject playerArea;
+    public GameObject playerGuard;
 
     [Header("Player")]
     public PlayerData player;

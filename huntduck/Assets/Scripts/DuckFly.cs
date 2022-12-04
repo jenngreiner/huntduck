@@ -10,7 +10,7 @@ public class DuckFly : MonoBehaviour
     [SerializeField] Vector2 yMinMax;
     [SerializeField] float heightBuffer = 10f;
     [SerializeField] public bool returnToBase = false;
-    [SerializeField] public float randomBaseOffset = 5, delayStart = 0f;
+    [SerializeField] public float randomBaseOffset = 5, delayStart = 2f;
 
     private Animator animator;
     private Rigidbody body;
@@ -26,6 +26,13 @@ public class DuckFly : MonoBehaviour
     private Vector3 centerZone;
     //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
+
+    bool isFlyingUp = false;
+    bool isAlreadyFlyingUp = false;
+    bool isJustStarting;
+    public float startTimeRemaining;
+
+    Transform duckThatHitGround;
 
     void Start()
     {
@@ -64,7 +71,10 @@ public class DuckFly : MonoBehaviour
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
-        } 
+        }
+
+        isJustStarting = true;
+        startTimeRemaining = 3f; // seconds until duck will rotate up, allows duck to get out of ground after launch
     }
 
     private void Update()
@@ -85,6 +95,20 @@ public class DuckFly : MonoBehaviour
             isSwerving = false;
         }
 
+        // set up a timer to prevent the isFlyingUp code from being trigger at start 
+        if (startTimeRemaining > 0f)
+        {
+            isJustStarting = true;
+            startTimeRemaining -= Time.fixedDeltaTime;
+            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
+            return;
+        }
+
+        if (startTimeRemaining <= 0)
+        {
+            isJustStarting = false;
+            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
+        }
 
     }
 
@@ -125,6 +149,8 @@ public class DuckFly : MonoBehaviour
             FlyUpAndDown();
         }
 
+        Debug.Log("Are we flying up? " + isFlyingUp);
+
         UpdateTimersAndStopWatches();
 
         // Rotate towards target
@@ -150,14 +176,16 @@ public class DuckFly : MonoBehaviour
     {
         SurvivalWaveSpawner.onGameOver += FlyAway;
         StopBumps.onBump += SwerveToCenter;
-        FlyWithGroundAngle.onGroundHit += FlyUp;
+        FlyWithGroundAngle.onGroundHit += IsFlyingUp;
+        FlyWithGroundAngle.onNoLongerTouchingGround += IsNotFlyingUp;
     }
 
     void OnDisable()
     {
         SurvivalWaveSpawner.onGameOver -= FlyAway;
         StopBumps.onBump -= SwerveToCenter;
-        FlyWithGroundAngle.onGroundHit -= FlyUp;
+        FlyWithGroundAngle.onGroundHit -= IsFlyingUp;
+        FlyWithGroundAngle.onNoLongerTouchingGround -= IsNotFlyingUp;
     }
 
     void ChangeTarget()
@@ -277,6 +305,15 @@ public class DuckFly : MonoBehaviour
     {
         direction = Quaternion.Euler(transform.eulerAngles) * Vector3.forward;
 
+        if (isFlyingUp && !isAlreadyFlyingUp && !isJustStarting)
+        {
+            Vector3 newRotation = transform.rotation.eulerAngles;
+            newRotation.x = -30f;
+            transform.rotation = Quaternion.Euler(newRotation);
+            isFlyingUp = false;
+            isAlreadyFlyingUp = true;
+        }
+
         if (returnToBase && distanceFromBase < idleSpeed) // only a moment before landing at base
         {
             // gradually reduce velocity as you near base
@@ -293,49 +330,35 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
-    public void SwerveToCenter(Transform otherTransform)
+    public void SwerveToCenter(Transform objectThatBumped, Transform transformHit)
     {
-        if(otherTransform == transform)
+        if(objectThatBumped == transform && transformHit != ObjectManager.instance.playerGuard)
         {
             isSwerving = true;
 
             rotateTarget = centerZone;
-            turnSpeed = turnSpeedBackup * 8;
+            turnSpeed = turnSpeedBackup * 12f;
 
             Debug.Log("Swerving to center");
         }
     }
 
-    void FlyUp(Collider otherCollider)
+    void IsFlyingUp(Collider groundCollider, Transform _duckThatHitGround)
     {
-        // Adjust the rotation of this game object to face upward at the angle of the collided object at the point of collision
+        duckThatHitGround = _duckThatHitGround;
 
-        // Take 2
-        Vector3 normal = otherCollider.transform.up;
-        Vector3 up = Vector3.ProjectOnPlane(Vector3.up, normal).normalized;
-        //transform.up = up;
+        //if this parent object is the parent object that hit the ground and not already flying up, fly up
+        if (transform.root == duckThatHitGround && !isAlreadyFlyingUp)
+        {
+            isFlyingUp = true;
+        }
+        
+    }
 
-        Debug.Log("Haven't flown up yet so my turnSpeed is " + turnSpeed);
-
-        rotateTarget = up;
-        turnSpeed = 100f;
-
-        Debug.Log("I'm TURNT UP YO, my turnSpeed is " + turnSpeed);
-
-        Debug.Log("Duck transform is named: " + transform.name + " and was told to fly up parallel to " + otherCollider.transform.name);
-
-        //Take 1
-        //// otherTransform is the object the duck forcefield collided with. we are setting direction from us to that object
-        //Vector3 direction = (otherTransform.position - transform.position).normalized;
-
-        //// rotating upwards from the direction towards the other object, that we move parallel to that object
-        //Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-
-
-        //// smooth out the rotation to move the duck from facing the ground, to be parallel to the ground
-        //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime);
-
-        // consider SwerveToCenter();
+    void IsNotFlyingUp()
+    {
+        isFlyingUp = false;
+        isAlreadyFlyingUp = false;
     }
 
     void UpdateTimersAndStopWatches()
