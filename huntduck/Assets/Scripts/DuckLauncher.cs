@@ -13,10 +13,25 @@ public class DuckLauncher : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.N))
         {
-            Debug.Log("KeyDown.L: Launch Duck");
+            Debug.Log("KeyDown.L: Launch Norm Duck");
             LaunchObj(ObjectManager.instance.normDuck);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("KeyDown.L: Launch Fast Duck");
+            LaunchObj(ObjectManager.instance.fastDuck);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("KeyDown.L: Launch Angry Duck");
+            LaunchObj(ObjectManager.instance.angryDuck);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("KeyDown.G: Launch Bonus (Canadian) Goose");
+            LaunchObj(ObjectManager.instance.goldenGoose);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {

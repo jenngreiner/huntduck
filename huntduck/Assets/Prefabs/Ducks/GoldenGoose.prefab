@@ -4988,8 +4988,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.50000024
-  m_Center: {x: 0, y: 0.1, z: 0}
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0.04, z: 0}
 --- !u!1 &5321008479419601351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5006,6 +5006,7 @@ GameObject:
   - component: {fileID: 5321008479419601371}
   - component: {fileID: 5832292282916613362}
   - component: {fileID: 4337121773751678985}
+  - component: {fileID: 1578121680803224440}
   m_Layer: 7
   m_Name: GoldenGoose
   m_TagString: GoldenGoose
@@ -5192,6 +5193,18 @@ MonoBehaviour:
   delayStart: 0
   isSwerving: 0
   startTimeRemaining: 0
+--- !u!114 &1578121680803224440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321008479419601351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66de8b268f104970a3ceb4e77796fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8401199060112727830
 GameObject:
   m_ObjectHideFlags: 0
