@@ -30,8 +30,11 @@ public class DuckLauncher : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("KeyDown.G: Launch Bonus (Canadian) Goose");
-            LaunchObj(ObjectManager.instance.goldenGoose);
+            if (transform.tag == "GooseLauncher")
+            {
+                Debug.Log("KeyDown.C: Launch Bonus (Canadian) Goose");
+                LaunchObj(ObjectManager.instance.bonusGeese);
+            }
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
