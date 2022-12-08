@@ -10,7 +10,7 @@ public class DuckFly : MonoBehaviour
     [SerializeField] Vector2 yMinMax;
     [SerializeField] float heightBuffer = 10f;
     [SerializeField] public bool returnToBase = false;
-    [SerializeField] public float randomBaseOffset = 5, delayStart = 0f;
+    [SerializeField] public float randomBaseOffset = 5, delayStart = 2f;
 
     private Animator animator;
     private Rigidbody body;
@@ -22,10 +22,17 @@ public class DuckFly : MonoBehaviour
 
     private float oldyMin;
     public bool isSwerving;
-    private float swerveDelay;
+    private float swerveDelay = 1f;
     private Vector3 centerZone;
     //private SurvivalWaveSpawner survivalWaveSpawner;
     private float speedMultiplier;
+
+    bool isFlyingUp = false;
+    bool isAlreadyFlyingUp = false;
+    bool isJustStarting;
+    public float startTimeRemaining;
+
+    Transform duckThatHitGround;
 
     void Start()
     {
@@ -64,7 +71,10 @@ public class DuckFly : MonoBehaviour
         if (delayStart < 0f)
         {
             body.velocity = idleSpeed * direction; // move duck forward @ idlespeed
-        } 
+        }
+
+        isJustStarting = true;
+        startTimeRemaining = 3f; // seconds until duck will rotate up, allows duck to get out of ground after launch
     }
 
     private void Update()
@@ -84,6 +94,22 @@ public class DuckFly : MonoBehaviour
             turnSpeed = turnSpeedBackup;
             isSwerving = false;
         }
+
+        // set up a timer to prevent the isFlyingUp code from being trigger at start 
+        if (startTimeRemaining > 0f)
+        {
+            isJustStarting = true;
+            startTimeRemaining -= Time.fixedDeltaTime;
+            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
+            return;
+        }
+
+        if (startTimeRemaining <= 0)
+        {
+            isJustStarting = false;
+            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
+        }
+
     }
 
     void FixedUpdate()
@@ -123,6 +149,8 @@ public class DuckFly : MonoBehaviour
             FlyUpAndDown();
         }
 
+        Debug.Log("Are we flying up? " + isFlyingUp);
+
         UpdateTimersAndStopWatches();
 
         // Rotate towards target
@@ -148,12 +176,16 @@ public class DuckFly : MonoBehaviour
     {
         SurvivalWaveSpawner.onGameOver += FlyAway;
         StopBumps.onBump += SwerveToCenter;
+        FlyWithGroundAngle.onGroundHit += IsFlyingUp;
+        FlyWithGroundAngle.onNoLongerTouchingGround += IsNotFlyingUp;
     }
 
     void OnDisable()
     {
         SurvivalWaveSpawner.onGameOver -= FlyAway;
         StopBumps.onBump -= SwerveToCenter;
+        FlyWithGroundAngle.onGroundHit -= IsFlyingUp;
+        FlyWithGroundAngle.onNoLongerTouchingGround -= IsNotFlyingUp;
     }
 
     void ChangeTarget()
@@ -273,6 +305,15 @@ public class DuckFly : MonoBehaviour
     {
         direction = Quaternion.Euler(transform.eulerAngles) * Vector3.forward;
 
+        if (isFlyingUp && !isAlreadyFlyingUp && !isJustStarting)
+        {
+            Vector3 newRotation = transform.rotation.eulerAngles;
+            newRotation.x = -30f;
+            transform.rotation = Quaternion.Euler(newRotation);
+            isFlyingUp = false;
+            isAlreadyFlyingUp = true;
+        }
+
         if (returnToBase && distanceFromBase < idleSpeed) // only a moment before landing at base
         {
             // gradually reduce velocity as you near base
@@ -289,16 +330,35 @@ public class DuckFly : MonoBehaviour
         returnToBase = true;
     }
 
-    public void SwerveToCenter(Transform otherTransform)
+    public void SwerveToCenter(Transform objectThatBumped, string transformHitName)
     {
-        if(otherTransform == transform)
+        if(objectThatBumped == transform && transformHitName != ObjectManager.instance.playerGuard.name)
         {
             isSwerving = true;
-            swerveDelay = 1f;
 
             rotateTarget = centerZone;
-            turnSpeed = turnSpeedBackup * 8;
+            turnSpeed = turnSpeedBackup * 12f;
+
+            Debug.Log("Swerving to center");
         }
+    }
+
+    void IsFlyingUp(Collider groundCollider, Transform _duckThatHitGround)
+    {
+        duckThatHitGround = _duckThatHitGround;
+
+        //if this parent object is the parent object that hit the ground and not already flying up, fly up
+        if (transform.root == duckThatHitGround && !isAlreadyFlyingUp)
+        {
+            isFlyingUp = true;
+        }
+        
+    }
+
+    void IsNotFlyingUp()
+    {
+        isFlyingUp = false;
+        isAlreadyFlyingUp = false;
     }
 
     void UpdateTimersAndStopWatches()

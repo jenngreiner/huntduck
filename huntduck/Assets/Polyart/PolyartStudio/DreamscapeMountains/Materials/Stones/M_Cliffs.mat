@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Cliffs
+  m_Shader: {fileID: 4800000, guid: ea5d36618984ae9489a6bfcc69508694, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DirtColor:
+        m_Texture: {fileID: 2800000, guid: 35b864168834e4e479f831ec4789c2bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtNormal:
+        m_Texture: {fileID: 2800000, guid: beceb8a941d62734ba0071f8de56eadc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtSmooth:
+        m_Texture: {fileID: 2800000, guid: 9c072bb90c23c3f49ab28bb702068ced, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtTexture:
+        m_Texture: {fileID: 2800000, guid: 35b864168834e4e479f831ec4789c2bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassColour:
+        m_Texture: {fileID: 2800000, guid: 3db1da7c1676ec24aad4553db2a415c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassNormal:
+        m_Texture: {fileID: 2800000, guid: 3901734d5f4f26442bd03918379f108a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassSmooth:
+        m_Texture: {fileID: 2800000, guid: 9a60ae1ff38ddbc419c4a71f5f442244, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTexture:
+        m_Texture: {fileID: 2800000, guid: 3db1da7c1676ec24aad4553db2a415c3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTexture:
+        m_Texture: {fileID: 2800000, guid: beceb8a941d62734ba0071f8de56eadc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessTexture:
+        m_Texture: {fileID: 2800000, guid: b4ec504cdcd6dee4bbe0b51ccb4c5029, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StoneColor:
+        m_Texture: {fileID: 2800000, guid: d55691f7c22a4eb4abfdff6649e8d488, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StoneNormal:
+        m_Texture: {fileID: 2800000, guid: 2a8a540dad6806644b6ef33b56a7185f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StoneSmooth:
+        m_Texture: {fileID: 2800000, guid: b4ec504cdcd6dee4bbe0b51ccb4c5029, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StoneTexture:
+        m_Texture: {fileID: 2800000, guid: 355de21f4b8e6d04e86cbf63cb6f0f42, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _GrassBias: -0.31
+    - _GrassSharpness: 2.29
+    - _Normal: 1.984
+    - _SmoothnessMultiplier: -0.56
+    - _StoneDirtBias: -1.58
+    - _StoneDirtSharpness: 12.44
+    - _Tiling: 0.15
+    - __dirty: 1
+    m_Colors:
+    - _CliffTiling: {r: 1, g: 0.25, b: 0, a: 0}
+    - _GrassTint: {r: 0.68008065, g: 0.99215686, b: 0.40784314, a: 1}
+    - _Tiling: {r: 2, g: 2, b: 0, a: 0}
+    - _Tiling1: {r: 2, g: 2, b: 0, a: 0}

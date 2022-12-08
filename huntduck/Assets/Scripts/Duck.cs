@@ -42,10 +42,12 @@ public class Duck : MonoBehaviour
         RestartGameMode.onRestartMode -= EnterFlyAwayMode;
     }
 
-    public void dropThaEgg(Transform duck)
+    public void dropThaEgg(Transform duck, string transformHitName)
     {
-        if (duck == transform && dropsEggs)
+        // if the duck hits the playerguard and can drop eggs, drop eggs
+        if (duck == transform && transformHitName == ObjectManager.instance.playerGuard.name && dropsEggs)
         {
+            Debug.Log("Dropping eggs dropping eggs");
             egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
             Egg eggScript = egg.GetComponent<Egg>();
             eggScript.eggDamage = duckEggDamage;
