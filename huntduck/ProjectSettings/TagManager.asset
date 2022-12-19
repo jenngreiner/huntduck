@@ -16,6 +16,7 @@ TagManager:
   - AngryDuck
   - GoldenGoose
   - GooseLauncher
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
