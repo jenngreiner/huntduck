@@ -69,22 +69,23 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.IsMasterClient)
             {
-                LogText("<color=aqua>Created Room: </color>" + roomName);
+                LogText("<color=aqua>" + roomName + "</color> room created");
             }
             else
             {
-                LogText("<color=yellow>Joined Room: </color> " + roomName);
+                LogText("<color=yellow> " + roomName + "</color> room joined");
             }
 
             // map remote player (on network) local player to keep movement synchornized 
             BNG.NetworkPlayer np = remotePlayer.GetComponent<BNG.NetworkPlayer>();
             if (np)
             {
-                np.transform.name = player.name + ": Remote Player";
+                //TODO: pull in oculus username to represent players (needed for scores), should be set to photon.nickname in nametag
+                np.transform.name = player.transform.name;
                 np.AssignPlayerObjects();
             }
 
-            LogText("<color=orange>Player Networked Successfully: </color>" + np.playerNameTag + " created as remote player and mapped to local player: " + player.name);
+            LogText("<color=orange>" + np.transform.name + "</color> has joined the hunt!");
         }
     }
 
@@ -103,7 +104,15 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        LogText("<color=magenta>Welcome New Player: </color>" + newPlayer.NickName);
+        LogText("Welcome New Player: <color=magenta>" + newPlayer.NickName + "</color>");
+    }
+
+    public override void OnPlayerLeftRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        // log the name of the new player to the
+        LogText("Welcome New Player: <color=red>" + newPlayer.NickName + "</color>");
     }
 
     void LogText(string message)
