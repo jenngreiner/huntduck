@@ -37,7 +37,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
 
         // Try to join or create the "DuckIsland" room
         string _roomName = "DuckIsland";
-        PhotonNetwork.JoinOrCreateRoom("_roomName", new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
         roomName = _roomName;
     }
 
