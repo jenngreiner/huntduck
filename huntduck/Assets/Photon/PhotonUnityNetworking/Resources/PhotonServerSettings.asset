@@ -51,6 +51,7 @@ MonoBehaviour:
   - RPC_BeginPractice
   - RPC_setGameNotStarted
   - RPC_SelectWeapon
+  - SetAvailability
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

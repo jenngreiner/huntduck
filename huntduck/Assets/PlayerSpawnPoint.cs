@@ -1,9 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerSpawnPoint : MonoBehaviour
+public class PlayerSpawnPoint : MonoBehaviourPun
 {
-    public bool isAvailable = true; // whether spawn point currently available
+    private bool isAvailable = true; // whether spawn point currently available
     public int playerID; // the ID of the player who is currently occupying this spawn point, if any
+
+    [PunRPC]
+    public void SetAvailability(bool availability)
+    {
+        isAvailable = availability;
+    }
+
+    public bool GetAvailability()
+    {
+        return isAvailable;
+    }
+
 }

@@ -16,4 +16,6 @@ public class TagManager
     public const string GOLDENGOOSE_TAG = "GoldenGoose";
 
     public const string EGG_TAG = "Egg";
+
+    public const string PLAYER_SPAWNPOINT_TAG = "SpawnPoint";
 }
