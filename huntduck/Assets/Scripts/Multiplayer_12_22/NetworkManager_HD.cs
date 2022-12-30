@@ -134,10 +134,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        if (!photonView.IsMine)
-        {
-            LogText("Welcome New Player: <color=magenta>" + newPlayer + "</color>");
-        }
+        LogText("Welcome New Player: <color=magenta>" + newPlayer + "</color>");
     }
 
     public override void OnPlayerLeftRoom(Player newPlayer)
