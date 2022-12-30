@@ -16,6 +16,11 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
     private Text debugText;
     private string roomName;
 
+    void Start()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))
@@ -112,7 +117,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        LogText("Welcome New Player: <color=red>" + newPlayer.NickName + "</color>");
+        LogText("Goodbye old friend: <color=red>" + newPlayer.NickName + "</color>");
     }
 
     void LogText(string message)

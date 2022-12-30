@@ -36097,7 +36097,7 @@ MonoBehaviour:
   PlayerLeftHandTransform: {fileID: 0}
   PlayerRightHandTransform: {fileID: 0}
   RemoteHeadTransform: {fileID: 1978627091452515863}
-  playerNameTag: {fileID: 0}
+  remoteNameTag: {fileID: 1293516474467485206}
   RemoteLeftHandTransform: {fileID: 1978627091318717411}
   RemoteRightHandTransform: {fileID: 1978627090942471983}
   LeftHandController: {fileID: 0}

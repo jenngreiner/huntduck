@@ -16,7 +16,7 @@ namespace BNG {
         public Transform RemoteHeadTransform;
 
         // name tag above player head
-        public Transform playerNameTag;
+        public Transform remoteNameTag;
 
         // Store positions to move between updates
         private Vector3 _syncHeadStartPosition = Vector3.zero;
@@ -186,8 +186,8 @@ namespace BNG {
             PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
             RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
 
-            // add in player nametag as assigned object over network
-            playerNameTag = getChildTransformByName(player.transform, "NameTag");
+            //// add in player nametag as assigned object over network
+            //playerNameTag = getChildTransformByName(player.transform, "NameTag");
 
         }
 
