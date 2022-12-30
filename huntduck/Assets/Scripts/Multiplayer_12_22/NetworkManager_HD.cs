@@ -63,7 +63,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
 
         // Try to join or create the "DuckIsland" room
-        string _roomName = "DuckIsland1";
+        string _roomName = "DuckIsland";
         PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
         roomName = _roomName;
     }
@@ -84,11 +84,12 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         if(scene.name == sceneName)
         {
             // create player on network
-            GameObject networkPlayerTwin = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
-            networkPlayerTwin.name = player.name + "'s Network Twin";
+            GameObject networkTwin = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
+            Player networkTwinPlayer = networkTwin.GetComponent<PhotonView>().Owner;
+            networkTwinPlayer.NickName = player.name + "'s Network Twin";
+
             //onNameChanged?.Invoke(networkPlayerTwin.name);
-            PhotonView networkPlayerTwin_photonView = networkPlayerTwin.GetComponent<PhotonView>();
-            networkPlayerTwin_photonView.RPC("SetPlayerName", RpcTarget.All, networkPlayerTwin.name);
+
 
             //create tabletOfLogs on network
             GameObject tabletOfLogs = GameObject.Find(debugObjName);
@@ -108,14 +109,14 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
             }
 
             // map remote player (on network) local player to keep movement synchornized 
-            BNG.NetworkPlayer np = networkPlayerTwin.GetComponent<BNG.NetworkPlayer>();
+            BNG.NetworkPlayer np = networkTwin.GetComponent<BNG.NetworkPlayer>();
             if (np)
             {
                 //TODO: pull in oculus username to represent players (needed for scores), should be set to photon.nickname in nametag
                 np.AssignPlayerObjects();
             }
 
-            LogText("You just joined as <color=green> " + networkPlayerTwin.name + "</color>");
+            LogText("You just joined as <color=green> " + networkTwinPlayer.NickName + "</color>");
         }
     }
 
@@ -134,7 +135,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        LogText("Welcome New Player: <color=magenta>" + newPlayer + "</color>");
+        LogText("Welcome New Player: <color=magenta>" + newPlayer.NickName + "</color>");
     }
 
     public override void OnPlayerLeftRoom(Player newPlayer)
@@ -142,7 +143,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        LogText("Goodbye old friend: <color=red>" + newPlayer + "</color>");
+        LogText("Goodbye old friend: <color=red>" + newPlayer.NickName + "</color>");
     }
 
     public override void OnLeftRoom()
