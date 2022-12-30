@@ -11,13 +11,32 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
     public string sceneName;
     public string remotePlayerName = "RemotePlayer";
     public string debugObjName = "DebugText";
-    public GameObject player;
+    private GameObject player;
 
     private Text debugText;
     private string roomName;
+    private string startingSceneName;
+
+    public static NetworkManager_HD instance { get; private set; }
+
+    void Awake()
+    {
+        // if there is an instance, and its not me, delete me
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
+        startingSceneName = SceneManager.GetActiveScene().name;
+    }
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
@@ -62,7 +81,8 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         if(scene.name == sceneName)
         {
             // create player on network
-            GameObject remotePlayer = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
+            GameObject networkPlayerTwin = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
+            networkPlayerTwin.name = player.name + "'s Network Twin";
 
             //create tabletOfLogs on network
             GameObject tabletOfLogs = GameObject.Find(debugObjName);
@@ -82,15 +102,14 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
             }
 
             // map remote player (on network) local player to keep movement synchornized 
-            BNG.NetworkPlayer np = remotePlayer.GetComponent<BNG.NetworkPlayer>();
+            BNG.NetworkPlayer np = networkPlayerTwin.GetComponent<BNG.NetworkPlayer>();
             if (np)
             {
                 //TODO: pull in oculus username to represent players (needed for scores), should be set to photon.nickname in nametag
-                np.transform.name = player.transform.name;
                 np.AssignPlayerObjects();
             }
 
-            LogText("<color=orange>" + np.transform.name + "</color> has joined the hunt!");
+            LogText("<color=orange>" + networkPlayerTwin.name + "</color> has joined the hunt!");
         }
     }
 
@@ -118,6 +137,13 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
 
         // log the name of the new player to the
         LogText("Goodbye old friend: <color=red>" + newPlayer.NickName + "</color>");
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        SceneManager.LoadScene(startingSceneName);
     }
 
     void LogText(string message)

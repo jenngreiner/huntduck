@@ -12,7 +12,7 @@ public class Egg : MonoBehaviour
     private bool isFrozen = false; 
 
     private BNG.Damageable thisDamageable;
-    private PlayerData player;
+    private PlayerData playerData;
     private Vector3 playerPosition;
     private Vector3 target;
 
@@ -21,8 +21,8 @@ public class Egg : MonoBehaviour
 
     void Awake()
     {
-        player = ObjectManager.instance.player;
-        playerPosition = player.controller.position;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
+        playerPosition = playerData.controller.position;
         thisDamageable = GetComponent<BNG.Damageable>();
         target = playerPosition + (playerPosition - transform.position); // egg overshoots player
     }
@@ -41,7 +41,7 @@ public class Egg : MonoBehaviour
     {
         if (isHeatSeeking)
         {
-            target = player.controller.position; 
+            target = playerData.controller.position; 
         }
         if (!isFrozen)
         {
@@ -82,7 +82,7 @@ public class Egg : MonoBehaviour
         onEggHitPlayer?.Invoke(damage);
 
         // play this "ouch" sound as long as not dead (that's a dif sound)
-        if (player.maxHealth > 0)
+        if (playerData.maxHealth > 0)
         {
             BNG.VRUtils.Instance.PlayLinearSpatialClipAt(hitPlayerSound, transform.position, 1f, 1f);
         }

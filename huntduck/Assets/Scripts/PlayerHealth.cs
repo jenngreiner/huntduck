@@ -19,7 +19,6 @@ public class PlayerHealth : MonoBehaviour
     {
         player = GetComponent<PlayerData>();
         player.currenthealth = player.maxHealth;
-        healthBar.SetMaxHealth(player.maxHealth);
     }
 
     void Update()
@@ -42,12 +41,14 @@ public class PlayerHealth : MonoBehaviour
     {
         Egg.onEggHitPlayer += TakeDamage;
         RestartGameMode.onRestartMode += ResetPlayerHealth;
+        ChooseGameMode.onStartHuntMode += SetStartingHealth;
     }
 
     void OnDisable()
     {
         Egg.onEggHitPlayer -= TakeDamage;
         RestartGameMode.onRestartMode -= ResetPlayerHealth;
+        ChooseGameMode.onStartHuntMode -= SetStartingHealth;
     }
 
     void TakeDamage(int damage)
@@ -62,5 +63,11 @@ public class PlayerHealth : MonoBehaviour
         player.currenthealth = player.maxHealth;
         healthBar.SetMaxHealth(player.currenthealth);
         player.isDead = false;
+    }
+
+    void SetStartingHealth()
+    {
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<HealthBar>();
+        healthBar.SetMaxHealth(player.maxHealth);
     }
 }

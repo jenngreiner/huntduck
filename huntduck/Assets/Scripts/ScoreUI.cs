@@ -5,7 +5,7 @@ using huntduck;
 // this is a single player score implementation
 public class ScoreUI : MonoBehaviour
 {
-    private PlayerData player;
+    private PlayerData playerData;
 
     public Text scoreText;
     private int scoreLength = 6;
@@ -14,7 +14,7 @@ public class ScoreUI : MonoBehaviour
     void Start()
     {
         //// find player in the scene, grab its PlayerScore script
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
 
         // reset score when game starts
         CreateArcadeScore();
@@ -42,7 +42,7 @@ public class ScoreUI : MonoBehaviour
 
     void CreateArcadeScore()
     {
-        string _scoreAsString = player.score.ToString();
+        string _scoreAsString = playerData.score.ToString();
         int numZeros = scoreLength - _scoreAsString.Length;
 
         arcadeScore = "";

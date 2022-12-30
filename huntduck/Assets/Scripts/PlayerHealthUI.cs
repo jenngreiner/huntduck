@@ -10,11 +10,11 @@ public class PlayerHealthUI : MonoBehaviour
     public Text healthCountText;
     public GameObject playerDeadImage;
 
-    private PlayerData player;
+    private PlayerData playerData;
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
     }
 
     void OnEnable()
@@ -39,7 +39,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     void UpdateHealthUI()
     {
-        healthCountText.text = player.currenthealth.ToString();
+        healthCountText.text = playerData.currenthealth.ToString();
     }
 
     void ShowPlayerDeadImage()

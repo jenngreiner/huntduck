@@ -24,7 +24,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject playerGuard;
 
     [Header("Player")]
-    public PlayerData player;
+    public GameObject player;
 
 
 
@@ -47,5 +47,10 @@ public class ObjectManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
     }
 }

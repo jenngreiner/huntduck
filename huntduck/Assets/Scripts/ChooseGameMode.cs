@@ -11,6 +11,9 @@ public class ChooseGameMode : MonoBehaviour
     public delegate void SwitchModes();
     public static event SwitchModes onSwitchMode;
 
+    public delegate void StartHuntMode();
+    public static event StartHuntMode onStartHuntMode;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
@@ -19,6 +22,7 @@ public class ChooseGameMode : MonoBehaviour
             if(gameMode.name == "HuntMode")
             {
                 changeGameMode();
+                onStartHuntMode?.Invoke();
             }
         }
     }

@@ -4,14 +4,14 @@ using huntduck;
 
 public class WalletUI : MonoBehaviour
 {
-    private PlayerData player;
+    private PlayerData playerData;
 
     public Text dollarsText;
     public static string walletScore;
 
     void Start()
     {
-        player = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
         // reset score when game starts
         UpdateScoreUI();
     }
@@ -37,7 +37,7 @@ public class WalletUI : MonoBehaviour
 
     void CreateWalletScore()
     {
-        string _scoreAsString = ObjectManager.instance.player.score.ToString();
+        string _scoreAsString = playerData.score.ToString();
         walletScore = "$";
         walletScore += _scoreAsString;
     }

@@ -57,7 +57,7 @@ public class InfiniteLevelManager : MonoBehaviour
     void Start()
     {
         // get the playerscore script on player object
-        playerData = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
 
         // SINGLESCENE: DISABLED
         //StartInfiniteWave();

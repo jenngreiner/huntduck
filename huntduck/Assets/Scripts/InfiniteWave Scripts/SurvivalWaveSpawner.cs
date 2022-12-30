@@ -107,7 +107,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void Start()
     {
-        playerData = ObjectManager.instance.player;
+        playerData = ObjectManager.instance.player.GetComponent<PlayerData>();
     }
 
     void OnEnable()
