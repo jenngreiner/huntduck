@@ -3,6 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using ExitGames.Client.Photon;
 
 public class NetworkManager_HD : MonoBehaviourPunCallbacks
 {
@@ -87,7 +88,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
             GameObject networkTwin = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
             Player networkTwinPlayer = networkTwin.GetComponent<PhotonView>().Owner;
             networkTwinPlayer.NickName = player.name + "'s Network Twin";
-
+            PhotonNetwork.RaiseEvent((byte)1, "Update networkTwinPlayer.NickName", new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendUnreliable);
             //onNameChanged?.Invoke(networkPlayerTwin.name);
 
 
@@ -116,7 +117,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
                 np.AssignPlayerObjects();
             }
 
-            LogText("You just joined as <color=green> " + networkTwinPlayer.NickName + "</color>");
+            LogText("You joined as <color=orange>" + networkTwinPlayer.NickName + "</color>");
         }
     }
 
@@ -135,7 +136,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         // log the name of the new player to the
-        LogText("Welcome New Player: <color=magenta>" + newPlayer.NickName + "</color>");
+        LogText("Welcome n00b: <color=magenta>" + newPlayer.NickName + "</color>");
     }
 
     public override void OnPlayerLeftRoom(Player newPlayer)

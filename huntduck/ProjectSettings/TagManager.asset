@@ -17,6 +17,8 @@ TagManager:
   - GoldenGoose
   - GooseLauncher
   - SpawnPoint
+  - HealthBar
+  - RemotePlayer
   layers:
   - Default
   - TransparentFX
