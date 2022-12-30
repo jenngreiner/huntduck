@@ -34,7 +34,7 @@ public class NameTag : MonoBehaviour
         //commenting out while in editor
         //Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
         //Debug.Log("PhotonNetwork.NickName in Start is " + PhotonNetwork.NickName);
-        ChangeMyName();
+        //ChangeMyName();
     }
 
     void OnEnable()
@@ -49,11 +49,11 @@ public class NameTag : MonoBehaviour
         NetworkManager_HD.onNameChanged -= ChangeMyName;
     }
 
-    void ChangeMyName()
+    void ChangeMyName(string newName)
     {
         if (transform.root.tag == TagManager.REMOTE_PLAYER_TAG)
         {
-            PhotonNetwork.NickName = transform.root.name;
+            PhotonNetwork.NickName = newName;
         }
 
         // FIGURE OUT A WAY TO MAKE NICKNAME SPECIFIC TO THE OWNER / PLAYER_TAG

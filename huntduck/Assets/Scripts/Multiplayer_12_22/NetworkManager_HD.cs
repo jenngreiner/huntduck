@@ -19,7 +19,7 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
 
     public static NetworkManager_HD instance { get; private set; }
 
-    public delegate void NameChanged();
+    public delegate void NameChanged(string _newName);
     public static event NameChanged onNameChanged;
 
     void Awake()
@@ -85,8 +85,10 @@ public class NetworkManager_HD : MonoBehaviourPunCallbacks
         {
             // create player on network
             GameObject networkPlayerTwin = PhotonNetwork.Instantiate(remotePlayerName, Vector3.zero, Quaternion.identity);
-            networkPlayerTwin.name = player.name + "'s Network Twin";
-            onNameChanged?.Invoke();
+            //networkPlayerTwin.name = player.name + "'s Network Twin";
+            onNameChanged?.Invoke(networkPlayerTwin.name);
+            PhotonView networkPlayerTwin_photonView = networkPlayerTwin.GetComponent<PhotonView>();
+            networkPlayerTwin_photonView.RPC("SetPlayerName", RpcTarget.All, player.name + "'s Network Twin");
 
             //create tabletOfLogs on network
             GameObject tabletOfLogs = GameObject.Find(debugObjName);

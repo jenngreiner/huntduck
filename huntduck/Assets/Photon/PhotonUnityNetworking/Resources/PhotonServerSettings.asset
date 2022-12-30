@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_setGameNotStarted
   - RPC_SelectWeapon
   - SetAvailability
+  - SetPlayerName
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
