@@ -20255,6 +20255,7 @@ GameObject:
   - component: {fileID: 8735154366536193404}
   - component: {fileID: 7618145978003883098}
   - component: {fileID: 3816118921658253147}
+  - component: {fileID: -880881292621780687}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -20482,6 +20483,19 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-880881292621780687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8735154366536193405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c626b1a5da334c759e4778511695aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yourName: SHOOTAH
 --- !u!1 &8735154366537364798
 GameObject:
   m_ObjectHideFlags: 0
