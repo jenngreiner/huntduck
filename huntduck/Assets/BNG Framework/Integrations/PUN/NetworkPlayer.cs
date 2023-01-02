@@ -174,7 +174,7 @@ namespace BNG {
             }
         }
 
-        public void AssignPlayerObjects() {
+        public GameObject AssignPlayerObjects() {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
 
             PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
@@ -185,6 +185,8 @@ namespace BNG {
            
             PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
             RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+
+            return player;
 
             //// add in player nametag as assigned object over network
             //playerNameTag = getChildTransformByName(player.transform, "NameTag");

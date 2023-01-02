@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 public class ExitMultiplayer : MonoBehaviour
@@ -16,5 +17,6 @@ public class ExitMultiplayer : MonoBehaviour
     public void OnExitMultiplayer()
     {
         PhotonNetwork.Disconnect();
+        SceneManager.LoadScene(sceneName);
     }
 }

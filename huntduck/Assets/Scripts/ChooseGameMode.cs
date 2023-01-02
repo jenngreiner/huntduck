@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // SINGLESCENE CLASS: when you shoot the button, go to the corresponding game mode
 public class ChooseGameMode : MonoBehaviour
@@ -23,6 +24,15 @@ public class ChooseGameMode : MonoBehaviour
             {
                 changeGameMode();
                 onStartHuntMode?.Invoke();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("KeyDown.H: Go to Hunt Mode");
+            if (gameMode.name == "HuntMode")
+            {
+                SceneManager.LoadScene("GroupHunt");
             }
         }
     }
