@@ -8,7 +8,7 @@ public class NextLevel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             StartCoroutine(GoToLevelAsync(nextLevel));
             // SceneManager.LoadScene(nextLevel);
