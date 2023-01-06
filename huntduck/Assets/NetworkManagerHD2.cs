@@ -15,6 +15,9 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
     public Text playerListText;
 
     private string roomName;
+    private string sceneName;
+
+    private bool showOnce = false;
 
     
     void Awake()
@@ -25,6 +28,20 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        sceneName = "GroupHunt";
+        UpdatePlayerListUI();
+    }
+
+    void Update()
+    {
+        //once the level has loaded
+        if(PhotonNetwork.LevelLoadingProgress == 1 && !showOnce)
+        {
+            showOnce = true;
+            LogText("Created room: <color=aqua>" + PhotonNetwork.CurrentRoom.Name + "</color>");
+            LogText("Welcome new player: <color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color>");
+            UpdatePlayerListUI();
+        }
     }
 
     public override void OnConnectedToMaster()
@@ -37,30 +54,36 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
         roomName = _roomName;
     }
 
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+
+        // Once we have created the room, load the specified scene
+        if (PhotonNetwork.IsMasterClient) // sanity check that we are the master client
+        {
+            PhotonNetwork.LoadLevel(sceneName);
+            //photonView.RPC("LogText", RpcTarget.All, "Created room: <color=aqua>" + roomName + "</color>");
+        }
+    }
+
     public override void OnJoinedRoom()
     {
-        // log whether we created or joined the room
-        if (PhotonNetwork.IsMasterClient)
-        {
-            LogText("Created room: <color=aqua>" + roomName + "</color>");
-        }
-        else
-        {
-            LogText("Joined room: <color=yellow>" + roomName + "</color>");
-        }
-
         // Network Instantiate the object used to represent our player
         GameObject player = PhotonNetwork.Instantiate(remotePlayerName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
         BNG.NetworkPlayer np = player.GetComponent<BNG.NetworkPlayer>();
+        PhotonView playerPV = player.GetComponent<PhotonView>();
         if (np)
         {
             np.transform.name = "MyNetworkPlayer";
             GameObject localPlayerObject = np.AssignPlayerObjects();
-            PhotonNetwork.LocalPlayer.NickName = localPlayerObject.name;
+            playerPV.Owner.NickName = localPlayerObject.name;
 
-            LogText("Created Network Player for <color=orange>" + localPlayerObject.name + "</color>");
-
+            Debug.Log("Created Network Player for <color=orange> " + playerPV.Owner.NickName + "</color>");
+            LogText("Player is  <color=orange>" + localPlayerObject + "</color>");
             UpdatePlayerListUI();
+
+            //photonView.RPC("LogText", RpcTarget.All, "Created Network Player for <color=orange> " + playerPV.Owner.NickName + "</color >");
+            //photonView.RPC("UpdatePlayerListUI", RpcTarget.All);
         }
     }
 
@@ -68,32 +91,28 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        // log the name of the new player to the
-        LogText("Welcome new player: <color=magenta>" + newPlayer.NickName + "</color>");
-
-        float playerCount = PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 0;
-
-        LogText("Connected players <color=orange>: " + playerCount + "</color>");
-    }
-
-    public override void OnPlayerLeftRoom(Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        // log the name of the new player to the
-        LogText("Goodbye old friend: <color=red>" + newPlayer.NickName + "</color>");
-
-        float playerCount = PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 0;
-
-        LogText("Connected players <color=orange>: " + playerCount + "</color>");
-    }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        base.OnRoomListUpdate(roomList);
-
+        LogText("Welcome new player: <color=orange>" + newPlayer.NickName + "</color>");
         UpdatePlayerListUI();
     }
+
+    public override void OnPlayerLeftRoom(Player leavingPlayer)
+    {
+        base.OnPlayerLeftRoom(leavingPlayer);
+
+        LogText("Goodbye old friend: <color=red>" + leavingPlayer.NickName + "</color>");
+        UpdatePlayerListUI();
+
+        // log the name of the new player to the
+        //photonView.RPC("LogText", RpcTarget.All, "Goodbye old friend: <color=red>" + leavingPlayer.NickName + "</color>");
+        //photonView.RPC("UpdatePlayerListUI", RpcTarget.All);
+    }
+
+    //public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    //{
+    //    base.OnRoomListUpdate(roomList);
+
+    //    photonView.RPC("UpdatePlayerListUI", RpcTarget.All);
+    //}
     
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
@@ -110,13 +129,16 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
         // Clear the current player list
         playerListText.text = "";
 
-        // Add the current player count to the player list
-        playerListText.text += "Total Players: <color=orange>" + PhotonNetwork.CurrentRoom.PlayerCount + "</color>\n";
-
-        // Add each player's nickname to the player list
-        foreach (Player player in PhotonNetwork.PlayerList)
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            playerListText.text += "<color=orange>" + player.NickName + "</color>\n";
+            // Add the current player count to the player list
+            playerListText.text += "Total Players: <color=orange>" + PhotonNetwork.CurrentRoom.PlayerCount + "</color>\n";
+
+            // Add each player's nickname to the player list
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                playerListText.text += "<color=orange>" + player.NickName + "</color>\n";
+            }
         }
     }
 

@@ -19,6 +19,7 @@ TagManager:
   - SpawnPoint
   - HealthBar
   - RemotePlayer
+  - PlayerController
   layers:
   - Default
   - TransparentFX

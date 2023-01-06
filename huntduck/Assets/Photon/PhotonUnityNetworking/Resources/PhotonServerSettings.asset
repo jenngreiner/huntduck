@@ -53,6 +53,8 @@ MonoBehaviour:
   - RPC_SelectWeapon
   - SetAvailability
   - SetPlayerName
+  - LogText
+  - UpdatePlayerListUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

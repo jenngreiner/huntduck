@@ -175,17 +175,27 @@ namespace BNG {
         }
 
         public GameObject AssignPlayerObjects() {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            PhotonView photonView = GetComponent<PhotonView>();
+            GameObject player = null;
 
-            PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
+            if (photonView.Owner == PhotonNetwork.LocalPlayer)
+            {
+                player = GameObject.FindGameObjectWithTag("PlayerController");
 
-            // Using an explicit Transform name to make sure we grab the right one in the scene
-            PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
-            LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
-           
-            PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
-            RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+                PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
 
+                // Using an explicit Transform name to make sure we grab the right one in the scene
+                PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
+                LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+
+                PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
+                RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+
+                Debug.Log("Player is " + player);
+                return player;
+            }
+
+            Debug.Log("Player is " + player);
             return player;
 
             //// add in player nametag as assigned object over network

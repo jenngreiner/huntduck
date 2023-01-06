@@ -29,11 +29,7 @@ public class ChooseGameMode : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            Debug.Log("KeyDown.H: Go to Hunt Mode");
-            if (gameMode.name == "HuntMode")
-            {
-                SceneManager.LoadScene("GroupHunt");
-            }
+            SceneManager.LoadScene("GroupHunt");
         }
     }
 
