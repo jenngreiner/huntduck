@@ -76,7 +76,7 @@ public class NetworkManagerHD2 : MonoBehaviourPunCallbacks
         {
             np.transform.name = "MyNetworkPlayer";
             GameObject localPlayerObject = np.AssignPlayerObjects();
-            playerPV.Owner.NickName = localPlayerObject.name;
+            playerPV.Owner.NickName = localPlayerObject.transform.root.name;
 
             Debug.Log("Created Network Player for <color=orange> " + playerPV.Owner.NickName + "</color>");
             LogText("Player is  <color=orange>" + localPlayerObject + "</color>");
