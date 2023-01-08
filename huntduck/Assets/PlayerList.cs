@@ -1,4 +1,3 @@
-using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using Photon.Realtime;
@@ -13,8 +12,6 @@ public class PlayerList : MonoBehaviourPunCallbacks
     {
         UpdatePlayerList();
     }
-
-
 
     public override void OnPlayerEnteredRoom(Player player)
     {

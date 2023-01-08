@@ -100,14 +100,14 @@ public class DuckFly : MonoBehaviour
         {
             isJustStarting = true;
             startTimeRemaining -= Time.fixedDeltaTime;
-            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
+            //Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
             return;
         }
 
         if (startTimeRemaining <= 0)
         {
             isJustStarting = false;
-            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
+            //Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
         }
 
     }
