@@ -36058,7 +36058,6 @@ GameObject:
   - component: {fileID: 1978627091856323710}
   - component: {fileID: 1978627091856323708}
   - component: {fileID: 6606724836497517461}
-  - component: {fileID: -4591230420909208360}
   m_Layer: 9
   m_Name: RemotePlayer
   m_TagString: RemotePlayer
@@ -36142,18 +36141,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41c786f6e196a4152a6b86988ac71202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-4591230420909208360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978627091856323711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54f90810d27694820b470bf9777660d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1978627091857433343

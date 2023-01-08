@@ -5723,6 +5723,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2882971997621691644, guid: 4e0200c22be8b49a990a22b016ec9aaa,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8074888339432768364, guid: 4e0200c22be8b49a990a22b016ec9aaa,
         type: 3}
       propertyPath: m_Name
@@ -5810,50 +5815,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e0200c22be8b49a990a22b016ec9aaa, type: 3}
---- !u!114 &362537325 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8074888339432768366, guid: 4e0200c22be8b49a990a22b016ec9aaa,
-    type: 3}
-  m_PrefabInstance: {fileID: 362537324}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &362537326 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1591264829794413294, guid: 4e0200c22be8b49a990a22b016ec9aaa,
-    type: 3}
-  m_PrefabInstance: {fileID: 362537324}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &362537327 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 8074888340638689461, guid: 4e0200c22be8b49a990a22b016ec9aaa,
+  m_CorrespondingSourceObject: {fileID: 2348395357165148499, guid: 4e0200c22be8b49a990a22b016ec9aaa,
     type: 3}
   m_PrefabInstance: {fileID: 362537324}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &362537328
+--- !u!1 &362537328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8074888339432768364, guid: 4e0200c22be8b49a990a22b016ec9aaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 362537324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &362537329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362537327}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1587e0a277dec4d09a38ae658f07c7e4, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkLogs: {fileID: 0}
-  playerListText: {fileID: 362537326}
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 9
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &362537330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362537328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &480356988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6570,8 +6587,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1193705584}
-  - component: {fileID: 1193705583}
   - component: {fileID: 1193705585}
+  - component: {fileID: 1193705583}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -6586,15 +6603,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193705582}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 117b0d83db28045f2a50c8e39ff4f67c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8073a88fbd2d841f8a685ae06bd96f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayersPerRoom: 3
-  sceneName: Group Hunt
   remotePlayerName: RemotePlayer
-  debugObjName: DebugText
 --- !u!4 &1193705584
 Transform:
   m_ObjectHideFlags: 0
@@ -6616,15 +6630,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193705582}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4e17a92256c54490a8923bd7744b786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayersPerRoom: 0
   remotePlayerName: RemotePlayer
-  networkLogs: {fileID: 362537325}
-  playerListText: {fileID: 362537326}
+  showNetworkLogs: 1
 --- !u!1 &1255741322
 GameObject:
   m_ObjectHideFlags: 0

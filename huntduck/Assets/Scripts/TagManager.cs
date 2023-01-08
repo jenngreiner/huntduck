@@ -20,4 +20,5 @@ public class TagManager
     public const string PLAYER_SPAWNPOINT_TAG = "SpawnPoint";
 
     public const string REMOTE_PLAYER_TAG = "RemotePlayer";
+    public const string PLAYER_CONTROLLER_TAG = "PlayerController";
 }

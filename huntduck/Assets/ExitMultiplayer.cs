@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-public class ExitMultiplayer : MonoBehaviour
+public class ExitMultiplayer : MonoBehaviourPunCallbacks
 {
     public string sceneName;
 
@@ -17,6 +17,12 @@ public class ExitMultiplayer : MonoBehaviour
     public void OnExitMultiplayer()
     {
         PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(sceneName);
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        SceneManager.LoadSceneAsync(sceneName);
     }
 }

@@ -26,11 +26,6 @@ public class ChooseGameMode : MonoBehaviour
                 onStartHuntMode?.Invoke();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SceneManager.LoadScene("GroupHunt");
-        }
     }
 
     public void changeGameMode()

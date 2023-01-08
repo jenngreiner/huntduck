@@ -174,33 +174,49 @@ namespace BNG {
             }
         }
 
-        public GameObject AssignPlayerObjects() {
-            PhotonView photonView = GetComponent<PhotonView>();
-            GameObject player = null;
+        //public GameObject AssignPlayerObjects() {
+        //    PhotonView photonView = GetComponent<PhotonView>();
+        //    GameObject player = null;
 
-            if (photonView.Owner == PhotonNetwork.LocalPlayer)
-            {
-                player = GameObject.FindGameObjectWithTag("PlayerController");
+        //    if (photonView.Owner == PhotonNetwork.LocalPlayer)
+        //    {
+        //        player = GameObject.FindGameObjectWithTag("PlayerController");
 
-                PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
+        //        PlayerHeadTransform = getChildTransformByName(player.transform, "CenterEyeAnchor");
 
-                // Using an explicit Transform name to make sure we grab the right one in the scene
-                PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
-                LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+        //        // Using an explicit Transform name to make sure we grab the right one in the scene
+        //        PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
+        //        LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
 
-                PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
-                RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+        //        PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
+        //        RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
 
-                Debug.Log("Player is " + player);
-                return player;
-            }
+        //        Debug.Log("Player is " + player);
+        //        return player;
+        //    }
 
-            Debug.Log("Player is " + player);
-            return player;
+        //    Debug.Log("Player is " + player);
+        //    return player;
 
-            //// add in player nametag as assigned object over network
-            //playerNameTag = getChildTransformByName(player.transform, "NameTag");
+        //    //// add in player nametag as assigned object over network
+        //    //playerNameTag = getChildTransformByName(player.transform, "NameTag");
 
+        //}
+
+        public void AssignPlayerObjects()
+        {
+            GameObject playerController = GameObject.FindGameObjectWithTag("PlayerController");
+
+            PlayerHeadTransform = getChildTransformByName(playerController.transform, "CenterEyeAnchor");
+
+            // Using an explicit Transform name to make sure we grab the right one in the scene
+            PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
+            LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+
+            PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
+            RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+
+            Debug.Log("Player controller is " + playerController.name);
         }
 
         Transform getChildTransformByName(Transform search, string name) {
