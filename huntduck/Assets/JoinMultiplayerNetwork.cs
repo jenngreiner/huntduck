@@ -39,8 +39,9 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         string _roomName = "DuckIsland";
         PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
         PhotonNetwork.NickName = player.name;
+        //TODO: add oculus userID for production
 
-        Debug.Log("Player has connected to master and created room called " + _roomName);
+        Debug.Log("Player has connected to master and joined or created room called " + _roomName);
     }
 
     public override void OnJoinedRoom()
