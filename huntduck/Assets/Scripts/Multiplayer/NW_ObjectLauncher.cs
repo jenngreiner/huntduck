@@ -49,7 +49,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        GameObject launched = Instantiate(projectileObject, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
 
         launched.transform.position = launchTransform.transform.position;
         launched.transform.rotation = launchRotation.transform.rotation;

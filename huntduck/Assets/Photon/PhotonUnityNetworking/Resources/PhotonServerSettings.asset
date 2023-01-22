@@ -55,6 +55,9 @@ MonoBehaviour:
   - SetPlayerName
   - LogText
   - UpdatePlayerListUI
+  - broadcastHit
+  - DestroyThis
+  - DealDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
