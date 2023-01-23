@@ -26,7 +26,7 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
 
     }
 
-    // TODO: try switching to these callbacks
+    // TODO: try switching logtext functions to these callbacks
     //public override void OnJoinedRoom()
     //{
     //    base.OnJoinedRoom();
