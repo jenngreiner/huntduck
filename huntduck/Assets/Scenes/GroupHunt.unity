@@ -6073,7 +6073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673903917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3609056, y: 0.015000001, z: -2.3586106}
+  m_LocalPosition: {x: -2.3609056, y: 0.015000001, z: -2.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4689567055384413383}
@@ -26983,7 +26983,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139934717365223920}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13000001, y: 0.122, z: 1.7540004}
+  m_LocalPosition: {x: -0.13000001, y: -0.246, z: 1.7540004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3386510069710253000}
@@ -27545,17 +27545,17 @@ MonoBehaviour:
   BeingHeld: 0
   GrabButton: 2
   Grabtype: 2
-  GrabPhysics: 4
-  GrabMechanic: 1
+  GrabPhysics: 0
+  GrabMechanic: 0
   GrabSpeed: 15
-  RemoteGrabbable: 0
+  RemoteGrabbable: 1
   RemoteGrabMechanic: 0
-  RemoteGrabDistance: 2
-  ThrowForceMultiplier: 2
+  RemoteGrabDistance: 100
+  ThrowForceMultiplier: 3
   ThrowForceMultiplierAngular: 1.5
   BreakDistance: 0
   HideHandGraphics: 0
-  ParentToHands: 0
+  ParentToHands: 1
   ParentHandModel: 1
   SnapHandModel: 1
   CanBeDropped: 1
@@ -27595,7 +27595,8 @@ MonoBehaviour:
   SecondaryLookOffset: {x: 0, y: 0, z: 0}
   SecondaryLookAtTransform: {fileID: 0}
   LocalOffsetTransform: {fileID: 0}
-  GrabPoints: []
+  GrabPoints:
+  - {fileID: 2705604270004456303}
   UseCustomInspector: 1
   lastFlickTime: 0
   FlickForce: 1
@@ -27626,7 +27627,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139934717772777377}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.12400009, y: 0.119, z: 2.2920005}
+  m_LocalPosition: {x: -0.12400009, y: -0.249, z: 2.2920005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3386510070376770969}
@@ -32151,7 +32152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3871271446767867000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.28999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2705604271412252999}
@@ -32573,7 +32574,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3871271447504473680}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.19290566, y: 0, z: 0}
+  m_LocalPosition: {x: 0.19290566, y: 0, z: -0.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2705604270004456303}
