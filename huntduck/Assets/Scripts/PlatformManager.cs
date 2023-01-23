@@ -6,7 +6,7 @@ namespace huntduck
 
 	public class PlatformManager : MonoBehaviour
 	{
-		private static PlatformManager s_instance;
+		public static PlatformManager s_instance;
 		//private MatchmakingManager m_matchmaking;
 		//private P2PManager m_p2p;
 		private LeaderboardManager m_leaderboards;

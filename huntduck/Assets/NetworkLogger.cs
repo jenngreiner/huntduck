@@ -26,6 +26,17 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
 
     }
 
+    // TODO: try switching to these callbacks
+    //public override void OnJoinedRoom()
+    //{
+    //    base.OnJoinedRoom();
+    //}
+
+    //public override void OnLeftRoom()
+    //{
+    //    base.OnLeftRoom();
+    //}
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);

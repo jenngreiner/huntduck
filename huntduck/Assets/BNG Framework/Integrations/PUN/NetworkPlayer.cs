@@ -15,9 +15,6 @@ namespace BNG {
         [Tooltip("Transform of the remote player's head. This will be updated during Update")]
         public Transform RemoteHeadTransform;
 
-        // name tag above player head
-        public Transform remoteNameTag;
-
         // Store positions to move between updates
         private Vector3 _syncHeadStartPosition = Vector3.zero;
         private Vector3 _syncHeadEndPosition = Vector3.zero;
