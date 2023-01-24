@@ -23,27 +23,31 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ShootProjectile();
-            Debug.Log("ShootProjectile() Shot a clay on the network!!!");
+            //ShootProjectile();
+            //Debug.Log("ShootProjectile() Shot a clay on the network!!!");
 
-            //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            //Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
+            photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
+            Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
         }
     }
 
-    public void ShootProjectile()
+    [PunRPC]
+    public void RPC_ShootProjectile()
     {
-        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+        GameObject launched = Instantiate(projectileObject, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+        Debug.Log("Launched object is " + launched.name);
 
         launched.transform.position = launchTransform.transform.position;
         launched.transform.rotation = launchRotation.transform.rotation;
 
-        rb = launched.GetComponentInChildren<Rigidbody>();
+        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
 
-        PhotonView launchedPV = launched.GetComponentInChildren<PhotonView>();
-        photonView.RPC("RPC_ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        //rb = launched.GetComponentInChildren<Rigidbody>();
+        //Debug.Log("Rb object is " + rb.name);
 
-        //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        //PhotonView launchedPV = launched.GetComponentInChildren<PhotonView>();
+        //photonView.RPC("RPC_ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
         //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
     }
 
