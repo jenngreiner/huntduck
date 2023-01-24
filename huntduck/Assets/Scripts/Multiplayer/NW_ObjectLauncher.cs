@@ -41,11 +41,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         rb = launched.GetComponentInChildren<Rigidbody>();
 
         PhotonView launchedPV = launched.GetComponentInChildren<PhotonView>();
-
-        if (launchedPV.IsMine)
-        {
-            photonView.RPC("ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-        }
+        photonView.RPC("RPC_ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
 
         //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
         //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
