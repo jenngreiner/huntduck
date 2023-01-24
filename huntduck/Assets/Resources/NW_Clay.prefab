@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1130049107566272652}
   - component: {fileID: 225148936434979180}
+  - component: {fileID: 4054824692285864670}
   m_Layer: 0
   m_Name: NW_Clay
   m_TagString: Untagged
@@ -51,10 +52,26 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 4054824692285864670}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4054824692285864670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232212549993617939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3087399342872967672
 GameObject:
   m_ObjectHideFlags: 0
