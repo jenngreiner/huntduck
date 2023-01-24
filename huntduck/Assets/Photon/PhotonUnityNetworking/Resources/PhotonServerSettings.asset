@@ -58,6 +58,7 @@ MonoBehaviour:
   - broadcastHit
   - DestroyThis
   - DealDamage
+  - RPC_ApplyForce
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

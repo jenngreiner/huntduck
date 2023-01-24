@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Oculus.Platform;
 using Oculus.Platform.Models;
 
+//TODO: reconsile this file with PlatformManager - may have duplication issues in huntmode
 public class OculusPlatform : MonoBehaviour
 {
 	public static OculusPlatform instance;

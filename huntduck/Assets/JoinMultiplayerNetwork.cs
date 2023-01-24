@@ -2,8 +2,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-//TODO: TEST IN HEADSET
-
 public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 {
     [SerializeField]
