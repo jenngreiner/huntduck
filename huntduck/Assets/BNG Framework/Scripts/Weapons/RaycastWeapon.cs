@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -471,12 +472,21 @@ namespace BNG {
 
             // Damage if possible
             Damageable d = hit.collider.GetComponent<Damageable>();
+            NetworkDamageable nD = hit.collider.GetComponent<NetworkDamageable>();
             if (d) {
                 d.DealDamage(Damage, hit.point, hit.normal, true, gameObject, hit.collider.gameObject);
+                Debug.Log("Doing damage to Damageable");
 
                 if (onDealtDamageEvent != null) {
                     onDealtDamageEvent.Invoke(Damage);
                 }
+            }
+            // if networkdamagable, do damage
+            if (nD)
+            {
+                PhotonView weaponPV = nD.GetComponent<PhotonView>();
+                weaponPV.RPC("RPC_DealDamage", RpcTarget.All, Damage, hit.point, hit.normal, true, weaponPV.ViewID, hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
+                Debug.Log("Doing RPC damage to NetworkDamageable");
             }
 
             // Call event

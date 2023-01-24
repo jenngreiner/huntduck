@@ -89,6 +89,45 @@ public class NetworkDamageable : MonoBehaviourPun
         this.DealDamage(damageAmount, transform.position);
     }
 
+    [PunRPC]
+    public virtual void RPC_DealDamage(float damageAmount, Vector3? hitPosition = null, Vector3? hitNormal = null, bool reactToHit = true, int senderViewID = default, int receiverViewID = default)
+    {
+        GameObject sender = PhotonView.Find(senderViewID).gameObject;
+        GameObject receiver = PhotonView.Find(receiverViewID).gameObject;
+
+        if (destroyed)
+        {
+            Debug.Log("We destroyed that breakable called " + transform.name);
+            return;
+        }
+
+        Health -= damageAmount;
+
+        onDamaged?.Invoke(damageAmount);
+
+        // Invector Integration
+#if INVECTOR_BASIC || INVECTOR_AI_TEMPLATE
+            if(SendDamageToInvector) {
+                var d = new Invector.vDamage();
+                d.hitReaction = reactToHit;
+                d.hitPosition = (Vector3)hitPosition;
+                d.receiver = receiver == null ? this.gameObject.transform : null;
+                d.damageValue = (int)damageAmount;
+
+                this.gameObject.ApplyDamage(new Invector.vDamage(d));
+            }
+#endif
+
+        if (Health <= 0)
+        {
+            //photonView.RPC("RPC_DestroyThis", RpcTarget.All);
+            //photonView.RPC("RPC_BroadcastHit", RpcTarget.All);
+
+            DestroyThis();
+            BroadcastHit(); // runs switch statement against object tag
+        }
+    }
+
     public virtual void DealDamage(float damageAmount, Vector3? hitPosition = null, Vector3? hitNormal = null, bool reactToHit = true, GameObject sender = null, GameObject receiver = null)
     {
 
@@ -117,16 +156,15 @@ public class NetworkDamageable : MonoBehaviourPun
 
         if (Health <= 0)
         {
-            photonView.RPC("RPC_DestroyThis", RpcTarget.All);
-            photonView.RPC("RPC_BroadcastHit", RpcTarget.All);
+            //photonView.RPC("RPC_DestroyThis", RpcTarget.All);
+            //photonView.RPC("RPC_BroadcastHit", RpcTarget.All);
 
-            //DestroyThis();
-            //RPC_BroadcastHit(); // runs switch statement against object tag
+            DestroyThis();
+            BroadcastHit(); // runs switch statement against object tag
         }
     }
 
-    [PunRPC]
-    public virtual void RPC_DestroyThis()
+    public virtual void DestroyThis()
     {
         Health = 0;
         destroyed = true;
@@ -164,16 +202,18 @@ public class NetworkDamageable : MonoBehaviourPun
         }
 
         // Invoke Callback Event
-        //if (onDestroyed != null)
-        //{
-        //    onDestroyed.Invoke();
-        //}
+        if (onDestroyed != null)
+        {
+            onDestroyed.Invoke();
+        }
 
-        //onDestroyedDelegate?.Invoke();
+        onDestroyedDelegate?.Invoke();
 
         if (DestroyOnDeath)
         {
-            PhotonNetwork.Destroy(transform.root.GetComponent<PhotonView>());
+            Invoke(nameof(PhotonDelayedDestroyRoot), DestroyDelay);
+            //PhotonNetwork.Destroy(transform.parent.gameObject);
+            //Destroy(transform.root.GetComponent<PhotonView>());
             //Destroy(this.transform.parent.gameObject, DestroyDelay);
         }
         else if (Respawn)
@@ -194,15 +234,20 @@ public class NetworkDamageable : MonoBehaviourPun
             BulletHole[] holes = GetComponentsInChildren<BulletHole>();
             foreach (var hole in holes)
             {
-                PhotonNetwork.Destroy(hole.gameObject);
+                Destroy(hole.gameObject);
             }
 
             Transform decal = transform.Find("Decal");
             if (decal)
             {
-                PhotonNetwork.Destroy(decal.gameObject);
+                Destroy(decal.gameObject);
             }
         }
+    }
+
+    void PhotonDelayedDestroyRoot()
+    {
+        PhotonNetwork.Destroy(transform.root.gameObject);
     }
 
     // SINGLESCENE: Reset elements during practice mode for "Play Again"
@@ -288,8 +333,7 @@ public class NetworkDamageable : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    void RPC_BroadcastHit()
+    void BroadcastHit()
     {
         switch (gameObject.tag)
         {

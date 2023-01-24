@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
@@ -17,7 +16,13 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
     //public AudioClip LaunchSound;
     private Rigidbody rb;
+    private PhotonView pv;
 
+    void Start()
+    {
+        // PhotonView attached to the networked launcher
+        pv = GetComponent<PhotonView>();
+    }
 
     void Update()
     {
@@ -30,11 +35,40 @@ public class NW_ObjectLauncher : MonoBehaviourPun
             Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
         }
     }
+    
+    //public void ShootProjectile()
+    //{
+    //    GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+    //    Debug.Log("Launched object is " + launched.name);
+
+    //    pv.RPC("launchProjectile", RpcTarget.All, launched);
+
+    //    //PhotonView launchedPV = launched.GetComponentInChildren<PhotonView>();
+    //    //launchedPV.RPC("launchProjectile", RpcTarget.All, launched);
+    //    //rb = launched.GetComponentInChildren<Rigidbody>();
+    //    //Debug.Log("Rb object is " + rb.name);
+    //    //photonView.RPC("RPC_ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+    //    //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+    //}
+
+    //[PunRPC]
+    //void launchProjectile(GameObject launched)
+    //{
+    //    launched.transform.position = launchTransform.transform.position;
+    //    launched.transform.rotation = launchRotation.transform.rotation;
+
+    //    launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+    //    Debug.Log("Clay should be MOVIN");
+    //}
+
 
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        GameObject launched = Instantiate(projectileObject, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
         Debug.Log("Launched object is " + launched.name);
 
         launched.transform.position = launchTransform.transform.position;

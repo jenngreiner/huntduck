@@ -7016,6 +7016,11 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -7392475300169190861, guid: 1fac3d21ef24a42c9a62209be23f9d16,
+        type: 3}
+      propertyPath: OwnershipTransfer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2463619530738425854, guid: 1fac3d21ef24a42c9a62209be23f9d16,
         type: 3}
       propertyPath: projectileObject
