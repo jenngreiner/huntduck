@@ -7016,6 +7016,12 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2463619530738425854, guid: 1fac3d21ef24a42c9a62209be23f9d16,
+        type: 3}
+      propertyPath: projectileObject
+      value: 
+      objectReference: {fileID: 1232212549993617939, guid: a9841ed14a5ed497abc8be67abe28e7b,
+        type: 3}
     - target: {fileID: 3278400308339995931, guid: 1fac3d21ef24a42c9a62209be23f9d16,
         type: 3}
       propertyPath: m_RootOrder

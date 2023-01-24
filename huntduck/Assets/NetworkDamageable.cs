@@ -81,13 +81,6 @@ public class NetworkDamageable : MonoBehaviourPun
             this.DealDamage(99999);
             Debug.Log("FEEL MY WRATH, K");
         }
-
-        // kill only clays
-        if (Input.GetKeyDown(KeyCode.L) && transform.name == "Clay")
-        {
-            photonView.RPC("DealDamage", RpcTarget.All, 99999f);
-            Debug.Log("FEEL MY WRATH, K");
-        }
     }
 
     [PunRPC]
@@ -124,18 +117,16 @@ public class NetworkDamageable : MonoBehaviourPun
 
         if (Health <= 0)
         {
-            //photonView.RPC("DestroyThis", RpcTarget.All);
-            //photonView.RPC("broadcastHit", RpcTarget.All);
+            photonView.RPC("RPC_DestroyThis", RpcTarget.All);
+            photonView.RPC("RPC_BroadcastHit", RpcTarget.All);
 
-            DestroyThis();
-
-            // runs switch statement against object tag
-            broadcastHit();
+            //DestroyThis();
+            //RPC_BroadcastHit(); // runs switch statement against object tag
         }
     }
 
-    //[PunRPC]
-    public virtual void DestroyThis()
+    [PunRPC]
+    public virtual void RPC_DestroyThis()
     {
         Health = 0;
         destroyed = true;
@@ -173,16 +164,16 @@ public class NetworkDamageable : MonoBehaviourPun
         }
 
         // Invoke Callback Event
-        if (onDestroyed != null)
-        {
-            onDestroyed.Invoke();
-        }
+        //if (onDestroyed != null)
+        //{
+        //    onDestroyed.Invoke();
+        //}
 
-        onDestroyedDelegate?.Invoke();
+        //onDestroyedDelegate?.Invoke();
 
         if (DestroyOnDeath)
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            PhotonNetwork.Destroy(transform.root.GetComponent<PhotonView>());
             //Destroy(this.transform.parent.gameObject, DestroyDelay);
         }
         else if (Respawn)
@@ -203,7 +194,7 @@ public class NetworkDamageable : MonoBehaviourPun
             BulletHole[] holes = GetComponentsInChildren<BulletHole>();
             foreach (var hole in holes)
             {
-                GameObject.Destroy(hole.gameObject);
+                PhotonNetwork.Destroy(hole.gameObject);
             }
 
             Transform decal = transform.Find("Decal");
@@ -298,7 +289,7 @@ public class NetworkDamageable : MonoBehaviourPun
     }
 
     [PunRPC]
-    void broadcastHit()
+    void RPC_BroadcastHit()
     {
         switch (gameObject.tag)
         {
