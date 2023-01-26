@@ -36,11 +36,47 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         }
     }
 
+    //[PunRPC]
+    //public void RPC_ShootProjectile()
+    //{
+    //    if (!PhotonNetwork.IsMasterClient)
+    //        return;
+
+    //    GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+    //    Debug.Log("MC created a clay on the network!!!");
+
+
+    //    launched.transform.position = launchTransform.transform.position;
+    //    launched.transform.rotation = launchRotation.transform.rotation;
+    //    launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+    //    Debug.Log(launched.name + " should be MOVIN");
+
+    //    //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
+    //    Vector3 launchSpeed = launchTransform.forward * projectileForce;
+    //    //PhotonView launchedPV = launched.GetComponent<PhotonView>();
+    //    //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
+
+    //    int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+
+    //    photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
+
+    //    //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
+
+
+    //    //rb = launched.GetComponentInChildren<Rigidbody>();
+    //    //Debug.Log("Rb object is " + rb.name);
+
+
+
+    //    //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+    //}
+
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
+        //if (!PhotonNetwork.IsMasterClient)
+            //return;
 
         GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
         Debug.Log("MC created a clay on the network!!!");
@@ -52,24 +88,11 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
         Debug.Log(launched.name + " should be MOVIN");
 
-        //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
-        Vector3 launchSpeed = launchTransform.forward * projectileForce;
-        //PhotonView launchedPV = launched.GetComponent<PhotonView>();
-        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
+        //Vector3 launchSpeed = launchTransform.forward * projectileForce;
 
-        int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+        //int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
 
-        photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
-
-        //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
-
-
-        //rb = launched.GetComponentInChildren<Rigidbody>();
-        //Debug.Log("Rb object is " + rb.name);
-
-
-
-        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+        ////photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
     }
 
     [PunRPC]
