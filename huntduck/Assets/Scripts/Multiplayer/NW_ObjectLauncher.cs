@@ -86,7 +86,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         //launched.transform.rotation = launchRotation.transform.rotation;
         //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
 
-        Debug.Log(launched.name + " should be MOVIN");
+        //Debug.Log(launched.name + " should be MOVIN");
 
         Vector3 launchSpeed = launchTransform.forward * projectileForce;
         int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
