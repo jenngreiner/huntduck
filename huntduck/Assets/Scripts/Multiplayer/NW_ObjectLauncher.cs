@@ -82,9 +82,9 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         Debug.Log("MC created a clay on the network!!!");
 
 
-        launched.transform.position = launchTransform.transform.position;
-        launched.transform.rotation = launchRotation.transform.rotation;
-        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        //launched.transform.position = launchTransform.transform.position;
+        //launched.transform.rotation = launchRotation.transform.rotation;
+        //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
 
         Debug.Log(launched.name + " should be MOVIN");
 
