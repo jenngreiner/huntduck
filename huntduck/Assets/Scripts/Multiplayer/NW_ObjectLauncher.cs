@@ -83,7 +83,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         launched.transform.rotation = launchTransform.rotation;
 
         // Apply force to the launched object, making it fly across the room
-        launched.GetComponent<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
     }
 
     //public void RPC_ShootProjectile()
