@@ -7,7 +7,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     public GameObject projectileObject;
     public float projectileForce = 15f;
     [SerializeField]
-    private GameObject launchedObject;
+    private GameObject launchedObj;
 
     /// Where the projectile will launch from
     public Transform launchTransform;
@@ -33,80 +33,110 @@ public class NW_ObjectLauncher : MonoBehaviourPun
             //ShootProjectile();
             //Debug.Log("ShootProjectile() Shot a clay on the network!!!");
 
-            launchedObject = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.position, launchTransform.rotation);
+            //launchedObj = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.position, launchTransform.rotation);
+            //launchedObjPV = launchedObj.GetComponent<PhotonView>().ViewID;
+            //photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All, launchedObj);
+
             photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
             Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
         }
     }
 
-    //[PunRPC]
-    //public void RPC_ShootProjectile()
-    //{
-    //    if (!PhotonNetwork.IsMasterClient)
-    //        return;
-
-    //    GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
-    //    Debug.Log("MC created a clay on the network!!!");
-
-
-    //    launched.transform.position = launchTransform.transform.position;
-    //    launched.transform.rotation = launchRotation.transform.rotation;
-    //    launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-
-    //    Debug.Log(launched.name + " should be MOVIN");
-
-    //    //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
-    //    Vector3 launchSpeed = launchTransform.forward * projectileForce;
-    //    //PhotonView launchedPV = launched.GetComponent<PhotonView>();
-    //    //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
-
-    //    int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
-
-    //    photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
-
-    //    //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
-
-
-    //    //rb = launched.GetComponentInChildren<Rigidbody>();
-    //    //Debug.Log("Rb object is " + rb.name);
-
-
-
-    //    //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
-    //}
-
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        // Set the position and rotation of the launched object
-        launchedObject.transform.position = launchTransform.position;
-        launchedObject.transform.rotation = launchTransform.rotation;
+        Debug.Log(nameof(RPC_ShootProjectile) + " function has started!");
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("You are not the master, bailing function locally");
+            return;
+        }
 
-        // Apply force to the launched object, making it fly across the room
-        launchedObject.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+        Debug.Log("MC created a clay on the network!!!");
+
+
+        launched.transform.position = launchTransform.transform.position;
+        launched.transform.rotation = launchRotation.transform.rotation;
+        launched.GetComponent<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+        Debug.Log("MC applied force to " + launched.name + " , it should be MOVIN");
     }
 
-    //public void RPC_ShootProjectile()
-    //{
-    //    //if (!PhotonNetwork.IsMasterClient)
-    //        //return;
 
-    //    GameObject launched = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
-    //    Debug.Log("MC created a clay on the network!!!");
+        //[PunRPC]
+        //public void RPC_ShootProjectile()
+        //{
+        //    Debug.Log(nameof(RPC_ShootProjectile) + " function has started!");
+        //    if (!PhotonNetwork.IsMasterClient)
+        //    {
+        //        Debug.Log("You are not the master, bailing function locally");
+        //        return;
+        //    }
+
+        //    GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+        //    Debug.Log("MC created a clay on the network!!!");
 
 
-    //    //launched.transform.position = launchTransform.transform.position;
-    //    //launched.transform.rotation = launchRotation.transform.rotation;
-    //    //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        //    launched.transform.position = launchTransform.transform.position;
+        //    launched.transform.rotation = launchRotation.transform.rotation;
+        //    launched.GetComponent<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
 
-    //    //Debug.Log(launched.name + " should be MOVIN");
+        //    Debug.Log(launched.name + " should be MOVIN");
 
-    //    Vector3 launchSpeed = launchTransform.forward * projectileForce;
-    //    int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
-    //    photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.Others, launchedPVId, launchSpeed, ForceMode.VelocityChange);
-    //}
+        //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
+        //Vector3 launchSpeed = launchTransform.forward * projectileForce;
+        //PhotonView launchedPV = launched.GetComponent<PhotonView>();
+        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
 
-    [PunRPC]
+        //int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+
+        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
+
+        //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
+
+
+        //rb = launched.GetComponentInChildren<Rigidbody>();
+        //Debug.Log("Rb object is " + rb.name);
+
+
+
+        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+        //}
+
+        //[PunRPC]
+        //public void RPC_ShootProjectile(GameObject _launchedObject)
+        //{
+
+        //    // Set the position and rotation of the launched object
+        //    _launchedObject.transform.position = launchTransform.position;
+        //    _launchedObject.transform.rotation = launchTransform.rotation;
+
+        //    // Apply force to the launched object, making it fly across the room
+        //    _launchedObject.GetComponent<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        //}
+
+        //public void RPC_ShootProjectile()
+        //{
+        //    //if (!PhotonNetwork.IsMasterClient)
+        //        //return;
+
+        //    GameObject launched = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+        //    Debug.Log("MC created a clay on the network!!!");
+
+
+        //    //launched.transform.position = launchTransform.transform.position;
+        //    //launched.transform.rotation = launchRotation.transform.rotation;
+        //    //launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+        //    //Debug.Log(launched.name + " should be MOVIN");
+
+        //    Vector3 launchSpeed = launchTransform.forward * projectileForce;
+        //    int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+        //    photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.Others, launchedPVId, launchSpeed, ForceMode.VelocityChange);
+        //}
+
+        [PunRPC]
     public void RPC_ApplyForce(int launchedPVId, Vector3 launchSpeed, ForceMode mode)
     {
         PhotonView launchedPV = PhotonView.Find(launchedPVId);
