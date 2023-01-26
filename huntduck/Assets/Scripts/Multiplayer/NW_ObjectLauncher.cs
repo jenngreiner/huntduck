@@ -54,9 +54,13 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
         //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
         Vector3 launchSpeed = launchTransform.forward * projectileForce;
-        PhotonView launchedPV = launched.GetComponent<PhotonView>();
+        //PhotonView launchedPV = launched.GetComponent<PhotonView>();
+        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
 
-        photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
+        int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+
+        photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
+
         //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
 
 
@@ -69,10 +73,19 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPC_ApplyForce(PhotonView launchedPV, Vector3 speed, ForceMode mode)
+    public void RPC_ApplyForce(int launchedPVId, Vector3 launchSpeed, ForceMode mode)
     {
-        launchedPV.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
-        launchedPV.GetComponentInChildren<Rigidbody>().AddForce(speed, mode);
+        PhotonView launchedPV = PhotonView.Find(launchedPVId);
+        if (launchedPV != null)
+        {
+            Rigidbody rb = launchedPV.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                launchedPV.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
+                launchedPV.GetComponentInChildren<Rigidbody>().AddForce(launchSpeed, mode);
+                rb.AddForce(launchSpeed, mode);
+            }
+        }
     }
 
     //public void ShootProjectile()
