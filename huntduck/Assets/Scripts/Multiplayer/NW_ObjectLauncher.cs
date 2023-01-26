@@ -15,13 +15,13 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     public float launchDelayTime = 3f;
 
     //public AudioClip LaunchSound;
-    private Rigidbody rb;
-    private PhotonView pv;
+    //private Rigidbody rb;
+    //private PhotonView pv;
 
     void Start()
     {
         // PhotonView attached to the networked launcher
-        pv = GetComponent<PhotonView>();
+        //pv = GetComponent<PhotonView>();
     }
 
     void Update()
@@ -31,11 +31,50 @@ public class NW_ObjectLauncher : MonoBehaviourPun
             //ShootProjectile();
             //Debug.Log("ShootProjectile() Shot a clay on the network!!!");
 
-            photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
+            photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
+            Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
         }
     }
-    
+
+    [PunRPC]
+    public void RPC_ShootProjectile()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+        Debug.Log("MC created a clay on the network!!!");
+
+
+        launched.transform.position = launchTransform.transform.position;
+        launched.transform.rotation = launchRotation.transform.rotation;
+        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+
+        Debug.Log(launched.name + " should be MOVIN");
+
+        //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
+        //Vector3 launchSpeed = launchTransform.forward * projectileForce;
+        //PhotonView launchedPV = launched.GetComponent<PhotonView>();
+
+        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launched, launchedPV, launchSpeed, ForceMode.VelocityChange);
+        //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
+
+
+        //rb = launched.GetComponentInChildren<Rigidbody>();
+        //Debug.Log("Rb object is " + rb.name);
+
+
+
+        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
+    }
+
+    [PunRPC]
+    public void RPC_ApplyForce(GameObject launched, PhotonView launchedPV, Vector3 force, ForceMode mode)
+    {
+        launched.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
+        launchedPV.GetComponent<Rigidbody>().AddForce(force, mode);
+    }
+
     //public void ShootProjectile()
     //{
     //    GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation) as GameObject;
@@ -61,35 +100,6 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     //    Debug.Log("Clay should be MOVIN");
     //}
 
-
-    [PunRPC]
-    public void RPC_ShootProjectile()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
-        Debug.Log("Launched object is " + launched.name);
-
-        launched.transform.position = launchTransform.transform.position;
-        launched.transform.rotation = launchRotation.transform.rotation;
-
-        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-
-        //rb = launched.GetComponentInChildren<Rigidbody>();
-        //Debug.Log("Rb object is " + rb.name);
-
-        //PhotonView launchedPV = launched.GetComponentInChildren<PhotonView>();
-        //photonView.RPC("RPC_ApplyForce", RpcTarget.All, launchTransform.forward * projectileForce, ForceMode.VelocityChange);
-
-        //BNG.VRUtils.Instance.PlaySpatialClipAt(LaunchSound, launched.transform.position, 1f);
-    }
-
-    [PunRPC]
-    public void RPC_ApplyForce(Vector3 force, ForceMode mode)
-    {
-        rb.AddForce(force, mode);
-    }
 
 
     //[PunRPC]
