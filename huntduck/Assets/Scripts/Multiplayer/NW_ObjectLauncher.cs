@@ -53,10 +53,10 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         Debug.Log(launched.name + " should be MOVIN");
 
         //Rigidbody rb = launched.GetComponentInChildren<Rigidbody>();
-        //Vector3 launchSpeed = launchTransform.forward * projectileForce;
-        //PhotonView launchedPV = launched.GetComponent<PhotonView>();
+        Vector3 launchSpeed = launchTransform.forward * projectileForce;
+        PhotonView launchedPV = launched.GetComponent<PhotonView>();
 
-        //photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launched, launchedPV, launchSpeed, ForceMode.VelocityChange);
+        photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPV, launchSpeed, ForceMode.VelocityChange);
         //Debug.Log("Fired " + nameof(RPC_ApplyForce) + ", clay should be launching across the sky for all!");
 
 
@@ -69,10 +69,10 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPC_ApplyForce(GameObject launched, PhotonView launchedPV, Vector3 force, ForceMode mode)
+    public void RPC_ApplyForce(PhotonView launchedPV, Vector3 speed, ForceMode mode)
     {
-        launched.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
-        launchedPV.GetComponent<Rigidbody>().AddForce(force, mode);
+        launchedPV.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
+        launchedPV.GetComponentInChildren<Rigidbody>().AddForce(speed, mode);
     }
 
     //public void ShootProjectile()
