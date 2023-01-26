@@ -103,10 +103,15 @@ public class NW_ObjectLauncher : MonoBehaviourPun
             if (rb != null)
             {
                 launchedPV.transform.SetPositionAndRotation(launchTransform.transform.position, launchRotation.transform.rotation);
-                launchedPV.GetComponentInChildren<Rigidbody>().AddForce(launchSpeed, mode);
-                rb.AddForce(launchSpeed, mode);
+                launchedPV.RPC("ApplyForce", RpcTarget.All, launchSpeed, mode);
             }
         }
+    }
+
+    [PunRPC]
+    public void ApplyForce(Vector3 launchSpeed, ForceMode mode)
+    {
+        GetComponentInChildren<Rigidbody>().AddForce(launchSpeed, mode);
     }
 
     //public void ShootProjectile()
