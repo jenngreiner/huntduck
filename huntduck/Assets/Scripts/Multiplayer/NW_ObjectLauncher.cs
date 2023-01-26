@@ -78,7 +78,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         //if (!PhotonNetwork.IsMasterClient)
             //return;
 
-        GameObject launched = PhotonNetwork.Instantiate(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
+        GameObject launched = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.transform.position, launchTransform.transform.rotation);
         Debug.Log("MC created a clay on the network!!!");
 
 
