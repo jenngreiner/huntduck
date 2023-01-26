@@ -6,6 +6,8 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     // Object to launch 
     public GameObject projectileObject;
     public float projectileForce = 15f;
+    [SerializeField]
+    private GameObject launchedObject;
 
     /// Where the projectile will launch from
     public Transform launchTransform;
@@ -76,14 +78,14 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     public void RPC_ShootProjectile()
     {
         // Instantiate the launched object on the network
-        GameObject launched = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.position, launchTransform.rotation);
+        launchedObject = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.position, launchTransform.rotation);
 
         // Set the position and rotation of the launched object
-        launched.transform.position = launchTransform.position;
-        launched.transform.rotation = launchTransform.rotation;
+        launchedObject.transform.position = launchTransform.position;
+        launchedObject.transform.rotation = launchTransform.rotation;
 
         // Apply force to the launched object, making it fly across the room
-        launched.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
+        launchedObject.GetComponentInChildren<Rigidbody>().AddForce(launchTransform.forward * projectileForce, ForceMode.VelocityChange);
     }
 
     //public void RPC_ShootProjectile()
