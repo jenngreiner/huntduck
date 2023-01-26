@@ -33,6 +33,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
             //ShootProjectile();
             //Debug.Log("ShootProjectile() Shot a clay on the network!!!");
 
+            launchedObject = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.position, launchTransform.rotation);
             photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
             Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
         }
@@ -77,9 +78,6 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     [PunRPC]
     public void RPC_ShootProjectile()
     {
-        // Instantiate the launched object on the network
-        launchedObject = PhotonNetwork.InstantiateRoomObject(projectileObject.name, launchTransform.position, launchTransform.rotation);
-
         // Set the position and rotation of the launched object
         launchedObject.transform.position = launchTransform.position;
         launchedObject.transform.rotation = launchTransform.rotation;
