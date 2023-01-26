@@ -88,11 +88,9 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
         Debug.Log(launched.name + " should be MOVIN");
 
-        //Vector3 launchSpeed = launchTransform.forward * projectileForce;
-
-        //int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
-
-        ////photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.All, launchedPVId, launchSpeed, ForceMode.VelocityChange);
+        Vector3 launchSpeed = launchTransform.forward * projectileForce;
+        int launchedPVId = launched.GetComponent<PhotonView>().ViewID;
+        photonView.RPC(nameof(RPC_ApplyForce), RpcTarget.Others, launchedPVId, launchSpeed, ForceMode.VelocityChange);
     }
 
     [PunRPC]
