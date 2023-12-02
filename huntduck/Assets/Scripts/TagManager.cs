@@ -4,6 +4,7 @@ public class TagManager
 {
     public const string PLAYER_TAG = "Player";
     public const string SHOOTINGSTAND_TAG = "ShootingStand";
+    public const string WEAPON_TAG = "Weapon";
 
     public const string TARGET_TAG = "Target";
     public const string PRACTICECLAY_TAG = "PracticeClay";

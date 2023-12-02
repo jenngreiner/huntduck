@@ -20,6 +20,7 @@ TagManager:
   - HealthBar
   - RemotePlayer
   - PlayerController
+  - Weapon
   layers:
   - Default
   - TransparentFX

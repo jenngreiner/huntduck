@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 {
@@ -9,10 +10,13 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
     [SerializeField]
     private string sceneName = "GroupHunt";
     private GameObject player;
+    private GameObject weapon;
+    //private bool isWeaponDestroyed = false; //TODO: remove if not using coroutine to delay MP entry until gun destroyed
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
+        //weapon = GameObject.FindGameObjectWithTag(TagManager.WEAPON_TAG); //TODO: remove if not using coroutine
     }
 
     void Update()
@@ -23,8 +27,24 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         }
     }
 
+    void OnEnable()
+    {
+        base.OnEnable();
+        MultiplayerTrigger.onMultiplayerTrigger += JoinMultiplayer;
+    }
+
+    void OnDisable()
+    {
+        base.OnDisable();
+        MultiplayerTrigger.onMultiplayerTrigger -= JoinMultiplayer;
+    }
+
     public void JoinMultiplayer()
     {
+        //TODO: remove if not using coroutine
+        //StartCoroutine(DestroyWeaponThenJoinMultiplayer());
+        //DestroyWeapon(); // can't bring non-networked weapon into multiplayer, best to destroy and start anew
+
         SetNickname();
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
@@ -59,7 +79,7 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 
     private void SetNickname()
     {
-         string playerNickName;
+        string playerNickName;
 
         if (UnityEngine.Application.isEditor)
         {
@@ -73,4 +93,29 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 
         PhotonNetwork.NickName = playerNickName;
     }
+
+    //TODO: remove if not using coroutine
+    // Attempt to give enough time to destroy gun before joining MP to not cause errors on gun in networked scene
+    //private IEnumerator DestroyWeaponThenJoinMultiplayer()
+    //{
+    //    DestroyWeapon(); // can't bring non-networked weapon into multiplayer, best to destroy and start anew
+
+    //    while (!isWeaponDestroyed)
+    //    {
+    //        yield return null; // won't progress until gun fully destroyed
+    //    }
+
+    //    yield return new WaitForSeconds(5f);
+
+    //    SetNickname();
+    //    PhotonNetwork.AutomaticallySyncScene = true;
+    //    PhotonNetwork.ConnectUsingSettings();
+    //}
+
+    //private void DestroyWeapon()
+    //{
+    //    //Destroy(weapon);
+    //    weapon.SetActive(false);
+    //    isWeaponDestroyed = true;
+    //}
 }

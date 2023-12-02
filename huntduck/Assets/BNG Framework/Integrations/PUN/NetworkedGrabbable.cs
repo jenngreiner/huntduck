@@ -31,6 +31,11 @@ namespace BNG {
 
             base.Update();
 
+            if (!PhotonNetwork.IsConnected)
+            {
+                return;
+            }
+
             // Check if owner has left or is unassigned
             CheckForNullOwner();
 
