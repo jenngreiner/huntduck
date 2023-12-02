@@ -25,6 +25,7 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 
     public void JoinMultiplayer()
     {
+        SetNickname();
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -36,11 +37,6 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         // Try to join or create the "DuckIsland" room
         string _roomName = "DuckIsland";
         PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
-        SetNickname();
-
-        //PhotonNetwork.NickName = player.name;
-
-        Debug.Log("Player has connected to master and joined or created room called " + _roomName);
     }
 
     public override void OnJoinedRoom()
@@ -49,7 +45,6 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel(sceneName);
-            Debug.Log("Loaded level via photon");
         }
     }
 
@@ -73,13 +68,9 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         }
         else
         {
-            // check OculusID
-            Debug.Log("Player Oculus ID = " + OculusPlatform.MyOculusID);
-
             playerNickName = OculusPlatform.MyOculusID;
         }
 
         PhotonNetwork.NickName = playerNickName;
-        Debug.Log("PhotonNetwork.NickName is " + PhotonNetwork.NickName);
     }
 }

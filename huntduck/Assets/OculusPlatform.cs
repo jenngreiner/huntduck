@@ -17,19 +17,17 @@ public class OculusPlatform : MonoBehaviour
 	void Awake()
 	{
 		// make sure only one instance of this manager ever exists
-		if (instance != null && instance != this)
+        if (instance != null && instance != this)
 		{
 			Destroy(gameObject);
 		}
 		else
 		{
 			instance = this;
+            DontDestroyOnLoad(gameObject); //keep this for multiplayer - currently fetching OculusID every time join room. relevant when you leave a room and rejoin.
+			Core.Initialize();
 		}
-
-		DontDestroyOnLoad(gameObject);
-
-		Core.Initialize();
-	}
+    }
 
 
 	void Start()
@@ -47,7 +45,7 @@ public class OculusPlatform : MonoBehaviour
 		}
 
 		// Next get the identity of the user that launched the Application.
-Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
+		Users.GetLoggedInUser().OnComplete(GetLoggedInUserCallback);
 	}
 
 	void GetLoggedInUserCallback(Message<User> msg)

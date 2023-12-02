@@ -11,6 +11,5 @@ public class NameTag : MonoBehaviour
         // set the network player gameObject name AND its nametag (child) to the PhotonNetwork nickname for that player
         PhotonView playerPV = gameObject.GetComponent<PhotonView>();
         gameObject.transform.name = nameTag.text = playerPV.Owner.NickName;
-        Debug.Log("nameTag.text is " + nameTag.text);
     }
 }

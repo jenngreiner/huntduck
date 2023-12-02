@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GroupHunt.unity
     guid: 072cd38cec5954243a6e47501f67301b
-  - enabled: 1
+  - enabled: 0
     path: Assets/BNG Framework/Integrations/PUN/MPDemo.unity
     guid: 1ef291d4030a6484f8bc6edeae91dda9
   m_configObjects:
