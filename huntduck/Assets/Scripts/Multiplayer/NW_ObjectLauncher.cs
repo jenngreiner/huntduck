@@ -21,9 +21,16 @@ public class NW_ObjectLauncher : MonoBehaviourPun
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
-            Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
+            //photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
+            //Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
+            ShootClay();
         }
+    }
+
+    public void ShootClay()
+    {
+        photonView.RPC(nameof(RPC_ShootProjectile), RpcTarget.All);
+        Debug.Log(nameof(RPC_ShootProjectile) + " function has completed");
     }
 
     [PunRPC]
