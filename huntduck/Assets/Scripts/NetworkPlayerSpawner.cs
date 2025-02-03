@@ -15,6 +15,7 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         if (np)
         {
             np.AssignPlayerObjects();
+            Debug.Log("Player created " + np.name);
         }
     }
 }

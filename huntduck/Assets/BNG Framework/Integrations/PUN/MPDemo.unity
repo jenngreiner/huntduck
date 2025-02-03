@@ -1523,6 +1523,11 @@ PrefabInstance:
       propertyPath: DebugText
       value: 
       objectReference: {fileID: 478068674}
+    - target: {fileID: 3402538391894373897, guid: 9a6b877f35da7aa4db556157d656d0ff,
+        type: 3}
+      propertyPath: RemotePlayerObjectName
+      value: RemotePlayer_OG
+      objectReference: {fileID: 0}
     - target: {fileID: 3402538391894373899, guid: 9a6b877f35da7aa4db556157d656d0ff,
         type: 3}
       propertyPath: m_Name

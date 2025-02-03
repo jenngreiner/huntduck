@@ -89,21 +89,22 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        Debug.Log("Joined Room. Deffering Remote Player Representation.");
         // Master client loads level to sync for all clients
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel(sceneName);
         }
 
-        Debug.Log("Joined Room. Creating Remote Player Representation.");
-        spawnedPlayer = PhotonNetwork.Instantiate(remotePlayerName, transform.position, transform.rotation);
-        BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
+        //Debug.Log("Joined Room. Creating Remote Player Representation.");
+        //spawnedPlayer = PhotonNetwork.Instantiate(remotePlayerName, transform.position, transform.rotation);
+        //BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
 
-        if (np)
-        {
-            np.AssignPlayerObjects();
-            Debug.Log("Player created");
-        }
+        //if (np)
+        //{
+        //    np.AssignPlayerObjects();
+        //    Debug.Log("Player created " + np.name);
+        //}
 
     }
 

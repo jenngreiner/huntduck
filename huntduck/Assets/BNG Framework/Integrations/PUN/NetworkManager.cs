@@ -27,7 +27,7 @@ namespace BNG {
         public string GameVersion = "1";
 
         [Tooltip("Name of the Player object to spawn. Must be in a /Resources folder.")]
-        public string RemotePlayerObjectName = "RemotePlayer";
+        public string RemotePlayerObjectName;
 
         [Tooltip("Optional GUI Text element to output debug information.")]
         public Text DebugText;
