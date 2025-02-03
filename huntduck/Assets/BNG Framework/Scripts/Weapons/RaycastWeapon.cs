@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Events;
+using ExitGames.Client.Photon;
 
 namespace BNG {
 
@@ -486,7 +488,40 @@ namespace BNG {
             {
                 PhotonView weaponPV = nD.GetComponent<PhotonView>();
                 weaponPV.RPC("RPC_DealDamage", RpcTarget.All, Damage, hit.point, hit.normal, true, weaponPV.ViewID, hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
+                if (weaponPV.Owner != null)
+                {
+                    string playerNickname = weaponPV.Owner.NickName;
+                    Debug.Log("Player Nickname: " + playerNickname + " DID DAMAGE");
+                }
+
                 Debug.Log("Doing RPC damage to NetworkDamageable");
+
+                // *****IMPORTANT: this is key for MP scoring*****
+                // Use PhotonNetwork.RaiseEvent to send hit data to NetworkScoreManager.cs
+
+                //TODO: VERIFY GPT INSPIRED METHOD
+                // When a network damageable is hit...
+                if (weaponPV != null && weaponPV.Owner != null)
+                {
+                    // Send only the shooter’s UserId and the tag of the hit object.
+                    object[] content = { PhotonNetwork.LocalPlayer.UserId, hit.collider.gameObject.tag };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // Broadcast to everyone.
+                    PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
+                }
+                //Note: RaycastWeapon does not calculate points—it simply informs everyone “Player X hit an object of type Y.”
+
+
+
+                //ORIGINAL PRE-GPT METHOD
+                //if (weaponPV != null && weaponPV.Owner != null)
+                //{
+                //    // Prepare the data to send
+                //    object[] content = { weaponPV.Owner.UserId, hit.collider.gameObject.tag}; // use UserId instead of ActorNumber bc AN changes as players leave and enter room, while UserId stays the same
+                //    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // Send to all players
+
+                //    PhotonNetwork.RaiseEvent(0, content, raiseEventOptions, SendOptions.SendReliable);
+                //    // RaiseEvent content should be simple data types (int, string, bool) to send serializable data with small footprint across network
+                //}
             }
 
             // Call event
@@ -739,4 +774,3 @@ namespace BNG {
         InternalAmmo
     }
 }
-

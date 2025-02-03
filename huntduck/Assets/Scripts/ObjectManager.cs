@@ -47,10 +47,17 @@ public class ObjectManager : MonoBehaviour
         {
             instance = this;
         }
+
+        // Check if a player already exists in the scene
+        if (GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG) == null)
+        {
+            // No player found, instantiate one.
+            Instantiate(player, Vector3.zero, Quaternion.identity);
+        }
     }
 
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
-    }
+    //void Start()
+    //{
+    //    player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
+    //}
 }

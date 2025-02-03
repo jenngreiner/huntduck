@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using UnityEngine.UI;
 
 public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
 {
@@ -11,12 +12,39 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
     private string sceneName = "GroupHunt";
     private GameObject player;
     private GameObject weapon;
+    private bool isWeaponDestroyed;
     //private bool isWeaponDestroyed = false; //TODO: remove if not using coroutine to delay MP entry until gun destroyed
+
+    [Tooltip("If true, do not destroy this object when moving to another scene")]
+    public bool dontDestroyOnLoad = true;
+
+    public string remotePlayerName;
+    private GameObject spawnedPlayer;
+
+
+
 
     void Start()
     {
+        // Connect to Random Room if Connected to Photon Server
+        //if (PhotonNetwork.IsConnected)
+        //{
+        //    if (JoinRoomOnStart)
+        //    {
+        //        LogText("Joining Room : " + JoinRoomName);
+        //        PhotonNetwork.JoinRoom(JoinRoomName);
+        //    }
+        //}
+        //// Otherwise establish a new connection. We can then connect via OnConnectedToMaster
+        //else
+        //{
+        //    PhotonNetwork.ConnectUsingSettings();
+        //    PhotonNetwork.GameVersion = GameVersion;
+        //}
+
         player = GameObject.FindGameObjectWithTag(TagManager.PLAYER_TAG);
-        //weapon = GameObject.FindGameObjectWithTag(TagManager.WEAPON_TAG); //TODO: remove if not using coroutine
+        weapon = GameObject.FindGameObjectWithTag(TagManager.WEAPON_TAG); //TODO: remove if not using coroutine
+        isWeaponDestroyed = false;
     }
 
     void Update()
@@ -42,12 +70,12 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
     public void JoinMultiplayer()
     {
         //TODO: remove if not using coroutine
-        //StartCoroutine(DestroyWeaponThenJoinMultiplayer());
+        StartCoroutine(DestroyWeaponThenJoinMultiplayer());
         //DestroyWeapon(); // can't bring non-networked weapon into multiplayer, best to destroy and start anew
 
-        SetNickname();
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+        //SetNickname();
+        //PhotonNetwork.AutomaticallySyncScene = true;
+        //PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
@@ -66,6 +94,17 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel(sceneName);
         }
+
+        Debug.Log("Joined Room. Creating Remote Player Representation.");
+        spawnedPlayer = PhotonNetwork.Instantiate(remotePlayerName, transform.position, transform.rotation);
+        BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
+
+        if (np)
+        {
+            np.AssignPlayerObjects();
+            Debug.Log("Player created");
+        }
+
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -95,27 +134,25 @@ public class JoinMultiplayerNetwork : MonoBehaviourPunCallbacks
     }
 
     //TODO: remove if not using coroutine
-    // Attempt to give enough time to destroy gun before joining MP to not cause errors on gun in networked scene
-    //private IEnumerator DestroyWeaponThenJoinMultiplayer()
-    //{
-    //    DestroyWeapon(); // can't bring non-networked weapon into multiplayer, best to destroy and start anew
+    //Give enough time to destroy gun before joining MP to not cause errors on gun in networked scene
+    private IEnumerator DestroyWeaponThenJoinMultiplayer()
+    {
+        DestroyWeapon(); // can't bring non-networked weapon into multiplayer, best to destroy and start anew
 
-    //    while (!isWeaponDestroyed)
-    //    {
-    //        yield return null; // won't progress until gun fully destroyed
-    //    }
+        while (!isWeaponDestroyed)
+        {
+            yield return null; // won't progress until gun fully destroyed
+        }
 
-    //    yield return new WaitForSeconds(5f);
+        SetNickname();
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
+    }
 
-    //    SetNickname();
-    //    PhotonNetwork.AutomaticallySyncScene = true;
-    //    PhotonNetwork.ConnectUsingSettings();
-    //}
-
-    //private void DestroyWeapon()
-    //{
-    //    //Destroy(weapon);
-    //    weapon.SetActive(false);
-    //    isWeaponDestroyed = true;
-    //}
+    private void DestroyWeapon()
+    {
+        Destroy(weapon);
+        //weapon.SetActive(false);
+        isWeaponDestroyed = true;
+    }
 }

@@ -2,49 +2,60 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using ExitGames.Client.Photon;
 
+//TODO: Currently an error when leaving and rejoining the room, scoreboard goes up for both payers. test again, if still an issue, consider adding back in OnCreatedRoom and OnJoinedRoom callbacks 
 public class MPScoreboard : MonoBehaviourPunCallbacks
 {
-    public GameObject scoreboardUI; // scoreboard gameobject
-    public Text scoreboardText;     // text for displaying scores
-
+    public Text scoreboardText;
 
     void Start()
     {
-        if (scoreboardUI != null)
-            scoreboardUI.SetActive(true);
         UpdateScoreboard();
     }
 
-    private void UpdateScoreboard()
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        string scoreboardString = "";
-        foreach (var player in PhotonNetwork.PlayerList)
-        {
-            int score = (int)player.CustomProperties["score"];
-            scoreboardString += player.NickName + ": " + score + "\n";
-            Debug.Log(scoreboardString);
-        }
-
-        scoreboardText.text = scoreboardString;
-        Debug.Log("Scoreboard updated");
+        base.OnPlayerEnteredRoom(newPlayer);
+        UpdateScoreboard();
     }
 
-    public void UpdatePlayerScore(Player player, int score)
-    {
-        ExitGames.Client.Photon.Hashtable scoreProperty = new ExitGames.Client.Photon.Hashtable();
-        scoreProperty["score"] = score;
-        player.SetCustomProperties(scoreProperty);
-        Debug.Log("Player score set to " + score);
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
         if (changedProps.ContainsKey("score"))
         {
+            //make sure only one player is having score changed
+            Debug.Log($"Score updated for {targetPlayer.NickName}: {changedProps["score"]}");
+
             UpdateScoreboard();
         }
+    }
+
+    public void UpdateScoreboard()
+    {
+        if (scoreboardText == null)
+        {
+            Debug.LogError("Scoreboard Text component is not assigned!");
+            return;
+        }
+
+        string scoreboardString = "";
+        
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            //int score = player.CustomProperties.TryGetValue("score", out object scoreObj) ? (int)scoreObj : 0;
+
+            int score = 0;
+            if (player.CustomProperties.TryGetValue("score", out object scoreObj) && scoreObj is int validScore)
+            {
+                score = validScore;
+            }
+
+            scoreboardString += "<color=orange>" + player.NickName + ": </color>" + score + "\n";
+            Debug.Log(scoreboardString);
+        }
+
+        scoreboardText.text = scoreboardString;
     }
 }

@@ -225,6 +225,12 @@ namespace BNG {
 
             // In Hand
             foreach (var grab in grabbables.NearbyGrabbables) {
+                // Check if the grabbable still exists.
+                if (grab.Value == null)
+                {
+                    continue;
+                }
+
                 PhotonView view = grab.Value.GetComponent<PhotonView>();
 
                 if (view != null && RecentlyRequested(view) == false && !view.AmOwner) {
@@ -234,6 +240,13 @@ namespace BNG {
 
             // Remote Grabbables
             foreach (var grab in grabbables.ValidRemoteGrabbables) {
+                //TODO: TEST GPT CHANGE
+                // Check if the grabbable still exists.
+                if (grab.Value == null)
+                {
+                    continue;
+                }
+
                 PhotonView view = grab.Value.GetComponent<PhotonView>();
 
                 if (view != null && RecentlyRequested(view) == false && !view.AmOwner) {
