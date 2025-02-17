@@ -60,27 +60,27 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
     {
         string formattedLog = "";
 
+
+        switch (type)
+        {
+            case LogType.Error:
+                formattedLog = $"<color=red>[ERROR] </color> {logString} \n {stackTrace}";
+                break;
+            case LogType.Warning:
+                formattedLog = $"<color=yellow>[WARNING] </color> {logString}";
+                break;
+            case LogType.Exception:
+                formattedLog = $"<color=red>[EXCEPTION] </color> {logString} \n {stackTrace}";
+                break;
+            case LogType.Log:
+                formattedLog = $"<color=green>[INFO] </color> {logString}";
+                break;
+            default:
+                formattedLog = $"<color=orange>[UNKNOWN] </color> {logString}";
+                break;
+        }
         if (logString.Length > 0) // Solution to avoid blank log lines
         {
-            switch (type)
-            {
-                case LogType.Error:
-                    formattedLog = $"<color=red>[ERROR] </color> {logString} \n {stackTrace}";
-                    break;
-                case LogType.Warning:
-                    formattedLog = $"<color=yellow>[WARNING] </color> {logString}";
-                    break;
-                case LogType.Exception:
-                    formattedLog = $"<color=red>[EXCEPTION] </color> {logString} \n {stackTrace}";
-                    break;
-                case LogType.Log:
-                    formattedLog = $"<color=green>[INFO] </color> {logString}";
-                    break;
-                default:
-                    formattedLog = $"<color=orange>[UNKNOWN] </color> {logString}";
-                    break;
-            }
-
             photonView.RPC("LogText", RpcTarget.AllBufferedViaServer, formattedLog);
         }
 

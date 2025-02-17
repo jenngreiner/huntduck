@@ -1145,7 +1145,7 @@ GameObject:
   - component: {fileID: 165095997}
   - component: {fileID: 165095996}
   m_Layer: 0
-  m_Name: Backsplash (1)
+  m_Name: Player List Backsplash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6651,7 +6651,7 @@ PrefabInstance:
     - target: {fileID: 8074888340638689462, guid: 4e0200c22be8b49a990a22b016ec9aaa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000000042823
+      value: 2.15
       objectReference: {fileID: 0}
     - target: {fileID: 8074888340638689462, guid: 4e0200c22be8b49a990a22b016ec9aaa,
         type: 3}
@@ -6774,7 +6774,7 @@ GameObject:
   - component: {fileID: 428189261}
   - component: {fileID: 428189260}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: Player List Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14814,7 +14814,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369173128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15.97}
+  m_LocalPosition: {x: -2.17, y: 0, z: 5.950676}
   m_LocalScale: {x: 1.6053612, y: 1.6053612, z: 0.22528034}
   m_Children:
   - {fileID: 2020714924}
@@ -41105,7 +41105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469868252339257717}
   m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 1.5000001, z: 15.969324}
+  m_LocalPosition: {x: -2.17, y: 1.5000001, z: 5.95}
   m_LocalScale: {x: 1.6053612, y: 1.6053612, z: 0.22528034}
   m_Children:
   - {fileID: 1469868252113605091}
