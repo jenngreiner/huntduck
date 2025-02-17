@@ -16,25 +16,21 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         if (PhotonNetwork.InRoom)
         {
             Debug.Log($"[NetworkPlayerSpawner] {PhotonNetwork.LocalPlayer.NickName} is in the room on start. Spawning player...");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> is in the room on start. Spawning player...");
             SpawnPlayer();
         }
         else
         {
             Debug.LogWarning("[NetworkPlayerSpawner] Not in a Photon room yet. Waiting for OnJoinedRoom()...");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> Not in a Photon room yet. Waiting for OnJoinedRoom()...");
         }
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log($"[NetworkPlayerSpawner] {PhotonNetwork.LocalPlayer.NickName} successfully joined the room.");
-        NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> successfully joined the room.");
 
         if (!hasSpawned)
         {
             Debug.Log("[NetworkPlayerSpawner] Spawning player after joining the room...");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> Spawning player after joining the room...");
             SpawnPlayer();
         }
     }
@@ -44,13 +40,11 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         if (hasSpawned)
         {
             Debug.LogWarning("[NetworkPlayerSpawner] SpawnPlayer() was already called. Skipping duplicate spawn.");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> SpawnPlayer() was already called. Skipping duplicate spawn."); return;
         }
 
         if (string.IsNullOrEmpty(playerPrefabName))
         {
             Debug.LogError("[NetworkPlayerSpawner] ERROR: Player prefab name is null or empty!");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> ERROR: Player prefab name is null or empty!");
             return;
         }
 
@@ -62,13 +56,11 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         if (spawnedPlayer != null)
         {
             Debug.Log("[NetworkPlayerSpawner] Successfully instantiated:" + spawnedPlayer.name);
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> Successfully instantiated:" + spawnedPlayer.name);
             StartCoroutine(DelayedAssign(spawnedPlayer));
         }
         else
         {
             Debug.LogError("[NetworkPlayerSpawner] ERROR: Failed to instantiate player!");
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> ERROR: Failed to instantiate player!");
         }
 
         hasSpawned = true; // ✅ Prevents duplicate spawning
@@ -84,7 +76,6 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
             np.AssignPlayerObjects();
             np.gameObject.name = PhotonNetwork.NickName + "'s Remote Player";
             Debug.Log("[NetworkPlayerSpawner] Remote player setup completed for " + PhotonNetwork.NickName);
-            NetworkLogger.LogNetworkMessage("<color=orange>" + PhotonNetwork.LocalPlayer.NickName + "</color> Remote player setup completed for " + PhotonNetwork.NickName);
         }
     }
 }

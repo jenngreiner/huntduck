@@ -41,7 +41,7 @@ public class MPScoreboard : MonoBehaviourPunCallbacks
         }
 
         string scoreboardString = "";
-        
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             //int score = player.CustomProperties.TryGetValue("score", out object scoreObj) ? (int)scoreObj : 0;
@@ -52,7 +52,7 @@ public class MPScoreboard : MonoBehaviourPunCallbacks
                 score = validScore;
             }
 
-            scoreboardString += "<color=orange>" + player.NickName + ": </color>" + score + "\n";
+            scoreboardString += "<color=orange>" + player.NickName + ": </color>" + score;
             Debug.Log(scoreboardString);
         }
 
