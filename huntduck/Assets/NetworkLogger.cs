@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class NetworkLogger : MonoBehaviourPunCallbacks
 {
@@ -46,7 +47,47 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
             photonView.RPC("UpdatePlayerListUI", RpcTarget.All);
         }
 
+        Application.logMessageReceived += HandleLog;
     }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe to prevent memory leaks
+        Application.logMessageReceived -= HandleLog;
+    }
+
+    private void HandleLog(string logString, string stackTrace, LogType type)
+    {
+        string formattedLog = "";
+
+        Debug.Log("HandleLog: logtype= " + type);
+
+        switch (type)
+        {
+            case LogType.Error:
+                //formattedLog = "<color=red>[ERROR]</color>" + logString + "\n" + stackTrace;
+                formattedLog = "[ERROR]" + logString + "\n" + stackTrace;
+                break;
+            case LogType.Warning:
+                //formattedLog = "<color=yellow>[WARNING]</color>" + "\n" + logString;
+                formattedLog = "[WARNING]" + "\n" + logString;
+                break;
+            case LogType.Exception:
+                //formattedLog = "<color=red>[EXCEPTION]</color>" + logString + "\n" + stackTrace;
+                formattedLog = "[EXCEPTION]" + logString + "\n" + stackTrace;
+                break;
+            case LogType.Log:
+                //formattedLog = "<color=blue>[INFO]</blue>" + logString;
+                //formattedLog = "[INFO]" + logString;
+                break;
+            default:
+                formattedLog = logString;
+                break;
+        }
+
+        photonView.RPC("LogText", RpcTarget.AllBufferedViaServer, formattedLog);
+    }
+
 
     // TODO: try switching logtext functions to these callbacks
     //public override void OnJoinedRoom()

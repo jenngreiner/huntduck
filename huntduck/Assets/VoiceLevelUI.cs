@@ -49,6 +49,6 @@ public class VoiceLevelUI : MonoBehaviour
             }
         }
 
-        Debug.Log("Voice Level: " + voiceLevel);
+        //Debug.Log("Voice Level: " + voiceLevel);
     }
 }
