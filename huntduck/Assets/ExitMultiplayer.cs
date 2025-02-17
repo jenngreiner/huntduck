@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Collections;
+using Photon.Realtime;
 
 public class ExitMultiplayer : MonoBehaviourPunCallbacks
 {
@@ -17,37 +18,37 @@ public class ExitMultiplayer : MonoBehaviourPunCallbacks
 
     public void OnExitMultiplayer()
     {
-        //PhotonNetwork.Disconnect();
-        //PhotonNetwork.LeaveRoom();
-
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsConnected)
+        if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LeaveRoom(); // Leave the room first
         }
         else
         {
-            Debug.LogWarning("Cannot leave room: either not in a room or not connected.");
+            DisconnectAndLoadScene(); // If not in a room, disconnect immediately
         }
-
     }
-
-    //public override void OnLeftRoom()
-    //{
-    //    base.OnLeftRoom();
-    //    StartCoroutine(DelayedSceneLoad());
-    //}
-
-    //private IEnumerator DelayedSceneLoad()
-    //{
-    //    yield return new WaitForSeconds(0.5f);  // Adjust as needed
-    //    SceneManager.LoadSceneAsync(sceneName);
-    //}
 
     public override void OnLeftRoom()
     {
-        base.OnLeftRoom();
+        Debug.Log("Left the multiplayer room.");
+        DisconnectAndLoadScene();
+    }
 
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadSceneAsync(sceneName);
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log($"Disconnected from Photon: {cause}");
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private void DisconnectAndLoadScene()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect(); // Disconnect from Photon completely
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 }

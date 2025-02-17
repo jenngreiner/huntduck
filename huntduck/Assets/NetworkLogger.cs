@@ -8,9 +8,31 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
     public Text networkLogs;
     public Text playerListText;
 
-    bool hasLoadedScene;
+    //bool hasLoadedScene;
 
     public static NetworkLogger instance { get; private set; }
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
+    public static void LogNetworkMessage(string message)
+    {
+        if (instance != null && instance.photonView != null)
+        {
+            instance.photonView.RPC("LogText", RpcTarget.AllBufferedViaServer, message);
+        }
+        else
+        {
+            Debug.LogWarning("[NetworkLogger] Instance is null! Cannot send network log.");
+        }
+    }
+
 
     void Start()
     {

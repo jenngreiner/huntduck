@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: a3138eb6-354a-4833-a123-a580b980c9ca
+    AppIdRealtime: 16b157bf-33bd-4da9-888b-f979ca93d9eb
     AppIdFusion: 
-    AppIdChat: ec2bbbba-61db-42aa-ab00-12844df2e813
-    AppIdVoice: 
+    AppIdChat: 
+    AppIdVoice: 68214858-d6e4-44c0-82b6-bee27e2a5de9
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -28,42 +28,36 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: us
-  PunLogging: 2
+  DevRegion: cae
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CantHearYou
+  - ChangeColour
   - ClickRpc
   - DestroyRpc
+  - HeresWhy
+  - DealDamage
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - RPC_ShootProjectile
-  - RPC_ShootProjectile_PNI
-  - RPC_WaveStart
-  - RPC_BeginGame
-  - RPC_SetupRound
-  - RPC_StartRound
-  - RPC_SetupWave
-  - RPC_StartCountDown
-  - RPC_WaveCompleted
-  - RPC_BeginPractice
-  - RPC_setGameNotStarted
-  - RPC_SelectWeapon
-  - SetAvailability
-  - SetPlayerName
   - LogText
-  - UpdatePlayerListUI
-  - broadcastHit
-  - DestroyThis
-  - DealDamage
-  - RPC_ApplyForce
-  - RPC_BroadcastHit
-  - RPC_DestroyThis
+  - RespawnSpaceship
+  - RPC_BeginGame
+  - RPC_BeginPractice
   - RPC_DealDamage
-  - launchProjectile
-  - ApplyForce
+  - RPC_SelectWeapon
+  - RPC_setGameNotStarted
+  - RPC_SetupRound
+  - RPC_SetupWave
+  - RPC_ShootProjectile
+  - RPC_StartCountDown
+  - RPC_StartRound
+  - RPC_WaveCompleted
+  - RPC_WaveStart
+  - SetAvailability
+  - UpdatePlayerListUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
