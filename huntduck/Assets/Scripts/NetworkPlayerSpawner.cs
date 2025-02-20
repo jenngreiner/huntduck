@@ -53,15 +53,29 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 
         GameObject spawnedPlayer = PhotonNetwork.Instantiate(playerPrefabName, Vector3.zero, Quaternion.identity);
 
+
         if (spawnedPlayer != null)
         {
             Debug.Log("[NetworkPlayerSpawner] Successfully instantiated:" + spawnedPlayer.name);
-            StartCoroutine(DelayedAssign(spawnedPlayer));
+            //StartCoroutine(DelayedAssign(spawnedPlayer));
+            BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
+            if (np)
+            {
+                //np.gameObject.name = PhotonNetwork.NickName + "'s Remote Player";
+                np.AssignPlayerObjects();
+                Debug.Log("[NetworkPlayerSpawner] Remote player setup completed for " + PhotonNetwork.NickName);
+            }
+            else
+            {
+                Debug.Log("Running delayed assigned for " + PhotonNetwork.LocalPlayer.NickName);
+                StartCoroutine(DelayedAssign(spawnedPlayer));
+            }
         }
         else
         {
             Debug.LogError("[NetworkPlayerSpawner] ERROR: Failed to instantiate player!");
         }
+
 
         hasSpawned = true; // ✅ Prevents duplicate spawning
     }
@@ -73,8 +87,8 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         BNG.NetworkPlayer np = spawnedPlayer.GetComponent<BNG.NetworkPlayer>();
         if (np)
         {
+            //np.gameObject.name = PhotonNetwork.NickName + "'s Remote Player";
             np.AssignPlayerObjects();
-            np.gameObject.name = PhotonNetwork.NickName + "'s Remote Player";
             Debug.Log("[NetworkPlayerSpawner] Remote player setup completed for " + PhotonNetwork.NickName);
         }
     }

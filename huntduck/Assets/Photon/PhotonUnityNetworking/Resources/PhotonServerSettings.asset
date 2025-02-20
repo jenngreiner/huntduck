@@ -58,6 +58,8 @@ MonoBehaviour:
   - RPC_WaveStart
   - SetAvailability
   - UpdatePlayerListUI
+  - RPC_DestroyClay
+  - RPC_DestroyThis
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -171,21 +171,91 @@ namespace BNG {
             }
         }
 
+        //public void AssignPlayerObjects()
+        //{
+        //    GameObject playerController = GameObject.FindGameObjectWithTag("PlayerController");
+
+        //    PlayerHeadTransform = getChildTransformByName(playerController.transform, "CenterEyeAnchor");
+
+        //    // Using an explicit Transform name to make sure we grab the right one in the scene
+        //    PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
+        //    LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+
+        //    PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
+        //    RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+
+        //    Debug.Log("Player controller is " + playerController.name);
+        //}
+
         public void AssignPlayerObjects()
         {
-            GameObject playerController = GameObject.FindGameObjectWithTag("PlayerController");
+            if (photonView.IsMine)
+            {
+                // Local player: assign from the local VR rig
+                GameObject playerController = GameObject.FindGameObjectWithTag("PlayerController");
+                if (playerController == null)
+                {
+                    Debug.LogError("Local Player: Could not find GameObject with tag 'PlayerController'.");
+                }
+                else
+                {
+                    PlayerHeadTransform = getChildTransformByName(playerController.transform, "CenterEyeAnchor");
+                    if (PlayerHeadTransform == null)
+                    {
+                        Debug.LogError("Local Player: Could not find 'CenterEyeAnchor' on the PlayerController.");
+                    }
+                }
 
-            PlayerHeadTransform = getChildTransformByName(playerController.transform, "CenterEyeAnchor");
+                GameObject modelsLeft = GameObject.Find("ModelsLeft");
+                if (modelsLeft == null)
+                {
+                    Debug.LogError("Local Player: Could not find 'ModelsLeft' GameObject.");
+                }
+                else
+                {
+                    PlayerLeftHandTransform = modelsLeft.transform;
+                    LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+                    if (LeftHandController == null)
+                    {
+                        Debug.LogError("Local Player: Could not find LeftHandController in ModelsLeft's parent.");
+                    }
+                }
 
-            // Using an explicit Transform name to make sure we grab the right one in the scene
-            PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
-            LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
-
-            PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
-            RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
-
-            Debug.Log("Player controller is " + playerController.name);
+                GameObject modelsRight = GameObject.Find("ModelsRight");
+                if (modelsRight == null)
+                {
+                    Debug.LogError("Local Player: Could not find 'ModelsRight' GameObject.");
+                }
+                else
+                {
+                    PlayerRightHandTransform = modelsRight.transform;
+                    RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+                    if (RightHandController == null)
+                    {
+                        Debug.LogError("Local Player: Could not find RightHandController in ModelsRight's parent.");
+                    }
+                }
+                Debug.Log("Local Player objects assigned for " + PhotonNetwork.LocalPlayer.NickName);
+            }
+            else
+            {
+                // Remote player: these references should be assigned via the prefab's inspector
+                if (RemoteHeadTransform == null)
+                {
+                    Debug.LogError("Remote Player: RemoteHeadTransform is not assigned in the prefab for " + photonView.Owner.NickName);
+                }
+                if (RemoteLeftHandTransform == null)
+                {
+                    Debug.LogError("Remote Player: RemoteLeftHandTransform is not assigned in the prefab for " + photonView.Owner.NickName);
+                }
+                if (RemoteRightHandTransform == null)
+                {
+                    Debug.LogError("Remote Player: RemoteRightHandTransform is not assigned in the prefab for " + photonView.Owner.NickName);
+                }
+                Debug.Log("Remote Player objects assigned for " + photonView.Owner.NickName);
+            }
         }
+
 
         Transform getChildTransformByName(Transform search, string name) {
             Transform[] children = search.GetComponentsInChildren<Transform>();
@@ -289,8 +359,26 @@ namespace BNG {
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (PlayerHeadTransform == null)
+            {
+                Debug.Log("OnPhotonSerializeView: " + PhotonNetwork.LocalPlayer.NickName + "'s " + gameObject.name +  "PlayerHeadTransform is null!");
+
+                return;
+            }
+            if (PlayerLeftHandTransform == null)
+            {
+                Debug.Log("OnPhotonSerializeView: " + PhotonNetwork.LocalPlayer.NickName + "'s " + gameObject.name + " PlayerLeftHandTransform is null!");
+                return;
+            }
+            if (PlayerRightHandTransform == null)
+            {
+                Debug.Log("OnPhotonSerializeView: " + PhotonNetwork.LocalPlayer.NickName + "'s " + gameObject.name + " PlayerRightHandTransform is null!");
+                return;
+            }
+
             // This is our player, send our positions to the other players
             if (stream.IsWriting) {
+                //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "'s " + gameObject.name + " is sending player movement data (should be local player)");
 
                 // Player Head / Hand Information
                 stream.SendNext(PlayerHeadTransform.position);
@@ -317,6 +405,7 @@ namespace BNG {
                 }
             }
             else {
+                //Debug.Log(PhotonNetwork.LocalPlayer.NickName + "'s " + gameObject.name + " is receiving player movement data (should be remote player)");
                 // Remote player, receive data
                 // Head
                 this._syncHeadStartPosition = RemoteHeadTransform.position;

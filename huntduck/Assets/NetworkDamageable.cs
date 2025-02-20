@@ -50,6 +50,8 @@ public class NetworkDamageable : MonoBehaviourPun
     public delegate void DuckDie(GameObject deadDuck);
     public static event DuckDie onDuckDie;
 
+    private bool destructionScheduled = false;
+
 
 #if INVECTOR_BASIC || INVECTOR_AI_TEMPLATE
         // Invector damage integration
@@ -166,6 +168,11 @@ public class NetworkDamageable : MonoBehaviourPun
 
     public virtual void DestroyThis()
     {
+        if (destructionScheduled)
+            return; // Already scheduled destruction
+
+        destructionScheduled = true;
+
         Health = 0;
         destroyed = true;
 
@@ -211,10 +218,16 @@ public class NetworkDamageable : MonoBehaviourPun
 
         if (DestroyOnDeath)
         {
-            Invoke(nameof(PhotonDelayedDestroyRoot), DestroyDelay);
-            //PhotonNetwork.Destroy(transform.parent.gameObject);
-            //Destroy(transform.root.GetComponent<PhotonView>());
-            //Destroy(this.transform.parent.gameObject, DestroyDelay);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // If we are the master, handle destruction locally.
+                Invoke(nameof(PhotonDelayedDestroyRoot), DestroyDelay);
+            }
+            else
+            {
+                // If we're not the master, ask the master to destroy this object.
+                photonView.RPC("RPC_DestroyThis", RpcTarget.MasterClient);
+            }
         }
         else if (Respawn)
         {
@@ -245,9 +258,34 @@ public class NetworkDamageable : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
+    void RPC_DestroyThis()
+    {
+        // This should only execute on the master.
+        if (destructionScheduled)
+            return; // Already scheduled destruction
+
+        // This RPC will be executed on the master client.
+        if (PhotonNetwork.IsMasterClient)
+        {
+            destructionScheduled = true;
+            // Apply the same delay if needed.
+            Invoke(nameof(PhotonDelayedDestroyRoot), DestroyDelay);
+        }
+    }
+
+
     void PhotonDelayedDestroyRoot()
     {
-        PhotonNetwork.Destroy(transform.root.gameObject);
+        // Additional safety: verify the PhotonView is still registered.
+        if (PhotonNetwork.GetPhotonView(photonView.ViewID) != null)
+        {
+            PhotonNetwork.Destroy(transform.root.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to destroy an object that no longer exists on the network.");
+        }
     }
 
     // SINGLESCENE: Reset elements during practice mode for "Play Again"
