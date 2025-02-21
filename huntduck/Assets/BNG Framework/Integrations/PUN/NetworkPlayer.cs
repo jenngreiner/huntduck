@@ -174,17 +174,21 @@ namespace BNG {
         public void AssignPlayerObjects()
         {
             GameObject playerController = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log("Player controller is " + playerController.name);
 
             PlayerHeadTransform = getChildTransformByName(playerController.transform, "CenterEyeAnchor");
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName + " Head is " + PlayerHeadTransform.gameObject.name);
 
             // Using an explicit Transform name to make sure we grab the right one in the scene
             PlayerLeftHandTransform = GameObject.Find("ModelsLeft").transform;
             LeftHandController = PlayerLeftHandTransform.parent.GetComponentInChildren<HandController>();
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName + " Left hand controller is " + LeftHandController.gameObject.name);
 
             PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
             RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName + " Right hand controller is " + RightHandController.gameObject.name);
 
-            Debug.Log("Player controller is " + playerController.name);
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName + " completed AssignPlayerObjects()");
         }
 
         Transform getChildTransformByName(Transform search, string name) {

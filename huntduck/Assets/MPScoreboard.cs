@@ -11,7 +11,7 @@ public class MPScoreboard : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        UpdateScoreboard();
+        //UpdateScoreboard();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
