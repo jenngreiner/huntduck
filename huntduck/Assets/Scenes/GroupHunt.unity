@@ -770,6 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 0_HD_AppLab
+  PunVoiceManager: {fileID: 1859465371}
 --- !u!114 &86155346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7333,6 +7334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 0_HD_AppLab
+  PunVoiceManager: {fileID: 0}
 --- !u!114 &744972998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7918,7 +7920,7 @@ MonoBehaviour:
   statsResetInterval: 1000
   speakerPrefab: {fileID: 0}
   primaryRecorder: {fileID: 990236216}
-  usePrimaryRecorder: 0
+  usePrimaryRecorder: 1
   cppCompatibilityMode: 0
   Settings:
     AppIdRealtime: 

@@ -137,6 +137,12 @@ namespace Photon.Voice.PUN
             }
         }
 
+        // HD_CHANGE: can now call this in our exitmultiplayer.cs script, so we don't try to leave the room here too (which errors).
+        public void UnsubscribeFromStateChanges()
+        {
+            PhotonNetwork.NetworkingClient.StateChanged -= this.OnPunStateChange;
+        }
+
         protected override void OnDestroy()
         {
             PhotonNetwork.NetworkingClient.StateChanged -= OnPunStateChange;
@@ -145,6 +151,13 @@ namespace Photon.Voice.PUN
             {
                 instance.Logger.Log(LogLevel.Info, "PunVoiceClient singleton instance is being reset because destroyed.");
                 instance = null;
+            }
+
+            // HD_CHANGE: Destroy VoiceLogger if it exists
+            VoiceLogger voiceLogger = FindObjectOfType<VoiceLogger>();
+            if (voiceLogger != null)
+            {
+                Destroy(voiceLogger.gameObject);
             }
         }
 

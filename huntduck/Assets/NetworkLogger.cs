@@ -46,6 +46,7 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
             photonView.RPC("UpdatePlayerListUI", RpcTarget.All);
         }
 
+        
         Application.logMessageReceived += HandleLog;
     }
 
@@ -84,7 +85,11 @@ public class NetworkLogger : MonoBehaviourPunCallbacks
             if (logString.StartsWith("Sending RPC") || logString.StartsWith("Received RPC"))
                 return;
 
-            photonView.RPC("LogText", RpcTarget.AllBufferedViaServer, formattedLog);
+            //make sure we're in a photon room before logging this
+            if (PhotonNetwork.InRoom)
+            {
+                photonView.RPC("LogText", RpcTarget.AllBufferedViaServer, formattedLog);
+            }
         }
     }
 

@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using System.Collections;
+using Photon.Realtime;
+using Photon.Voice.PUN;
 
 public class ExitMultiplayer : MonoBehaviourPunCallbacks
 {
     public string sceneName;
+    public GameObject PunVoiceManager;
 
     void Update()
     {
@@ -17,37 +19,64 @@ public class ExitMultiplayer : MonoBehaviourPunCallbacks
 
     public void OnExitMultiplayer()
     {
-        //PhotonNetwork.Disconnect();
-        //PhotonNetwork.LeaveRoom();
-
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsConnected)
+        //HD_CHANGE: unsubscribe PhotonVoiceClient & Destroy it
+        if (PunVoiceClient.Instance != null)
         {
-            PhotonNetwork.LeaveRoom();
+            PunVoiceClient.Instance.UnsubscribeFromStateChanges();
+            Destroy(PunVoiceClient.Instance.gameObject);
         }
-        else
-        {
-            Debug.LogWarning("Cannot leave room: either not in a room or not connected.");
-        }
-
-    }
-
-    //public override void OnLeftRoom()
-    //{
-    //    base.OnLeftRoom();
-    //    StartCoroutine(DelayedSceneLoad());
-    //}
-
-    //private IEnumerator DelayedSceneLoad()
-    //{
-    //    yield return new WaitForSeconds(0.5f);  // Adjust as needed
-    //    SceneManager.LoadSceneAsync(sceneName);
-    //}
-
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
 
         PhotonNetwork.Disconnect();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+
         SceneManager.LoadSceneAsync(sceneName);
+
     }
 }
+
+//PhotonNetwork.LeaveRoom();
+//PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer); 
+
+//if (PhotonNetwork.InRoom && PhotonNetwork.IsConnected)
+//{
+//    if (PhotonNetwork.Server != ServerConnection.MasterServer)
+//    {
+//        Debug.Log("On the master server, we won't leave room. Disconnecting instead");
+//        PhotonNetwork.Disconnect();
+//    }
+//    else
+//    {
+//        PhotonNetwork.LeaveRoom();
+//    }
+//}
+//else
+//{
+//    if (PhotonNetwork.IsConnected)
+//    {
+//        Debug.Log("Cannot leave room, disconnecting: either not in a room or not connected.");
+//        PhotonNetwork.Disconnect();
+//    }
+//}
+
+//public override void OnLeftRoom()
+//{
+//    base.OnLeftRoom();
+//    StartCoroutine(DelayedSceneLoad());
+//}
+
+//private IEnumerator DelayedSceneLoad()
+//{
+//    yield return new WaitForSeconds(0.5f);  // Adjust as needed
+//    SceneManager.LoadSceneAsync(sceneName);
+//}
+
+//public override void OnLeftRoom()
+//{
+//    base.OnLeftRoom();
+
+//    PhotonNetwork.Disconnect();
+//}
