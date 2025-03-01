@@ -22,6 +22,7 @@ namespace Photon.Realtime
     using System.Text;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using Stopwatch = System.Diagnostics.Stopwatch;
 
@@ -44,7 +45,9 @@ namespace Photon.Realtime
     /// </remarks>
     #if SUPPORTED_UNITY
     [DisallowMultipleComponent]
+    #if PUN_2_OR_NEWER || FUSION_UNITY
 	[AddComponentMenu("")] // hide from Unity Menus and searches
+    #endif
 	public class SupportLogger : MonoBehaviour, IConnectionCallbacks , IMatchmakingCallbacks , IInRoomCallbacks, ILobbyCallbacks, IErrorInfoCallback
     #else
 	public class SupportLogger : IConnectionCallbacks, IInRoomCallbacks, IMatchmakingCallbacks , ILobbyCallbacks
@@ -54,11 +57,14 @@ namespace Photon.Realtime
         /// Toggle to enable or disable traffic statistics logging.
         /// </summary>
         public bool LogTrafficStats = true;
-        private bool loggedStillOfflineMessage;
+        //private bool loggedStillOfflineMessage;
 
         private LoadBalancingClient client;
 
         private Stopwatch startStopwatch;
+
+        /// helps skip the initial OnApplicationPause call, which is not really of interest on start
+        private bool initialOnApplicationPauseSkipped = false;
 
         private int pingMax;
         private int pingMin;
@@ -106,7 +112,13 @@ namespace Photon.Realtime
 
         protected void OnApplicationPause(bool pause)
         {
-            Debug.Log(this.GetFormattedTimestamp() + " SupportLogger OnApplicationPause: " + pause + " connected: " + (this.client == null ? "no (client is null)" : this.client.IsConnected.ToString()));
+            if (!this.initialOnApplicationPauseSkipped)
+            {
+                this.initialOnApplicationPauseSkipped = true;
+                return;
+            }
+
+            Debug.Log(string.Format("{0} SupportLogger OnApplicationPause({1}). Client: {2}.", this.GetFormattedTimestamp(), pause, this.client == null ? "null" : this.client.State.ToString()));
         }
 
         protected void OnApplicationQuit()
@@ -199,7 +211,7 @@ namespace Photon.Realtime
 
             if (this.LogTrafficStats)
             {
-                Debug.Log(this.GetFormattedTimestamp() + " SupportLogger " + this.client.LoadBalancingPeer.VitalStatsToString(false) + " Ping min/max: " + this.pingMin + "/" + this.pingMax);
+                Debug.Log(string.Format("{0} SupportLogger {1} Ping min/max: {2}/{3}", this.GetFormattedTimestamp() , this.client.LoadBalancingPeer.VitalStatsToString(false) , this.pingMin , this.pingMax));
             }
         }
 
@@ -242,6 +254,9 @@ namespace Photon.Realtime
                 #if UNITY_64
                 buildProperties.Add("UNITY_64");
                 #endif
+                #if UNITY_FUSION
+                buildProperties.Add("UNITY_FUSION");
+                #endif
 
 
                 StringBuilder sb = new StringBuilder();
@@ -260,6 +275,7 @@ namespace Photon.Realtime
                 sb.AppendFormat("State: {0} ", this.client.State);
                 sb.AppendFormat("PeerID: {0} ", this.client.LoadBalancingPeer.PeerID);
                 sb.AppendFormat("NameServer: {0} Current Server: {1} IP: {2} Region: {3} ", this.client.NameServerHost, this.client.CurrentServerAddress, this.client.LoadBalancingPeer.ServerIpAddress, this.client.CloudRegion);
+                sb.AppendFormat("{0} UTC", DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
 
                 Debug.LogWarning(sb.ToString());
             }
