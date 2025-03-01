@@ -104,8 +104,22 @@ namespace Photon.Voice.PUN
             }
         }
 
+        // HD_CHANGE: Modified to prevent dupes
         private void SetupRecorder()
         {
+            if (this.RecorderInUse != null)
+            {
+                return; // Prevent adding the Recorder twice
+            }
+
+            // Check if the PunVoiceClient is using a global recorder
+            if (punVoiceClient.UsePrimaryRecorder)
+            {
+                this.RecorderInUse = punVoiceClient.PrimaryRecorder;
+                return; // Stop further execution since we're using the primary recorder
+            }
+
+            // Normal recorder setup for cases where PrimaryRecorder is not used
             Recorder recorder = null;
 
             Recorder[] recorders = this.GetComponentsInChildren<Recorder>();
@@ -132,8 +146,42 @@ namespace Photon.Voice.PUN
                 recorder.UserData = this.photonView.ViewID;
                 punVoiceClient.AddRecorder(recorder);
             }
+
             this.RecorderInUse = recorder;
         }
+
+
+
+        //private void SetupRecorder()
+        //{
+        //    Recorder recorder = null;
+
+        //    Recorder[] recorders = this.GetComponentsInChildren<Recorder>();
+        //    if (recorders.Length > 0)
+        //    {
+        //        if (recorders.Length > 1)
+        //        {
+        //            this.Logger.Log(LogLevel.Warning, "Multiple Recorder components found attached to the GameObject or its children.");
+        //        }
+        //        recorder = recorders[0];
+        //    }
+
+        //    if (null == recorder && null != punVoiceClient.PrimaryRecorder)
+        //    {
+        //        recorder = punVoiceClient.PrimaryRecorder;
+        //    }
+
+        //    if (null == recorder)
+        //    {
+        //        this.Logger.Log(LogLevel.Warning, "Cannot find Recorder. Assign a Recorder to PhotonVoiceView object or set up PunVoiceClient.PrimaryRecorder.");
+        //    }
+        //    else
+        //    {
+        //        recorder.UserData = this.photonView.ViewID;
+        //        punVoiceClient.AddRecorder(recorder);
+        //    }
+        //    this.RecorderInUse = recorder;
+        //}
 
         private void OnDestroy()
         {
