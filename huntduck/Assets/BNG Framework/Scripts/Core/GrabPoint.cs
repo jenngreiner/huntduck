@@ -21,9 +21,26 @@ namespace BNG {
         [Header("Valid Hands")]
         [Tooltip("Can this Grab Point be used by a left-handed Grabber?")]
         public bool LeftHandIsValid = true;
+       
 
         [Tooltip("Can this Grab Point be used by a right-handed Grabber?")]
         public bool RightHandIsValid = true;
+
+        [Header("Left Hand Inversion")]
+        [Tooltip("Allows you to use one grab point for both left and right hands. If left and right hands are both valid and this option is enabled, you can choose which axis to invert (typically local pos X, and local rotation Y and / or Z.")]
+        public bool InvertLeftHand = false;
+
+        // These are only used if InvertLeftHand = true
+        // Typical default values are to invert
+        [Header("Invert Local Position :")]
+        public bool InvertLeftPositionX = true;
+        public bool InvertLeftPositionY = false;
+        public bool InvertLeftPositionZ = false;
+
+        [Header("Invert Local Rotation :")]
+        public bool InvertLeftEulerX = false;
+        public bool InvertLeftEulerY = true;
+        public bool InvertLeftEulerZ = true;
 
         [Header("Parent to")]
         /// <summary>
@@ -65,6 +82,14 @@ namespace BNG {
         [Tooltip("Show a green arc in the Scene view representing MaxDegreeDifferenceAllowed")]
         public bool ShowAngleGizmo = true;
 
+        [Tooltip("GameObject to use for previewing a grabpoint. Defaults is found in /Editor/Resources/")]
+        public GameObject LeftHandPreviewPrefab;
+        [Tooltip("GameObject to use for previewing a grabpoint. Defaults is found in /Editor/Resources/")]
+        public GameObject RightHandPreviewPrefab;
+
+        static string _defaultRightHandResourceName = "RightHandModelsEditorPreview";
+        static string _defaultLeftHandResourceName = "LeftHandModelsEditorPreview";
+
         #region Editor
 #if UNITY_EDITOR
         // Make sure animators update in the editor mode to show hand positions
@@ -104,14 +129,48 @@ namespace BNG {
             }
         }
 #endif
+        public GrabPoint SetupMirroredGrabPoint() {
+            if (InvertLeftHand && LeftHandIsValid && RightHandIsValid) {
+
+                // Don't invert since we can use this transform now
+                LeftHandIsValid = false;
+                InvertLeftHand = false;
+
+                // Create new tranform object using this one as a reference
+                GrabPoint leftHand = Instantiate(this.gameObject).GetComponent<GrabPoint>();
+
+                leftHand.transform.parent = transform.parent;
+
+                // Set up the left hand
+                leftHand.LeftHandIsValid = true;
+                leftHand.RightHandIsValid = false;
+
+                leftHand.transform.localPosition = new Vector3(
+                    InvertLeftPositionX ? -transform.localPosition.x : transform.localPosition.x,
+                    InvertLeftPositionY ? -transform.localPosition.y : transform.localPosition.y,
+                    InvertLeftPositionZ ? -transform.localPosition.z : transform.localPosition.z
+                );
+
+
+                leftHand.transform.localEulerAngles = new Vector3(
+                    InvertLeftEulerX ? -transform.localEulerAngles.x : transform.localEulerAngles.x,
+                    InvertLeftEulerY ? -transform.localEulerAngles.y : transform.localEulerAngles.y,
+                    InvertLeftEulerZ ? -transform.localEulerAngles.z : transform.localEulerAngles.z
+                );
+
+                return leftHand;
+            }
+
+            return null;
+        }
 
         bool offsetFound = false;
 
         public void UpdatePreviewTransforms() {
-            Transform leftHandPreview = transform.Find("LeftHandModelsEditorPreview");            
-            Transform rightHandPreview = transform.Find("RightHandModelsEditorPreview");
+            Transform leftHandPreview = FindLeftHandPreview();
+            Transform rightHandPreview = FindRightHandPreview();
 
-            if(!offsetFound) {
+            if (!offsetFound) {
                 // If there is a Hand in the scene, use that offset instead of our defaults
                 if (GameObject.Find("LeftController/Grabber") != null) {
                     Grabber LeftGrabber = GameObject.Find("LeftController/Grabber").GetComponent<Grabber>();
@@ -139,29 +198,36 @@ namespace BNG {
 
         public void UpdateHandPosePreview() {
             if(handPoseType == HandPoseType.HandPose) {
-                Transform leftHandPreview = transform.Find("LeftHandModelsEditorPreview");
-                Transform rightHandPreview = transform.Find("RightHandModelsEditorPreview");
+                Transform leftHandPreview = FindLeftHandPreview();
+                Transform rightHandPreview = FindRightHandPreview();
 
                 if (leftHandPreview) {
-                    HandPoser hp = leftHandPreview.GetComponentInChildren<HandPoser>();
+                    HandPoser hp = leftHandPreview.GetComponentInChildren<HandPoser>(false);
                     if (hp != null) {
                         hp.CurrentPose = SelectedHandPose;
                     }
                 }
 
                 if (rightHandPreview) {
-                    HandPoser hp = rightHandPreview.GetComponentInChildren<HandPoser>();
+                    HandPoser hp = rightHandPreview.GetComponentInChildren<HandPoser>(false);
                     if (hp != null) {
                         hp.CurrentPose = SelectedHandPose;
                     }
                 }
+
+                //HandPoser hp2 = transform.GetComponentInChildren<HandPoser>(false);
+                //if (hp2 != null) {
+                //    hp2.CurrentPose = SelectedHandPose;
+                //}
             }
         }
 
         public void UpdateAutoPoserPreview() {
+
+            Transform leftHandPreview = FindLeftHandPreview();
+            Transform rightHandPreview = FindRightHandPreview();
+
             if (handPoseType == HandPoseType.AutoPoseContinuous || handPoseType == HandPoseType.AutoPoseOnce) {
-                Transform leftHandPreview = transform.Find("LeftHandModelsEditorPreview");
-                Transform rightHandPreview = transform.Find("RightHandModelsEditorPreview");
                 // Update in editor
                 if (leftHandPreview) {
                     AutoPoser ap = leftHandPreview.GetComponentInChildren<AutoPoser>();
@@ -178,8 +244,7 @@ namespace BNG {
                 }
             }
             else {
-                Transform leftHandPreview = transform.Find("LeftHandModelsEditorPreview");
-                Transform rightHandPreview = transform.Find("RightHandModelsEditorPreview");
+               
                 // Update in editor
                 if (leftHandPreview) {
                     AutoPoser ap = leftHandPreview.GetComponentInChildren<AutoPoser>();
@@ -197,6 +262,32 @@ namespace BNG {
             }
         }
 
+        public Transform FindLeftHandPreview() {
+            return transform.Find(GetLeftHandPreviewName());
+        }
+
+        public Transform FindRightHandPreview() {
+            return transform.Find(GetRightHandPreviewName());
+        }
+
+        public virtual string GetLeftHandPreviewName() {
+            if (LeftHandPreviewPrefab) {
+                return LeftHandPreviewPrefab.name;
+            }
+            else {
+                return _defaultLeftHandResourceName;
+            }
+        }
+
+        public virtual string GetRightHandPreviewName() {
+            if (RightHandPreviewPrefab) {
+                return RightHandPreviewPrefab.name;
+            } 
+            else {
+                return _defaultRightHandResourceName;
+            }
+        }
+
         public void UpdateChildAnimators() {
             var animators = transform.GetComponentsInChildren<Animator>(true);
             for (int x = 0; x < animators.Length; x++) {
@@ -206,9 +297,9 @@ namespace BNG {
                         animators[x].Update(Time.deltaTime);
                     }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && (UNITY_2019 || UNITY_2020)
                     // Only set dirty if not in prefab mode
-                    if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null) {
+                    if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null) {
                         UnityEditor.EditorUtility.SetDirty(animators[x].gameObject);
                     }
 #endif
@@ -223,7 +314,6 @@ namespace BNG {
                 }
             }
         }
-
         #endregion
     }
 }

@@ -9,12 +9,12 @@ namespace BNG {
     /// </summary>
     public class PlayerGravity : MonoBehaviour {
 
+        [Header("Gravity Settings")]
         [Tooltip("If true, will apply gravity to the CharacterController component, or RigidBody if no CC is present.")]
-
         public bool GravityEnabled = true;
 
         [Tooltip("Amount of Gravity to apply to the CharacterController or Rigidbody. Default is 'Physics.gravity'.")]
-        private Vector3 Gravity = Physics.gravity;
+        public Vector3 Gravity = Physics.gravity;
 
         CharacterController characterController;
         SmoothLocomotion smoothLocomotion;
@@ -22,10 +22,15 @@ namespace BNG {
         Rigidbody playerRigidbody;
 
         private float _movementY;
-        private Vector3 _initialGravityModifier;
+        private Vector3 _initialGravityModifier, _previousGravityModifier;
 
         // Save us a null check in FixedUpdate
         private bool _validRigidBody = false;
+
+        [Header("Debug")]
+        [Tooltip("Optional tooltip to output current gravity value. Useful for testing.")]
+        public TMPro.TMP_Text LabelToUpdate;
+
 
         void Start() {
             characterController = GetComponent<CharacterController>();
@@ -35,32 +40,33 @@ namespace BNG {
             _validRigidBody = playerRigidbody != null;
 
             _initialGravityModifier = Gravity;
+            _previousGravityModifier = Gravity;
         }
 
         // Apply Gravity in LateUpdate to ensure it gets applied after any character movement is applied in Update
         void LateUpdate() {
 
             // Apply Gravity to Character Controller
-            if (GravityEnabled && characterController != null && characterController.enabled)
-            {
+            if (GravityEnabled && characterController != null && characterController.enabled) {
                 _movementY += Gravity.y * Time.deltaTime;
 
                 // Default to smooth locomotion
-                if (smoothLocomotion)
-                {
+                if(smoothLocomotion) {
                     smoothLocomotion.MoveCharacter(new Vector3(0, _movementY, 0) * Time.deltaTime);
                 }
                 // Fallback to character controller
-                else if (characterController)
-                {
+                else if(characterController) {
                     characterController.Move(new Vector3(0, _movementY, 0) * Time.deltaTime);
                 }
-
+                
                 // Reset Y movement if we are grounded
-                if (characterController.isGrounded)
-                {
+                if (characterController.isGrounded) {
                     _movementY = 0;
                 }
+            }
+
+            if(LabelToUpdate != null) {
+                LabelToUpdate.text = "Player Gravity : " + Gravity.y;
             }
         }
 
@@ -83,12 +89,19 @@ namespace BNG {
             GravityEnabled = gravityOn;
 
             if (gravityOn) {
-                Gravity = _initialGravityModifier;
+                Gravity = _previousGravityModifier;
             }
             else {
+                // store gravity effect before update
+                _previousGravityModifier = Gravity;
                 Gravity = Vector3.zero;
             }
         }
+
+        // GravityValue = 0-100f range
+        public void SetGravityFromZeroToHundred(float GravityValue) {
+            Gravity = new Vector3(0, -10 * (GravityValue / 100f), 0);
+            GravityEnabled = GravityValue > 0;
+        }
     }
 }
-

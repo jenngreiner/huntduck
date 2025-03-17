@@ -7,6 +7,7 @@ using UnityEngine.UI;
 namespace BNG {
     public class HingeHelper : GrabbableEvents {
 
+        [Header("Snap Options")]
         [Tooltip("If True the SnapGraphics tranfsorm will have its local Y rotation snapped to the nearest degrees specified in SnapDegrees")]
         public bool SnapToDegrees = false;
 
@@ -25,8 +26,10 @@ namespace BNG {
         [Tooltip("Add haptics amount (0-1) to controller if SnapToDegrees is True. Set this to 0 for no Haptics.")]
         public float SnapHaptics = 0.5f;
 
+        [Header("Text Label (Optional)")]
         public Text LabelToUpdate;
 
+        [Header("Change Events")]
         public FloatEvent onHingeChange;
         public FloatEvent onHingeSnapChange;
 

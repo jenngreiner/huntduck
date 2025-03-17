@@ -13,7 +13,9 @@ namespace BNG {
         ThumbstickDown,
         // Hold BButton to teleport, release to teleport
         BButton,
-        None
+        None,
+        // Hold Thumbstick Upwards to initiate teleport
+        ThumbstickUp
     }
 
     /// <summary>
@@ -102,6 +104,9 @@ namespace BNG {
         public bool AllowTeleportRotation = true;
         private bool _reachThumbThreshold = false;
 
+        [Tooltip("If true the teleport marker will always be the same rotation as the player")]
+        public bool ForceStraightArrow = false;
+
         [Header("Slope")]
         [Tooltip("Max Angle / Slope the teleport marker can be to be considered a valid teleport.")]
         public float MaxSlope = 60f;
@@ -118,17 +123,27 @@ namespace BNG {
         public float TeleportFadeSpeed = 10f;
 
         [Tooltip("Seconds to wait before initiating teleport. Useful if you want to fade the screen  before teleporting.")]
-        public float TeleportDelay = 0.2f;        
+        public float TeleportDelay = 0.2f;
+
+        [Header("Physics Material")]
+        [Tooltip("Physics Material to apply to the sphere collider when no controls are being issued.")]
+        public PhysicMaterial FrictionMaterial;
 
         CharacterController controller;
         BNGPlayerController playerController;
+        Rigidbody playerRigid;
         InputBridge input;
         Transform cameraRig;
         ScreenFader fader;
 
-        bool aimingTeleport = false;
-        bool validTeleport = false;
-        bool teleportationEnabled = true;
+        protected bool aimingTeleport = false;
+        public bool AimingTeleport {
+            get {
+                return aimingTeleport;
+            }
+        }
+        protected bool validTeleport = false;
+        protected bool teleportationEnabled = true;
 
         // How many frames teleport has been invalid for. 
         private int _invalidFrames = 0;
@@ -149,10 +164,18 @@ namespace BNG {
             setupVariables();
         }
 
+        private void OnEnable() {
+            // Switch over to our High Friction Material. This keeps the player from sliding around after teleporting
+            if(GetComponent<SphereCollider>() != null && FrictionMaterial != null) {
+                GetComponent<SphereCollider>().material = FrictionMaterial;
+            }
+        }
+
         bool setVariables = false;
         void setupVariables() {
             input = InputBridge.Instance;
             playerController = GetComponent<BNGPlayerController>();
+            playerRigid = GetComponent<Rigidbody>();
             controller = GetComponentInChildren<CharacterController>();
             cameraRig = playerController.CameraRig;
             fader = cameraRig.GetComponentInChildren<ScreenFader>();
@@ -420,8 +443,6 @@ namespace BNG {
             TeleportMarker.SetActive(validTeleport);           
         }
 
-        public bool ForceStraightArrow = false;
-
         protected virtual void rotateMarker() {
 
             if(AllowTeleportRotation) {
@@ -470,23 +491,27 @@ namespace BNG {
 
                 Vector3 destination = TeleportDestination.position;
                 Quaternion rotation = TeleportMarker.transform.rotation;
-               
+                // Store our rotation setting. This can be overriden by a TeleportDestination's ForcePlayerRotation setting
+                bool allowTeleportationRotation = AllowTeleportRotation;
+
                 // Override if we're looking at a teleport destination
                 DestinationObject = _hitObject.GetComponent<TeleportDestination>();
                 if (DestinationObject != null) {
                     destination = DestinationObject.DestinationTransform.position;
 
+                    // ForcePlayerRotation will get passed to the coroutine if true
                     if (DestinationObject.ForcePlayerRotation) {
                         rotation = DestinationObject.DestinationTransform.rotation;
+                        allowTeleportationRotation = true;
                     }
                 }
 
                 // Offset our teleport vector if specified
-                if(TeleportYOffset != 0) {
+                if (TeleportYOffset != 0) {
                     destination += new Vector3(0, TeleportYOffset, 0);
                 }
 
-                StartCoroutine(doTeleport(destination, rotation, AllowTeleportRotation));
+                StartCoroutine(doTeleport(destination, rotation, allowTeleportationRotation));
             }
 
             // We teleported, so update this value for next raycast
@@ -522,10 +547,9 @@ namespace BNG {
         }
 
         public virtual void AfterTeleport() {
-            
-            if (FadeScreenOnTeleport && fader) {
-                fader.DoFadeOut();
-            }
+
+
+            AfterTeleportFade();
 
             // Call any After Teleport Events
             OnAfterTeleport?.Invoke();
@@ -533,6 +557,12 @@ namespace BNG {
             // Call Event on Teleport Destination if available
             if(DestinationObject) {
                 DestinationObject.OnPlayerTeleported?.Invoke();
+            }
+        }
+
+        public virtual void AfterTeleportFade() {
+            if (FadeScreenOnTeleport && fader) {
+                fader.DoFadeOut();
             }
         }
 
@@ -581,6 +611,11 @@ namespace BNG {
                     // Force our character to remain upright
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 }
+            }
+
+            // Reset the player's velocity
+            if (playerRigid) {
+                playerRigid.velocity = Vector3.zero;
             }
 
             // Update last teleport time
@@ -638,6 +673,17 @@ namespace BNG {
                 }
                 // In dead zone
                 else if (_reachThumbThreshold && (Math.Abs(handedThumbstickAxis.x) > 0.25 || Math.Abs(handedThumbstickAxis.y) > 0.25)) {
+                    return true;
+                }
+            }
+            // Press stick in upwards direction to initiate teleport
+            if (ControlType == TeleportControls.ThumbstickUp) {
+                if (handedThumbstickAxis.y >= 0.75f) {
+                    _reachThumbThreshold = true;
+                    return true;
+                }
+                // In dead zone
+                else if (_reachThumbThreshold && handedThumbstickAxis.y > 0.25f) {
                     return true;
                 }
             }

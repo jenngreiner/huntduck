@@ -13,12 +13,26 @@ namespace BNG {
         public InputActionReference InputAction = default;
         public GameObject ToggleObject = default;
 
+        public ControllerBinding controllerBinding = ControllerBinding.None;
+
+        void Update() {
+            if (controllerBinding != ControllerBinding.None) {
+                if(InputBridge.Instance.GetControllerBindingValue(controllerBinding)) {
+                    ToggleObject.SetActive(!ToggleObject.activeSelf);
+                }
+            }
+        }
+
         private void OnEnable() {
-            InputAction.action.performed += ToggleActive;
+            if(InputAction) {
+                InputAction.action.performed += ToggleActive;
+            }
         }
 
         private void OnDisable() {
-            InputAction.action.performed -= ToggleActive;
+            if (InputAction) {
+                InputAction.action.performed -= ToggleActive;
+            }
         }
 
         public void ToggleActive(InputAction.CallbackContext context) {

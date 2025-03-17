@@ -9,13 +9,8 @@ namespace BNG {
     /// </summary>
     public class BoneMapping : MonoBehaviour {
         
-        [Range(0f, 1f)] public float weight = 1f;
-
-        [System.Serializable]
-        public enum Mode {
-            FromToRotation,
-            MatchRotation
-        }
+        [Range(0f, 1f)] 
+        public float Weight = 1f;
 
         public BoneObject[] Fingers;
 
@@ -23,7 +18,7 @@ namespace BNG {
         public bool ShowGizmos = true;
 
         void Update() {
-            if (weight <= 0f) {
+            if (Weight <= 0f) {
                 return;
             }
             
@@ -39,13 +34,12 @@ namespace BNG {
                     Quaternion f = Quaternion.Inverse(finger.destinationBones[i].rotation) * finger.targetBones[i].rotation;
 
                     // Weight blending
-                    if (weight < 1f) {
-                        f = Quaternion.Slerp(Quaternion.identity, f, weight);
+                    if (Weight < 1f) {
+                        f = Quaternion.Slerp(Quaternion.identity, f, Weight);
                     }
 
                     // Append relative rotation
                     finger.destinationBones[i].rotation *= f;
-
                 }
             }
         }
@@ -100,14 +94,8 @@ namespace BNG {
 
     [System.Serializable]
     public class BoneObject {
-        
         public Transform[] targetBones = new Transform[0];
         public Transform[] destinationBones = new Transform[0];
-
-        public Vector3 avatarForwardAxis = Vector3.forward;
-        public Vector3 avatarUpAxis = Vector3.up;
-        public Vector3 targetForwardAxis = Vector3.forward;
-        public Vector3 targetUpAxis = Vector3.up;
     }
 }
 

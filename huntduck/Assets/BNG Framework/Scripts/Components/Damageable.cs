@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,29 +12,14 @@ namespace BNG {
     /// </summary>
     public class Damageable : MonoBehaviour {
 
-        public float Health = 5;
+        public float Health = 5; //HD value to make ducks easily shot (original value = 100)
         private float _startingHealth;
 
-        public delegate void TargetHit(GameObject target);
-        public static event TargetHit onTargetHit;
+        [Tooltip("Set to true if you want to destroy this object when it is spawned / enabled in the scene")]
+        public bool SelfDestruct = false;
 
-        public delegate void ClayHit();
-        public static event ClayHit onClayHit;
-
-        public delegate void CarniDuckHit(GameObject carniDuck);
-        public static event CarniDuckHit onCarniDuckHit;
-
-        public delegate void InfiniteDuckHit();
-        public static event InfiniteDuckHit onInfiniteDuckHit;
-
-        public delegate void BonusGooseHit();
-        public static event BonusGooseHit onBonusGooseHit;
-
-        public delegate void EggShot(GameObject thisEgg);
-        public static event EggShot onEggShot;
-
-        public delegate void DuckDie(GameObject deadDuck);
-        public static event DuckDie onDuckDie;
+        [Tooltip("If SelfDestruct is true this object will destroy itself in this many seconds")]
+        public float SelfDestructDelay = 0.1f;
 
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
@@ -89,9 +73,6 @@ namespace BNG {
         [Tooltip("Optional Event to be called once health is <= 0")]
         public UnityEvent onDestroyed;
 
-        public delegate void DestroyDelegate();
-        public static event DestroyDelegate onDestroyedDelegate;
-
         [Tooltip("Optional Event to be called once the object has been respawned, if Respawn is true and after RespawnTime")]
         public UnityEvent onRespawn;
 
@@ -117,12 +98,18 @@ namespace BNG {
 
         void Update()
         {
-           // kill key
-           if (Input.GetKeyDown(KeyCode.K))
+            // kill key
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 this.DealDamage(99999);
                 Debug.Log("FEEL MY WRATH, K");
-            } 
+            }
+        }
+
+        void OnEnable() {
+            if(SelfDestruct) {
+                Invoke("DestroyThis", SelfDestructDelay);
+            }
         }
 
         public virtual void DealDamage(float damageAmount) {
@@ -132,7 +119,6 @@ namespace BNG {
         public virtual void DealDamage(float damageAmount, Vector3? hitPosition = null, Vector3? hitNormal = null, bool reactToHit = true, GameObject sender = null, GameObject receiver = null) {
 
             if (destroyed) {
-                Debug.Log("We destroyed that breakable called " + transform.name);
                 return;
             }
 
@@ -156,11 +142,11 @@ namespace BNG {
             if (Health <= 0) {
                 DestroyThis();
 
+                //TODO: Move HD code to another script
                 // runs switch statement against object tag
                 broadcastHit();
             }
         }
-
 
         public virtual void DestroyThis() {
             Health = 0;
@@ -198,15 +184,13 @@ namespace BNG {
                 onDestroyed.Invoke();
             }
 
+            //TODO: Move HD code to new script
             onDestroyedDelegate?.Invoke();
 
-            if (DestroyOnDeath)
-            {
+            if (DestroyOnDeath) {
                 Destroy(this.gameObject, DestroyDelay);
-                //Destroy(this.transform.parent.gameObject, DestroyDelay);
             }
-            else if (Respawn)
-            {
+            else if (Respawn) {
                 StartCoroutine(RespawnRoutine(RespawnTime));
             }
 
@@ -230,6 +214,90 @@ namespace BNG {
             }
         }
 
+        IEnumerator RespawnRoutine(float seconds) {
+
+            yield return new WaitForSeconds(seconds);
+
+            Health = _startingHealth;
+            destroyed = false;
+
+            // Deactivate
+            foreach (var go in ActivateGameObjectsOnDeath) {
+                go.SetActive(false);
+            }
+
+            // Re-Activate
+            foreach (var go in DeactivateGameObjectsOnDeath) {
+                go.SetActive(true);
+            }
+            foreach (var col in DeactivateCollidersOnDeath) {
+                col.enabled = true;
+            }
+
+            // Reset kinematic property if applicable
+            if (rigid) {
+                rigid.isKinematic = initialWasKinematic;
+            }
+
+            // Call events
+            if (onRespawn != null) {
+                onRespawn.Invoke();
+            }
+        }
+        
+        //TODO: HD code to move to another script
+        public delegate void TargetHit(GameObject target);
+        public static event TargetHit onTargetHit;
+
+        public delegate void ClayHit();
+        public static event ClayHit onClayHit;
+
+        public delegate void CarniDuckHit(GameObject carniDuck);
+        public static event CarniDuckHit onCarniDuckHit;
+
+        public delegate void InfiniteDuckHit();
+        public static event InfiniteDuckHit onInfiniteDuckHit;
+
+        public delegate void BonusGooseHit();
+        public static event BonusGooseHit onBonusGooseHit;
+
+        public delegate void EggShot(GameObject thisEgg);
+        public static event EggShot onEggShot;
+
+        public delegate void DuckDie(GameObject deadDuck);
+        public static event DuckDie onDuckDie;
+
+        public delegate void DestroyDelegate();
+        public static event DestroyDelegate onDestroyedDelegate;
+
+        void broadcastHit()
+        {
+            switch (gameObject.tag)
+            {
+                case TagManager.TARGET_TAG:
+                    onTargetHit?.Invoke(gameObject);
+                    break;
+                case TagManager.PRACTICECLAY_TAG:
+                    onClayHit?.Invoke();
+                    break;
+                case TagManager.PRACTICEDUCK_TAG:
+                    onCarniDuckHit?.Invoke(transform.parent.gameObject);
+                    onDuckDie?.Invoke(gameObject);
+                    break;
+                case TagManager.INFINITEDUCK_TAG:
+                case TagManager.ANGRYDUCK_TAG:
+                case TagManager.GOOSE_TAG:
+                case TagManager.GOLDENGOOSE_TAG:
+                    onInfiniteDuckHit?.Invoke();
+                    onDuckDie?.Invoke(gameObject);
+                    break;
+                case TagManager.EGG_TAG:
+                    onEggShot?.Invoke(gameObject);
+                    break;
+                default:
+                    break;
+            }
+        }
         // SINGLESCENE: Reset elements during practice mode for "Play Again"
         public void InstantRespawn()
         {
@@ -272,68 +340,6 @@ namespace BNG {
         public void RespawnObject(float seconds)
         {
             StartCoroutine(RespawnRoutine(seconds));
-        }
-
-        IEnumerator RespawnRoutine(float seconds) {
-
-            yield return new WaitForSeconds(seconds);
-
-            Health = _startingHealth;
-            destroyed = false;
-
-            // Deactivate
-            foreach (var go in ActivateGameObjectsOnDeath) {
-                go.SetActive(false);
-                Debug.Log("Should be turning off " + go.name + " as part of respawn");
-            }
-
-            // Re-Activate
-            foreach (var go in DeactivateGameObjectsOnDeath) {
-                go.SetActive(true);
-                Debug.Log("Should be turning on " + go.name + " as part of respawn");
-            }
-            foreach (var col in DeactivateCollidersOnDeath) {
-                col.enabled = true;
-            }
-
-            // Reset kinematic property if applicable
-            if (rigid) {
-                rigid.isKinematic = initialWasKinematic;
-            }
-
-            // Call events
-            if (onRespawn != null) {
-                onRespawn?.Invoke();
-            }
-        }
-
-        void broadcastHit()
-        {
-            switch (gameObject.tag)
-            {
-                case TagManager.TARGET_TAG:
-                    onTargetHit?.Invoke(gameObject);
-                    break;
-                case TagManager.PRACTICECLAY_TAG:
-                    onClayHit?.Invoke();
-                    break;
-                case TagManager.PRACTICEDUCK_TAG:
-                    onCarniDuckHit?.Invoke(transform.parent.gameObject);
-                    onDuckDie?.Invoke(gameObject);
-                    break;
-                case TagManager.INFINITEDUCK_TAG:
-                case TagManager.ANGRYDUCK_TAG:
-                case TagManager.GOOSE_TAG:
-                case TagManager.GOLDENGOOSE_TAG:
-                    onInfiniteDuckHit?.Invoke();
-                    onDuckDie?.Invoke(gameObject);
-                    break;
-                case TagManager.EGG_TAG:
-                    onEggShot?.Invoke(gameObject);
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

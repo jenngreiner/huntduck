@@ -15,6 +15,11 @@ namespace BNG {
         public bool RequireHandleTurnToOpen = false;
 
         /// <summary>
+        /// If RequireHandleTurnToOpen and the handle has not fully opened then the door will be kinematic / immovable
+        /// </summary>
+        bool handleLocked = false;
+
+        /// <summary>
         /// This transform is used to determine how many degrees have been turned. Required if RequireHandleTurnToOpen is true
         /// </summary>
         public Transform HandleFollower;
@@ -41,18 +46,11 @@ namespace BNG {
 
         public float AngularVelocitySnapDoor = 0.2f;
 
-        void Start() {
-            hinge = GetComponent<HingeJoint>();
-            rigid = GetComponent<Rigidbody>();
-
-            if(DoorLockTransform) {
-                initialLockPosition = DoorLockTransform.transform.localPosition.x;
-            }
-        }
-
         public float angle;
         public float AngularVelocity = 0.2f;
-        bool doorLocked = false;
+
+        [Tooltip("If true the door will not respond to user input")]
+        public bool DoorIsLocked = false;
 
         public float lockPos;
 
@@ -61,6 +59,15 @@ namespace BNG {
         // Cache for GC
         Vector3 currentRotation;
         float moveLockAmount, rotateAngles, ratio;
+
+        void Start() {
+            hinge = GetComponent<HingeJoint>();
+            rigid = GetComponent<Rigidbody>();
+
+            if (DoorLockTransform) {
+                initialLockPosition = DoorLockTransform.transform.localPosition.x;
+            }
+        }
 
         void Update() {
 
@@ -99,7 +106,10 @@ namespace BNG {
 
             // Should we snap the door closed?
             if (angle < 1 && AngularVelocity <= AngularVelocitySnapDoor) {
-                rigid.angularVelocity = Vector3.zero;
+                // Reset angular velocity so door doesn't swing infinitely
+                if(!rigid.isKinematic) {
+                    rigid.angularVelocity = Vector3.zero;
+                }
             }
 
             // Play Close Sound
@@ -126,11 +136,11 @@ namespace BNG {
 
             // Set Lock Status
             if(RequireHandleTurnToOpen) {
-                doorLocked = DegreesTurned < DegreesTurnToOpen;
+                handleLocked = DegreesTurned < DegreesTurnToOpen;
             }
 
             // Lock Door in place if closed and requires handle to be turned
-            if(angle < 0.02f && doorLocked) {
+            if(angle < 0.02f && (handleLocked || DoorIsLocked)) {
                 // Check on detection mode
                 if (rigid.collisionDetectionMode == CollisionDetectionMode.Continuous || rigid.collisionDetectionMode == CollisionDetectionMode.ContinuousDynamic) {
                     rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
@@ -146,7 +156,6 @@ namespace BNG {
 
                 rigid.isKinematic = false;
             }
-            
         }
     }
 }

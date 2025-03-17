@@ -17,6 +17,9 @@ namespace BNG {
 
         public RemoteGrabType PhysicsCheckType = RemoteGrabType.Trigger;
 
+        [Tooltip("If PhysicsCheckType = Trigger and this is true, an additonal raycast check will occur to check for obstacles in the way")]
+        public bool TriggerRequiresRaycast = true;
+
         public float RaycastLength = 20f;
 
         public float SphereCastLength = 20f;
@@ -32,6 +35,11 @@ namespace BNG {
         void Start() {
             if(PhysicsCheckType == RemoteGrabType.Trigger && GetComponent<Collider>() == null) {
                 Debug.LogWarning("Remote Grabber set to 'Trigger', but no Trigger Collider was found. You may need to add a collider, or switch to a different physics check type.");
+            }
+
+            // Add a raycast check if we're using a trigger type. Trigger types don't check collision.
+            if (PhysicsCheckType == RemoteGrabType.Trigger && TriggerRequiresRaycast && ParentGrabber != null) {
+                ParentGrabber.RaycastRemoteGrabbables = true;
             }
         }
 
@@ -99,6 +107,9 @@ namespace BNG {
             _lastColliderHit = null;
         }
 
+        Grabbable grabObject;
+        GrabbableChild gc;
+
         void OnTriggerEnter(Collider other) {
             
             // Skip check for other PhysicsCheckTypes
@@ -111,15 +122,20 @@ namespace BNG {
                 return;
             }
 
+            // Ignore static objects
+            if(other.gameObject.isStatic) {
+                return;
+            }
+
             //  We will let this grabber know we have remote objects available           
-            Grabbable grabObject = other.GetComponent<Grabbable>();
+            grabObject = other.GetComponent<Grabbable>();
             if(grabObject != null && ParentGrabber != null) {
                 ParentGrabber.AddValidRemoteGrabbable(other, grabObject);
                 return;
             }
 
             // Check for Grabbable Child Object Last
-            GrabbableChild gc = other.GetComponent<GrabbableChild>();
+            gc = other.GetComponent<GrabbableChild>();
             if (gc != null && ParentGrabber != null) {
                 ParentGrabber.AddValidRemoteGrabbable(other, gc.ParentGrabbable);
                 return;
@@ -133,14 +149,14 @@ namespace BNG {
                 return;
             }
 
-            Grabbable grabObject = other.GetComponent<Grabbable>();
+            grabObject = other.GetComponent<Grabbable>();
             if (grabObject != null && ParentGrabber != null) {
                 ParentGrabber.RemoveValidRemoteGrabbable(other, grabObject);
                 return;
             }
 
             // Check for Grabbable Child Object Last
-            GrabbableChild gc = other.GetComponent<GrabbableChild>();
+            gc = other.GetComponent<GrabbableChild>();
             if (gc != null && ParentGrabber != null) {
                 ParentGrabber.RemoveValidRemoteGrabbable(other, gc.ParentGrabbable);
                 return;

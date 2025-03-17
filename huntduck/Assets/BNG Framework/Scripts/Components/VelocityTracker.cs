@@ -92,6 +92,12 @@ namespace BNG {
                 return _velocity;
             }
 
+#if UNITY_WEBGL
+        // use manual tracking in WebXR, since XRInput isn't supported
+    return _velocity;
+#else 
+
+#endif
             // Try XR Input Velocity First
             Vector3 vel = InputBridge.Instance.GetControllerVelocity(controllerHand);
 
@@ -102,7 +108,7 @@ namespace BNG {
             else {
                 // Add the playspace rotation in if necessary
                 if(playSpace != null) {
-                    return playSpace.transform.rotation* vel;
+                    return playSpace.transform.rotation * vel;
                 }
 
                 return vel;

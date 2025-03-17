@@ -3,36 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Duck
-  - DuckLauncher
-  - PracticeClay
-  - Target
-  - PracticeDuck
-  - InfiniteDuck
-  - Goose
-  - Egg
-  - ShootingStand
-  - AngryDuck
-  - GoldenGoose
-  - GooseLauncher
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - ForceField
+  - 
   - Water
   - UI
-  - Environment
-  - InfiniteDuck
+  - 
+  - 
   - Restricted
   - Player
   - Grabbable
-  - Carnival
-  - Guard
-  - Ground
-  - Egg
-  - BonusWall
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

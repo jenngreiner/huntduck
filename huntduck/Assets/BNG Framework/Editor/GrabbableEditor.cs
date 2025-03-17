@@ -26,6 +26,7 @@ namespace BNG {
         SerializedProperty remoteGrabbable;
         SerializedProperty remoteGrabMechanic;
         SerializedProperty remoteGrabDistance;
+        SerializedProperty canDropMidGrab;
         SerializedProperty throwForceMultiplier;
         SerializedProperty throwForceMultiplierAngular;
         SerializedProperty breakDistance;
@@ -73,6 +74,7 @@ namespace BNG {
             grabSpeed = serializedObject.FindProperty("GrabSpeed");
             remoteGrabbable = serializedObject.FindProperty("RemoteGrabbable");
             remoteGrabDistance = serializedObject.FindProperty("RemoteGrabDistance");
+            canDropMidGrab = serializedObject.FindProperty("CanDropMidGrab");
             remoteGrabMechanic = serializedObject.FindProperty("RemoteGrabMechanic");
             throwForceMultiplier = serializedObject.FindProperty("ThrowForceMultiplier");
             throwForceMultiplierAngular = serializedObject.FindProperty("ThrowForceMultiplierAngular");
@@ -172,6 +174,7 @@ namespace BNG {
             }
 
             EditorGUILayout.PropertyField(remoteGrabDistance);
+            EditorGUILayout.PropertyField(canDropMidGrab);
 
             EditorGUILayout.PropertyField(hideHandGraphics);
             EditorGUILayout.PropertyField(parentToHands);

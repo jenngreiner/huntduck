@@ -11,7 +11,8 @@
                     "id": "9757656b-a3f5-4673-b080-2f545d4a25ce",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Camera Look",
@@ -19,7 +20,8 @@
                     "id": "dd46896f-46d2-4a5a-bda5-90cc0e53a58e",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Increase Player Height",
@@ -27,7 +29,8 @@
                     "id": "9a07229e-920a-4324-8d60-ce8fedb06aa6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Decrease Player Height",
@@ -35,7 +38,8 @@
                     "id": "3d421c66-43c7-4c9d-a0f4-866aa5158b03",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "EmulateLeftGrip",
@@ -43,7 +47,8 @@
                     "id": "7b609984-6a1d-4464-861f-0cd19db52751",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EmulateLeftTrigger",
@@ -51,7 +56,8 @@
                     "id": "5d21f931-8d62-4a4b-8f85-574609f8546b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EmulateRightGrip",
@@ -59,7 +65,8 @@
                     "id": "ed2f557c-f26f-415c-b65e-1aebcb2ca944",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EmulateRightTrigger",
@@ -67,7 +74,8 @@
                     "id": "e1ba459e-c83f-4a08-bac3-da13029622bb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EmulateLeftThumbNear",
@@ -75,7 +83,8 @@
                     "id": "e0cb838e-2362-4bae-9677-4b21e9e12d45",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EmulateRightThumbNear",
@@ -83,7 +92,8 @@
                     "id": "a745dd8f-9336-40ee-a899-3411b251aa54",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -135,6 +145,17 @@
                     "name": "",
                     "id": "247e60bf-6b69-43e8-b9ab-6a2915cd4a51",
                     "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EmulateRightTrigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e259f49e-88ad-48e6-830d-e0332f0b4652",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -139,7 +139,7 @@ namespace BNG {
 
             // Get the modified angle of of the lever. Use this to get percentage based on Min and Max angles.
             Vector3 currentRotation = transform.localEulerAngles;
-            float angle = Mathf.Floor(currentRotation.x);
+            float angle = Mathf.Round(currentRotation.x);
             angle = (angle > 180) ? angle - 360 : angle;
 
             // Set percentage of level position

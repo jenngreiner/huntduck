@@ -13,6 +13,7 @@ namespace BNG {
         public LayerMask ValidLayers;
         public Transform LaserEnd;
 
+        public bool UseLineRenderer = true;
         public bool Active = true;
 
         LineRenderer line;
@@ -25,28 +26,46 @@ namespace BNG {
         void LateUpdate() {
             if(Active) {
 
-                line.enabled = true;
-
+                if(UseLineRenderer) {
+                    line.enabled = true;
+                }
+                
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.forward, out hit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore)) {
-                    line.useWorldSpace = true;
-                    line.SetPosition(0, transform.position);
-                    line.SetPosition(1, hit.point);
+
+                    if(UseLineRenderer) {
+                        line.useWorldSpace = true;
+                        line.SetPosition(0, transform.position);
+                        line.SetPosition(1, hit.point);
+                    }
 
                     // Add dot at line's end
-                    LaserEnd.gameObject.SetActive(true);
-                    LaserEnd.position = hit.point;
-                    LaserEnd.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+                    if(LaserEnd) {
+                        LaserEnd.gameObject.SetActive(true);
+                        LaserEnd.position = hit.point;
+                        LaserEnd.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+                    }
+                    
                 }
                 else {
-                    line.useWorldSpace = false;
-                    line.SetPosition(0, transform.localPosition);
-                    line.SetPosition(1, new Vector3(0, 0, MaxRange));
-                    LaserEnd.gameObject.SetActive(false);
+
+                    if (UseLineRenderer) {
+                        line.useWorldSpace = false;
+                        line.SetPosition(0, transform.localPosition);
+                        line.SetPosition(1, new Vector3(0, 0, MaxRange));
+                    }
+
+                    if(LaserEnd) {
+                        LaserEnd.localPosition = new Vector3(0, 0, MaxRange);
+                        LaserEnd.gameObject.SetActive(false);
+                    }
+                    
                 }
             }
             else {
-                LaserEnd.gameObject.SetActive(false);
+                if(LaserEnd) {
+                    LaserEnd.gameObject.SetActive(false);
+                }
 
                 if (line) {
                     line.enabled = false;

@@ -65,7 +65,7 @@ public class Duck : MonoBehaviour
         while (alive)
         {
             yield return new WaitForSecondsRealtime(Random.Range(0.5f, 5f));
-            BNG.VRUtils.Instance.PlayLinearSpatialClipAt(quackSound, transform.position, 1f, 1f);
+            BNG.VRUtils.Instance.PlaySpatialClipAt(quackSound, transform.position, 1f, 1f);
         }
     }
 
@@ -86,7 +86,7 @@ public class Duck : MonoBehaviour
         pointsObj.transform.LookAt(player);
         Text pointsText = pointsObj.GetComponentInChildren<Text>();
         pointsText.text = "$" + duckPoints.ToString();
-        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(pointsSound, transform.position, 1f, 1f);
+        BNG.VRUtils.Instance.PlaySpatialClipAt(pointsSound, transform.position, 1f, 1f);
     }
 
     void EnterFlyAwayMode()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace BNG {
 
     [ExecuteInEditMode]
@@ -14,9 +13,21 @@ namespace BNG {
 
         public string PoseName = "Default";
 
+        [Tooltip("The currently selected hand pose. Change this to automatically update the pose in Update")]
         public HandPose CurrentPose;
 
+        [Header("Animation Properties")]
+        [Tooltip("The speed at which to lerp the bones when changing hand poses")]
         public float AnimationSpeed = 15f;
+
+        [Tooltip("If true the local rotation of each bone will be updated while changing hand poses. This should generally be true if you are adjusting a hand pose.")]
+        public bool UpdateJointRotations = true;
+
+        [Tooltip("If true the local position of each bone will be updated while changing hand poses. Typically this will be false as joints only adjust their rotations.")]
+        public bool UpdateJointPositions = false;
+
+        [Tooltip("If true the local position of the wrist will be updated. Useful if you need to move the entire hand.")]
+        public bool UpdateWristPosition = true;
 
         // Hand Pose Transform Definitions
         public HandPoseDefinition HandPoseJoints {
@@ -34,10 +45,13 @@ namespace BNG {
         public List<Transform> OtherJoints;
 
         HandPose previousPose;
-        bool doSingleAnimation;
+        public bool doSingleAnimation;
 
         // Continuously update pose state
         public bool ContinuousUpdate = false;
+
+        // Did something animate recently?
+        private float _lastAnimTime;
 
         void Start() {
             // Trigger a pose change to start the animation
@@ -51,13 +65,49 @@ namespace BNG {
             CheckForPoseChange();
 
             // Lerp to Hand Pose
-            if (ContinuousUpdate || doSingleAnimation) {
+            if (ContinuousUpdate) {
                 DoPoseUpdate();
+            }
+            else if(doSingleAnimation) {
+                DoPoseUpdate();
+
+                // Can bail a little early if we haven't updated a transform recently
+                if(Time.time - _lastAnimTime >= 0.1f) {
+                    doSingleAnimation = false;
+                }
             }
         }
 
+        // How long to check for animations while in the editor mode
+        float editorAnimationTime = 0f;
+        float maxEditorAnimationTime = 2f;
+
+        public virtual void DoPoseUpdate() {
+
+            if (CurrentPose != null) {
+                UpdateHandPose(CurrentPose.Joints, true);
+            }
+
+            // Check to stop animating if we haven't moved anything recently
+            if (doSingleAnimation) {
+                editorAnimationTime += Time.deltaTime;
+
+                // Reset
+                if (editorAnimationTime >= maxEditorAnimationTime) {
+                    editorAnimationTime = 0;
+                    doSingleAnimation = false;
+                    // Debug.Log("Anim Timer Expired");
+                }
+            }
+        }
+
+        public void ResetAnimationState() {
+            editorAnimationTime = 0;
+            doSingleAnimation = false;
+        }
+
         public void CheckForPoseChange() {
-            if (previousPose == null || (CurrentPose != null && previousPose != null && previousPose.name != CurrentPose.name && CurrentPose != null)) {
+            if (previousPose == null && CurrentPose != null || (CurrentPose != null && previousPose != null && previousPose.name != CurrentPose.name && CurrentPose != null)) {
                 OnPoseChanged();
                 previousPose = CurrentPose;
             }
@@ -67,6 +117,7 @@ namespace BNG {
 
             // Allow pose to change animation
             editorAnimationTime = 0;
+            
             doSingleAnimation = true;
         }
 
@@ -96,6 +147,15 @@ namespace BNG {
 
         public List<FingerJoint> GetOtherJoints() {
             return GetJointsFromTransforms(OtherJoints);
+        }
+
+        public int GetTotalJointsCount() {
+
+            if(ThumbJoints == null || IndexJoints == null) {
+                return 0;
+            }
+
+            return ThumbJoints.Count + IndexJoints.Count + MiddleJoints.Count + RingJoints.Count + PinkyJoints.Count + OtherJoints.Count + (WristJoint != null ? 1 : 0);
         }
 
         public Transform GetTip(List<Transform> transforms) {
@@ -164,8 +224,12 @@ namespace BNG {
             };
         }
 
+        public virtual void UpdateHandPose(HandPose handPose, bool lerp) {
+            UpdateHandPose(handPose.Joints, lerp);
+        }
+
         public virtual void UpdateHandPose(HandPoseDefinition pose, bool lerp) {
-            UpdateJoint(pose.WristJoint, WristJoint, lerp);
+            UpdateJoint(pose.WristJoint, WristJoint, lerp, UpdateWristPosition, UpdateJointRotations);
             UpdateJoints(pose.ThumbJoints, ThumbJoints, lerp);
             UpdateJoints(pose.IndexJoints, IndexJoints, lerp);
             UpdateJoints(pose.MiddleJoints, MiddleJoints, lerp);
@@ -174,27 +238,68 @@ namespace BNG {
             UpdateJoints(pose.OtherJoints, OtherJoints, lerp);
         }
 
-        public virtual void UpdateJoint(FingerJoint fromJoint, Transform toTransform, bool doLerp) {
+        public virtual void UpdateJoint(FingerJoint fromJoint, Transform toTransform, bool doLerp, bool updatePosition, bool updateRotation) {
+            UpdateJoint(fromJoint, toTransform, doLerp ? Time.deltaTime * AnimationSpeed : 1, updatePosition, updateRotation);
+        }
+
+        public virtual void UpdateJoint(FingerJoint fromJoint, Transform toTransform, float lerpAmount, bool updatePosition, bool updateRotation) {
 
             // Invalid joint
-            if(fromJoint == null || toTransform == null) {
+            if (fromJoint == null || toTransform == null) {
                 return;
             }
 
-            if (doLerp) {
-                toTransform.localPosition = Vector3.Lerp(toTransform.localPosition, fromJoint.LocalPosition, Time.deltaTime * AnimationSpeed);
-                toTransform.localRotation = Quaternion.Lerp(toTransform.localRotation, fromJoint.LocalRotation, Time.deltaTime * AnimationSpeed);
+            // Lerp
+            if (lerpAmount != 1) {
+                bool positionReached = true;
+                bool rotationReached = true;
+
+                if (updatePosition) {
+                    toTransform.localPosition = Vector3.Lerp(toTransform.localPosition, fromJoint.LocalPosition, lerpAmount);
+                    positionReached = Vector3.Distance(toTransform.localPosition, fromJoint.LocalPosition) <= 0.0001f;
+                    if(!positionReached) {
+                        _lastAnimTime = Time.time;
+                    }
+                }
+                if (UpdateJointRotations) {
+                    toTransform.localRotation = Quaternion.Lerp(toTransform.localRotation, fromJoint.LocalRotation, lerpAmount);
+                    rotationReached = Quaternion.Angle(toTransform.localRotation, fromJoint.LocalRotation) <= 0.01f;
+                    if (!rotationReached) {
+                        _lastAnimTime = Time.time;
+                    }
+                }
+
+                // If both position and rotation have been reached, consider the joint completed
+                if (positionReached && rotationReached) {
+
+                    // Lock to precise rotation on end
+                    if (updatePosition) {
+                        toTransform.localPosition = fromJoint.LocalPosition;
+                    }
+                    if(UpdateJointRotations) {
+                        toTransform.localRotation = fromJoint.LocalRotation;
+                    }
+                }
             }
+            // Instantaneous can directly set the local position and rotation
             else {
-                toTransform.localPosition = fromJoint.LocalPosition;
-                toTransform.localRotation = fromJoint.LocalRotation;
+                if (UpdateJointPositions) {
+                    toTransform.localPosition = fromJoint.LocalPosition;
+                }
+                if (UpdateJointRotations) {
+                    toTransform.localRotation = fromJoint.LocalRotation;
+                }
             }
         }
 
         public virtual void UpdateJoints(List<FingerJoint> joints, List<Transform> toTransforms, bool doLerp) {
+            UpdateJoints(joints, toTransforms, doLerp ? Time.deltaTime * AnimationSpeed : 1);
+        }
+
+        public virtual void UpdateJoints(List<FingerJoint> joints, List<Transform> toTransforms, float lerpAmount) {
 
             // Sanity check
-            if(joints == null || toTransforms == null) {
+            if (joints == null || toTransforms == null) {
                 return;
             }
 
@@ -207,18 +312,18 @@ namespace BNG {
             bool verifyTransformName = jointCount != transformsCount;
             for (int x = 0; x < jointCount; x++) {
                 // Make sure the indexes match
-                if(x < toTransforms.Count) {
+                if (x < toTransforms.Count) {
 
                     // Joint may have not been assigned or destroyed
-                    if(joints[x] == null || toTransforms[x] == null) {
+                    if (joints[x] == null || toTransforms[x] == null) {
                         continue;
                     }
 
-                    if(verifyTransformName && joints[x].TransformName == toTransforms[x].name) {
-                        UpdateJoint(joints[x], toTransforms[x], doLerp);
+                    if (verifyTransformName && joints[x].TransformName == toTransforms[x].name) {
+                        UpdateJoint(joints[x], toTransforms[x], lerpAmount, UpdateJointPositions, UpdateJointRotations);
                     }
-                    else if(verifyTransformName == false) {
-                        UpdateJoint(joints[x], toTransforms[x], doLerp);
+                    else if (verifyTransformName == false) {
+                        UpdateJoint(joints[x], toTransforms[x], lerpAmount, UpdateJointPositions, UpdateJointRotations);
                     }
                 }
             }
@@ -326,30 +431,7 @@ namespace BNG {
 #else
     return null;
 #endif
-        }
-
-
-        // How long to check for animations while in the editor mode
-        float editorAnimationTime = 0f;
-        float maxEditorAnimationTime = 2f;
-
-        public virtual void DoPoseUpdate() {
-
-            if (CurrentPose != null) {
-                UpdateHandPose(CurrentPose.Joints, true);
-            }
-
-            // Are we done requesting a single animation?
-            if (doSingleAnimation) {
-                editorAnimationTime += Time.deltaTime;
-
-                // Reset
-                if (editorAnimationTime >= maxEditorAnimationTime) {
-                    editorAnimationTime = 0;
-                    doSingleAnimation = false;
-                }
-            }
-        }
+        }       
 
         public virtual void ResetEditorHandles() {
             EditorHandle[] handles = GetComponentsInChildren<EditorHandle>();

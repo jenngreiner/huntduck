@@ -48,8 +48,6 @@ namespace BNG {
                 dummyGrabbable.transform.localPosition = Vector3.zero;
                 dummyGrabbable.transform.localRotation = Quaternion.identity;
 
-                
-
                 // Copy over grab points
                 List<Transform> grabs = new List<Transform>();
                 for (int x = 0; x < GrabPoints.Count; x++) {
@@ -120,7 +118,11 @@ namespace BNG {
             closestPoint = newPoint;
 
             // Update hand animation
-            dummyGrabbable.CustomHandPose = newPoint.HandPose;
+            // dummyGrabbable.CustomHandPose = newPoint.HandPose;
+            dummyGrabbable.handPoseType = newPoint.handPoseType;
+
+
+            dummyGrabbable.SelectedHandPose = newPoint.SelectedHandPose;
 
             // Move Hand Graphics if they are available
             if (currentGrabber != null && currentGrabber.HandsGraphics != null) {

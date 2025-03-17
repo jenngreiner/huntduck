@@ -71,8 +71,8 @@ namespace BNG {
            
             bool makingFist = HandControl != null && HandControl.GripAmount > 0.9f && (HandControl.PointAmount < 0.1 || HandControl.PointAmount > 1);
             MakingFist = makingFist;
-            PointAmount = HandControl.PointAmount;
-            GripAmount = HandControl.GripAmount;
+            PointAmount = HandControl != null ? HandControl.PointAmount : 0;
+            GripAmount = HandControl != null ? HandControl.GripAmount : 0;
 
             bool pointing = HandControl != null && HandControl.PointAmount > 0.9f && HandControl.GripAmount > 0.9f;
 

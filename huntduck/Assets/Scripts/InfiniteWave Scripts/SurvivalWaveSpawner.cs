@@ -425,7 +425,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         getReadyText.text = "YOU SURVIVED";
         yield return new WaitForSecondsRealtime(timeDelay);
         getReadyText.text = "+$" + survivalBonus.ToString();
-        BNG.VRUtils.Instance.PlayLinearSpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
+        BNG.VRUtils.Instance.PlaySpatialClipAt(survivalBonusSound, transform.position, 1f, 0f, 1f); // arcade sound set to 2D audio
         yield return new WaitForSecondsRealtime(timeDelay);
         getReadyUI.SetActive(false);
         getReadyText.text = "GET READY"; // reset text

@@ -246,9 +246,11 @@ namespace BNG {
             }
 
             if(movementVelocity.magnitude > 0) {
-                playerRigid.velocity = Vector3.MoveTowards(playerRigid.velocity, (-movementVelocity * 2000f) * Time.fixedDeltaTime, 1f);
+                playerRigid.velocity = Vector3.MoveTowards(playerRigid.velocity, (-movementVelocity * ClimbingVelocity) * Time.fixedDeltaTime, 1f);
             }
         }
+
+        public float ClimbingVelocity = 2000f;
 
         void onGrabbedClimbable() {
             

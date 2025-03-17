@@ -41,25 +41,29 @@ namespace BNG {
         }
 
         void Update() {
-            if(lookAt) {
+            UpdateTooltipPosition();
+        }
+
+        public virtual void UpdateTooltipPosition() {
+            if (lookAt) {
                 transform.LookAt(Camera.main.transform);
             }
-            else if(Camera.main != null) {
+            else if (Camera.main != null) {
                 lookAt = Camera.main.transform;
             }
-            else if(Camera.main == null) {
+            else if (Camera.main == null) {
                 return;
             }
 
             transform.parent = DrawLineTo;
             transform.localPosition = TipOffset;
 
-            if(UseWorldYAxis) {
+            if (UseWorldYAxis) {
                 transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
                 transform.position += new Vector3(0, TipOffset.y, 0);
             }
-            
-            if(childTransform) {
+
+            if (childTransform) {
                 childTransform.gameObject.SetActive(Vector3.Distance(transform.position, Camera.main.transform.position) <= MaxViewDistance);
             }
         }

@@ -13,6 +13,10 @@ namespace BNG {
         SerializedProperty currentPose;
         SerializedProperty animationSpeed;
 
+        SerializedProperty updateJointRotations;
+        SerializedProperty updateJointPositions;
+        SerializedProperty updateWristPosition;
+
         // Auto Pose properties
         SerializedProperty openHandPose;
         SerializedProperty closedHandPose;
@@ -32,6 +36,10 @@ namespace BNG {
         void OnEnable() {
             currentPose = serializedObject.FindProperty("CurrentPose");
             animationSpeed = serializedObject.FindProperty("AnimationSpeed");
+            updateJointRotations = serializedObject.FindProperty("UpdateJointRotations");
+            updateJointPositions = serializedObject.FindProperty("UpdateJointPositions");
+            updateWristPosition = serializedObject.FindProperty("UpdateWristPosition");
+
             openHandPose = serializedObject.FindProperty("OpenHandPose");
             closedHandPose = serializedObject.FindProperty("ClosedHandPose");
             autoUpdateAutoPose = serializedObject.FindProperty("UpdateContinuously");
@@ -47,7 +55,7 @@ namespace BNG {
             OtherJoints = serializedObject.FindProperty("OtherJoints");
         }
 
-        bool showTransformProps;
+        bool showTransformProps, showAnimationProps;       
 
         public override void OnInspectorGUI() {
             poser = (HandPoser)target;
@@ -76,7 +84,7 @@ namespace BNG {
             }
 
             // Show Transform Properties
-            showTransformProps = EditorGUILayout.Foldout(showTransformProps, "Transform Definitions");
+            showTransformProps = EditorGUILayout.Foldout(showTransformProps, "Transform Definitions (" + poser.GetTotalJointsCount() + ")");
             if (showTransformProps) {
 
                 EditorGUILayout.Separator();
@@ -106,9 +114,22 @@ namespace BNG {
                 EditorGUI.indentLevel--;
             }
 
+
             EditorGUILayout.Separator();
+           
 
             EditorGUILayout.PropertyField(animationSpeed);
+
+            showAnimationProps = EditorGUILayout.Foldout(showAnimationProps, "Update Options");
+            if (showAnimationProps) {
+                EditorGUILayout.PropertyField(updateJointRotations);
+                EditorGUILayout.PropertyField(updateJointPositions);
+                EditorGUILayout.PropertyField(updateWristPosition);
+            }
+            
+            EditorGUILayout.Separator();
+
+            GUILayout.Label("Save Pose", EditorStyles.boldLabel);
 
             GUILayout.BeginHorizontal();
 

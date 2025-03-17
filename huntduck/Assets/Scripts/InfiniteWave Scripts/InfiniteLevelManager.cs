@@ -137,7 +137,7 @@ public class InfiniteLevelManager : MonoBehaviour
         finalDucksText.text = survivalWaveSpawner.ducksHitTotal.ToString();
         finalBucksText.text = finalScore;
 
-        // query for latest scores - this doesnt seem to be working yet
+        //TODO: BRING THIS BACK AFTER META XR IMPORT
         PlatformManager.Leaderboards.QueryHighScoreLeaderboard();
 
         // set leaderboard & buttons active

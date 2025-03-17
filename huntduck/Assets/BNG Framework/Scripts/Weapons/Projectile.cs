@@ -21,6 +21,16 @@ namespace BNG {
 
         public LayerMask ValidLayers;
 
+        [Tooltip("Amount of force to apply to a Rigidbody once damaged")]
+        public bool IsLaserGuided = false;
+
+        public float MissileForce = 2f;
+
+        public float TurningSpeed = 1f;
+
+        public Transform MuzzleOrigin;
+
+        [Tooltip("Sticky Object")]
         public bool StickToObject = false;
 
         /// <summary>
@@ -31,8 +41,31 @@ namespace BNG {
         [Tooltip("Unity Event called when the projectile damages something")]
         public UnityEvent onDealtDamageEvent;
 
+
+        Rigidbody rb;
+
+        Quaternion targetRotation;
+
+        void Start() {
+            rb = GetComponent<Rigidbody>();
+        }
+
         private void OnCollisionEnter(Collision collision) {
             OnCollisionEvent(collision);
+        }
+
+        private void Update() {
+            if(IsLaserGuided) {
+                // Rotate to same direction as muzzle
+                transform.rotation = Quaternion.Slerp(transform.rotation, MuzzleOrigin.transform.rotation, Time.deltaTime * TurningSpeed);
+            }
+        }
+
+
+        private void FixedUpdate() {
+            if (IsLaserGuided) {
+                rb.AddForce(transform.forward * MissileForce, ForceMode.Force);
+            }
         }
 
         public virtual void OnCollisionEvent(Collision collision) {
@@ -127,6 +160,22 @@ namespace BNG {
 
                 yield return new WaitForEndOfFrame();
             }
+        }
+
+        public void MarkAsLaserGuided(Transform startingOrigin) {
+
+            if(rb == null) {
+                rb = GetComponent<Rigidbody>();
+            }
+
+            // Velocity will be controlled in FixedUpdate
+            if(rb != null) {
+                rb.velocity = Vector3.zero;
+            }
+
+            IsLaserGuided = true;
+
+            MuzzleOrigin = startingOrigin;
         }
     }
 }

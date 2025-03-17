@@ -17,9 +17,10 @@ namespace BNG {
         void OnGUI() {
             GUILayout.Label("VRIF Integration Settings", EditorStyles.boldLabel);
 
+            VRIFSettings.XRITIntegration = EditorGUILayout.Toggle("XR Interaction Toolkit Integration", VRIFSettings.XRITIntegration);
             VRIFSettings.OculusIntegration = EditorGUILayout.Toggle("Oculus Integration", VRIFSettings.OculusIntegration);
             VRIFSettings.SteamVRIntegration = EditorGUILayout.Toggle("SteamVR Integration", VRIFSettings.SteamVRIntegration);
-            VRIFSettings.PicoIntegration = EditorGUILayout.Toggle("Pico Integration", VRIFSettings.PicoIntegration);
+            // VRIFSettings.PicoIntegration = EditorGUILayout.Toggle("Pico Integration (Legacy)", VRIFSettings.PicoIntegration);
 
             GUILayout.Label("", EditorStyles.boldLabel);
 
@@ -33,6 +34,22 @@ namespace BNG {
     }
 
     public class VRIFSettings {
+        public static bool XRITIntegration {
+            get {
+                return EditorPrefs.GetBool("XRITIntegration", false);
+            }
+            set {
+                EditorPrefs.SetBool("XRITIntegration", value);
+
+                if (value) {
+                    AddDefineSymbol("XRIT_INTEGRATION");
+                }
+                else {
+                    RemoveDefineSymbol("XRIT_INTEGRATION");
+                }
+            }
+        }
+
         public static bool OculusIntegration {
             get {
                 return EditorPrefs.GetBool("OculusIntegration", false);

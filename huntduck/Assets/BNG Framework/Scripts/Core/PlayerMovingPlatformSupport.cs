@@ -33,6 +33,9 @@ namespace BNG {
         bool wasOnPlatform;
         bool requiresReparent; // Should we reparent the player after we hop off?
 
+        // Cache last object we raycasted so we can save a lookup
+        private GameObject _lastHitObject;
+
         void Start() {
             smoothLocomotion = GetComponentInChildren<SmoothLocomotion>();
             characterController = GetComponentInChildren<CharacterController>();
@@ -52,7 +55,7 @@ namespace BNG {
             bool onMovingPlatform = false;
 
             if (groundHit.collider != null && DistanceFromGround < 0.01f) {
-                CurrentPlatform = groundHit.collider.gameObject.GetComponent<MovingPlatform>();
+                UpdateCurrentPlatform();
 
                 if (CurrentPlatform) {
                     onMovingPlatform = true;
@@ -108,6 +111,17 @@ namespace BNG {
             }
 
             wasOnPlatform = onMovingPlatform;
+        }
+
+        public virtual void UpdateCurrentPlatform() {
+            
+            // Only update the last platform if our last collider has changed
+            if(_lastHitObject != groundHit.collider.gameObject) {
+
+                _lastHitObject = groundHit.collider.gameObject;
+
+                CurrentPlatform = _lastHitObject.GetComponent<MovingPlatform>();
+            }
         }
 
         public virtual void UpdateDistanceFromGround() {

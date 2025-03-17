@@ -64,7 +64,6 @@ namespace BNG {
             // Check for bound controller button
             for (int x = 0; x < locomotionToggleInput.Count; x++) {
                 if (InputBridge.Instance.GetControllerBindingValue(locomotionToggleInput[x])) {
-                    Debug.Log("Toggle Raw Input");
                     LocomotionToggle();
                 }
             }

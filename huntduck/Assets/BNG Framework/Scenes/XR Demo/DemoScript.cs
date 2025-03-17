@@ -10,7 +10,7 @@ namespace BNG {
     /// </summary>
     public class DemoScript : MonoBehaviour {
 
-        public Text LabelToUpdate;
+        public TMPro.TMP_Text LabelToUpdate;
 
         /// <summary>
         /// Used in the demo scene to shoot various objects
@@ -22,7 +22,6 @@ namespace BNG {
         /// </summary>
         public int MaxLaunchedObjects = 5;
 
-        // ***IMPORTANT***
         List<GameObject> launchedObjects;
 
         /// <summary>
@@ -42,18 +41,15 @@ namespace BNG {
 
         Dictionary<Grabbable, PosRot> _initalGrabbables;
 
-        // amount of time to wait before launching
-        public float launchDelayTime = 3f;
-
         // Strictly used in demo scene
         Rigidbody cubeRigid;
         Rigidbody cubeRigid1;
         Rigidbody cubeRigid2;
         Rigidbody cubeRigid3;
 
-        // ***IMPORTANT*** add this to game manager in duck scenes
+        // Start is called before the first frame update
         void Start() {
-            
+
             launchedObjects = new List<GameObject>();
 
             VRUtils.Instance.Log("Output text here by using VRUtils.Log(\"Message Here\");");
@@ -77,12 +73,6 @@ namespace BNG {
 
             // Spin Cubes around
             rotateGravityCubes();
-
-            // BEN: launch ducks with L key
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                DelayedLaunch();
-            }
         }
 
         public void UpdateSliderText(float sliderValue) {
@@ -145,7 +135,6 @@ namespace BNG {
                 RingHelper r = ammo.GetComponentInChildren<RingHelper>();
                 Destroy(r.gameObject);
 
-                // ***IMPORTANT**
                 // Offset to hand
                 ammo.transform.parent = grabber.transform;
                 ammo.transform.localPosition = -g.GrabPositionOffset;
@@ -159,25 +148,6 @@ namespace BNG {
             }
         }
 
-        // adding this to make the shot pause X seconds
-        public void DelayedLaunch()
-        {
-            StartCoroutine(Wait(launchDelayTime));
-            Debug.Log("fired DelayedLaunch");
-        }
-
-
-        // BEN: still needed? check if there is a demoscript in huntDuck Demo scene
-        IEnumerator Wait(float delayTime)
-        {
-            yield return new WaitForSeconds(delayTime);
-            Debug.Log("fired WaitForSeconds");
-
-            ShootLauncher();
-            Debug.Log("fired ShootLauncher");
-        }
-
-        // need this function to shoot out of barrells
         public void ShootLauncher() {
             if(launchedObjects == null) {
                 launchedObjects = new List<GameObject>();

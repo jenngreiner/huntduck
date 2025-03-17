@@ -37,6 +37,9 @@ namespace BNG {
         [Tooltip("If true, will set Time.fixedDeltaTime to the device refresh rate")]
         public bool SetFixedDelta = false;
 
+        [Tooltip("If true, will check for input in Update to slow down time. If false you'll need to call SlowTime() / ResumeTime() manually from script")]
+        public bool CheckInput = true;
+
         public bool TimeSlowing
         {
             get { return _slowingTime;  }
@@ -51,7 +54,6 @@ namespace BNG {
 
         // Start is called before the first frame update
         void Start() {
-            
             if(SetFixedDelta) {
                 Time.fixedDeltaTime = (Time.timeScale / UnityEngine.XR.XRDevice.refreshRate);
             }
@@ -63,11 +65,27 @@ namespace BNG {
 
         void Update() {
 
-            if (SlowTimeInputDown() || ForceTimeScale) {
-                SlowTime();
+            // Prioritize any remaining timers
+            if(_secondsTimer > 0) {
+                _secondsTimer -= Time.deltaTime;
+
+                // Cancel timer
+                if(_secondsTimer <= 0) {
+                    ResumeTime();
+                    _secondsTimer = 0;
+                }
+                else {
+                    SlowTime();
+                }
             }
-            else {
-                ResumeTime();
+            // Check if input if allowed
+            else if(CheckInput) {
+                if (SlowTimeInputDown() || ForceTimeScale) {
+                    SlowTime();
+                }
+                else {
+                    ResumeTime();
+                }
             }
         }
 
@@ -76,6 +94,7 @@ namespace BNG {
         /// </summary>
         /// <returns></returns>
         public virtual bool SlowTimeInputDown() {
+
             // Check default Y Key
             if ((YKeySlowsTime && InputBridge.Instance.YButton)) {
                 return true;
@@ -111,6 +130,18 @@ namespace BNG {
                 Time.fixedDeltaTime = originalFixedDelta * Time.timeScale;
 
                 _slowingTime = true;
+            }
+        }
+
+        private float _secondsTimer = 0;
+
+        /// <summary>
+        /// Slows time for (an additional) seconds
+        /// </summary>
+        /// <param name="seconds"></param>
+        public virtual void SlowTime(float seconds) {
+            if(seconds > 0) {
+                _secondsTimer += seconds;
             }
         }
 

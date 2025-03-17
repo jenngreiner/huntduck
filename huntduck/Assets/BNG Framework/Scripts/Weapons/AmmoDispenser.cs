@@ -119,8 +119,9 @@ namespace BNG {
 
         public void GrabAmmo(Grabber grabber) {
 
-            if(GetAmmo() != null) {
-                GameObject ammo = Instantiate(GetAmmo(), grabber.transform.position, grabber.transform.rotation) as GameObject;
+            GameObject ammoClip = GetAmmo();
+            if(ammoClip != null) {
+                GameObject ammo = Instantiate(ammoClip, grabber.transform.position, grabber.transform.rotation) as GameObject;
                 Grabbable g = ammo.GetComponent<Grabbable>();
 
                 // Disable rings for performance
@@ -130,7 +131,6 @@ namespace BNG {
                     RingHelper r = ammo.GetComponentInChildren<RingHelper>();
                     Destroy(r.gameObject);
                 }
-
 
                 // Offset to hand
                 ammo.transform.parent = grabber.transform;

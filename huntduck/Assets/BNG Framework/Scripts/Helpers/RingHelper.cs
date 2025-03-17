@@ -108,6 +108,12 @@ namespace BNG {
                 handsFull = true;
             }
 
+            // Recently dropped; keep hidden briefly
+            if(!handsFull && Time.time - grabbable.LastDropTime < 0.1f) {
+                canvas.enabled = false;
+                return;
+            }
+
             bool showRings = handsFull;
 
             // If being held or not active, immediately hide the ring
@@ -141,9 +147,9 @@ namespace BNG {
 
                 bool isClosest = grabbable.GetClosestGrabber() != null && grabbable.IsGrabbable();
                 // Check if grabpoint was specified
-                if(Grabpoint != null) {
+                //if(Grabpoint != null) {
 
-                }
+                //}
 
                 // If a valid grabbable, increase size a bit
                 if (isClosest) {

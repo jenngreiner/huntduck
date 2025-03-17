@@ -44,10 +44,14 @@ namespace BNG {
                     transform.localPosition = Vector3.zero;
                     transform.localRotation = Quaternion.identity;
                     transform.localScale = Vector3.one;
-                    rb.velocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
 
-                    if (ParentRigid) {
+                    if(!rb.isKinematic) {
+                        rb.velocity = Vector3.zero;
+                        rb.angularVelocity = Vector3.zero;
+                    }
+                    
+
+                    if (ParentRigid && !ParentRigid.isKinematic) {
                         // ParentRigid.velocity = Vector3.zero;
                         // ParentRigid.angularVelocity = Vector3.zero;
                         ParentRigid.angularVelocity = lastAngularVelocity * 20;
@@ -68,7 +72,7 @@ namespace BNG {
                     thisGrab.DropItem(false, false);
                 }
 
-                lastAngularVelocity = rb.angularVelocity;
+                lastAngularVelocity = rb.angularVelocity * -1;
             }
         }
 

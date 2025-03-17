@@ -56,6 +56,8 @@ namespace BNG {
 
         bool wasHoldingSteering, isHoldingSteering;
 
+        public Transform DriverSeatTransform;
+
         void Start() {
             rb = GetComponent<Rigidbody>();
             initialPosition = transform.position;
