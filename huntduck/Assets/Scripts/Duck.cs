@@ -42,6 +42,11 @@ public class Duck : MonoBehaviour
         RestartGameMode.onRestartMode -= EnterFlyAwayMode;
     }
 
+    void OnTriggerEnter(Collider objectThatHit)
+    {
+        Debug.Log(transform.name + " GOT SHIT BY: " + objectThatHit.transform.root.name);
+    }
+
     public void dropThaEgg(Transform duck, string transformHitName)
     {
         // if the duck hits the playerguard and can drop eggs, drop eggs

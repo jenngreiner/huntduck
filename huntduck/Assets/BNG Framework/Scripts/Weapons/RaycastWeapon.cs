@@ -493,6 +493,7 @@ namespace BNG {
             else {
                 // Raycast to hit
                 RaycastHit hit;
+                Debug.Log("ValidLayers" + ValidLayers.value);
                 if (Physics.Raycast(muzzleTransform.position, muzzleTransform.forward, out hit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore)) {
                     OnRaycastHit(hit);
                 }
@@ -610,12 +611,14 @@ namespace BNG {
 
         // Hit something without Raycast. Apply damage, apply FX, etc.
         public virtual void OnRaycastHit(RaycastHit hit) {
+            Debug.Log("OnRaycastHit? we hit this gameObject: " + hit.collider.gameObject.name);
 
             ApplyParticleFX(hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal), hit.collider);
 
             // push object if rigidbody
             Rigidbody hitRigid = hit.collider.attachedRigidbody;
             if (hitRigid != null) {
+                Debug.Log("we hit a hitRigid?");
                 Transform muzzleTransform = GetMuzzlePointTransform();
                 hitRigid.AddForceAtPosition(BulletImpactForce * muzzleTransform.forward, hit.point);
             }
@@ -624,6 +627,7 @@ namespace BNG {
             Damageable d = hit.collider.GetComponent<Damageable>();
             if (d) {
                 d.DealDamage(Damage, hit.point, hit.normal, true, gameObject, hit.collider.gameObject);
+                Debug.Log("d.DealDamage?");
 
                 if (onDealtDamageEvent != null) {
                     onDealtDamageEvent.Invoke(Damage);
@@ -633,6 +637,7 @@ namespace BNG {
             // Call event
             if (onRaycastHitEvent != null) {
                 onRaycastHitEvent.Invoke(hit);
+                Debug.Log("onRaycastHitEvent?");
             }
         }
 

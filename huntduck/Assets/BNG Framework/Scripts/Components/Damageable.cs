@@ -76,6 +76,31 @@ namespace BNG {
         [Tooltip("Optional Event to be called once the object has been respawned, if Respawn is true and after RespawnTime")]
         public UnityEvent onRespawn;
 
+        //TODO: HD code to move to another script
+        public delegate void TargetHit(GameObject target);
+        public static event TargetHit onTargetHit;
+
+        public delegate void ClayHit();
+        public static event ClayHit onClayHit;
+
+        public delegate void CarniDuckHit(GameObject carniDuck);
+        public static event CarniDuckHit onCarniDuckHit;
+
+        public delegate void InfiniteDuckHit();
+        public static event InfiniteDuckHit onInfiniteDuckHit;
+
+        public delegate void BonusGooseHit();
+        public static event BonusGooseHit onBonusGooseHit;
+
+        public delegate void EggShot(GameObject thisEgg);
+        public static event EggShot onEggShot;
+
+        public delegate void DuckDie(GameObject deadDuck);
+        public static event DuckDie onDuckDie;
+
+        public delegate void DestroyDelegate();
+        public static event DestroyDelegate onDestroyedDelegate;
+
 #if INVECTOR_BASIC || INVECTOR_AI_TEMPLATE
         // Invector damage integration
         [Header("Invector Integration")]
@@ -245,31 +270,8 @@ namespace BNG {
             }
         }
         
-        //TODO: HD code to move to another script
-        public delegate void TargetHit(GameObject target);
-        public static event TargetHit onTargetHit;
-
-        public delegate void ClayHit();
-        public static event ClayHit onClayHit;
-
-        public delegate void CarniDuckHit(GameObject carniDuck);
-        public static event CarniDuckHit onCarniDuckHit;
-
-        public delegate void InfiniteDuckHit();
-        public static event InfiniteDuckHit onInfiniteDuckHit;
-
-        public delegate void BonusGooseHit();
-        public static event BonusGooseHit onBonusGooseHit;
-
-        public delegate void EggShot(GameObject thisEgg);
-        public static event EggShot onEggShot;
-
-        public delegate void DuckDie(GameObject deadDuck);
-        public static event DuckDie onDuckDie;
-
-        public delegate void DestroyDelegate();
-        public static event DestroyDelegate onDestroyedDelegate;
-
+  
+        //TODO: HD STUFF MOVE ELSEWHERE
         void broadcastHit()
         {
             switch (gameObject.tag)
