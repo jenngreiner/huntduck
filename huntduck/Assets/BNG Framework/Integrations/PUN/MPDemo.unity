@@ -837,19 +837,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmulatorEnabled: 1
-  PlayerUp: 308
-  PlayerDown: 306
-  RightTrigger: 122
-  RightGrip: 120
-  RightThumbNear: 99
-  LeftTrigger: 118
-  LeftGrip: 98
-  LeftThumbNear: 110
-  MouseSensitivityX: 1.25
-  MouseSensitivityY: 1.25
+  EmulatorActionSet: {fileID: 0}
+  ForceStraightTeleportRotation: 1
+  AllowUpDownControls: 1
+  PlayerUpAction: {fileID: 0}
+  PlayerDownAction: {fileID: 0}
+  MinPlayerHeight: 0.2
+  MaxPlayerHeight: 5
+  LockCameraAction: {fileID: 0}
+  CameraLookAction: {fileID: 0}
+  CameraLookSensitivityX: 0.1
+  CameraLookSensitivityY: 0.1
   MinimumCameraY: -90
   MaximumCameraY: 90
+  LeftGripAction: {fileID: 0}
+  LeftTriggerAction: {fileID: 0}
+  LeftThumbNearAction: {fileID: 0}
+  RightGripAction: {fileID: 0}
+  RightTriggerAction: {fileID: 0}
+  RightThumbNearAction: {fileID: 0}
   HMDIsActive: 0
+  LeftControllerPosition: {x: -0.2, y: -0.2, z: 0.5}
+  RightControllerPosition: {x: 0.2, y: -0.2, z: 0.5}
+  RequireGameFocus: 1
 --- !u!1 &1133568070
 GameObject:
   m_ObjectHideFlags: 0

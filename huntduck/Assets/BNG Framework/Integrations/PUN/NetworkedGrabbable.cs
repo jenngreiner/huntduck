@@ -1,10 +1,13 @@
-﻿using Photon.Pun;
+﻿#if PUN_2_OR_NEWER
+using Photon.Pun;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace BNG {
+    #if PUN_2_OR_NEWER
     public class NetworkedGrabbable : Grabbable, IPunObservable {
 
         PhotonView view;
@@ -63,9 +66,6 @@ namespace BNG {
                 }
 
                 BeingHeld = heldByGrabbers != null && heldByGrabbers.Count > 0;
-
-                // BEN: Added 0911
-                //NW_WeaponsManager.RPC_SelectWeapon();
             }
         }
 
@@ -148,4 +148,5 @@ namespace BNG {
             }
         }
     }
+#endif
 }

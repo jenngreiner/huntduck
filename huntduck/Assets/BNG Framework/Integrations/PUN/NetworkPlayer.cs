@@ -1,11 +1,19 @@
-﻿using Photon.Pun;
+﻿#if PUN_2_OR_NEWER
+using Photon.Pun;
 using Photon.Realtime;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BNG {
-    public class NetworkPlayer : MonoBehaviourPunCallbacks, IPunObservable, IPunOwnershipCallbacks {
+    public class NetworkPlayer :
+#if PUN_2_OR_NEWER
+MonoBehaviourPunCallbacks, IPunObservable, IPunOwnershipCallbacks 
+#else
+        MonoBehaviour
+#endif
+        {
 
         [Tooltip("Transform of the local player's head to track. This will be applied to the Remote Player's Head Transform")]
         public Transform PlayerHeadTransform;
@@ -14,9 +22,6 @@ namespace BNG {
 
         [Tooltip("Transform of the remote player's head. This will be updated during Update")]
         public Transform RemoteHeadTransform;
-
-        // name tag above player head
-        public Transform playerNameTag;
 
         // Store positions to move between updates
         private Vector3 _syncHeadStartPosition = Vector3.zero;
@@ -90,6 +95,8 @@ namespace BNG {
 
         private bool _syncLeftHoldingItem;
         private bool _syncRightHoldingItem;
+
+#if PUN_2_OR_NEWER
 
         void Start() {
             LeftGrabber = GameObject.Find("LeftController").GetComponentInChildren<Grabber>();
@@ -185,10 +192,6 @@ namespace BNG {
            
             PlayerRightHandTransform = GameObject.Find("ModelsRight").transform;
             RightHandController = PlayerRightHandTransform.parent.GetComponentInChildren<HandController>();
-
-            // add in player nametag as assigned object over network
-            playerNameTag = getChildTransformByName(player.transform, "NameTag");
-
         }
 
         Transform getChildTransformByName(Transform search, string name) {
@@ -378,5 +381,7 @@ namespace BNG {
         public void OnOwnershipTransferFailed(PhotonView targetView, Player requestingPlayer) {
             // Debug.Log("OnOwnershipTransferFailed for Player " + requestingPlayer);
         }
+
+#endif
     }
 }

@@ -1,12 +1,21 @@
-﻿using Photon.Pun;
+﻿#if PUN_2_OR_NEWER
+using Photon.Pun;
 using Photon.Realtime;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BNG {
-    public class NetworkManager : MonoBehaviourPunCallbacks {
+    public class NetworkManager :
+#if PUN_2_OR_NEWER
+MonoBehaviourPunCallbacks 
+#else
+        MonoBehaviour
+#endif
+
+{
 
         /// <summary>
         /// Maximum number of players per room. If the room is full, a new radom one will be created.
@@ -33,8 +42,10 @@ namespace BNG {
         public Text DebugText;
 
         ScreenFader sf;
+#if PUN_2_OR_NEWER
 
         void Awake() {
+
             // Required if you want to call PhotonNetwork.LoadLevel() 
             PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -145,6 +156,8 @@ namespace BNG {
 
             Debug.Log(message);
         }
+
+#endif
     }
 }
 
