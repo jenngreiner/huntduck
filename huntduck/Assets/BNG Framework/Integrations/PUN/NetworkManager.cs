@@ -25,7 +25,7 @@ MonoBehaviourPunCallbacks
         private byte maxPlayersPerRoom = 0;
 
         [Tooltip("If true, the JoinRoomName will try to be Joined On Start. If false, need to call JoinRoom yourself.")]
-        public bool JoinRoomOnStart = true;
+        public bool JoinRoomOnStart = false; //BB - changed from true to false to handle joining from main scene
 
         [Tooltip("If true, do not destroy this object when moving to another scene")]
         public bool dontDestroyOnLoad = true;

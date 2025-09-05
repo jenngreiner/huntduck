@@ -9,6 +9,9 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.66F56946" = "Input.GetAxis"
+	"OpenInspectorPreview.66F56946" = "0"
+	"currentGroup.66F56946" = "all"
 }
 providers = {
 	asset = {
@@ -60,6 +63,10 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"Input.GetAxis /"
+	"Input.GetAxis / Input.GetButtonDown"
+	"UnityEngine.InputSystemInput.GetAxis / Input.GetButtonDown"
+	"UnityEngine.InputSystem"
 ]
 searchItemFavorites = [
 ]
