@@ -48,7 +48,7 @@ public class SelectManager : MonoBehaviour
         if (!gunSelected) // only show selectGunUI if we haven't grabbed gun yet
         {
             selectGunUI.SetActive(true);
-            selectGunText.text = "SELECT YOUR WEAPON \n "; // give space for down arrow
+            selectGunText.text = "GRAB YOUR GUN \n "; // give space for down arrow
             downArrow.SetActive(true);
         }
     }
