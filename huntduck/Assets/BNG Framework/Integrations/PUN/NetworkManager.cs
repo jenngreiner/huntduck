@@ -15,7 +15,7 @@ MonoBehaviourPunCallbacks
         MonoBehaviour
 #endif
 
-{
+    {
 
         /// <summary>
         /// Maximum number of players per room. If the room is full, a new radom one will be created.
@@ -42,6 +42,9 @@ MonoBehaviourPunCallbacks
         public Text DebugText;
 
         ScreenFader sf;
+
+        bool _spawned;
+
 #if PUN_2_OR_NEWER
 
         void Awake() {
@@ -68,9 +71,11 @@ MonoBehaviourPunCallbacks
             }
             // Otherwise establish a new connection. We can then connect via OnConnectedToMaster
             else {
-                PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.GameVersion = GameVersion;
+                PhotonNetwork.ConnectUsingSettings();
             }
+
+            TrySpawnNetworkPlayer();
         }
 
         void Update() {
@@ -110,6 +115,21 @@ MonoBehaviourPunCallbacks
         public override void OnJoinedRoom() {
 
             LogText("Joined Room. Creating Remote Player Representation.");
+            TrySpawnNetworkPlayer();
+            // // Network Instantiate the object used to represent our player. This will have a View on it and represent the player         
+            // GameObject player = PhotonNetwork.Instantiate(RemotePlayerObjectName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            // NetworkPlayer np = player.GetComponent<NetworkPlayer>();
+            // if (np) {
+            //     np.transform.name = "MyRemotePlayer";
+            //     np.AssignPlayerObjects();
+            // }
+        }
+
+        void TrySpawnNetworkPlayer()
+        {
+            if (_spawned) return;
+
+             if (!PhotonNetwork.InRoom) return;
 
             // Network Instantiate the object used to represent our player. This will have a View on it and represent the player         
             GameObject player = PhotonNetwork.Instantiate(RemotePlayerObjectName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
@@ -118,13 +138,17 @@ MonoBehaviourPunCallbacks
                 np.transform.name = "MyRemotePlayer";
                 np.AssignPlayerObjects();
             }
+
+             _spawned = true;
         }
 
         public override void OnDisconnected(DisconnectCause cause) {
             LogText("Disconnected from PUN due to cause : " + cause);
 
             if (!PhotonNetwork.ReconnectAndRejoin()) {
-                LogText("Reconnect and Joined.");
+                LogText("ReconnectAndRejoin unavailable; reconnecting…");
+                PhotonNetwork.GameVersion = GameVersion;
+                PhotonNetwork.ConnectUsingSettings();
             }
 
             base.OnDisconnected(cause);

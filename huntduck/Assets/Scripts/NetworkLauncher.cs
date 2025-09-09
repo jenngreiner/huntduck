@@ -10,6 +10,15 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     [SerializeField] string targetScene = "Group_Hunt";
     bool _starting;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            StartMultiplayer();
+            Debug.Log("KeyDown.G: StartMultiplayer(), go to Group_Hunt");
+        }
+    }
+
     public void StartMultiplayer()
     {
         if (_starting) return; // guards "double clicks"

@@ -19,14 +19,17 @@ namespace BNG {
 
         private string _loadSceneName = string.Empty;
 
-        public void LoadScene(string SceneName) {
+        public void LoadScene(string SceneName)
+        {
 
             _loadSceneName = SceneName;
 
-            if (UseSceenFader) {
+            if (UseSceenFader)
+            {
                 StartCoroutine("FadeThenLoadScene");
             }
-            else {
+            else
+            {
                 SceneManager.LoadScene(_loadSceneName, loadSceneMode);
             }
         }
