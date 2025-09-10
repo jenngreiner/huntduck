@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class NetworkLauncher : MonoBehaviourPunCallbacks
 {
-    [SerializeField] string gameVersion = "1";
-    [SerializeField] string roomName = "DuckIsland";
-    [SerializeField] byte maxPlayers = 6;
-    [SerializeField] string targetScene = "Group_Hunt";
+    string gameVersion = "1";
+    string roomName = "DuckIsland";
+    byte maxPlayers = 6;
+    string targetScene = "0_GroupHunt";
     bool _starting;
 
     void Update()
@@ -15,7 +15,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.G))
         {
             StartMultiplayer();
-            Debug.Log("KeyDown.G: StartMultiplayer(), go to Group_Hunt");
+            Debug.Log("KeyDown.G: StartMultiplayer(), go to 0_GroupHunt");
         }
     }
 
@@ -47,7 +47,10 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        // This is the key: enter the gameplay scene via Photon.
-        PhotonNetwork.LoadLevel(targetScene);
+        // Only master clients should load the level over network. Clients will automatically sync
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(targetScene);
+        }
     }
 }

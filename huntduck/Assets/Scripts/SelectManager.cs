@@ -22,7 +22,7 @@ public class SelectManager : MonoBehaviour
     private void OnEnable()
     {
         StartSelectMode();
-        WeaponsManager.onWeaponSelected += ShowGameModeButtons;
+        // WeaponsManager.onWeaponSelected += ShowGameModeButtons; // BB_9.9 - will show after selecting game mode
         //WallSlider.onPosition1Reached += ShowWeaponsWall;
     }
 
@@ -45,12 +45,14 @@ public class SelectManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         welcomeUI.SetActive(false);
 
-        if (!gunSelected) // only show selectGunUI if we haven't grabbed gun yet
-        {
-            selectGunUI.SetActive(true);
-            selectGunText.text = "SELECT YOUR WEAPON \n "; // give space for down arrow
-            downArrow.SetActive(true);
-        }
+        
+        ShowGameModeButtons(); // BB_9.9 - switching game mode selection to come first
+        // if (!gunSelected) // BB_9.9 - switching game mode selection to come first // only show selectGunUI if we haven't grabbed gun yet 
+        // {
+        //     selectGunUI.SetActive(true);
+        //     selectGunText.text = "SELECT YOUR WEAPON \n "; // give space for down arrow
+        //     downArrow.SetActive(true);
+        // }
     }
 
     void ShowGameModeButtons()
@@ -60,7 +62,8 @@ public class SelectManager : MonoBehaviour
         gunSelected = true;
 
         helperUI.SetActive(true);
-        helperText.text = "SHOOT PRACTICE OR HUNT TO BEGIN";
+        // helperText.text = "SHOOT PRACTICE OR HUNT TO BEGIN"; // BB_9.9 - switching game mode selection to come first
+        helperText.text = "SELECT GAME MODE TO BEGIN";
         buttons.SetActive(true);
     }
 

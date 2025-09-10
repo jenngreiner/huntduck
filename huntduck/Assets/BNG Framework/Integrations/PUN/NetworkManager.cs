@@ -64,10 +64,11 @@ MonoBehaviourPunCallbacks
         void Start() {
             // Connect to Random Room if Connected to Photon Server
             if (PhotonNetwork.IsConnected) {
-                if (JoinRoomOnStart) {
-                    LogText("Joining Room : " + JoinRoomName);
-                    PhotonNetwork.JoinRoom(JoinRoomName);
-                }
+                // if (JoinRoomOnStart) {
+                //     LogText("Joining Room : " + JoinRoomName);
+                //     PhotonNetwork.JoinRoom(JoinRoomName);
+                // }
+                LogText("Player " + PhotonNetwork.LocalPlayer.ActorNumber + " joined the room");
             }
             // Otherwise establish a new connection. We can then connect via OnConnectedToMaster
             else {
