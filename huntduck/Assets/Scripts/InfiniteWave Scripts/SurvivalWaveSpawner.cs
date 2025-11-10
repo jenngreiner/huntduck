@@ -78,6 +78,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     private int goldenGeeseNum;
 
     private bool waitingToProceed;
+    private bool waitingOnWeapon = false;
     #endregion
 
     #region events
@@ -98,6 +99,9 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     public delegate void SurvivalWaveNoDamage(int bonusPoints);
     public static event SurvivalWaveNoDamage onSurvivalWaveNoDamage;
+
+    public delegate void WeaponUnlocked(int waveNumber);
+    public static event WeaponUnlocked onWeaponUnlocked;
     #endregion
 
     private PlayerData playerData;
@@ -133,7 +137,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (state == WaveState.READY && !waitingToProceed)
+        if (state == WaveState.READY && !waitingToProceed && !waitingOnWeapon)
         {
             StartCoroutine(StartWave(waves[thisWave]));
         }
@@ -278,6 +282,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
             case 0: // 5, 10, 15 so on: Bonus wave every 5th wave
                 nextWaveType = InfiniteWave.WaveType.BONUS;
                 nextWaveTime = 30f;
+                waitingOnWeapon = true;
+                onWeaponUnlocked?.Invoke(_nextWaveNumber);
                 break;
             default: // 1st & 4th wave out of every wave set are normal
                 nextWaveType = InfiniteWave.WaveType.NORMAL;
@@ -523,6 +529,13 @@ public class SurvivalWaveSpawner : MonoBehaviour
         currentWaveSeconds = string.Format("{0:00}", mathSeconds);
     }
 
+    public void ConfirmWeaponChoice()
+    {
+        if (!waitingOnWeapon) return;
+
+         waitingOnWeapon = false;
+    }
+
     private void ResetWaves()
     {
         // SINGLESCENE: used on "Play Again"
@@ -534,6 +547,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
         normalDuckChance = 0f;
         fastDuckChance = 0f;
         angryDuckChance = 0f;
-        onWaveChange();
+        onWaveChange?.Invoke();
+        waitingOnWeapon = false;
+        waitingToProceed = false;
     }
 }
