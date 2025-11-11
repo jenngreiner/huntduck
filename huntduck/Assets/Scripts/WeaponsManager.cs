@@ -10,15 +10,8 @@ public class WeaponsManager : MonoBehaviour
     public GameObject shotgunRing;
 
 
-    void OnEnable()
-    {
-        SurvivalWaveSpawner.onWeaponUnlocked += ShowWeapon;
-    }
-
-    void Oisable()
-    {
-        SurvivalWaveSpawner.onWeaponUnlocked -= ShowWeapon;
-    }
+    void OnEnable() => SurvivalWaveSpawner.onWeaponUnlocked += ShowWeapon;
+    void OnDisable() => SurvivalWaveSpawner.onWeaponUnlocked -= ShowWeapon;
 
     public void ShowWeapon(int waveNumber)
     {
