@@ -13,7 +13,7 @@ public class RaiseButton : MonoBehaviour
     private void Start()
     {
         rtz = GetComponent<RectTransform>().anchoredPosition3D.z;
-        Debug.Log("Got the button's RECT TRANSFORM");
+        Debug.Log("RaiseButton.cs: Got the button's RECT TRANSFORM");
         textObj = GetComponentInChildren<GameObject>();
     }
 
@@ -21,13 +21,13 @@ public class RaiseButton : MonoBehaviour
     {
         // Raise button
         rtz -= offset;
-        Debug.Log("we in this button thing");
+        Debug.Log("RaiseButton.cs: we in this button thing");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // Lower button
-        rtz -= offset;
-        Debug.Log("JERG BUTTON!");
+        rtz += offset;
+        Debug.Log("RaiseButton.cs: JERG BUTTON!");
     }
 }

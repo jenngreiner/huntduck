@@ -15,31 +15,31 @@ public class NW_BeginPracticeTrigger : MonoBehaviourPun
 
     void OnTriggerEnter(Collider other)
     {
-        ////Debug.Log("NW_BeginPracticeTrigger trigger was entered");
+        ////Debug.Log("NW_BeginPracticeTrigger.cs: trigger was entered");
         ////if (PhotonNetwork.InRoom)
         ////{
-        //    Debug.Log("NW_BeginPracticeTrigger we are within PN room");
+        //    Debug.Log("NW_BeginPracticeTrigger.cs: we are within PN room");
         //    this.photonView.RPC("RPC_BeginPractice", RpcTarget.All, "other");
         //    Debug.Log(string.Format("RPC_BeginPractice {0},", other));
         ////}
         ////
-        Debug.Log("trigger was entered");
+        Debug.Log("NW_BeginPracticeTrigger.cs: trigger was entered");
         if (other.tag == "Player" && !isGameStarted)
         {
-            Debug.Log("We are player, can we start the game?");
+            Debug.Log("NW_BeginPracticeTrigger.cs: We are player, can we start the game?");
 
             if (PhotonNetwork.InRoom)
             {
-                Debug.Log("You in the room dog");
+                Debug.Log("NW_BeginPracticeTrigger.cs: You in the room dog");
                 // Begin the game
                 nw_practiceRangeManager.BeginGame();
-                Debug.Log("Practice round just began yall");
+                Debug.Log("NW_BeginPracticeTrigger.cs: Practice round just began yall");
             }
             else
             {
-                Debug.Log("You ain't in the room dog");
+                Debug.Log("NW_BeginPracticeTrigger.cs: You ain't in the room dog");
             }
-            
+
         }
     }
 
@@ -53,13 +53,13 @@ public class NW_BeginPracticeTrigger : MonoBehaviourPun
     [PunRPC]
     void RPC_BeginPractice(Collider other)
     {
-        Debug.Log("RPC_BeginPractice was called");
+        Debug.Log("NW_BeginPracticeTrigger.cs: RPC_BeginPractice was called");
         // begin practice when player touches trigger, if practice hasn't already started
         if (other.tag == "Player" && !isGameStarted)
         {
             // Begin the game
             nw_practiceRangeManager.photonView.RPC("RPC_BeginGame", RpcTarget.All);
-            Debug.Log("Practice round just began yall");
+            Debug.Log("NW_BeginPracticeTrigger.cs: Practice round just began yall");
             isGameStarted = true;
         }
     }

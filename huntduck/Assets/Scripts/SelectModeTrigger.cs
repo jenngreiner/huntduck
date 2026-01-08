@@ -17,7 +17,7 @@ public class SelectModeTrigger : MonoBehaviour
             // start the round
             isSelectModeTriggered = true;
             onSelectModeTriggered?.Invoke();
-            Debug.Log("Select mode triggered");
+            Debug.Log("SelectModeTrigger.cs: Select mode triggered");
         }
     }
 }

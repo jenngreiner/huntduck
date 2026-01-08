@@ -17,7 +17,7 @@ public class MeshCombiner : MonoBehaviour
         // get all mesh filters in children
         MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
 
-        Debug.Log(name + " is combining " + filters.Length + " meshes!");
+        Debug.Log("MeshCombiner.cs: " + name + " is combining " + filters.Length + " meshes!");
 
         // create empty mesh object we will later combine meshes into
         Mesh finalMesh = new Mesh();

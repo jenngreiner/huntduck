@@ -10,7 +10,7 @@ public class NameTag : MonoBehaviour
     {
         // FIGURE OUT A WAY TO MAKE NICKNAME SPECIFIC TO THE OWNER / PLAYER_TAG
         nameTag.text = PhotonNetwork.NickName;
-        Debug.Log(transform.parent.parent.name + "'s nameTag is " + nameTag.text);
+        Debug.Log("NameTag.cs: " + transform.parent.parent.name + "'s nameTag is " + nameTag.text);
         PlayerPrefs.SetString("PlayerName", PhotonNetwork.NickName);
     }
 }

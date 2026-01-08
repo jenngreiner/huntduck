@@ -7,7 +7,7 @@ public class StopBumps : MonoBehaviour
 
     void OnTriggerEnter(Collider objectThatBumped)
     {
-        Debug.Log(transform.name + " collided with root: " + objectThatBumped.transform.root.name);
+        Debug.Log("StopBumps.cs: " + transform.name + " collided with root: " + objectThatBumped.transform.root.name);
 
         onBump?.Invoke(objectThatBumped.transform.root, transform.name);
     }

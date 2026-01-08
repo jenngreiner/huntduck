@@ -49,12 +49,12 @@ public class NW_WaveSpawner : MonoBehaviourPun
                 {
                     // start the next wave
                     this.photonView.RPC("RPC_WaveCompleted", RpcTarget.All);
-                    Debug.Log("RPC_WaveCompleted");
+                    Debug.Log("NW_WaveSpawner.cs: RPC_WaveCompleted");
                 }
                 else
                 {
                     // ducks still left, so rounds not over
-                    Debug.Log("We still got ducks left!");
+                    Debug.Log("NW_WaveSpawner.cs: We still got ducks left!");
                     return;
                 }
             }
@@ -67,13 +67,13 @@ public class NW_WaveSpawner : MonoBehaviourPun
                 {
                     // start spawning wave
                     this.photonView.RPC("RPC_WaveStart", RpcTarget.All);
-                    Debug.Log("RPC_WaveStart");
+                    Debug.Log("NW_WaveSpawner.cs: RPC_WaveStart");
                 }
             }
             else
             {
                 this.photonView.RPC("RPC_StartCountDown", RpcTarget.All);
-                Debug.Log("RPC_StartCountDown");
+                Debug.Log("NW_WaveSpawner.cs: RPC_StartCountDown");
             }
         }
     }
@@ -89,7 +89,7 @@ public class NW_WaveSpawner : MonoBehaviourPun
     {
         if (spawnPoints.Length == 0)
         {
-            Debug.LogError("No spawnpoints referenced");
+            Debug.LogError("NW_WaveSpawner.cs: No spawnpoints referenced");
         }
 
         // set time before and between rounds
@@ -105,7 +105,7 @@ public class NW_WaveSpawner : MonoBehaviourPun
     [PunRPC]
     void RPC_WaveCompleted()
     {
-        Debug.Log("Wave completed");
+        Debug.Log("NW_WaveSpawner.cs: Wave completed");
 
         state = SpawnState.COUNTING;
         waveCountDown = timeBetweenWaves;
@@ -113,14 +113,14 @@ public class NW_WaveSpawner : MonoBehaviourPun
         // game is over
         if ((nextWave + 1) > (waves.Length - 1))
         {
-            Debug.Log("Game is over");
+            Debug.Log("NW_WaveSpawner.cs: Game is over");
             gameOverUI.SetActive(true);
             this.enabled = false;
         }
         else
         {
             nextWave++;
-            Debug.Log("Wave  is ending. Next wave is " + (nextWave + 1));
+            Debug.Log("NW_WaveSpawner.cs: Wave is ending. Next wave is " + (nextWave + 1));
         }
     }
 
@@ -137,7 +137,7 @@ public class NW_WaveSpawner : MonoBehaviourPun
             // search for remaining ducks
             if (GameObject.FindGameObjectsWithTag("Duck").Length == 0)
             {
-                Debug.Log("No ducks found");
+                Debug.Log("NW_WaveSpawner.cs: No ducks found");
                 return false;
             }
         }
@@ -147,7 +147,7 @@ public class NW_WaveSpawner : MonoBehaviourPun
 
     IEnumerator SpawnWave(Wave _wave)
     {
-        Debug.Log("Spawning Wave " + _wave.roundNumber);
+        Debug.Log("NW_WaveSpawner.cs: Spawning Wave " + _wave.roundNumber);
 
         // set state to spawning to make sure only one SpawnWave at a time
         state = SpawnState.SPAWNING;
@@ -167,14 +167,14 @@ public class NW_WaveSpawner : MonoBehaviourPun
         }
 
         state = SpawnState.WAITING;
-        Debug.Log("Back in waiting state");
+        Debug.Log("NW_WaveSpawner.cs: Back in waiting state");
         yield break;
     }
 
     void SpawnDuck()
     {
         // Spawn Duck
-        Debug.Log("Spawning duck");
+        Debug.Log("NW_WaveSpawner.cs: Spawning duck");
 
         GameObject activeSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         activeSpawnPoint.GetComponent<NW_ObjectLauncher>().DelayedLaunch();

@@ -41,7 +41,7 @@ namespace Photon.Pun.UtilityScripts
 
         public const string CountdownStartTime = "StartTime";
 
-        [Header("Countdown time in seconds")] 
+        [Header("Countdown time in seconds")]
         public float Countdown = 5.0f;
 
         private bool isTimerRunning;
@@ -65,7 +65,7 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnEnable()
         {
-            Debug.Log("OnEnable CountdownTimer");
+            Debug.Log("CountdownTimer.cs: OnEnable CountdownTimer");
             base.OnEnable();
 
             // the starttime may already be in the props. look it up.
@@ -75,7 +75,7 @@ namespace Photon.Pun.UtilityScripts
         public override void OnDisable()
         {
             base.OnDisable();
-            Debug.Log("OnDisable CountdownTimer");
+            Debug.Log("CountdownTimer.cs: OnDisable CountdownTimer");
         }
 
 
@@ -103,7 +103,7 @@ namespace Photon.Pun.UtilityScripts
             this.isTimerRunning = false;
             this.enabled = false;
 
-            Debug.Log("Emptying info text.", this.Text);
+            Debug.Log("CountdownTimer.cs: Emptying info text.", this.Text);
             this.Text.text = string.Empty;
 
             if (OnCountdownTimerHasExpired != null) OnCountdownTimerHasExpired();
@@ -112,7 +112,7 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-            Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
+            Debug.Log("CountdownTimer.cs: OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
             Initialize();
         }
 
@@ -170,7 +170,7 @@ namespace Photon.Pun.UtilityScripts
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
 
-            Debug.Log("Set Custom Props for Time: "+ props.ToStringFull() + " wasSet: "+wasSet);
+            Debug.Log("Set Custom Props for Time: " + props.ToStringFull() + " wasSet: " + wasSet);
         }
     }
 }

@@ -44,7 +44,7 @@ public class PracticeRangeManager : MonoBehaviour
             if (targetList.Count == 0)
             {
                 RespawnTargets(); // SINGLESCENE: reset targets for "Play Again"
-                
+
                 targetWall.SetActive(false);
                 StartClayRound();
             }
@@ -54,12 +54,12 @@ public class PracticeRangeManager : MonoBehaviour
 
         if (state == PracticeState.CLAY)
         {
-            Debug.Log("We've hit " + clayWavesManager.claysHit + " clays");
+            Debug.Log("PracticeRangeManager.cs: We've hit " + clayWavesManager.claysHit + " clays");
 
             // check if we have hit 3 clays
             if (clayWavesManager.claysHit >= 3)
             {
-                Debug.Log("Hit 3 clays, moving on to ducks");
+                Debug.Log("PracticeRangeManager.cs: Hit 3 clays, moving on to ducks");
                 // waves are stopped in PracticeWaveSpawner
                 StartCarniDucks();
             }
@@ -74,7 +74,7 @@ public class PracticeRangeManager : MonoBehaviour
                 EndPracticeSession();
             }
             // carni ducks still left
-            Debug.Log("We still got " + cduckList.Count + " cducks left!");
+            Debug.Log("PracticeRangeManager.cs: We still got " + cduckList.Count + " cducks left!");
             return;
         }
     }
@@ -108,21 +108,21 @@ public class PracticeRangeManager : MonoBehaviour
         foreach (Transform child in targetWall.transform)
         {
             targetList.Add(child.gameObject);
-            Debug.Log("Added " + child.gameObject + " to targetlist");
-            Debug.Log("We've got " + targetList.Count + "targets to shoot");
+            Debug.Log("PracticeRangeManager.cs: Added " + child.gameObject + " to targetlist");
+            Debug.Log("PracticeRangeManager.cs: We've got " + targetList.Count + "targets to shoot");
         }
 
         foreach (Transform child in carniDucks.transform)
         {
             cduckList.Add(child.gameObject);
-            Debug.Log("Added " + child.gameObject + " to cducklist");
-            Debug.Log("We've got " + cduckList.Count + "carniducks to shoot");
+            Debug.Log("PracticeRangeManager.cs: Added " + child.gameObject + " to cducklist");
+            Debug.Log("PracticeRangeManager.cs: We've got " + cduckList.Count + "carniducks to shoot");
         }
 
         //walletCanvas.enabled = false;
         carniDucks.gameObject.SetActive(false);
 
-        Debug.Log("SetupRound complete");
+        Debug.Log("PracticeRangeManager.cs: SetupRound complete");
     }
 
     // SINGLESCENE: repawn targets method
@@ -130,7 +130,7 @@ public class PracticeRangeManager : MonoBehaviour
     {
         foreach (Transform target in targetWall.transform)
         {
-            Debug.Log("target found named " + target.name);
+            Debug.Log("PracticeRangeManager.cs: Ptarget found named " + target.name);
             BNG.Damageable damageableScript = target.GetComponent<BNG.Damageable>();
             damageableScript.InstantRespawn();
         }
@@ -142,7 +142,7 @@ public class PracticeRangeManager : MonoBehaviour
         foreach (Transform cduck in carniDucks.transform)
         {
             Transform duck = cduck.GetChild(0);
-            Debug.Log("duck found named " + duck.name);
+            Debug.Log("PracticeRangeManager.cs: duck found named " + duck.name);
             BNG.Damageable damageableScript = duck.GetComponent<BNG.Damageable>();
             damageableScript.InstantRespawn();
         }
@@ -163,7 +163,7 @@ public class PracticeRangeManager : MonoBehaviour
     void StartClayRound()
     {
         StartCoroutine(ClayRoundIntro());
-    } 
+    }
 
     public void StartCarniDucks()
     {
@@ -178,26 +178,26 @@ public class PracticeRangeManager : MonoBehaviour
     void RemoveCarniDuck(GameObject carniDuck)
     {
         cduckList.Remove(carniDuck);
-        Debug.Log("One less carniduck in cduck list! Count is now " + cduckList.Count);
+        Debug.Log("PracticeRangeManager.cs: One less carniduck in cduck list! Count is now " + cduckList.Count);
     }
 
     void RemoveTarget(GameObject target)
     {
         targetList.Remove(target);
-        Debug.Log("One less target in target list! Count is now " + targetList.Count);
+        Debug.Log("PracticeRangeManager.cs: One less target in target list! Count is now " + targetList.Count);
     }
 
     IEnumerator PracticeRangeIntro()
     {
         yield return new WaitForSeconds(0.1f); // SINGLESCENE: let the first frame load when switching over from selectmode
-        Debug.Log("Starting PracticeRange Intro");
+        Debug.Log("PracticeRangeManager.cs: Starting PracticeRange Intro");
         state = PracticeState.INTRO;
         helperUI.SetActive(true);
 
         helperText.text = "PRACTICE MAKES PERFECT!";
         yield return new WaitForSeconds(3);
         StartTargetRound();
-        Debug.Log("PracticeRangeIntro fired StartTargetRound");
+        Debug.Log("PracticeRangeManager.cs: PracticeRangeIntro fired StartTargetRound");
     }
 
     IEnumerator TargetRoundIntro()
@@ -241,7 +241,7 @@ public class PracticeRangeManager : MonoBehaviour
 
         helperUI.SetActive(false);
         carniDucks.SetActive(true);
-        Debug.Log("Carni ducks are alive!!!");
+        Debug.Log("PracticeRangeManager.cs: Carni ducks are alive!!!");
     }
 
     IEnumerator EndPracticeOutro()

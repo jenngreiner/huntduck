@@ -14,7 +14,7 @@ public class BeginLevelTrigger : MonoBehaviour
             // Begin the game
             //infiniteLevelManager.StartIntro();
             isGameStarted = true;
-            Debug.Log("Started the game");
+            Debug.Log("BeginLevelTrigger.cs: Started the game");
         }
     }
 }

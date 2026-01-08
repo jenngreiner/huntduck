@@ -86,7 +86,7 @@ namespace huntduck
 		// something more graceful.
 		public static void TerminateWithError(Message msg)
 		{
-			Debug.Log("Error: " + msg.GetError().Message);
+			Debug.Log("PlatformManager.cs: Error: " + msg.GetError().Message);
 			UnityEngine.Application.Quit();
 		}
 
@@ -97,8 +97,8 @@ namespace huntduck
 
 		void OnApplicationQuit()
 		{
-            // be a good matchmaking citizen and leave any queue immediately
-            //Matchmaking.LeaveQueue();
+			// be a good matchmaking citizen and leave any queue immediately
+			//Matchmaking.LeaveQueue();
 		}
 
 		#endregion

@@ -74,7 +74,7 @@ public class LeaderboardManager : MonoBehaviour
                 {
                     m_foundLocalUserHighScore = true;
                 }
-                Debug.Log("m_highScores: " + m_highScores);
+                Debug.Log("LeaderboardManager.cs: m_highScores: " + m_highScores);
             }
 
             //THIS IS WHAT FIXED LEADERBOARDS FROM BEING FULL LENGTH OF ENTRIES SHOULD BE 10 NOW IN UI

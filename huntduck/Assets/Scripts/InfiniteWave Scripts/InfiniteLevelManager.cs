@@ -89,7 +89,7 @@ public class InfiniteLevelManager : MonoBehaviour
 
     void StartInfiniteWave()
     {
-        Debug.Log("StartInfiniteWave");
+        Debug.Log("InfiniteLevelManager.cs: StartInfiniteWave");
         ResetText();
         onStartInfinite?.Invoke();
         StartCoroutine(BeginInfiniteWave());
@@ -123,7 +123,7 @@ public class InfiniteLevelManager : MonoBehaviour
         // TODO: consider highest score implementation for PlayerPrefs
         // TODO: determine whether PlayerPrefs is local storage, and/or the correct storage for scores
         PlayerPrefs.SetInt("FinalScore", finalScoreInt);
-        Debug.Log("Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
+        Debug.Log("InfiniteLevelManager.cs: Saving final score in PlayerPrefs as " + PlayerPrefs.GetInt("FinalScore"));
 
         // GAME OVER UI
         gameOverUI.SetActive(true);

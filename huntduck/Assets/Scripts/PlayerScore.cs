@@ -32,11 +32,11 @@ public class PlayerScore : MonoBehaviour
     public void UpdatePlayerScore(int points)
     {
         playerData.score += points;
-        Debug.Log("Player just gained " + points + " points! Player score is now " + playerData.score);
+        Debug.Log("PlayerScore.cs: Player just gained " + points + " points! Player score is now " + playerData.score);
 
         playerData.duckKills++;
-        Debug.Log("Player killed another duck! Player duck kill total is " + playerData.duckKills);
-        
+        Debug.Log("PlayerScore.cs: Player killed another duck! Player duck kill total is " + playerData.duckKills);
+
         onScoreUpdate?.Invoke(); // update score in ScoreUI.cs & WalletUI
     }
 

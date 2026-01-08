@@ -28,21 +28,21 @@ public class NW_ObjectLauncher : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.R))
         {
             this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
-            Debug.Log("RPC_ShootProjectile() Shot a clay on the network!!!");
+            Debug.Log("NW_ObjectLauncher.cs: RPC_ShootProjectile() Shot a clay on the network!!!");
         }
 
         //if (Input.GetKeyDown(KeyCode.L))
         //{
         //    //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
         //    ShootProjectile_PNI();
-        //    Debug.Log("ShootProjectile_PNI() Shot a clay on the network!!!");
+        //    Debug.Log("NW_ObjectLauncher.cs: ShootProjectile_PNI() Shot a clay on the network!!!");
         //}
 
         //if (Input.GetKeyDown(KeyCode.P))
         //{
         //    //this.photonView.RPC("RPC_ShootProjectile", RpcTarget.All);
         //    this.photonView.RPC("RPC_ShootProjectile_PNI", RpcTarget.All);
-        //    Debug.Log("RPC_ShootProjectile_PNI() Shot a clay on the network!!!");
+        //    Debug.Log("NW_ObjectLauncher.cs: RPC_ShootProjectile_PNI() Shot a clay on the network!!!");
         //}
     }
 
@@ -61,7 +61,7 @@ public class NW_ObjectLauncher : MonoBehaviourPun
 
     public void DelayedLaunch()
     {
-        Debug.Log("launch will begin after a delay of " + launchDelayTime);
+        Debug.Log("NW_ObjectLauncher.cs: launch will begin after a delay of " + launchDelayTime);
         StartCoroutine(Wait(launchDelayTime));
     }
 

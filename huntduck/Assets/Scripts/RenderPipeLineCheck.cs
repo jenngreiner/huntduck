@@ -7,11 +7,11 @@ public class RenderPipeLineCheck : MonoBehaviour
     {
         if (GraphicsSettings.renderPipelineAsset != null)
         {
-            Debug.Log("Render pipeline is " + GraphicsSettings.renderPipelineAsset.GetType().Name);
+            Debug.Log("RenderPipelineCheck.cs: Render pipeline is " + GraphicsSettings.renderPipelineAsset.GetType().Name);
         }
         else
         {
-            Debug.Log("dude.. there ain't no render pipeline...");
+            Debug.Log("RenderPipelineCheck.cs: dude.. there ain't no render pipeline...");
         }
 
     }

@@ -28,7 +28,7 @@ public class FlyWithGroundAngle : MonoBehaviour
         {
             onGroundHit?.Invoke(groundCollider, parent);
 
-            Debug.Log("Forcefield hit the object named: " + groundCollider.transform.name);
+            Debug.Log("FlyWithGroundAngle.cs: Forcefield hit the object named: " + groundCollider.transform.name);
         }
     }
 
@@ -39,7 +39,7 @@ public class FlyWithGroundAngle : MonoBehaviour
         {
             onNoLongerTouchingGround?.Invoke();
 
-            Debug.Log("Forcefield no longer touching the object named: " + groundCollider.transform.name);
+            Debug.Log("FlyWithGroundAngle.cs: Forcefield no longer touching the object named: " + groundCollider.transform.name);
         }
     }
 }

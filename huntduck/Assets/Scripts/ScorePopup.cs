@@ -90,7 +90,7 @@ public class ScorePopup : MonoBehaviour
     {
         transform.position += movePopup * Time.deltaTime;
         movePopup -= movePopup * scaleSpeed * Time.deltaTime;
-        Debug.Log("movePopup - movePopup * moveSpeedSlow is " + movePopup);
+        Debug.Log("ScorePopup.cs: movePopup - movePopup * moveSpeedSlow is " + movePopup);
 
         if (effectTimerLeft > effectTimer / 2)
         {

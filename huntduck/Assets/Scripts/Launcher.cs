@@ -86,7 +86,7 @@ namespace Com.HuntDuck
         {
             if (isConnecting)
             {
-                Debug.Log("Assets/Launcher: OnConnectedToMaster() was called by PUN");
+                Debug.Log("Launcher.cs: OnConnectedToMaster() was called by PUN");
 
                 // #Critical: The first we try to do is to join a potential existingroom. If there is, good, else we'll be caled back with OnJoinRandomFailed()
                 PhotonNetwork.JoinRandomRoom();
@@ -101,12 +101,12 @@ namespace Com.HuntDuck
             controlPanel.SetActive(true);
             isConnecting = false;
 
-            Debug.LogWarningFormat("Assets/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
+            Debug.LogWarningFormat("Launcher.cs: OnDisconnected() was called by PUN with the reason {0}", cause);
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("Assets/Launcher: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+            Debug.Log("Launcher.cs: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
@@ -114,10 +114,10 @@ namespace Com.HuntDuck
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("Assets/ Launcher: OnJoinedRoom() was called by PUN. Now this client was in a room.");
+            Debug.Log("Launcher.cs: OnJoinedRoom() was called by PUN. Now this client was in a room.");
 
             // only load if first player, else use 'PhotonNetwork.AutomaticallySyncScene
-            Debug.Log("We load the 'Room for 1'");
+            Debug.Log("Launcher.cs: We load the 'Room for 1'");
 
             // Load the Room Level
             PhotonNetwork.LoadLevel("Room for 1");

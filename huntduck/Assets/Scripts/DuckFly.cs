@@ -37,7 +37,7 @@ public class DuckFly : MonoBehaviour
     void Start()
     {
 
-        animator = GetComponentInChildren<Animator>(); 
+        animator = GetComponentInChildren<Animator>();
         body = GetComponent<Rigidbody>();
         direction = Quaternion.Euler(transform.eulerAngles) * (Vector3.forward); // direction duck is facing
 
@@ -81,7 +81,7 @@ public class DuckFly : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("KeyDown.R: toggle return to base");
+            Debug.Log("DuckFly.cs: KeyDown.R: toggle return to base");
             returnToBase = !returnToBase;
         }
 
@@ -100,14 +100,14 @@ public class DuckFly : MonoBehaviour
         {
             isJustStarting = true;
             startTimeRemaining -= Time.fixedDeltaTime;
-            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
+            Debug.Log("DuckFly.cs: isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining);
             return;
         }
 
         if (startTimeRemaining <= 0)
         {
             isJustStarting = false;
-            Debug.Log("isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
+            Debug.Log("DuckFly.cs: isJustStarting = " + isJustStarting + " with time remaining = " + startTimeRemaining); ;
         }
 
     }
@@ -149,7 +149,7 @@ public class DuckFly : MonoBehaviour
             FlyUpAndDown();
         }
 
-        Debug.Log("Are we flying up? " + isFlyingUp);
+        Debug.Log("DuckFly.cs: Are we flying up? " + isFlyingUp);
 
         UpdateTimersAndStopWatches();
 
@@ -206,7 +206,7 @@ public class DuckFly : MonoBehaviour
     private Vector3 ChangeDirection(Vector3 currentPosition)
     {
         Vector3 newDir;
-        
+
         // keep duck in specified radius around its target
         if (returnToBase)
         {
@@ -226,7 +226,7 @@ public class DuckFly : MonoBehaviour
         else if (distanceFromTarget < radiusMinMax.x) // if too close to target
         {
             // fly away from target
-            newDir = currentPosition  - flyingTarget.position;
+            newDir = currentPosition - flyingTarget.position;
         }
         else // flying towards target and within radius
         {
@@ -332,14 +332,14 @@ public class DuckFly : MonoBehaviour
 
     public void SwerveToCenter(Transform objectThatBumped, string transformHitName)
     {
-        if(objectThatBumped == transform && transformHitName != ObjectManager.instance.playerGuard.name)
+        if (objectThatBumped == transform && transformHitName != ObjectManager.instance.playerGuard.name)
         {
             isSwerving = true;
 
             rotateTarget = centerZone;
             turnSpeed = turnSpeedBackup * 12f;
 
-            Debug.Log("Swerving to center");
+            Debug.Log("DuckFly.cs: Swerving to center");
         }
     }
 
@@ -352,7 +352,7 @@ public class DuckFly : MonoBehaviour
         {
             isFlyingUp = true;
         }
-        
+
     }
 
     void IsNotFlyingUp()
@@ -397,7 +397,7 @@ public class DuckFly : MonoBehaviour
         }
 
         // if moving at a new speed, change animation to match
-        if (newState != currentAnim) 
+        if (newState != currentAnim)
         {
             // TODO: Uncomment when you have animations
             animator.SetFloat("flySpeed", newState);

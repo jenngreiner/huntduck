@@ -44,7 +44,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     public Text getReadyText;
 
     public AudioClip survivalBonusSound;
-    
+
     public TimeSpan timerSeconds;
 
     #region wave variables
@@ -137,6 +137,12 @@ public class SurvivalWaveSpawner : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("SurvivalWaveSpawner.cs: KeyDown.L: Show Weapon Wheel");
+            onWeaponUnlocked?.Invoke(15); // simulate weapon unlock at wave 5
+        }
+
         if (state == WaveState.READY && !waitingToProceed && !waitingOnWeapon)
         {
             StartCoroutine(StartWave(waves[thisWave]));
@@ -157,7 +163,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             waveTimeRemaining = 0;
-            Debug.Log("KeyDown.O: Times up, End game");
+            Debug.Log("SurvivalWaveSpawner.cs: KeyDown.O: Times up, End game");
         }
     }
 
@@ -239,7 +245,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
             duckSpeed = waves[thisWave].rate * 1.05f;
             nextWaveTime = waves[thisWave].waveTime + (2f * waves[thisWave].ducksThisWave);
             SetWaveType(nextWaveNumber);
-            SetWaveDucks(nextWaveNumber, waveSetNumber); 
+            SetWaveDucks(nextWaveNumber, waveSetNumber);
             waves.Add(new InfiniteWave(nextWaveNumber, ducksThisWave, duckSpeed, nextWaveTime, nextWaveType));
             thisWave++;
             SetupWave();
@@ -330,7 +336,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
                 case 0:
                     duckBase = waveSetNumber; // # of flying Vs
                     waveSetNumber++;
-                    Debug.Log("increasing waveSetNumber to " + waveSetNumber);
+                    Debug.Log("SurvivalWaveSpawner.cs: increasing waveSetNumber to " + waveSetNumber);
                     break;
             }
 
@@ -385,8 +391,8 @@ public class SurvivalWaveSpawner : MonoBehaviour
         currentWaveNumber = waves[thisWave].waveNumber;
         waves[thisWave].ducksHitThisWave = 0;
 
-        bonusGeeseVsNum = waveSetNumber-1;
-        goldenGeeseNum = waveSetNumber-1;
+        bonusGeeseVsNum = waveSetNumber - 1;
+        goldenGeeseNum = waveSetNumber - 1;
 
         if (waves[thisWave].waveType == InfiniteWave.WaveType.BONUS)
         {
@@ -533,7 +539,7 @@ public class SurvivalWaveSpawner : MonoBehaviour
     {
         if (!waitingOnWeapon) return;
 
-         waitingOnWeapon = false;
+        waitingOnWeapon = false;
     }
 
     private void ResetWaves()

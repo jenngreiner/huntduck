@@ -155,7 +155,7 @@ namespace Photon.Pun.UtilityScripts
             if (statsToLog)
             {
                 string complete = string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}", total, elapsedTime, average, trafficStatsIn, trafficStatsOut, healthStats);
-                Debug.Log(complete);
+                Debug.Log("PhotonStatsGui.cs: complete = " + complete);
             }
 
             // if anything was clicked, the height of this window is likely changed. reduce it to be layouted again next frame

@@ -15,7 +15,7 @@ public class BeginTargetTrigger : MonoBehaviour
             // Begin the target round
             practiceRangeManager.StartTargetRound();
             isTargetStarted = true;
-            Debug.Log("Starting Target Round");
+            Debug.Log("BeginTargetTrigger.cs: Starting Target Round");
         }
     }
 }

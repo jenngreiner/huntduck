@@ -51,7 +51,7 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
         walletCanvas.enabled = true;
         //carniDucks.SetActive(true);
         nw_waveSpawner.enabled = true;
-        Debug.Log(string.Format("RPC_StartRound"));
+        Debug.Log("NW_PracticeRangeManager.cs: RPC_StartRound");
     }
 
     public void BeginGame()
@@ -63,7 +63,7 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
     [PunRPC]
     public void RPC_BeginGame()
     {
-        Debug.Log("LET THE GAMES BEGIN!!");
+        Debug.Log("NW_PracticeRangeManager.cs: LET THE GAMES BEGIN!!");
         NW_BeginPracticeTrigger.isGameStarted = true;
         StartCoroutine(PracticeRangeIntro());
     }
@@ -74,6 +74,6 @@ public class NW_PracticeRangeManager : MonoBehaviourPun
         yield return new WaitForSeconds(3);
         beginGameText.text = "Select your weapon behind you";
         //weaponsManager.ShowWeaponsWall();
-        Debug.Log("running practicerangeintro coroutine");
+        Debug.Log("NW_PracticeRangeManager.cs: running practicerangeintro coroutine");
     }
 }

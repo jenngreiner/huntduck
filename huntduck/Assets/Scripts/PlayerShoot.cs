@@ -25,13 +25,13 @@ public class PlayerShoot : MonoBehaviour
     {
         if (cam == null)
         {
-            Debug.Log("PlayerShoot: No Camera referenced");
+            Debug.Log("PlayerShoot.cs: No Camera referenced");
             this.enabled = false;
         }
 
         // returns values associated with GameObjects that have Player tag
         me = GameObject.FindGameObjectWithTag("Player");
-        Debug.Log("I found " + me.name);
+        Debug.Log("PlayerShoot.cs: I found " + me.name);
     }
 
     // Update is called once per frame
@@ -55,10 +55,10 @@ public class PlayerShoot : MonoBehaviour
                     shotADuck(_hit.collider.gameObject, weapon.damage);
                     break;
                 //case "Shootable":
-                //    Debug.Log("Shot something shootable!");
+                //    Debug.Log("PlayerShoot.cs: Shot something shootable!");
                 //    break;
                 default:
-                    Debug.Log("missed, stupid idiot! you hit " + _hit.collider.name);
+                    Debug.Log("PlayerShoot.cs: missed, stupid idiot! you hit " + _hit.collider.name);
                     break;
             }
 
@@ -68,7 +68,7 @@ public class PlayerShoot : MonoBehaviour
     void shotADuck(GameObject duckObj, int damage)
     {
         // We hit something shootable
-        Debug.Log("We hit " + duckObj.name);
+        Debug.Log("PlayerShoot.cs: We hit " + duckObj.name);
         //Duck duck = duckObj.GetComponent<Duck>();
         //duck.TakeDamage(damage);
         duckObj.SendMessage("TakeDamage", damage);
@@ -77,7 +77,7 @@ public class PlayerShoot : MonoBehaviour
     //void shotADuck(string duckName, GameObject duckObj, int damage)
     //{
     //    // We hit something shootable
-    //    Debug.Log("We hit " + duckName);
+    //    Debug.Log("PlayerShoot.cs: We hit " + duckName);
     //    GameObject _duck = duckObj;
     //    //Duck.TakeDamage(damage);
     //}

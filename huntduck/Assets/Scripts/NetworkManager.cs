@@ -16,12 +16,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void ConnectedToServer()
     {
         PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("try connect to server...");
+        Debug.Log("NetworkManager.cs: try connect to server...");
     }
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected to server.");
+        Debug.Log("NetworkManager.cs: Connected to server.");
         base.OnConnectedToMaster();
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 10;
@@ -33,14 +33,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("Joined a room");
+        Debug.Log("NetworkManager.cs: Joined a room");
         base.OnJoinedRoom();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         //newPlayer.NickName = ("Player " + newPlayer.ActorNumber);
-        Debug.Log("A new player name " + newPlayer.NickName + "joined the room");
+        Debug.Log("NetworkManager.cs: A new player name " + newPlayer.NickName + "joined the room");
         base.OnPlayerEnteredRoom(newPlayer);
     }
 }

@@ -28,7 +28,7 @@ public class FallDucks : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log(this.gameObject.name + " is alive!");
+        Debug.Log("FallDucks.cs: " + this.gameObject.name + " is alive!");
         StartCoroutine(SetupDucks(setupDelay));
     }
 
@@ -47,10 +47,10 @@ public class FallDucks : MonoBehaviour
 
         fallingDuckRB.isKinematic = false;
         fallingDuckRB.useGravity = true;
-        Debug.Log("Applying gravity to fallduck");
+        Debug.Log("FallDucks.cs: Applying gravity to fallduck");
 
         // flip ducks
-        Debug.Log("Would you please flip those ducks???");
+        Debug.Log("FallDucks.cs: Would you please flip those ducks???");
         StartCoroutine(FlipDucks(flipSpeed));
     }
 
@@ -63,7 +63,7 @@ public class FallDucks : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
             fallDuckRight.SetActive(!fallDuckRight.activeInHierarchy);
             fallDuckLeft.SetActive(!fallDuckLeft.activeInHierarchy);
-            Debug.Log("Those ducks got flipped yo!");
+            Debug.Log("FallDucks.cs: Those ducks got flipped yo!");
         }
     }
 }

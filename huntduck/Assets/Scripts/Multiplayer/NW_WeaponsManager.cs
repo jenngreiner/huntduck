@@ -24,8 +24,8 @@ public class NW_WeaponsManager : MonoBehaviour
     //public void ShowWeaponsWall()
     //{
     //    WeaponsWall.SetActive(true);
-    //    Debug.Log("Show that weapons wall!");
+    //    Debug.Log("NW_WeaponsManager.cs: Show that weapons wall!");
     //    levelupSound.Play();
-    //    Debug.Log("Playing levelupsound");
+    //    Debug.Log("NW_WeaponsManager.cs: Playing levelupsound");
     //}
 }

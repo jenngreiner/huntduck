@@ -19,11 +19,11 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 
             string PlayerNickName = "Player " + PhotonNetwork.LocalPlayer.ActorNumber;
             PhotonNetwork.NickName = PlayerNickName;
-            Debug.Log("This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
-            Debug.Log("This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
-            Debug.Log("This player's used ID is " + PhotonNetwork.LocalPlayer.UserId);
-            Debug.Log("'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
-            
+            Debug.Log("NetworkPlayerSpawner.cs: This player's nickname is " + PhotonNetwork.LocalPlayer.NickName);
+            Debug.Log("NetworkPlayerSpawner.cs: This player's actorNumber is " + PhotonNetwork.LocalPlayer.ActorNumber);
+            Debug.Log("NetworkPlayerSpawner.cs: This player's used ID is " + PhotonNetwork.LocalPlayer.UserId);
+            Debug.Log("NetworkPlayerSpawner.cs: 'This player is local' is " + PhotonNetwork.LocalPlayer.IsLocal);
+
             // consider seeding scoreboard here
             // player is added to PhotonNetwork.PlayerList
             // can use .Length() to run a for loop and update scoreboard using nickname + score value pair

@@ -33,19 +33,19 @@ public class PracticeWaveSpawner : MonoBehaviour
             // check if ducks still left
             if (hitAllClays())
             {
-                Debug.Log("We hit 3 clays, calling WaveComplete");
+                Debug.Log("PracticeWaveSpawner.cs: We hit 3 clays, calling WaveComplete");
                 // start the next wave
                 WaveCompleted();
             }
             else
             {
                 // need more clays
-                Debug.Log("PracticeWaveSpawner knows: We still got clays left!");
+                Debug.Log("PracticeWaveSpawner.cs: We still got clays left!");
                 return;
             }
         }
 
-        Debug.Log("We are not in a waiting state");
+        Debug.Log("PracticeWaveSpawner.cs: We are not in a waiting state");
 
         // check if no seconds left, if still seconds, drop down to else and remove 1 second per second
         if (waveCountDown <= 0)
@@ -55,7 +55,7 @@ public class PracticeWaveSpawner : MonoBehaviour
             {
                 // start spawning wave
                 StartCoroutine(SpawnWave(waves[nextWave]));
-                Debug.Log("Spawning a new wave");
+                Debug.Log("PracticeWaveSpawner.cs: Spawning a new wave");
             }
         }
         else
@@ -79,18 +79,18 @@ public class PracticeWaveSpawner : MonoBehaviour
     {
         if (spawnPoints.Length == 0)
         {
-            Debug.LogError("No spawnpoints referenced");
+            Debug.LogError("PracticeWaveSpawner.cs: No spawnpoints referenced");
         }
 
         // set time before and between rounds
         waveCountDown = timeBetweenWaves;
         nextWave = 0;
         claysHit = 0;
-}
+    }
 
     void WaveCompleted()
     {
-        Debug.Log("Wave completed");
+        Debug.Log("PracticeWaveSpawner.cs: Wave completed");
 
         state = SpawnState.COUNTING;
         waveCountDown = timeBetweenWaves;
@@ -98,14 +98,14 @@ public class PracticeWaveSpawner : MonoBehaviour
         // clay waves are over
         if ((nextWave + 1) > (waves.Length - 1))
         {
-            Debug.Log("Clay waves are over");
+            Debug.Log("PracticeWaveSpawner.cs: Clay waves are over");
             SetupWave(); //SINGLESCENE: setup waves in case you want to run them again
             enabled = false;
         }
         else
         {
             nextWave++;
-            Debug.Log("Wave  is ending. Next wave is " + (nextWave + 1));
+            Debug.Log("PracticeWaveSpawner.cs: Wave is ending. Next wave is " + (nextWave + 1));
         }
     }
 
@@ -137,7 +137,7 @@ public class PracticeWaveSpawner : MonoBehaviour
             // search for remaining ducks
             if (GameObject.FindGameObjectsWithTag("PracticeClay").Length == 0)
             {
-                Debug.Log("No clays found");
+                Debug.Log("PracticeWaveSpawner.cs: No clays found");
                 return false;
             }
         }

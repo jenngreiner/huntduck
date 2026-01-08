@@ -15,30 +15,30 @@ public class DuckLauncher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            Debug.Log("KeyDown.L: Launch Norm Duck");
+            Debug.Log("DuckLauncher.cs: KeyDown.N: Launch Norm Duck");
             LaunchObj(ObjectManager.instance.normDuck);
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("KeyDown.L: Launch Fast Duck");
+            Debug.Log("DuckLauncher.cs: KeyDown.F: Launch Fast Duck");
             LaunchObj(ObjectManager.instance.fastDuck);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("KeyDown.L: Launch Angry Duck");
+            Debug.Log("DuckLauncher.cs: KeyDown.R: Launch Angry Duck");
             LaunchObj(ObjectManager.instance.angryDuck);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (transform.tag == "GooseLauncher")
             {
-                Debug.Log("KeyDown.C: Launch Bonus (Canadian) Goose");
+                Debug.Log("DuckLauncher.cs: KeyDown.C: Launch Bonus (Canadian) Goose");
                 LaunchObj(ObjectManager.instance.bonusGeese);
             }
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            Debug.Log("KeyDown.G: Launch Golden Goose");
+            Debug.Log("DuckLauncher.cs: KeyDown.G: Launch Golden Goose");
             LaunchObj(ObjectManager.instance.goldenGoose);
         }
     }

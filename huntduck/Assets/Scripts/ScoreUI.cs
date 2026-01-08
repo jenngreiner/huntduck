@@ -19,7 +19,7 @@ public class ScoreUI : MonoBehaviour
         // reset score when game starts
         CreateArcadeScore();
         scoreText.text = arcadeScore;
-        Debug.Log("Score UI is now reset to " + arcadeScore);
+        Debug.Log("ScoreUI.cs: Score UI is now reset to " + arcadeScore);
     }
 
     void OnEnable()

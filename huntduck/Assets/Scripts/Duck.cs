@@ -44,7 +44,7 @@ public class Duck : MonoBehaviour
 
     void OnTriggerEnter(Collider objectThatHit)
     {
-        Debug.Log(transform.name + " GOT SHIT BY: " + objectThatHit.transform.root.name);
+        Debug.Log("Duck.cs: " + transform.name + " GOT SHOT BY: " + objectThatHit.transform.root.name);
     }
 
     public void dropThaEgg(Transform duck, string transformHitName)
@@ -52,7 +52,7 @@ public class Duck : MonoBehaviour
         // if the duck hits the playerguard and can drop eggs, drop eggs
         if (duck == transform && transformHitName == ObjectManager.instance.playerGuard.name && dropsEggs)
         {
-            Debug.Log("Dropping eggs dropping eggs");
+            Debug.Log("Duck.cs: Dropping eggs dropping eggs");
             egg = Instantiate(ObjectManager.instance.egg, transform.position, Quaternion.identity);
             Egg eggScript = egg.GetComponent<Egg>();
             eggScript.eggDamage = duckEggDamage;

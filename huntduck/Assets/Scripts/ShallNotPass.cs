@@ -7,6 +7,6 @@ public class ShallNotPass : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Destroy(other.gameObject);
-        Debug.Log("YOU SHALL NOT PASS " + other.name);
+        Debug.Log("ShallNotPass.cs: YOU SHALL NOT PASS " + other.name);
     }
 }

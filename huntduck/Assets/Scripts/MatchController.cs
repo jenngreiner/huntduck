@@ -138,7 +138,7 @@ namespace huntduck
 
         //void TransitionToState(State newState)
         //{
-        //	Debug.LogFormat("MatchController State {0} -> {1}", m_currentState, newState);
+        //	Debug.LogFormat("MatchController.cs: State {0} -> {1}", m_currentState, newState);
 
         //	if (m_currentState != newState)
         //	{
@@ -362,7 +362,7 @@ namespace huntduck
 
         //public void PlayOnlineOrCancel()
         //{
-        //	Debug.Log("Play online or Cancel");
+        //	Debug.Log("MatchController.cs: Play online or Cancel");
 
         //	if (m_currentState == State.NONE)
         //	{
@@ -397,7 +397,7 @@ namespace huntduck
         //		// if the remote start time is later use that, as long as it's not horribly wrong
         //		if (remoteTime > MatchStartTime && (remoteTime - 60) < MatchStartTime)
         //		{
-        //			Debug.Log("Moving Start time by " + (remoteTime - MatchStartTime));
+        //			Debug.Log("MatchController.cs: Moving Start time by " + (remoteTime - MatchStartTime));
         //			MatchStartTime = remoteTime;
         //		}
         //	}
@@ -442,12 +442,12 @@ namespace huntduck
                 if (entry.User.ID == huntduck.PlatformManager.MyID)
                 {
                     label.transform.Find("CurrentPlayerHighlight").gameObject.SetActive(true);
-                    Debug.Log("Turning on highlight");
+                    Debug.Log("MatchController.cs: Turning on highlight");
                 }
 
-                //Debug.Log("texts[0].text is " + texts[0].text);
-                //Debug.Log("texts[1].text is " + texts[1].text);
-                //Debug.Log("texts[2].text is " + texts[2].text);
+                //Debug.Log("MatchController.cs: texts[0].text is " + texts[0].text);
+                //Debug.Log("MatchController.cs: texts[1].text is " + texts[1].text);
+                //Debug.Log("MatchController.cs: texts[2].text is " + texts[2].text);
 
                 // OLD LEADERBOARD IMPLEMENTATION
                 //GameObject label = Instantiate(m_leaderboardEntryPrefab);

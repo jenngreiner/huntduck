@@ -42,7 +42,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
         {
             isConnecting = PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
-            Debug.Log("try connect to server...");
+            Debug.Log("NW_NetworkManager.cs: try connect to server...");
         }
     }
 
@@ -50,7 +50,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     //private void ConnectedToServer()
     //{
     //    PhotonNetwork.ConnectUsingSettings();
-    //    Debug.Log("try connect to server...");
+    //    Debug.Log("NW_NetworkManager.cs: try connect to server...");
     //}
 
     // BEN: Added this 0911
@@ -64,7 +64,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.Log("Connected to server.");
+            Debug.Log("NW_NetworkManager.cs: Connected to server.");
             base.OnConnectedToMaster();
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = 10;
@@ -76,7 +76,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     // BEN: Disabled this 0911
     //public override void OnConnectedToMaster()
     //{
-    //    Debug.Log("Connected to server.");
+    //    Debug.Log("NW_NetworkManager.cs: Connected to server.");
     //    base.OnConnectedToMaster();
     //    RoomOptions roomOptions = new RoomOptions();
     //    roomOptions.MaxPlayers = 10;
@@ -89,10 +89,10 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     // BEN: Added this 0911
     public override void OnJoinedRoom()
     {
-        Debug.Log("NetWorkManager: OnJoinedRoom() was called by PUN. Now this client was in a room.");
+        Debug.Log("NW_NetworkManager.cs: OnJoinedRoom() was called by PUN. Now this client was in a room.");
 
         // only load if first player, else use 'PhotonNetwork.AutomaticallySyncScene
-        Debug.Log("We load the 'MP_PracticeRange'");
+        Debug.Log("NW_NetworkManager.cs: We load the 'MP_PracticeRange'");
 
         // Load the Master Client Level to be sure we are synced
         PhotonNetwork.LoadLevel("MP_PracticeRange");
@@ -101,7 +101,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     // BEN: Disabled this 0911
     //public override void OnJoinedRoom()
     //{
-    //    Debug.Log("Joined a room");
+    //    Debug.Log("NW_NetworkManager.cs: Joined a room");
     //    base.OnJoinedRoom();
     //}
 
@@ -110,13 +110,13 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     {
         isConnecting = false;
 
-        Debug.LogWarningFormat("Assets/Launcher: OnDisconnected() was called by PUN with the reason {0}", cause);
+        Debug.LogWarningFormat("NW_NetworkManager.cs: OnDisconnected() was called by PUN with the reason {0}", cause);
     }
 
     // BEN: I don't think we need this because we have an else statement in OnConnectedToMaster, but in case it doesn't work, try some version of this this
     //public override void OnJoinRandomFailed(short returnCode, string message)
     //{
-    //    Debug.Log("NetworkManager: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+    //    Debug.Log("NW_NetworkManager.cs: OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
     //    // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
     //    PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
@@ -125,7 +125,7 @@ public class NW_NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         //newPlayer.NickName = ("Player " + newPlayer.ActorNumber);
-        Debug.Log("A new player name " + newPlayer.NickName + "joined the room");
+        Debug.Log("NW_NetworkManager.cs: A new player name " + newPlayer.NickName + "joined the room");
         base.OnPlayerEnteredRoom(newPlayer);
     }
 }

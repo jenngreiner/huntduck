@@ -45,16 +45,16 @@ public class ObjectLauncher : MonoBehaviour
 
     public void DelayedLaunch()
     {
-        Debug.Log("launch will begin after a delay of " + launchDelayTime);
+        Debug.Log("ObjectLauncher.cs: Object launch will begin after a delay of " + launchDelayTime);
         StartCoroutine(Wait(launchDelayTime));
     }
 
     IEnumerator Wait(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        Debug.Log("Waiting " + delayTime + " seconds to launch a duck");
+        Debug.Log("ObjectLauncher.cs: Waiting " + delayTime + " seconds to launch a duck");
         ShootLauncher();
-        Debug.Log("this " + transform.name + " has officially launched!");
+        Debug.Log("ObjectLauncher.cs: this " + transform.name + " has officially launched!");
     }
 
     public void ShootLauncher()
@@ -101,7 +101,7 @@ public class ObjectLauncher : MonoBehaviour
                 LaunchParticles.Play();
             }
 
-            Debug.Log("Launched " + ProjectileObject.name + " from " + launchTransform.name);
+            Debug.Log("ObjectLauncher.cs: Launched " + ProjectileObject.name + " from " + launchTransform.name);
             return launched;
         }
 
